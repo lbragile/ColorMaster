@@ -1,0 +1,43 @@
+{
+  "name": "colormaster",
+  "version": "0.0.0",
+  "description": "A TypeScript module for all your color related needs.",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "tsc": "tsc -p ./config/tsconfig.json",
+    "start": "npx ts-node src/index.ts",
+    "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js"
+  },
+  "babel": {
+    "extends": "./config/.babelrc.json"
+  },
+  "eslintConfig": {
+    "extends": "./config/.eslintrc.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lbragile/ColorMaster.git"
+  },
+  "keywords": [
+    "color",
+    "colour",
+    "css"
+  ],
+  "author": "Lior Bragilevsky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lbragile/ColorMaster/issues"
+  },
+  "homepage": "https://github.com/lbragile/ColorMaster#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "@types/jest": "^26.0.24",
+    "@types/node": "^16.4.0",
+    "eslint": "^7.31.0",
+    "eslint-plugin-jest": "^24.4.0",
+    "jest": "^27.0.6",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  }
+}

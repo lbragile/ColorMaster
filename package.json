@@ -21,9 +21,22 @@
   "keywords": [
     "color",
     "colour",
-    "css"
+    "rgb",
+    "color-names",
+    "convert",
+    "cmyk",
+    "css",
+    "hex",
+    "hsl",
+    "hsv",
+    "hwb",
+    "lab",
+    "lch",
+    "a11y",
+    "parser",
+    "mix"
   ],
-  "author": "Lior Bragilevsky",
+  "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/lbragile/ColorMaster/issues"
@@ -37,6 +50,7 @@
     "eslint": "^7.31.0",
     "eslint-plugin-jest": "^24.4.0",
     "jest": "^27.0.6",
+    "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   }

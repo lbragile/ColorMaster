@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "rootDir": "../",
-    "target": "ES2018",
+    "target": "ES6",
     "module": "CommonJS",
-    "lib": ["DOM", "DOM.Iterable", "ES2018"],
+    "lib": ["DOM", "DOM.Iterable", "ES2017"],
     "jsx": "react-jsx",
     "outDir": "dist", // Ignored if noEmit is enabled
     "moduleResolution": "node", // 'node' (Node.js) or 'classic' (TypeScript pre-1.6)
-    "declaration": false, //If Enabled, generates corresponding '.d.ts' file
+    "removeComments": true, // Don't show comments in production code as they are meant for development
+    "declaration": false, // If Enabled, generates corresponding '.d.ts' file
     "noEmit": false, // Emit output files to outDir folder
     "strict": true, // Enable all strict type-checking options
     "strictPropertyInitialization": false, // Disable strict checking of property initialization in classes

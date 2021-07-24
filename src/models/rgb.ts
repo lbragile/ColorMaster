@@ -1,32 +1,25 @@
-// import { HexColors } from "../enums/colors";
+import { Irgba, IStringOpts, TChannel } from "../types/rgb";
+import { clamp } from "../utils/numeric";
 
-export interface Irgba {
-  r: number;
-  g: number;
-  b: number;
-  a?: number;
-}
-
-interface IStringOpts {
-  withAlpha?: boolean;
-  quotes?: "single" | "double";
-}
-
-type TChannel = "red" | "green" | "blue" | "alpha";
-
-// TODO create a common util folder
-function clamp(min: number, val: number, max: number): number {
-  return Math.min(Math.max(min, val), max);
-}
 export default class RGBColors {
-  #rgba: Irgba = { r: 0, g: 0, b: 0, a: 1 };
-  #rgbStr = "rgb(128, 128, 128)";
+  #rgba: Irgba;
+  #rgbStr: string;
 
-  constructor(r: number, g: number, b: number, a?: number) {
-    this.#rgba = { ...this.#rgba, r, g, b, a: a ?? this.#rgba.a };
+  constructor(r: number, g: number, b: number, a = 1) {
+    if (r === undefined || g === undefined || b === undefined) {
+      throw new Error("red, green, and blue channel values must be provided");
+    }
+
+    // clamp the values
+    r = clamp(0, r, 255);
+    g = clamp(0, g, 255);
+    b = clamp(0, b, 255);
+    a = clamp(0, a, 1);
+
+    this.#rgba = { r, g, b, a };
   }
 
-  public get rgbaObj() {
+  public get rgbaObj(): Irgba {
     return this.#rgba;
   }
 
@@ -39,14 +32,14 @@ export default class RGBColors {
    * @param opts -
    *  - withAlpha → whether or not to include the alpha channel in the output
    *  - quotes → type of quotes to use around the output
-   * @returns ```'(r, g, b, a?)'``` or ```"(r, g, b, a?)"```
-   * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string({ withAlpha: true, quotes: 'double' }) → "(128, 64, 32, 0.5)"
+   * @returns ```'rgba?(r, g, b, a?)'``` or ```"rgba?(r, g, b, a?)"```
+   * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string({ withAlpha: true, quotes: 'double' }) → "rgba(128, 64, 32, 0.5)"
    */
   public string({ withAlpha = false, quotes = "single" }: IStringOpts = {}): string {
     const { r, g, b, a } = this.#rgba;
     const quote = quotes === "single" ? "'" : '"';
     const alpha = withAlpha ? ", " + a : "";
-    this.#rgbStr = `${quote}rgb(${r}, ${g}, ${b}${alpha})${quote}`;
+    this.#rgbStr = `${quote}rgb${withAlpha ? "a" : ""}(${r}, ${g}, ${b}${alpha})${quote}`;
     return this.#rgbStr;
   }
 
@@ -68,9 +61,13 @@ export default class RGBColors {
    * @param delta A positive OR negative integer/decimal number to adjust the channel by
    * @returns The instance that was acted upon → for function chaining
    */
-  public channelValueBy(channel: TChannel, delta: number): this | Error {
+  public channelValueBy(channel: TChannel, delta: number): this {
     const firstChannelLetter = channel[0] as keyof Irgba;
-    const value = clamp(0, (this.#rgba[firstChannelLetter] ?? 0) + delta, channel === "alpha" ? 1 : 255);
+    const value = clamp(
+      0,
+      parseFloat((this.#rgba[firstChannelLetter] + delta).toFixed(2)),
+      channel === "alpha" ? 1 : 255
+    );
     this.#rgba[channel[0] as keyof Irgba] = value;
     return this;
   }

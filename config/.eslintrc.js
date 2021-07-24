@@ -4,14 +4,9 @@ module.exports = {
     commonjs: true,
     node: true
   },
-  extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:jest-dom/recommended",
-    "plugin:jest/recommended"
-  ],
+  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:jest/recommended"],
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "jest", "jest-dom"],
+  plugins: ["@typescript-eslint", "jest"],
   rules: {
     "default-case": "warn"
   }

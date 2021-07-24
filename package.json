@@ -1,9 +1,15 @@
 {
   "name": "colormaster",
   "version": "0.0.0",
-  "description": "A TypeScript module for all your color related needs.",
-  "main": "dist/src/index.js",
+  "description": "🏆 A powerful and fully typed module for all your coloring needs.",
+  "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
+  "license": "MIT",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "scripts": {
+    "lint": "eslint -c config/.eslintrc.js --ext ts --max-warnings=0 src tests",
+    "format:check": "prettier --config config/.prettierrc.json --check src/**/*.ts",
+    "format": "prettier --config config/.prettierrc.json --write src",
     "tsc": "tsc -p ./config/tsconfig.json",
     "start": "npx ts-node src/index.ts",
     "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js"
@@ -14,9 +20,11 @@
   "eslintConfig": {
     "extends": "./config/.eslintrc.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lbragile/ColorMaster.git"
+  "repository": "github:lbragile/ColorMaster",
+  "homepage": "https://github.com/lbragile/ColorMaster#readme",
+  "bugs": {
+    "url": "https://github.com/lbragile/ColorMaster/issues",
+    "email": "lbragile.masc@gmail.com"
   },
   "keywords": [
     "color",
@@ -33,23 +41,19 @@
     "lab",
     "lch",
     "a11y",
-    "parser",
     "mix"
   ],
-  "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lbragile/ColorMaster/issues"
-  },
-  "homepage": "https://github.com/lbragile/ColorMaster#readme",
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
     "@types/jest": "^26.0.24",
     "@types/node": "^16.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
     "eslint": "^7.31.0",
     "eslint-plugin-jest": "^24.4.0",
     "jest": "^27.0.6",
+    "prettier": "^2.3.2",
     "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
     "typescript": "^4.3.5"

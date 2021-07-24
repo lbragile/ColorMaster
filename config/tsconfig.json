@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
-    "rootDir": "../",
     "target": "ES6",
     "module": "CommonJS",
     "lib": ["DOM", "DOM.Iterable", "ES2017"],
-    "jsx": "react-jsx",
-    "outDir": "dist", // Ignored if noEmit is enabled
     "moduleResolution": "node", // 'node' (Node.js) or 'classic' (TypeScript pre-1.6)
-    "removeComments": true, // Don't show comments in production code as they are meant for development
-    "declaration": false, // If Enabled, generates corresponding '.d.ts' file
+    "outDir": "../dist", // Ignored if noEmit is enabled
     "noEmit": false, // Emit output files to outDir folder
+    "removeComments": true, // Don't show comments in production code as they are meant for development
+    "declaration": true, // If Enabled, generates corresponding '.d.ts' file
     "strict": true, // Enable all strict type-checking options
     "strictPropertyInitialization": false, // Disable strict checking of property initialization in classes
     "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'.
@@ -18,5 +16,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["../src"],
-  "exclude": ["../node_modules"]
+  "exclude": ["../node_modules", "../tests", "../coverage"]
 }

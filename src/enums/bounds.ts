@@ -1,0 +1,9 @@
+export enum BOUNDS {
+  // RGB
+  RGB_CHANNEL = 256 - 1,
+
+  // HSL
+  HSL_HUE = 360,
+  HSL_SATURATION = 100,
+  HSL_LIGHTNESS = 100
+}

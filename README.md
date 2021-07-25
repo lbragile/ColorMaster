@@ -7,6 +7,9 @@
 </div>
 
 <div align="center">
+  <a href="https://www.npmjs.com/package/colormaster">
+    <img alt="package version" src="https://img.shields.io/npm/v/colormaster?label=NPM&logo=npm&style=flat-square" />
+  </a>
   <a href="https://github.com/lbragile/ColorMaster/actions">
     <img alt="build status" src="https://img.shields.io/github/workflow/status/lbragile/ColorMaster/Testing?label=Build&logo=github&style=flat-square" />
   </a>
@@ -14,7 +17,7 @@
     <img alt="coverage" src="https://img.shields.io/codecov/c/github/lbragile/ColorMaster?label=Coverage&style=flat-square&logo=codecov" />
   </a>
   <a href="https://www.codefactor.io/repository/github/lbragile/colormaster">
-    <img alt="coverage" src="https://img.shields.io/codefactor/grade/github/lbragile/ColorMaster/master?label=Code%20Quality&logo=codefactor&style=flat-square" />
+    <img alt="code quality" src="https://img.shields.io/codefactor/grade/github/lbragile/ColorMaster/master?label=Code%20Quality&logo=codefactor&style=flat-square" />
   </a>
 </div>
 

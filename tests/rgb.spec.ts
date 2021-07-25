@@ -144,3 +144,13 @@ test("alphaBy", () => {
   expect(cm.alphaBy(0.1).string({ withAlpha: true })).toBe("'rgba(128, 128, 128, 0.8)'");
   expect(cm.alphaBy(-0.2).string({ withAlpha: true })).toBe("'rgba(128, 128, 128, 0.6)'");
 });
+
+describe("invert", () => {
+  test("include alpha", () => {
+    expect(cm.invert({ includeAlpha: true }).string({ withAlpha: true })).toBe("'rgba(127, 127, 127, 0.3)'");
+  });
+
+  test("exclude alpha", () => {
+    expect(cm.invert({ includeAlpha: false }).string({ withAlpha: true })).toBe("'rgba(127, 127, 127, 0.7)'");
+  });
+});

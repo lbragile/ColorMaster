@@ -1,23 +1,21 @@
+import HSLColors from "./models/hsl";
 import RGBColors from "./models/rgb";
 import { Irgb, Irgba } from "./types/rgb";
 
 /**
  * Wrapper for instantiating a RGBColors object
- * @param rgbObj RGBA values as an object
+ * @param values -
+ * - ```{ Irgb | Irgba }``` → RGBA values as an object
+ * - ```{ number[] }``` → RGBA values as an array of values
+ * - ```{ string }``` →  A CSS string representation of an rgb or rgba color
  *
- * @example { r: 128, g: 128, b: 128, a: 0.5 }
+ * @example { Irgb | Irgba } → { r: 128, g: 128, b: 128, a: 0.5 }
+ * @example { number[] } → [128, 128, 128, 0.5]
+ * @example { string } → 'rgba(128, 128, 128, 0.5)'
+ *
  * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
  */
-export function rgb(rgbObj: Irgb | Irgba): RGBColors;
-
-/**
- * Wrapper for instantiating a RGBColors object
- * @param rgbArr RGBA values as an array
- *
- * @example [128, 128, 128, 0.5]
- * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
- */
-export function rgb(rgbArr: number[]): RGBColors;
+export function rgb(values: Irgb | Irgba | number[] | string): RGBColors;
 
 /**
  * Wrapper for instantiating a RGBColors object
@@ -29,15 +27,6 @@ export function rgb(rgbArr: number[]): RGBColors;
  * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
  */
 export function rgb(r: number, g: number, b: number, a?: number): RGBColors;
-
-/**
- * Wrapper for instantiating a RGBColors object
- * @param rgba A CSS string representation of an rgb or rgba color.
- *
- * @note Must be in format rgba?\((\d+,){3,4}\)
- * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
- */
-export function rgb(rgba: string): RGBColors;
 
 export function rgb(
   rOrValues: Irgba | Irgb | number[] | number | string,
@@ -63,3 +52,13 @@ export function rgb(
     return new RGBColors(rOrValues as number, g as number, b as number, a);
   }
 }
+
+const hsl = new HSLColors(360, 100, 50, 0.3);
+console.log(hsl.string({ withAlpha: true }));
+// console.log(hsl.rgb().string({ withAlpha: true }));
+// console.log(hsl.grayscale().string({ withAlpha: true }));
+console.log(hsl.lighterBy(10).string({ withAlpha: true }));
+console.log(hsl.darkerBy(20).string({ withAlpha: true }));
+console.log(hsl.darkerBy(1000).string({ withAlpha: true }));
+console.log(hsl.lighterBy(1000).string({ withAlpha: true }));
+console.log(hsl.grayscale().string({ withAlpha: true }));

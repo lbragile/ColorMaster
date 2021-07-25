@@ -10,6 +10,7 @@
     "**/*.{js,ts}"
   ],
   "scripts": {
+    "postinstall": "husky install",
     "lint": "eslint -c config/.eslintrc.js --ext ts --max-warnings=0 src tests",
     "format:check": "prettier --config config/.prettierrc.json --check src/**/*.ts",
     "format": "prettier --config config/.prettierrc.json --write src",
@@ -17,10 +18,10 @@
     "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js",
     "benchmark": "ts-node tests/benchmark.ts",
     "docs": "typedoc --options config/typedoc.json",
-    "version:patch": "npm version patch -m \"🎉 Automatic package publish → bump to version v%s\"",
-    "commit:noEdit:noVerify": "git add . && git commit --amend --no-edit --no-verify",
-    "prepare:dist": "npm run tsc && copy package.json dist && copy *.md dist",
-    "release": "npm run version:patch && npm run commit:noEdit:noVerify && npm run prepare:dist && npm publish dist"
+    "preversion": "npm test && npm run tsc",
+    "version": "npm version patch -m \"🎉 Automatic package publish → bump to version v%s\"",
+    "postversion": "git add . && git commit --amend --no-edit --no-verify",
+    "release": "npm run version && copy package.json dist && copy *.md dist && npm publish dist"
   },
   "babel": {
     "extends": "./config/.babelrc.json"

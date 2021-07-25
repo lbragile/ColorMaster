@@ -7,10 +7,3 @@ export interface Irgb {
 export interface Irgba extends Irgb {
   a: number;
 }
-
-export interface IStringOpts {
-  withAlpha?: boolean;
-  quotes?: "single" | "double";
-}
-
-export type TChannel = "red" | "green" | "blue" | "alpha";

@@ -17,13 +17,14 @@ export default class RGBColors {
     a = clamp(0, a, 1);
 
     this.#rgba = { r, g, b, a };
+    this.#rgbStr = `'rgba(${r}, ${g}, ${b}, ${a})'`;
   }
 
-  public get rgbaObj(): Irgba {
+  get rgbaObj(): Irgba {
     return this.#rgba;
   }
 
-  public set rgbaObj(obj: Irgba) {
+  set rgbaObj(obj: Irgba) {
     this.#rgba = obj;
   }
 
@@ -35,7 +36,7 @@ export default class RGBColors {
    * @returns ```'rgba?(r, g, b, a?)'``` or ```"rgba?(r, g, b, a?)"```
    * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string({ withAlpha: true, quotes: 'double' }) → "rgba(128, 64, 32, 0.5)"
    */
-  public string({ withAlpha = false, quotes = "single" }: IStringOpts = {}): string {
+  string({ withAlpha = false, quotes = "single" }: IStringOpts = {}): string {
     const { r, g, b, a } = this.#rgba;
     const quote = quotes === "single" ? "'" : '"';
     const alpha = withAlpha ? ", " + a : "";
@@ -49,7 +50,7 @@ export default class RGBColors {
    * @param value In range [0, 255] for red, green, blue. In range [0, 1] for alpha
    * @returns The instance that was acted upon → for function chaining
    */
-  public channelValueTo(channel: TChannel, value: number): this {
+  channelValueTo(channel: TChannel, value: number): this {
     value = clamp(0, value, channel === "alpha" ? 1 : 255);
     this.#rgba = { ...this.#rgba, [channel[0]]: value };
     return this;
@@ -61,7 +62,7 @@ export default class RGBColors {
    * @param delta A positive OR negative integer/decimal number to adjust the channel by
    * @returns The instance that was acted upon → for function chaining
    */
-  public channelValueBy(channel: TChannel, delta: number): this {
+  channelValueBy(channel: TChannel, delta: number): this {
     const firstChannelLetter = channel[0] as keyof Irgba;
     const value = clamp(
       0,
@@ -77,7 +78,7 @@ export default class RGBColors {
    * @param value Must be in range [0, 1] as this is the alpha channel
    * @returns The instance that was acted upon → for function chaining
    */
-  public alphaTo(value: number): this {
+  alphaTo(value: number): this {
     this.channelValueTo("alpha", value);
     return this;
   }
@@ -87,7 +88,7 @@ export default class RGBColors {
    * @param delta When added to current alpha value, range must remain in [0, 1]
    * @returns The instance that was acted upon → for function chaining
    */
-  public alphaBy(delta: number): this {
+  alphaBy(delta: number): this {
     this.channelValueBy("alpha", delta);
     return this;
   }

@@ -1,0 +1,10 @@
+{
+  "name": "ColorMaster",
+  "includeVersion": true,
+  "entryPoints": ["../src/"],
+  "out": "../docs",
+  "tsconfig": "./tsconfig.json",
+  "hideGenerator": true,
+  "logLevel": "Verbose",
+  "readme": "none"
+}

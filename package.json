@@ -6,19 +6,34 @@
   "license": "MIT",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
+  "files": [
+    "./dist/src/**/*.{js,ts}"
+  ],
   "scripts": {
     "lint": "eslint -c config/.eslintrc.js --ext ts --max-warnings=0 src tests",
     "format:check": "prettier --config config/.prettierrc.json --check src/**/*.ts",
     "format": "prettier --config config/.prettierrc.json --write src",
     "tsc": "tsc -p ./config/tsconfig.json",
-    "start": "npx ts-node src/index.ts",
-    "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js"
+    "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js",
+    "benchmark": "ts-node tests/benchmark.ts",
+    "docs": "typedoc --options config/typedoc.json",
+    "prepare": "husky install",
+    "prepublish": "npm run tsc"
   },
   "babel": {
     "extends": "./config/.babelrc.json"
   },
   "eslintConfig": {
     "extends": "./config/.eslintrc.js"
+  },
+  "np": {
+    "yarn": false,
+    "contents": "dist",
+    "preview": true,
+    "branch": "master",
+    "anyBranch": true,
+    "tests": "npm test",
+    "message": "🎉 Automatic package publish → bump to version v%s"
   },
   "repository": "github:lbragile/ColorMaster",
   "homepage": "https://github.com/lbragile/ColorMaster#readme",
@@ -50,13 +65,21 @@
     "@types/node": "^16.4.0",
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
+    "ac-colors": "^1.4.3",
+    "benny": "^3.6.15",
+    "chroma-js": "^2.1.2",
+    "color": "^4.0.0",
+    "colord": "^2.4.0",
     "eslint": "^7.31.0",
     "eslint-plugin-jest": "^24.4.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
+    "np": "^7.5.0",
     "prettier": "^2.3.2",
+    "tinycolor2": "^1.4.2",
     "ts-jest": "^27.0.4",
     "ts-node": "^10.1.0",
+    "typedoc": "^0.21.4",
     "typescript": "^4.3.5"
   }
 }

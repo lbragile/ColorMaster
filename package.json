@@ -28,11 +28,7 @@
   },
   "np": {
     "yarn": false,
-    "contents": "dist",
     "preview": false,
-    "branch": "master",
-    "anyBranch": false,
-    "tests": "npm test",
     "message": "🎉 Automatic package publish → bump to version v%s"
   },
   "repository": "github:lbragile/ColorMaster",

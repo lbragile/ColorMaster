@@ -1,6 +1,6 @@
 {
   "name": "colormaster",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "🏆 A powerful and fully typed module for all your coloring needs.",
   "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
   "license": "MIT",
@@ -17,7 +17,10 @@
     "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js",
     "benchmark": "ts-node tests/benchmark.ts",
     "docs": "typedoc --options config/typedoc.json",
-    "release": "npm version patch && git add . && git commit --amend --no-edit --no-verify && npm run tsc && copy package.json dist && copy *.md dist && npm publish dist"
+    "version:patch": "npm version patch -m \"🎉 Automatic package publish → bump to version v%s\"",
+    "commit:noEdit:noVerify": "git add . && git commit --amend --no-edit --no-verify",
+    "prepare:dist": "npm run tsc && copy package.json dist && copy *.md dist",
+    "release": "npm run version:patch && npm run commit:noEdit:noVerify && npm run prepare:dist && npm publish dist"
   },
   "babel": {
     "extends": "./config/.babelrc.json"

@@ -1,13 +1,13 @@
 {
   "name": "colormaster",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "🏆 A powerful and fully typed module for all your coloring needs.",
   "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
   "license": "MIT",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "files": [
-    "./dist/src/**/*.{js,ts}"
+    "**/*.{js,ts}"
   ],
   "scripts": {
     "lint": "eslint -c config/.eslintrc.js --ext ts --max-warnings=0 src tests",
@@ -17,19 +17,13 @@
     "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js",
     "benchmark": "ts-node tests/benchmark.ts",
     "docs": "typedoc --options config/typedoc.json",
-    "prepare": "husky install",
-    "prepublish": "npm run tsc"
+    "release": "npm version patch && git add . && git commit --amend --no-edit --no-verify && npm run tsc && copy package.json dist && copy *.md dist && npm publish dist"
   },
   "babel": {
     "extends": "./config/.babelrc.json"
   },
   "eslintConfig": {
     "extends": "./config/.eslintrc.js"
-  },
-  "np": {
-    "yarn": false,
-    "preview": false,
-    "message": "🎉 Automatic package publish → bump to version v%s"
   },
   "repository": "github:lbragile/ColorMaster",
   "homepage": "https://github.com/lbragile/ColorMaster#readme",
@@ -70,7 +64,6 @@
     "eslint-plugin-jest": "^24.4.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
-    "np": "^7.5.0",
     "prettier": "^2.3.2",
     "tinycolor2": "^1.4.2",
     "ts-jest": "^27.0.4",

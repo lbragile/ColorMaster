@@ -1,7 +1,7 @@
 <!-- markdownlint-disable no-inline-html -->
 <!-- markdownlint-disable first-line-heading -->
 <div align="center">
-  <a href="https://github.com/omgovich/colord">
+  <a href="https://github.com/lbragile/ColorMaster">
     <img src="public/logo.png" width="200" height="200" alt="ColorMaster Logo" />
   </a>
 </div>

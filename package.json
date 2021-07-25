@@ -1,6 +1,6 @@
 {
   "name": "colormaster",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "🏆 A powerful and fully typed module for all your coloring needs.",
   "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
   "license": "MIT",
@@ -28,11 +28,7 @@
   },
   "np": {
     "yarn": false,
-    "contents": "dist",
     "preview": false,
-    "branch": "master",
-    "anyBranch": false,
-    "tests": "npm test",
     "message": "🎉 Automatic package publish → bump to version v%s"
   },
   "repository": "github:lbragile/ColorMaster",

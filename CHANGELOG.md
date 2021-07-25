@@ -2,7 +2,7 @@
 
 All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster) module will be documented in this file.
 
-## v0.0.0 - July 24, 2021
+## v0.0.1 - July 24, 2021
 
 ### Added
 

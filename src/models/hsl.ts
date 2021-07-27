@@ -2,11 +2,11 @@ import { BOUNDS } from "../enums/bounds";
 import { IStringOpts } from "../types/common";
 import { Ihsla, TChannelHSL } from "../types/hsl";
 import { clamp } from "../utils/numeric";
+import HEXColors from "./hex";
 import RGBColors from "./rgb";
 
 export default class HSLColors {
   #hsla: Ihsla;
-  #hslStr: string;
 
   constructor(h: number, s: number, l: number, a = 1) {
     if (h === undefined || s === undefined || l === undefined) {
@@ -14,13 +14,13 @@ export default class HSLColors {
     }
 
     // clamp the values
-    h = Math.max(h % 360); // 0 === 360 degrees
+    h %= 360;
+    h = h < 0 ? h + 360 : h; // 0 === 360 degrees
     s = clamp(0, s, BOUNDS.HSL_SATURATION);
     l = clamp(0, l, BOUNDS.HSL_LIGHTNESS);
     a = clamp(0, a, 1);
 
     this.#hsla = { h, s, l, a };
-    this.#hslStr = `'hsla(${h}, ${s}%, ${l}%, ${a})'`;
   }
 
   get hslaObj(): Ihsla {
@@ -36,25 +36,26 @@ export default class HSLColors {
    * @param opts -
    *  - withAlpha → whether or not to include the alpha channel in the output
    *  - quotes → type of quotes to use around the output
-   * @returns ```'hsla?(h, s, l, a?)'``` or ```"hsla?(h, s, l, a?)"```
-   * @example ({ h: 128, s: 64, l: 32, a: 0.5 }).string({ withAlpha: true, quotes: 'double' }) → "rgba(128, 64, 32, 0.5)"
+   * @returns ```'hsla?(h, s%, l%, a?)'``` or ```"hsla?(h, s%, l%, a?)"```
+   * @example ({ h: 128, s: 100, l: 100, a: 0.5 }).string({ withAlpha: true, quotes: 'double' }) → "hsla(128, 100%, 100%, 0.5)"
    */
   string({ withAlpha = false, quotes = "single" }: IStringOpts = {}): string {
     const { h, s, l, a } = this.#hsla;
     const quote = quotes === "single" ? "'" : '"';
     const alpha = withAlpha ? ", " + a : "";
-    this.#hslStr = `${quote}hsl${withAlpha ? "a" : ""}(${h}, ${s}%, ${l}%${alpha})${quote}`;
-    return this.#hslStr;
+    return `${quote}hsl${withAlpha ? "a" : ""}(${h}, ${s}%, ${l}%${alpha})${quote}`;
   }
 
   /**
    * Lets you set a single channel value to a specific number
    * @param channel Which HSLA channel to set
    * @param value In range [0, 359] for `hue`. In range [0, 1] for `alpha`
+   *
+   * @note Hue is degrees based, thus clamping does not apply. Instead a k*360 multiple is added/subtracted from the value to get a value in range [0, 359]
    * @returns The instance that was acted upon → for function chaining
    */
   channelValueTo(channel: TChannelHSL, value: number): this {
-    value = clamp(0, value, channel === "alpha" ? 1 : channel === "hue" ? BOUNDS.HSL_HUE : BOUNDS.HSL_LIGHTNESS);
+    value = channel === "hue" ? value % 360 : clamp(0, value, channel === "alpha" ? 1 : BOUNDS.HSL_LIGHTNESS);
     this.#hsla = { ...this.#hsla, [channel[0]]: value };
     return this;
   }
@@ -63,16 +64,15 @@ export default class HSLColors {
    * Instead of setting the value as in {@link HSLColors.channelValueTo channelValueTo}, this allows you to adjust the channel value by `delta` amount.
    * @param channel Which HSLA channel to increment/decrement
    * @param delta A positive OR negative integer/decimal number to adjust the channel by
+   *
+   * @note Hue is degrees based, thus clamping does not apply. Instead a k*360 multiple is added/subtracted from the value to get a value in range [0, 359]
    * @returns The instance that was acted upon → for function chaining
    */
   channelValueBy(channel: TChannelHSL, delta: number): this {
     const firstChannelLetter = channel[0] as keyof Ihsla;
-    const value = clamp(
-      0,
-      parseFloat((this.#hsla[firstChannelLetter] + delta).toFixed(2)),
-      channel === "alpha" ? 1 : channel === "hue" ? BOUNDS.HSL_HUE : BOUNDS.HSL_LIGHTNESS
-    );
-    this.#hsla[channel[0] as keyof Ihsla] = channel === "hue" ? value % 360 : value;
+    const currVal = parseFloat((this.#hsla[firstChannelLetter] + delta).toFixed(2));
+    const value = channel === "hue" ? currVal % 360 : clamp(0, currVal, channel === "alpha" ? 1 : BOUNDS.HSL_LIGHTNESS);
+    this.#hsla[channel[0] as keyof Ihsla] = value < 0 ? value + 360 : value;
     return this;
   }
 
@@ -81,9 +81,8 @@ export default class HSLColors {
    * @param value Must be in range [0, 359]
    * @returns The instance that was acted upon → for function chaining
    */
-  hueTo(value: number): this {
-    this.channelValueTo("hue", value);
-    return this;
+  hueTo(value: number): HSLColors {
+    return this.channelValueTo("hue", value);
   }
 
   /**
@@ -91,9 +90,8 @@ export default class HSLColors {
    * @param delta When added to current alpha value, range must remain in [0, 359]
    * @returns The instance that was acted upon → for function chaining
    */
-  hueBy(delta: number): this {
-    this.channelValueBy("hue", delta);
-    return this;
+  hueBy(delta: number): HSLColors {
+    return this.channelValueBy("hue", delta);
   }
 
   /**
@@ -101,9 +99,8 @@ export default class HSLColors {
    * @param value Must be in range [0, 1] as this is the alpha channel
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaTo(value: number): this {
-    this.channelValueTo("alpha", value);
-    return this;
+  alphaTo(value: number): HSLColors {
+    return this.channelValueTo("alpha", value);
   }
 
   /**
@@ -111,9 +108,8 @@ export default class HSLColors {
    * @param delta When added to current alpha value, range must remain in [0, 1]
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaBy(delta: number): this {
-    this.channelValueBy("alpha", delta);
-    return this;
+  alphaBy(delta: number): HSLColors {
+    return this.channelValueBy("alpha", delta);
   }
 
   /**
@@ -137,6 +133,16 @@ export default class HSLColors {
 
     const [r, g, b] = [Rp, Gp, Bp].map((val) => +(val + m).toFixed(1) * BOUNDS.RGB_CHANNEL);
     return new RGBColors(r, g, b, a);
+  }
+
+  /**
+   * Converts a HSLA color to HEXA color
+   *
+   * @note First we convert to RGBA space, then to HEXA space
+   * @returns {RGBColors} An HEXA instance that can be acted upon → for function chaining
+   */
+  hex(): HEXColors {
+    return this.rgb().hex();
   }
 
   /**

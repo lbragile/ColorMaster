@@ -1,4 +1,3 @@
-import HSLColors from "./models/hsl";
 import RGBColors from "./models/rgb";
 import { Irgb, Irgba } from "./types/rgb";
 
@@ -53,12 +52,7 @@ export function rgb(
   }
 }
 
-const hsl = new HSLColors(360, 100, 50, 0.3);
-console.log(hsl.string({ withAlpha: true }));
-// console.log(hsl.rgb().string({ withAlpha: true }));
-// console.log(hsl.grayscale().string({ withAlpha: true }));
-console.log(hsl.lighterBy(10).string({ withAlpha: true }));
-console.log(hsl.darkerBy(20).string({ withAlpha: true }));
-console.log(hsl.darkerBy(1000).string({ withAlpha: true }));
-console.log(hsl.lighterBy(1000).string({ withAlpha: true }));
-console.log(hsl.grayscale().string({ withAlpha: true }));
+export { IStringOpts, TChannel } from "./types/common";
+export { Irgb, Irgba } from "./types/rgb";
+export { Ihex, Ihexa } from "./types/hex";
+export { Ihsl, Ihsla, TChannelHSL } from "./types/hsl";

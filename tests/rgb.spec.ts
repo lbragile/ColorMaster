@@ -102,10 +102,6 @@ describe("channelValueTo", () => {
   });
 });
 
-test("alphaTo", () => {
-  expect(cm.alphaTo(0.5).string({ withAlpha: true })).toBe("'rgba(128, 128, 128, 0.5)'");
-});
-
 describe("channelValueBy", () => {
   describe("no clamping", () => {
     test.each`
@@ -135,14 +131,20 @@ describe("channelValueBy", () => {
       ${"alpha"} | ${1}                        | ${"'rgba(128, 128, 128, 1)'"}
       ${"alpha"} | ${-1}                       | ${"'rgba(128, 128, 128, 0)'"}
     `("change $channel channel - value: $value", ({ channel, value, expected }) => {
-      expect(cm.channelValueTo(channel, value).string({ withAlpha: true })).toBe(expected);
+      expect(cm.channelValueBy(channel, value).string({ withAlpha: true })).toBe(expected);
     });
   });
 });
 
-test("alphaBy", () => {
-  expect(cm.alphaBy(0.1).string({ withAlpha: true })).toBe("'rgba(128, 128, 128, 0.8)'");
-  expect(cm.alphaBy(-0.2).string({ withAlpha: true })).toBe("'rgba(128, 128, 128, 0.6)'");
+describe("alpha", () => {
+  test("alphaTo", () => {
+    expect(cm.alphaTo(0.5).string({ withAlpha: true })).toBe("'rgba(128, 128, 128, 0.5)'");
+  });
+
+  test("alphaBy", () => {
+    expect(cm.alphaBy(0.1).string({ withAlpha: true })).toBe("'rgba(128, 128, 128, 0.8)'");
+    expect(cm.alphaBy(-0.2).string({ withAlpha: true })).toBe("'rgba(128, 128, 128, 0.6)'");
+  });
 });
 
 describe("invert", () => {

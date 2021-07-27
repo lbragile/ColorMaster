@@ -3,10 +3,10 @@ import { Irgba } from "../types/rgb";
 import { BOUNDS } from "../enums/bounds";
 import { clamp } from "../utils/numeric";
 import HSLColors from "./hsl";
+import HEXColors from "./hex";
 
 export default class RGBColors {
   #rgba: Irgba;
-  #rgbStr: string;
 
   constructor(r: number, g: number, b: number, a = 1) {
     if (r === undefined || g === undefined || b === undefined) {
@@ -20,7 +20,6 @@ export default class RGBColors {
     a = clamp(0, a, 1);
 
     this.#rgba = { r, g, b, a };
-    this.#rgbStr = `'rgba(${r}, ${g}, ${b}, ${a})'`;
   }
 
   get rgbaObj(): Irgba {
@@ -43,8 +42,7 @@ export default class RGBColors {
     const { r, g, b, a } = this.#rgba;
     const quote = quotes === "single" ? "'" : '"';
     const alpha = withAlpha ? ", " + a : "";
-    this.#rgbStr = `${quote}rgb${withAlpha ? "a" : ""}(${r}, ${g}, ${b}${alpha})${quote}`;
-    return this.#rgbStr;
+    return `${quote}rgb${withAlpha ? "a" : ""}(${r}, ${g}, ${b}${alpha})${quote}`;
   }
 
   /**
@@ -81,9 +79,8 @@ export default class RGBColors {
    * @param value Must be in range [0, 1] as this is the alpha channel
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaTo(value: number): this {
-    this.channelValueTo("alpha", value);
-    return this;
+  alphaTo(value: number): RGBColors {
+    return this.channelValueTo("alpha", value);
   }
 
   /**
@@ -91,9 +88,8 @@ export default class RGBColors {
    * @param delta When added to current alpha value, range must remain in [0, 1]
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaBy(delta: number): this {
-    this.channelValueBy("alpha", delta);
-    return this;
+  alphaBy(delta: number): RGBColors {
+    return this.channelValueBy("alpha", delta);
   }
 
   /**
@@ -124,6 +120,17 @@ export default class RGBColors {
     const S = delta === 0 ? 0 : delta / (1 - Math.abs(2 * L - 1));
 
     return new HSLColors(H * 60, S * BOUNDS.HSL_SATURATION, L * BOUNDS.HSL_LIGHTNESS, a);
+  }
+
+  /**
+   * Converts a RGBA color to HEXA color
+   *
+   * @returns {HEXColors} An HEXA instance that can be acted upon → for function chaining
+   */
+  hex(): HEXColors {
+    const { r, g, b, a } = this.rgbaObj;
+    const [Rp, Gp, Bp, Ap] = [r, g, b, Math.round(a * BOUNDS.RGB_CHANNEL)].map((x) => x.toString(16).padStart(2, "0"));
+    return new HEXColors(Rp, Gp, Bp, Ap);
   }
 
   /**

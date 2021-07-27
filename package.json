@@ -9,19 +9,20 @@
   "files": [
     "**/*.{js,ts}"
   ],
+  "sideEffects": false,
   "scripts": {
     "postinstall": "husky install",
     "lint": "eslint -c config/.eslintrc.js --ext ts --max-warnings=0 src tests",
     "format:check": "prettier --config config/.prettierrc.json --check src/**/*.ts",
     "format": "prettier --config config/.prettierrc.json --write src",
-    "tsc": "tsc -p ./config/tsconfig.json",
     "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js",
     "benchmark": "ts-node tests/benchmark.ts",
     "docs": "typedoc --options config/typedoc.json",
-    "preversion": "npm test && npm run tsc",
+    "build": "webpack --config config/webpack.config.js",
+    "preversion": "npm test && npm run build",
     "version": "npm version patch -m \"🎉 Automatic package publish → bump to version v%s\"",
-    "postversion": "git add . && git commit --amend --no-edit --no-verify",
-    "release": "npm run version && copy package.json dist && copy *.md dist && npm publish dist"
+    "postversion": "npm run docs && git add . && git commit --amend --no-edit --no-verify",
+    "release": "npm run version && npm publish dist"
   },
   "babel": {
     "extends": "./config/.babelrc.json"
@@ -64,6 +65,7 @@
     "chroma-js": "^2.1.2",
     "color": "^4.0.0",
     "colord": "^2.4.0",
+    "copy-webpack-plugin": "^9.0.1",
     "eslint": "^7.31.0",
     "eslint-plugin-jest": "^24.4.0",
     "husky": "^7.0.1",
@@ -71,8 +73,11 @@
     "prettier": "^2.3.2",
     "tinycolor2": "^1.4.2",
     "ts-jest": "^27.0.4",
+    "ts-loader": "^9.2.4",
     "ts-node": "^10.1.0",
     "typedoc": "^0.21.4",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "webpack": "^5.46.0",
+    "webpack-cli": "^4.7.2"
   }
 }

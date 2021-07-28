@@ -1,7 +1,7 @@
 import { IStringOpts, TChannel } from "../types/common";
 import { Irgba } from "../types/rgb";
 import { BOUNDS } from "../enums/bounds";
-import { clamp } from "../utils/numeric";
+import { clamp, round } from "../utils/numeric";
 import HSLColors from "./hsl";
 import HEXColors from "./hex";
 
@@ -9,8 +9,11 @@ export default class RGBColors {
   #rgba: Irgba;
 
   constructor(r: number, g: number, b: number, a = 1) {
+    // set values to reasonable numbers if provided value is undefined
     if (r === undefined || g === undefined || b === undefined) {
-      throw new Error("red, green, and blue channel values must be provided");
+      r = r ?? 0;
+      g = g ?? 0;
+      b = b ?? 0;
     }
 
     // clamp the values
@@ -35,14 +38,16 @@ export default class RGBColors {
    * @param opts -
    *  - withAlpha → whether or not to include the alpha channel in the output
    *  - quotes → type of quotes to use around the output
+   *  - precision → how many decimal places to include for each value
    * @returns ```'rgba?(r, g, b, a?)'``` or ```"rgba?(r, g, b, a?)"```
-   * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string({ withAlpha: true, quotes: 'double' }) → "rgba(128, 64, 32, 0.5)"
+   * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string({ quotes: 'double' }) → "rgba(128, 64, 32, 0.5)"
    */
-  string({ withAlpha = false, quotes = "single" }: IStringOpts = {}): string {
+  string({ withAlpha = true, quotes = "single", precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
     const { r, g, b, a } = this.#rgba;
     const quote = quotes === "single" ? "'" : '"';
-    const alpha = withAlpha ? ", " + a : "";
-    return `${quote}rgb${withAlpha ? "a" : ""}(${r}, ${g}, ${b}${alpha})${quote}`;
+    const [Rp, Gp, Bp, Ap] = [r, g, b, a].map((val, i) => round(val, precision[i] ?? 1));
+    const alpha = withAlpha ? ", " + Ap : "";
+    return `${quote}rgb${withAlpha ? "a" : ""}(${Rp}, ${Gp}, ${Bp}${alpha})${quote}`;
   }
 
   /**
@@ -65,11 +70,7 @@ export default class RGBColors {
    */
   channelValueBy(channel: TChannel, delta: number): this {
     const firstChannelLetter = channel[0] as keyof Irgba;
-    const value = clamp(
-      0,
-      parseFloat((this.#rgba[firstChannelLetter] + delta).toFixed(2)),
-      channel === "alpha" ? 1 : BOUNDS.RGB_CHANNEL
-    );
+    const value = clamp(0, this.#rgba[firstChannelLetter] + delta, channel === "alpha" ? 1 : BOUNDS.RGB_CHANNEL);
     this.#rgba[channel[0] as keyof Irgba] = value;
     return this;
   }
@@ -138,10 +139,10 @@ export default class RGBColors {
    * @param { includeAlpha } opts Whether or not to also invert the alpha channel
    * @returns The corresponding inverse color
    */
-  invert({ includeAlpha = false }: { includeAlpha?: boolean } = {}): this {
+  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): this {
     const { r, g, b, a } = this.#rgba;
     const [Rnew, Gnew, Bnew] = [r, g, b].map((val) => BOUNDS.RGB_CHANNEL - val);
-    const Anew = includeAlpha ? parseFloat((1 - a).toFixed(2)) : a;
+    const Anew = includeAlpha ? 1 - a : a;
     this.rgbaObj = { r: Rnew, g: Gnew, b: Bnew, a: Anew };
     return this;
   }

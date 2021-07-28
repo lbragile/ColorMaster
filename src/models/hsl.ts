@@ -1,7 +1,7 @@
 import { BOUNDS } from "../enums/bounds";
 import { IStringOpts } from "../types/common";
 import { Ihsla, TChannelHSL } from "../types/hsl";
-import { clamp } from "../utils/numeric";
+import { clamp, round } from "../utils/numeric";
 import HEXColors from "./hex";
 import RGBColors from "./rgb";
 
@@ -9,8 +9,11 @@ export default class HSLColors {
   #hsla: Ihsla;
 
   constructor(h: number, s: number, l: number, a = 1) {
+    // set values to reasonable numbers if provided value is undefined
     if (h === undefined || s === undefined || l === undefined) {
-      throw new Error("hue, saturation, and lightness channel values must be provided");
+      h = h ?? 0;
+      s = s ?? BOUNDS.HSL_LIGHTNESS;
+      l = l ?? 0;
     }
 
     // clamp the values
@@ -36,14 +39,16 @@ export default class HSLColors {
    * @param opts -
    *  - withAlpha → whether or not to include the alpha channel in the output
    *  - quotes → type of quotes to use around the output
+   *  - precision → how many decimal places to include for each value
    * @returns ```'hsla?(h, s%, l%, a?)'``` or ```"hsla?(h, s%, l%, a?)"```
-   * @example ({ h: 128, s: 100, l: 100, a: 0.5 }).string({ withAlpha: true, quotes: 'double' }) → "hsla(128, 100%, 100%, 0.5)"
+   * @example ({ h: 128, s: 100, l: 100, a: 0.5 }).string({ quotes: 'double' }) → "hsla(128, 100%, 100%, 0.5)"
    */
-  string({ withAlpha = false, quotes = "single" }: IStringOpts = {}): string {
+  string({ withAlpha = true, quotes = "single", precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
     const { h, s, l, a } = this.#hsla;
     const quote = quotes === "single" ? "'" : '"';
-    const alpha = withAlpha ? ", " + a : "";
-    return `${quote}hsl${withAlpha ? "a" : ""}(${h}, ${s}%, ${l}%${alpha})${quote}`;
+    const [Hp, Sp, Lp, Ap] = [h, s, l, a].map((val, i) => round(val, precision[i] ?? 1));
+    const alpha = withAlpha ? ", " + Ap : "";
+    return `${quote}hsl${withAlpha ? "a" : ""}(${Hp}, ${Sp}%, ${Lp}%${alpha})${quote}`;
   }
 
   /**
@@ -70,7 +75,7 @@ export default class HSLColors {
    */
   channelValueBy(channel: TChannelHSL, delta: number): this {
     const firstChannelLetter = channel[0] as keyof Ihsla;
-    const currVal = parseFloat((this.#hsla[firstChannelLetter] + delta).toFixed(2));
+    const currVal = this.#hsla[firstChannelLetter] + delta;
     const value = channel === "hue" ? currVal % 360 : clamp(0, currVal, channel === "alpha" ? 1 : BOUNDS.HSL_LIGHTNESS);
     this.#hsla[channel[0] as keyof Ihsla] = value < 0 ? value + 360 : value;
     return this;
@@ -131,7 +136,7 @@ export default class HSLColors {
     const Gp = 240 <= h && h < 360 ? 0 : 60 <= h && h < 180 ? C : X;
     const Bp = h < 120 ? 0 : 180 <= h && h < 300 ? C : X;
 
-    const [r, g, b] = [Rp, Gp, Bp].map((val) => +(val + m).toFixed(1) * BOUNDS.RGB_CHANNEL);
+    const [r, g, b] = [Rp, Gp, Bp].map((val) => (val + m) * BOUNDS.RGB_CHANNEL);
     return new RGBColors(r, g, b, a);
   }
 
@@ -153,7 +158,7 @@ export default class HSLColors {
    * @link https://pinetools.com/invert-color
    * @returns The corresponding inverse color
    */
-  invert({ includeAlpha = false }: { includeAlpha?: boolean } = {}): HSLColors {
+  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): HSLColors {
     return this.rgb().invert({ includeAlpha }).hsl();
   }
 

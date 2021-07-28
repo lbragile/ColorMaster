@@ -13,9 +13,9 @@
   <a href="https://github.com/lbragile/ColorMaster/actions">
     <img alt="build status" src="https://img.shields.io/github/workflow/status/lbragile/ColorMaster/Testing?label=Build&logo=github&style=flat-square" />
   </a>
-  <a href="https://app.codecov.io/gh/lbragile/ColorMaster/">
+  <!-- <a href="https://app.codecov.io/gh/lbragile/ColorMaster/">
     <img alt="coverage" src="https://img.shields.io/codecov/c/github/lbragile/ColorMaster?label=Coverage&style=flat-square&logo=codecov" />
-  </a>
+  </a> -->
   <a href="https://www.codefactor.io/repository/github/lbragile/colormaster">
     <img alt="code quality" src="https://img.shields.io/codefactor/grade/github/lbragile/ColorMaster/master?label=Code%20Quality&logo=codefactor&style=flat-square" />
   </a>
@@ -35,35 +35,116 @@ npm install colormaster
 
 Then simply start using **ColorMaster** in your project:
 
+<!-- markdownlint-disable no-inline-html -->
+<details open>
+<summary><b>RGBA</b> Color Space</summary>
+
 ```javascript
-import { rgb } from "colormaster";
+import CM from "colormaster";
 
 // object argument
-rbg({ r: 128, g: 128, b: 128 }).string({ withAlpha: true, quotes: "double" }); // "rgba(128, 128, 128, 1)"
-rbg({ r: 128, g: 128, b: 128, a: 0.5 }).string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.5)' <-- note, single quote
-rbg({ r: 128, g: 128, b: 128, a: 0.5 }).string(); // 'rgba(128, 128, 128)'
-rbg({ r: 128, g: 128, b: 128, a: 0.5 }).alphaTo(0.8).string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom({ r: 128, g: 128, b: 128 }).string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
+CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).string(); // 'rgba(128, 128, 128, 0.5)' ← note, single quote
+CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).string({ withAlpha: false }); // 'rgb(128, 128, 128)'
+CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
 
 // array argument
-rbg([128, 128, 128]).string({ withAlpha: true, quotes: "double" }); // "rgba(128, 128, 128, 1)"
-rbg([128, 128, 128, 0.5]).string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.5)' <-- note, single quote
-rbg([128, 128, 128, 0.5]).string(); // 'rgba(128, 128, 128)'
-rbg([128, 128, 128, 0.5]).alphaTo(0.8).string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom([128, 128, 128]).string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
+CM.RGBAFrom([128, 128, 128, 0.5]).string(); // 'rgba(128, 128, 128, 0.5)' ← note, single quote
+CM.RGBAFrom([128, 128, 128, 0.5]).string({ withAlpha: false }); // 'rgb(128, 128, 128)'
+CM.RGBAFrom([128, 128, 128, 0.5]).alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
 
 // string argument
-rbg("128, 128, 128").string({ withAlpha: true, quotes: "double" }); // "rgba(128, 128, 128, 1)"
-rbg("rgb(128, 128, 128)").string({ withAlpha: true, quotes: "double" }); // "rgba(128, 128, 128, 1)"
-rbg("128, 128, 128, 0.5").string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.5)' <-- note, single quote
-rbg("128, 128, 128, 0.5").string(); // 'rgba(128, 128, 128)'
-rbg("128, 128, 128, 0.5").alphaTo(0.8).string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.8)'
-rbg("rgba(128, 128, 128, 0.5)").alphaTo(0.8).string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom("128, 128, 128").string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
+CM.RGBAFrom("rgb(128, 128, 128)").string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
+CM.RGBAFrom("128, 128, 128, 0.5").string(); // 'rgba(128, 128, 128, 0.5)' ← note, single quote
+CM.RGBAFrom("128, 128, 128, 0.5").string({ withAlpha: false }); // 'rgb(128, 128, 128)'
+CM.RGBAFrom("128, 128, 128, 0.5").alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom("rgba(128, 128, 128, 0.5)").alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
 
 // list of values as arguments
-rbg(128, 128, 128).string({ withAlpha: true, quotes: "double" }); // "rgba(128, 128, 128, 1)"
-rbg(128, 128, 128, 0.5).string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.5)' <-- note, single quote
-rbg(128, 128, 128, 0.5).string(); // 'rgba(128, 128, 128)'
-rbg(128, 128, 128, 0.5).alphaTo(0.8).string({ withAlpha: true }); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom(128, 128, 128).string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
+CM.RGBAFrom(128, 128, 128, 0.5).string(); // 'rgba(128, 128, 128, 0.5)' ← note, single quote
+CM.RGBAFrom(128, 128, 128, 0.5).string({ withAlpha: false }); // 'rgb(128, 128, 128)'
+CM.RGBAFrom(128, 128, 128, 0.5).alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
 ```
+
+</details>
+
+<details>
+<summary><b>HSLA</b> Color Space</summary>
+
+```javascript
+import CM from "colormaster";
+
+// object argument
+CM.HSLAFrom({ h: 300, s: 50, l: 60 }).string({ quotes: "double" }); // "hsla(300, 50%, 60%, 1)"
+CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).string(); // 'hsla(300, 50%, 60%, 0.5)' ← note, single quote
+CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).string({ withAlpha: false }); // 'hsl(300, 50%, 60%)'
+CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+
+// array argument
+CM.HSLAFrom([300, 50, 60]).string({ quotes: "double" }); // "hsla(300, 50%, 60%, 1)"
+CM.HSLAFrom([300, 50, 60, 0.5]).string(); // 'hsla(300, 50%, 60%, 0.5)' ← note, single quote
+CM.HSLAFrom([300, 50, 60, 0.5]).string({ withAlpha: false }); // 'hsl(300, 50%, 60%)'
+CM.HSLAFrom([300, 50, 60, 0.5]).alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+
+// string argument
+CM.HSLAFrom("300, 50%, 60%").string({ quotes: "double" }); // "hsla(300, 50%, 60%, 1)"
+CM.HSLAFrom("hsl(300, 50%, 60%)").string({ quotes: "double" }); // "hsl(300, 50%, 60%, 1)"
+CM.HSLAFrom("300, 50%, 60, 0.5").string(); // 'hsla(300, 50%, 60%, 0.5)' ← note, single quote
+CM.HSLAFrom("300, 50, 60%, 0.5").string({ withAlpha: false }); // 'hsl(300, 50%, 60%)'
+CM.HSLAFrom("300, 50%, 60%, 0.5").alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+CM.HSLAFrom("hsla(300, 50%, 60%, 0.5)").alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+
+// list of values as arguments
+CM.HSLAFrom(300, 50, 60).string({ quotes: "double" }); // "hsla(300, 50%, 60%, 1)"
+CM.HSLAFrom(300, 50, 60, 0.5).string(); // 'hsla(300, 50%, 60%, 0.5)' ← note, single quote
+CM.HSLAFrom(300, 50, 60, 0.5).string({ withAlpha: false }); // 'hsl(300, 50%, 60%)'
+CM.HSLAFrom(300, 50, 60, 0.5).alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+```
+
+</details>
+
+<details>
+<summary><b>HEXA</b> Color Space</summary>
+
+```javascript
+import CM from "colormaster";
+
+// object argument
+CM.HEXAFrom({ r: "44", g: "55", b: "66" }).string({ quotes: "double" }); // "#445566FF)"
+CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).string(); // '#44556677' ← note, single quote
+CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).string({ withAlpha: false }); // '#445566'
+CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).alphaTo("CC").string(); // '#445566CC'
+
+// array argument
+CM.HEXAFrom(["44", "55", "66"]).string({ quotes: "double" }); // "#445566FF"
+CM.HEXAFrom(["44", "55", "66", "77"]).string(); // '#44556677' ← note, single quote
+CM.HEXAFrom(["44", "55", "66", "77"]).string({ withAlpha: false }); // '#445566'
+CM.HEXAFrom(["44", "55", "66", "77"]).alphaTo("CC").string(); // '#445566CC'
+
+// string argument
+CM.HEXAFrom("44", "55", "66").string({ quotes: "double" }); // "#445566FF"
+CM.HEXAFrom("#445566").string({ quotes: "double" }); // "#445566FF"
+CM.HEXAFrom("44, 55, 66, 77").string(); // '#44556677' ← note, single quote
+CM.HEXAFrom("44, 55, 66, 77").string({ withAlpha: false }); // '#445566'
+CM.HEXAFrom("44, 55, 66, 77").alphaTo("CC").string(); // '#445566CC'
+CM.HEXAFrom("#44556677").alphaTo("CC").string(); // '#445566CC'
+
+// list of values as arguments
+CM.HEXAFrom("44", "55", "66").string({ quotes: "double" }); // "#445566FF"
+CM.HEXAFrom("44", "55", "66", "77").string(); // '#44556677' ← note, single quote
+CM.HEXAFrom("44", "55", "66", "77").string({ withAlpha: false }); // '#445566'
+CM.HEXAFrom("44", "55", "66", "77").alphaTo("CC").string(); // '#445566CC'
+```
+
+**Note:** HEXA string are always returned in _upperCase_ by **ColorMaster**. If you prefer _lowerCase_ strings,
+you can simply use (chain) the build in `toLowerCase()`. More information is available [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase)
+
+</details>
+
+<!-- markdownlint-enable no-inline-html -->
 
 ## 😍 Strongly Typed
 
@@ -76,13 +157,15 @@ Additionally, **ColorMaster** exports all of its types and interfaces so that yo
 ```javascript
 import { Irgb, Irgba } from "colormaster";
 
-const rbg: Irgb = { r: 128, g: 128, b: 128 }; // OK
-const rbg: Irgb = { r: 128, g: 128, b: 128, a: 0.5 }; // ERROR
-const rbg: Irgb = { red: 128, green: 128, blue: 128 }; // ERROR
+let rgb: Irgb;
+rgb = { r: 128, g: 128, b: 128 }; // OK
+rgb = { r: 128, g: 128, b: 128, a: 0.5 }; // ERROR
+rgb = { red: 128, green: 128, blue: 128 }; // ERROR
 
-const rbg: Irgba = { r: 128, g: 128, b: 128, a: 0.5 }; // OK
-const rbg: Irgba = { r: 128, g: 128, b: 128 }; // ERROR
-const rbg: Irgba = { r: 128, g: 128, b: 128, alpha: 0.5 }; // ERROR
+let rgba: Irgba;
+rgba = { r: 128, g: 128, b: 128, a: 0.5 }; // OK
+rgba = { r: 128, g: 128, b: 128 }; // ERROR
+rgba = { r: 128, g: 128, b: 128, alpha: 0.5 }; // ERROR
 ```
 
 ## 📕 Documentation [![Documentation](https://img.shields.io/badge/Documentation-available-brightgreen?style=flat-square&logo=github)](https://lbragile.github.io/ColorMaster/)

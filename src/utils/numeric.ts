@@ -14,3 +14,15 @@ export function clamp<T>(min: T, val: T, max: T): T {
   if (isAllNum || isAllStr) return val < min ? min : val > max ? max : val;
   else throw new Error("All values must be the same type → 'number' or 'string'");
 }
+
+/**
+ * Given a value, rounds the value to a given precision (number of decimal places)
+ * @param value The value that needs to be rounded
+ * @param precision How many decimal places to include in the result
+ *
+ * @note Providing a negative precision value will skip this conversion
+ * @returns The input value with "precision" amount of decimal places
+ */
+export function round(value: number, precision: number): number {
+  return precision >= 0 ? +value.toFixed(precision) : value;
+}

@@ -9,20 +9,19 @@ export default class HEXColors {
   #hexa: Ihexa;
 
   constructor(r: string, g: string, b: string, a = "FF") {
-    const re = new RegExp(/^\w\w$/, "i");
+    // set values to reasonable numbers if provided value is undefined
     if (r === undefined || g === undefined || b === undefined) {
-      throw new Error("hue, saturation, and lightness channel values must be provided");
-    } else if (!re.test(r) || !re.test(g) || !re.test(b)) {
-      throw new Error("hue, saturation, and lightness channel values must be 2 character strings, e.g. 'F3'");
+      r = r ?? "00";
+      g = g ?? "00";
+      b = b ?? "00";
     }
 
-    // make sure all elements are the same case when clamping
-    r = clamp(BOUNDS.HEX_CHANNEL_LOWER, r.toUpperCase(), BOUNDS.HEX_CHANNEL_UPPER);
-    g = clamp(BOUNDS.HEX_CHANNEL_LOWER, g.toUpperCase(), BOUNDS.HEX_CHANNEL_UPPER);
-    b = clamp(BOUNDS.HEX_CHANNEL_LOWER, b.toUpperCase(), BOUNDS.HEX_CHANNEL_UPPER);
-    a = clamp(BOUNDS.HEX_CHANNEL_LOWER, a.toUpperCase(), BOUNDS.HEX_CHANNEL_UPPER);
+    // make sure all elements are the same case when clamping. Also ensure that each channel is 2 characters
+    const [Rp, Gp, Bp, Ap] = [r, g, b, a].map((val) =>
+      clamp("00", val.padStart(2, "0").toUpperCase(), BOUNDS.HEX_CHANNEL_UPPER)
+    );
 
-    this.#hexa = { r, g, b, a };
+    this.#hexa = { r: Rp, g: Gp, b: Bp, a: Ap };
   }
 
   get hexaObj(): Ihexa {
@@ -39,13 +38,14 @@ export default class HEXColors {
    *  - withAlpha → whether or not to include the alpha channel in the output
    *  - quotes → type of quotes to use around the output
    * @returns ```'#RRGGBBAA?'``` or ```"RRGGBBAA?"```
-   * @example ({ r: "FF", g: "77", b: "00", a: "77" }).string({ withAlpha: true, quotes: 'double' }) → "#FF770077"
+   * @example ({ r: "FF", g: "77", b: "00", a: "77" }).string({ quotes: 'double' }) → "#FF770077"
    */
-  string({ withAlpha = false, quotes = "single" }: IStringOpts = {}): string {
+  string({ withAlpha = true, quotes = "single" }: IStringOpts = {}): string {
     const { r, g, b, a } = this.#hexa;
     const quote = quotes === "single" ? "'" : '"';
-    const alpha = withAlpha ? a : "";
-    return `${quote}#${r}${g}${b}${alpha}${quote}`;
+    const [Rp, Gp, Bp, Ap] = [r, g, b, a].map((val) => val.slice(0, 2));
+    const alpha = withAlpha ? Ap : "";
+    return `${quote}#${Rp}${Gp}${Bp}${alpha}${quote}`;
   }
 
   /**
@@ -105,7 +105,7 @@ export default class HEXColors {
    * @returns {RGBColors} An RGBA instance that can be acted upon → for function chaining
    */
   rgb(): RGBColors {
-    const hexParts = this.string({ withAlpha: true }).match(/\w\w/gi);
+    const hexParts = this.string().match(/\w\w/gi);
     if (!hexParts) throw new Error("Impossible to convert as the provided HEX string is invalid");
     const [r, g, b, a] = hexParts.map((part) => parseInt(part, 16));
     return new RGBColors(r, g, b, a / BOUNDS.RGB_CHANNEL);
@@ -129,7 +129,7 @@ export default class HEXColors {
    * @link https://pinetools.com/invert-color
    * @returns The corresponding inverse color
    */
-  invert({ includeAlpha = false }: { includeAlpha?: boolean } = {}): HEXColors {
+  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): HEXColors {
     return this.rgb().invert({ includeAlpha }).hex();
   }
 
@@ -141,7 +141,9 @@ export default class HEXColors {
    * @returns The instance that was acted upon → for function chaining
    */
   saturateBy(delta: string): HEXColors {
-    return this.hsl().saturateBy(parseInt(delta, 16)).hex();
+    return this.hsl()
+      .saturateBy((parseInt(delta, 16) * BOUNDS.HSL_SATURATION) / BOUNDS.RGB_CHANNEL)
+      .hex();
   }
 
   /**
@@ -151,7 +153,7 @@ export default class HEXColors {
    */
   desaturateBy(delta: string): HEXColors {
     return this.hsl()
-      .desaturateBy(-1 * parseInt(delta, 16))
+      .desaturateBy((parseInt(delta, 16) * BOUNDS.HSL_SATURATION) / BOUNDS.RGB_CHANNEL)
       .hex();
   }
 
@@ -163,7 +165,9 @@ export default class HEXColors {
    * @returns The instance that was acted upon → for function chaining
    */
   lighterBy(delta: string): HEXColors {
-    return this.hsl().lighterBy(parseInt(delta, 16)).hex();
+    return this.hsl()
+      .lighterBy((parseInt(delta, 16) * BOUNDS.HSL_LIGHTNESS) / BOUNDS.RGB_CHANNEL)
+      .hex();
   }
 
   /**
@@ -173,7 +177,7 @@ export default class HEXColors {
    */
   darkerBy(delta: string): HEXColors {
     return this.hsl()
-      .darkerBy(-1 * parseInt(delta, 16))
+      .darkerBy((parseInt(delta, 16) * BOUNDS.HSL_LIGHTNESS) / BOUNDS.RGB_CHANNEL)
       .hex();
   }
 

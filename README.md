@@ -83,6 +83,7 @@ const rbg: Irgba = { r: 128, g: 128, b: 128, alpha: 0.5 }; // ERROR
 ```
 
 ## 📕 Documentation [![Documentation](https://img.shields.io/badge/Documentation-available-brightgreen?style=flat-square&logo=github)](https://lbragile.github.io/ColorMaster/)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flbragile%2FColorMaster.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Flbragile%2FColorMaster?ref=badge_shield)
 
 - API documentation can be found on [our documentation site](https://lbragile.github.io/ColorMaster/).
 - A more in depth guide can be seen in [our Wikis](https://github.com/lbragile/ColorMaster/wiki).
@@ -90,3 +91,7 @@ const rbg: Irgba = { r: 128, g: 128, b: 128, alpha: 0.5 }; // ERROR
 ## 📈 Overview
 
 Visit our [automated Kanban](https://github.com/lbragile/ColorMaster/projects) for a detailed overview of the features/tasks that need to be added to ColorMaster in the near future.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Flbragile%2FColorMaster.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Flbragile%2FColorMaster?ref=badge_large)

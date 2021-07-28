@@ -43,13 +43,26 @@ describe("object instantiation with overloaded helper", () => {
   });
 });
 
-test("getter", () => {
-  expect(cm.hexaObj).toMatchObject({ r: "66", g: "77", b: "88", a: "99" });
-});
+describe("getters & setters", () => {
+  test("object getter", () => {
+    expect(cm.hexaObj).toMatchObject({ r: "66", g: "77", b: "88", a: "99" });
+  });
 
-test("setter", () => {
-  cm.hexaObj = { ...cm.hexaObj, r: "33" };
-  expect(cm.string({ withAlpha: false })).toBe("'#337788'");
+  test("object setter", () => {
+    cm.hexaObj = { ...cm.hexaObj, r: "33" };
+    expect(cm.string({ withAlpha: false })).toBe("'#337788'");
+  });
+
+  test("array getter", () => {
+    expect(cm.hexaArr).toEqual(["66", "77", "88", "99"]);
+  });
+
+  test("array setter", () => {
+    const currArr = cm.hexaArr;
+    currArr[0] = "33";
+    cm.hexaArr = currArr;
+    expect(cm.string({ withAlpha: false })).toBe("'#337788'");
+  });
 });
 
 describe("string formation", () => {
@@ -70,7 +83,7 @@ describe("string formation", () => {
   });
 });
 
-describe("channelValueTo", () => {
+describe("changeValueTo", () => {
   describe("no clamping", () => {
     test.each`
       channel    | value   | expected
@@ -79,7 +92,7 @@ describe("channelValueTo", () => {
       ${"blue"}  | ${"55"} | ${"'#66775599'"}
       ${"alpha"} | ${"55"} | ${"'#66778855'"}
     `("change $channel channel", ({ channel, value, expected }) => {
-      expect(cm.channelValueTo(channel, value).string()).toBe(expected);
+      expect(cm.changeValueTo(channel, value).string()).toBe(expected);
     });
   });
 
@@ -95,12 +108,12 @@ describe("channelValueTo", () => {
       ${"alpha"} | ${"FG"} | ${"'#667788FF'"}
       ${"alpha"} | ${"0"}  | ${"'#66778800'"}
     `("change $channel channel - value: $value", ({ channel, value, expected }) => {
-      expect(cm.channelValueTo(channel, value).string()).toBe(expected);
+      expect(cm.changeValueTo(channel, value).string()).toBe(expected);
     });
   });
 });
 
-describe("channelValueBy", () => {
+describe("changeValueBy", () => {
   describe("no clamping", () => {
     test.each`
       channel    | type     | expected
@@ -113,7 +126,7 @@ describe("channelValueBy", () => {
       ${"alpha"} | ${"add"} | ${"'#667788AB'"}
       ${"alpha"} | ${"sub"} | ${"'#66778887'"}
     `("change $channel channel → type $type", ({ channel, type, expected }) => {
-      expect(cm.channelValueBy(channel, "12", type).string()).toBe(expected);
+      expect(cm.changeValueBy(channel, "12", type).string()).toBe(expected);
     });
   });
 
@@ -129,7 +142,7 @@ describe("channelValueBy", () => {
       ${"alpha"} | ${"add"} | ${"'#667788FF'"}
       ${"alpha"} | ${"sub"} | ${"'#66778800'"}
     `("change $channel channel - type: $type", ({ channel, type, expected }) => {
-      expect(cm.channelValueBy(channel, "FF", type).string()).toBe(expected);
+      expect(cm.changeValueBy(channel, "FF", type).string()).toBe(expected);
     });
   });
 });

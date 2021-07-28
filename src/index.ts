@@ -159,7 +159,7 @@ class ColorMaster {
 const CM = new ColorMaster();
 export default CM;
 
-export { IStringOpts, TChannel } from "./types/common";
+export { IStringOpts, TChannel, TChannelHSL, TOperator, TNumArr, TStrArr } from "./types/common";
 export { Irgb, Irgba } from "./types/rgb";
 export { Ihex, Ihexa } from "./types/hex";
-export { Ihsl, Ihsla, TChannelHSL } from "./types/hsl";
+export { Ihsl, Ihsla } from "./types/hsl";

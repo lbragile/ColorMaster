@@ -1,11 +1,11 @@
-import { IStringOpts, TChannel } from "../types/common";
-import { Irgba } from "../types/rgb";
+import { IStringOpts, TChannel, TNumArr } from "../types/common";
+import { Irgba, IRGBColors } from "../types/rgb";
 import { BOUNDS } from "../enums/bounds";
 import { clamp, round } from "../utils/numeric";
 import HSLColors from "./hsl";
 import HEXColors from "./hex";
 
-export default class RGBColors {
+export default class RGBColors implements IRGBColors {
   #rgba: Irgba;
 
   constructor(r: number, g: number, b: number, a = 1) {
@@ -33,72 +33,21 @@ export default class RGBColors {
     this.#rgba = obj;
   }
 
-  /**
-   * Gives the string representation of an input RGBA color object
-   * @param opts -
-   *  - withAlpha → whether or not to include the alpha channel in the output
-   *  - quotes → type of quotes to use around the output
-   *  - precision → how many decimal places to include for each value
-   * @returns ```'rgba?(r, g, b, a?)'``` or ```"rgba?(r, g, b, a?)"```
-   * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string({ quotes: 'double' }) → "rgba(128, 64, 32, 0.5)"
-   */
+  get rgbaArr(): TNumArr {
+    return Object.values(this.#rgba) as TNumArr;
+  }
+
+  set rgbaArr(arr: TNumArr) {
+    this.#rgba = { r: arr[0], g: arr[1], b: arr[2], a: arr[3] ?? 1 };
+  }
+
   string({ withAlpha = true, quotes = "single", precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
-    const { r, g, b, a } = this.#rgba;
     const quote = quotes === "single" ? "'" : '"';
-    const [Rp, Gp, Bp, Ap] = [r, g, b, a].map((val, i) => round(val, precision[i] ?? 1));
+    const [Rp, Gp, Bp, Ap] = this.rgbaArr.map((val, i) => round(val, precision[i] ?? 1));
     const alpha = withAlpha ? ", " + Ap : "";
     return `${quote}rgb${withAlpha ? "a" : ""}(${Rp}, ${Gp}, ${Bp}${alpha})${quote}`;
   }
 
-  /**
-   * Lets you set a single channel value to a specific number
-   * @param channel Which RGBA channel to set
-   * @param value In range [0, 255] for red, green, blue. In range [0, 1] for alpha
-   * @returns The instance that was acted upon → for function chaining
-   */
-  channelValueTo(channel: TChannel, value: number): this {
-    value = clamp(0, value, channel === "alpha" ? 1 : BOUNDS.RGB_CHANNEL);
-    this.#rgba = { ...this.#rgba, [channel[0]]: value };
-    return this;
-  }
-
-  /**
-   * Instead of setting the value as in {@link RGBColors.channelValueTo channelValueTo}, this allows you to adjust the channel value by `delta` amount.
-   * @param channel Which RGBA channel to increment/decrement
-   * @param delta A positive OR negative integer/decimal number to adjust the channel by
-   * @returns The instance that was acted upon → for function chaining
-   */
-  channelValueBy(channel: TChannel, delta: number): this {
-    const firstChannelLetter = channel[0] as keyof Irgba;
-    const value = clamp(0, this.#rgba[firstChannelLetter] + delta, channel === "alpha" ? 1 : BOUNDS.RGB_CHANNEL);
-    this.#rgba[channel[0] as keyof Irgba] = value;
-    return this;
-  }
-
-  /**
-   * Syntactic sugar for {@link RGBColors.channelValueTo channelValueTo} with "alpha" as the channel
-   * @param value Must be in range [0, 1] as this is the alpha channel
-   * @returns The instance that was acted upon → for function chaining
-   */
-  alphaTo(value: number): RGBColors {
-    return this.channelValueTo("alpha", value);
-  }
-
-  /**
-   * Syntactic sugar for {@link RGBColors.channelValueBy channelValueBy} with "alpha" as the channel
-   * @param delta When added to current alpha value, range must remain in [0, 1]
-   * @returns The instance that was acted upon → for function chaining
-   */
-  alphaBy(delta: number): RGBColors {
-    return this.channelValueBy("alpha", delta);
-  }
-
-  /**
-   * Converts a RGBA color to HSLA color
-   *
-   * @link https://www.rapidtables.com/convert/color/rgb-to-hsl.html
-   * @returns {RGBColors} An HSLA instance that can be acted upon → for function chaining
-   */
   hsl(): HSLColors {
     const { r, g, b, a } = this.#rgba;
     const Rp = r / BOUNDS.RGB_CHANNEL;
@@ -123,83 +72,57 @@ export default class RGBColors {
     return new HSLColors(H * 60, S * BOUNDS.HSL_SATURATION, L * BOUNDS.HSL_LIGHTNESS, a);
   }
 
-  /**
-   * Converts a RGBA color to HEXA color
-   *
-   * @returns {HEXColors} An HEXA instance that can be acted upon → for function chaining
-   */
   hex(): HEXColors {
     const { r, g, b, a } = this.rgbaObj;
     const [Rp, Gp, Bp, Ap] = [r, g, b, Math.round(a * BOUNDS.RGB_CHANNEL)].map((x) => x.toString(16).padStart(2, "0"));
     return new HEXColors(Rp, Gp, Bp, Ap);
   }
 
-  /**
-   * Given an input color, get its inverse value by subtracting current value from the upper bound for each channel
-   * @param { includeAlpha } opts Whether or not to also invert the alpha channel
-   * @returns The corresponding inverse color
-   */
-  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): this {
-    const { r, g, b, a } = this.#rgba;
+  changeValueTo(channel: TChannel, value: number): RGBColors {
+    value = clamp(0, value, channel === "alpha" ? 1 : BOUNDS.RGB_CHANNEL);
+    this.rgbaObj = { ...this.rgbaObj, [channel[0]]: value };
+    return this;
+  }
+
+  changeValueBy(channel: TChannel, delta: number): RGBColors {
+    const firstChannelLetter = channel[0] as keyof Irgba;
+    const value = clamp(0, this.rgbaObj[firstChannelLetter] + delta, channel === "alpha" ? 1 : BOUNDS.RGB_CHANNEL);
+    this.rgbaObj[channel[0] as keyof Irgba] = value;
+    return this;
+  }
+
+  alphaTo(value: number): RGBColors {
+    return this.changeValueTo("alpha", value);
+  }
+
+  alphaBy(delta: number): RGBColors {
+    return this.changeValueBy("alpha", delta);
+  }
+
+  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): RGBColors {
+    const { r, g, b, a } = this.rgbaObj;
     const [Rnew, Gnew, Bnew] = [r, g, b].map((val) => BOUNDS.RGB_CHANNEL - val);
     const Anew = includeAlpha ? 1 - a : a;
     this.rgbaObj = { r: Rnew, g: Gnew, b: Bnew, a: Anew };
     return this;
   }
 
-  /**
-   * Saturates (intensity) the color in HSLA space to get the corresponding RGBA space color
-   * @param delta When added to current saturation value, range must remain in [0, 100]
-   *
-   * @see {@link HSLColors.saturateBy saturateBy} for functionality
-   * @note A negative value can be used, but we recommend using {@link RGBColors.desaturateBy desaturateBy} for clarity
-   * @returns The instance that was acted upon → for function chaining
-   */
   saturateBy(delta: number): RGBColors {
     return this.hsl().saturateBy(delta).rgb();
   }
 
-  /**
-   * De-saturates (intensity) the color in HSLA space to get the corresponding RGBA space color
-   * @param delta When added to current saturation value, range must remain in [0, 100]
-   *
-   * @see {@link HSLColors.desaturateBy desaturateBy} for functionality
-   * @returns The instance that was acted upon → for function chaining
-   */
   desaturateBy(delta: number): RGBColors {
     return this.hsl().desaturateBy(delta).rgb();
   }
 
-  /**
-   * Adds lightness (tone) of the color in HSLA space to get the corresponding RGBA space color
-   * @param delta When added to current lightness value, range must remain in [0, 100]
-   *
-   * @see {@link HSLColors.lighterBy lighterBy} for functionality
-   * @note A negative value can be used, but we recommend using {@link RGBColors.darkerBy darkerBy} for clarity
-   * @returns The instance that was acted upon → for function chaining
-   */
   lighterBy(delta: number): RGBColors {
     return this.hsl().lighterBy(delta).rgb();
   }
 
-  /**
-   * Removes lightness (tone) of the color in HSLA space to get the corresponding RGBA space color
-   * @param delta When added to current saturation value, range must remain in [0, 100]
-   *
-   * @see {@link HSLColors.darkerBy darkerBy} for functionality
-   * @returns The instance that was acted upon → for function chaining
-   */
   darkerBy(delta: number): RGBColors {
     return this.hsl().darkerBy(delta).rgb();
   }
 
-  /**
-   * Sets the saturation of the color to 0% in HSLA space to get the corresponding RGBA space color
-   *
-   * @see {@link HSLColors.grayscale grayscale} for functionality
-   * @note The lightness of the color remains unchanged by this operation
-   * @returns The instance that was acted upon → for function chaining
-   */
   grayscale(): RGBColors {
     return this.hsl().grayscale().rgb();
   }

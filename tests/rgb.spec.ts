@@ -6,7 +6,7 @@ let cm: RGBColors;
 beforeEach(() => (cm = CM.RGBAFrom(128, 64, 32, 0.7)));
 
 describe("object instantiation with overloaded helper", () => {
-  const FULL_OPACITY = "rgba(128, 64, 32, 1)";
+  const FULL_OPACITY = "rgba(128, 64, 32, 1.0)";
   const LOWER_OPACITY = "rgba(128, 64, 32, 0.5)";
 
   test("object", () => {
@@ -46,13 +46,26 @@ describe("object instantiation with overloaded helper", () => {
   });
 });
 
-test("getter", () => {
-  expect(cm.rgbaObj).toMatchObject({ r: 128, g: 64, b: 32, a: 0.7 });
-});
+describe("getters & setters", () => {
+  test("object getter", () => {
+    expect(cm.rgbaObj).toMatchObject({ r: 128, g: 64, b: 32, a: 0.7 });
+  });
 
-test("setter", () => {
-  cm.rgbaObj = { ...cm.rgbaObj, r: 100 };
-  expect(cm.string({ withAlpha: false })).toBe("'rgb(100, 64, 32)'");
+  test("object setter", () => {
+    cm.rgbaObj = { ...cm.rgbaObj, r: 100 };
+    expect(cm.string({ withAlpha: false })).toBe("'rgb(100, 64, 32)'");
+  });
+
+  test("array getter", () => {
+    expect(cm.rgbaArr).toEqual([128, 64, 32, 0.7]);
+  });
+
+  test("array setter", () => {
+    const currArr = cm.rgbaArr;
+    currArr[0] = 48;
+    cm.rgbaArr = currArr;
+    expect(cm.string({ withAlpha: false })).toBe("'rgb(48, 64, 32)'");
+  });
 });
 
 describe("string formation", () => {
@@ -73,7 +86,7 @@ describe("string formation", () => {
   });
 });
 
-describe("channelValueTo", () => {
+describe("changeValueTo", () => {
   describe("no clamping", () => {
     test.each`
       channel    | value  | expected
@@ -82,7 +95,7 @@ describe("channelValueTo", () => {
       ${"blue"}  | ${100} | ${"'rgba(128, 64, 100, 0.7)'"}
       ${"alpha"} | ${0.5} | ${"'rgba(128, 64, 32, 0.5)'"}
     `("change $channel channel", ({ channel, value, expected }) => {
-      expect(cm.channelValueTo(channel, value).string()).toBe(expected);
+      expect(cm.changeValueTo(channel, value).string()).toBe(expected);
     });
   });
 
@@ -95,15 +108,15 @@ describe("channelValueTo", () => {
       ${"green"} | ${-0.01}  | ${"'rgba(128, 0, 32, 0.7)'"}
       ${"blue"}  | ${255.01} | ${"'rgba(128, 64, 255, 0.7)'"}
       ${"blue"}  | ${-0.01}  | ${"'rgba(128, 64, 0, 0.7)'"}
-      ${"alpha"} | ${1.01}   | ${"'rgba(128, 64, 32, 1)'"}
-      ${"alpha"} | ${-0.01}  | ${"'rgba(128, 64, 32, 0)'"}
+      ${"alpha"} | ${1.01}   | ${"'rgba(128, 64, 32, 1.0)'"}
+      ${"alpha"} | ${-0.01}  | ${"'rgba(128, 64, 32, 0.0)'"}
     `("change $channel channel - value: $value", ({ channel, value, expected }) => {
-      expect(cm.channelValueTo(channel, value).string()).toBe(expected);
+      expect(cm.changeValueTo(channel, value).string()).toBe(expected);
     });
   });
 });
 
-describe("channelValueBy", () => {
+describe("changeValueBy", () => {
   describe("no clamping", () => {
     test.each`
       channel    | delta   | expected
@@ -116,7 +129,7 @@ describe("channelValueBy", () => {
       ${"alpha"} | ${0.2}  | ${"'rgba(128, 64, 32, 0.9)'"}
       ${"alpha"} | ${-0.2} | ${"'rgba(128, 64, 32, 0.5)'"}
     `("change $channel channel", ({ channel, delta, expected }) => {
-      expect(cm.channelValueBy(channel, delta).string()).toBe(expected);
+      expect(cm.changeValueBy(channel, delta).string()).toBe(expected);
     });
   });
 
@@ -129,10 +142,10 @@ describe("channelValueBy", () => {
       ${"green"} | ${Number.NEGATIVE_INFINITY} | ${"'rgba(128, 0, 32, 0.7)'"}
       ${"blue"}  | ${Number.POSITIVE_INFINITY} | ${"'rgba(128, 64, 255, 0.7)'"}
       ${"blue"}  | ${Number.NEGATIVE_INFINITY} | ${"'rgba(128, 64, 0, 0.7)'"}
-      ${"alpha"} | ${1}                        | ${"'rgba(128, 64, 32, 1)'"}
-      ${"alpha"} | ${-1}                       | ${"'rgba(128, 64, 32, 0)'"}
+      ${"alpha"} | ${1}                        | ${"'rgba(128, 64, 32, 1.0)'"}
+      ${"alpha"} | ${-1}                       | ${"'rgba(128, 64, 32, 0.0)'"}
     `("change $channel channel - value: $value", ({ channel, value, expected }) => {
-      expect(cm.channelValueBy(channel, value).string()).toBe(expected);
+      expect(cm.changeValueBy(channel, value).string()).toBe(expected);
     });
   });
 });

@@ -23,6 +23,6 @@ export function clamp<T>(min: T, val: T, max: T): T {
  * @note Providing a negative precision value will skip this conversion
  * @returns The input value with "precision" amount of decimal places
  */
-export function round(value: number, precision: number): number {
-  return precision >= 0 ? +value.toFixed(precision) : value;
+export function round(value: number, precision: number): string {
+  return precision >= 0 ? value.toFixed(precision) : value.toString();
 }

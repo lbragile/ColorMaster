@@ -8,14 +8,7 @@ import RGBColors from "./rgb";
 export default class HEXColors implements IHEXColors {
   #hexa: Ihexa;
 
-  constructor(r: string, g: string, b: string, a = "FF") {
-    // set values to reasonable numbers if provided value is undefined
-    if (r === undefined || g === undefined || b === undefined) {
-      r = r ?? "00";
-      g = g ?? "00";
-      b = b ?? "00";
-    }
-
+  constructor(r = "00", g = "00", b = "00", a = "FF") {
     // make sure all elements are the same case when clamping. Also ensure that each channel is 2 characters
     const [Rp, Gp, Bp, Ap] = [r, g, b, a].map((val) =>
       clamp("00", val.padStart(2, "0").toUpperCase(), BOUNDS.HEX_CHANNEL_UPPER)
@@ -32,8 +25,8 @@ export default class HEXColors implements IHEXColors {
     this.#hexa = obj;
   }
 
-  get hexaArr(): TStrArr {
-    return Object.values(this.#hexa) as TStrArr;
+  get hexaArr(): Required<TStrArr> {
+    return Object.values(this.#hexa) as Required<TStrArr>;
   }
 
   set hexaArr(arr: TStrArr) {

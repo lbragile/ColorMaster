@@ -22,7 +22,7 @@ export interface IHEXColors {
    * @returns ```'#RRGGBBAA?'``` or ```"RRGGBBAA?"```
    * @example ({ r: "FF", g: "77", b: "00", a: "77" }).string({ quotes: 'double' }) → "#FF770077"
    */
-  string: ({ withAlpha, quotes, precision }: IStringOpts) => string;
+  string: ({ withAlpha, quotes }: IStringOpts) => string;
 
   /**
    * Converts a HEXA color to RGBA color

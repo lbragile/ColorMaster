@@ -8,21 +8,12 @@ import HEXColors from "./hex";
 export default class RGBColors implements IRGBColors {
   #rgba: Irgba;
 
-  constructor(r: number, g: number, b: number, a = 1) {
-    // set values to reasonable numbers if provided value is undefined
-    if (r === undefined || g === undefined || b === undefined) {
-      r = r ?? 0;
-      g = g ?? 0;
-      b = b ?? 0;
-    }
-
+  constructor(r = 0, g = 0, b = 0, a = 1) {
     // clamp the values
-    r = clamp(0, r, BOUNDS.RGB_CHANNEL);
-    g = clamp(0, g, BOUNDS.RGB_CHANNEL);
-    b = clamp(0, b, BOUNDS.RGB_CHANNEL);
-    a = clamp(0, a, 1);
+    const [Rp, Gp, Bp] = [r, g, b].map((val) => clamp(0, val, BOUNDS.RGB_CHANNEL));
+    const Ap = clamp(0, a, 1);
 
-    this.#rgba = { r, g, b, a };
+    this.#rgba = { r: Rp, g: Gp, b: Bp, a: Ap };
   }
 
   get rgbaObj(): Irgba {
@@ -33,8 +24,8 @@ export default class RGBColors implements IRGBColors {
     this.#rgba = obj;
   }
 
-  get rgbaArr(): TNumArr {
-    return Object.values(this.#rgba) as TNumArr;
+  get rgbaArr(): Required<TNumArr> {
+    return Object.values(this.#rgba) as Required<TNumArr>;
   }
 
   set rgbaArr(arr: TNumArr) {

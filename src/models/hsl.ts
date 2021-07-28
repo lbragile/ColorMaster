@@ -8,14 +8,7 @@ import RGBColors from "./rgb";
 export default class HSLColors implements IHSLColors {
   #hsla: Ihsla;
 
-  constructor(h: number, s: number, l: number, a = 1) {
-    // set values to reasonable numbers if provided value is undefined
-    if (h === undefined || s === undefined || l === undefined) {
-      h = h ?? 0;
-      s = s ?? BOUNDS.HSL_LIGHTNESS;
-      l = l ?? 0;
-    }
-
+  constructor(h = 0, s: number = BOUNDS.HSL_LIGHTNESS, l = 0, a = 1) {
     // clamp the values
     h %= 360;
     h = h < 0 ? h + 360 : h; // 0 === 360 degrees
@@ -34,8 +27,8 @@ export default class HSLColors implements IHSLColors {
     this.#hsla = obj;
   }
 
-  get hslaArr(): TNumArr {
-    return Object.values(this.#hsla) as TNumArr;
+  get hslaArr(): Required<TNumArr> {
+    return Object.values(this.#hsla) as Required<TNumArr>;
   }
 
   set hslaArr(arr: TNumArr) {

@@ -11,7 +11,6 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "postinstall": "husky install",
     "lint": "eslint -c config/.eslintrc.js --ext ts --max-warnings=0 src tests",
     "format:check": "prettier --config config/.prettierrc.json --check src/**/*.ts",
     "format": "prettier --config config/.prettierrc.json --write src",

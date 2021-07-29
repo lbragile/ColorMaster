@@ -1,7 +1,7 @@
 import HEXColors from "../models/hex";
 import HSLColors from "../models/hsl";
 import RGBColors from "../models/rgb";
-import { IStringOpts, TChannelHSL } from "./common";
+import { IAlphaInvert, IStringOpts, TChannelHSL } from "./common";
 
 export interface Ihsl {
   h: number;
@@ -18,12 +18,11 @@ export interface IHSLColors {
    * Gives the string representation of an input HSLA color object
    * @param opts -
    *  - withAlpha → whether or not to include the alpha channel in the output
-   *  - quotes → type of quotes to use around the output
    *  - precision → how many decimal places to include for each value
-   * @returns ```'hsla?(h, s%, l%, a?)'``` or ```"hsla?(h, s%, l%, a?)"```
-   * @example ({ h: 128, s: 100, l: 100, a: 0.5 }).string({ quotes: 'double' }) → "hsla(128, 100%, 100%, 0.5)"
+   * @returns ```hsla?(h, s%, l%, a?)```
+   * @example ({ h: 128, s: 100, l: 100, a: 0.5 }).string() → "hsla(128, 100%, 100%, 0.5)"
    */
-  string: ({ withAlpha, quotes, precision }: IStringOpts) => string;
+  string: ({ withAlpha, precision }: IStringOpts) => string;
 
   /**
    * Converts a HSLA color to RGBA color
@@ -97,7 +96,7 @@ export interface IHSLColors {
    * @link https://pinetools.com/invert-color
    * @returns The corresponding inverse color
    */
-  invert: ({ includeAlpha }: { includeAlpha?: boolean }) => HSLColors;
+  invert: ({ includeAlpha }: IAlphaInvert) => HSLColors;
 
   /**
    * Syntactic sugar for {@link HSLColors.changeValueBy changeValueBy} with "saturation" as the channel

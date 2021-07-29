@@ -1,5 +1,5 @@
 import { BOUNDS } from "../enums/bounds";
-import { IStringOpts, TChannelHSL, TNumArr } from "../types/common";
+import { IAlphaInvert, IStringOpts, TChannelHSL, TNumArr } from "../types/common";
 import { Ihsla, IHSLColors } from "../types/hsl";
 import { clamp, round } from "../utils/numeric";
 import HEXColors from "./hex";
@@ -35,11 +35,10 @@ export default class HSLColors implements IHSLColors {
     this.#hsla = { h: arr[0], s: arr[1], l: arr[2], a: arr[3] ?? 1 };
   }
 
-  string({ withAlpha = true, quotes = "single", precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
-    const quote = quotes === "single" ? "'" : '"';
+  string({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
     const [Hp, Sp, Lp, Ap] = this.hslaArr.map((val, i) => round(val, precision[i] ?? 1));
     const alpha = withAlpha ? ", " + Ap : "";
-    return `${quote}hsl${withAlpha ? "a" : ""}(${Hp}, ${Sp}%, ${Lp}%${alpha})${quote}`;
+    return `hsl${withAlpha ? "a" : ""}(${Hp}, ${Sp}%, ${Lp}%${alpha})`;
   }
 
   rgb(): RGBColors {
@@ -93,7 +92,7 @@ export default class HSLColors implements IHSLColors {
     return this.changeValueBy("alpha", delta);
   }
 
-  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): HSLColors {
+  invert({ includeAlpha = true }: IAlphaInvert = {}): HSLColors {
     return this.rgb().invert({ includeAlpha }).hsl();
   }
 

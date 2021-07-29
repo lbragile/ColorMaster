@@ -18,8 +18,14 @@ export type TOperator = "add" | "sub";
  */
 export interface IStringOpts {
   withAlpha?: boolean;
-  quotes?: "single" | "double";
   precision?: TNumArr;
+}
+
+/**
+ * Options for the inverting process
+ */
+export interface IAlphaInvert {
+  includeAlpha?: boolean;
 }
 
 /**

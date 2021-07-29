@@ -61,6 +61,10 @@ module.exports = {
   },
   output: {
     filename: "index.js",
-    path: path.join(basePath, "dist")
+    path: path.join(basePath, "dist"),
+    library: "colormaster",
+    libraryTarget: "umd",
+    globalObject: "this",
+    clean: true
   }
 };

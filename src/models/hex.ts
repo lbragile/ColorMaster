@@ -1,5 +1,5 @@
 import { BOUNDS } from "../enums/bounds";
-import { IStringOpts, TChannel, TOperator, TStrArr } from "../types/common";
+import { IAlphaInvert, IStringOpts, TChannel, TOperator, TStrArr } from "../types/common";
 import { Ihexa, IHEXColors } from "../types/hex";
 import { clamp } from "../utils/numeric";
 import HSLColors from "./hsl";
@@ -33,11 +33,10 @@ export default class HEXColors implements IHEXColors {
     this.#hexa = { r: arr[0], g: arr[1], b: arr[2], a: arr[3] ?? "FF" };
   }
 
-  string({ withAlpha = true, quotes = "single" }: IStringOpts = {}): string {
-    const quote = quotes === "single" ? "'" : '"';
+  string({ withAlpha = true }: IStringOpts = {}): string {
     const [Rp, Gp, Bp, Ap] = this.hexaArr.map((val) => val.slice(0, 2));
     const alpha = withAlpha ? Ap : "";
-    return `${quote}#${Rp}${Gp}${Bp}${alpha}${quote}`;
+    return `#${Rp}${Gp}${Bp}${alpha}`;
   }
 
   rgb(): RGBColors {
@@ -74,7 +73,7 @@ export default class HEXColors implements IHEXColors {
     return this.changeValueBy("alpha", delta, type);
   }
 
-  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): HEXColors {
+  invert({ includeAlpha = true }: IAlphaInvert = {}): HEXColors {
     return this.rgb().invert({ includeAlpha }).hex();
   }
 

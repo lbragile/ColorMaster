@@ -1,7 +1,7 @@
 import HEXColors from "../models/hex";
 import HSLColors from "../models/hsl";
 import RGBColors from "../models/rgb";
-import { IStringOpts, TChannel, TOperator } from "./common";
+import { IAlphaInvert, IStringOpts, TChannel, TOperator } from "./common";
 
 export interface Ihex {
   r: string;
@@ -16,13 +16,11 @@ export interface Ihexa extends Ihex {
 export interface IHEXColors {
   /**
    * Gives the string representation of an input HSLA color object
-   * @param opts -
-   *  - withAlpha → whether or not to include the alpha channel in the output
-   *  - quotes → type of quotes to use around the output
-   * @returns ```'#RRGGBBAA?'``` or ```"RRGGBBAA?"```
-   * @example ({ r: "FF", g: "77", b: "00", a: "77" }).string({ quotes: 'double' }) → "#FF770077"
+   * @param opts withAlpha → whether or not to include the alpha channel in the output
+   * @returns ```#RRGGBBAA?```
+   * @example ({ r: "FF", g: "77", b: "00", a: "77" }).string() → "#FF770077"
    */
-  string: ({ withAlpha, quotes }: IStringOpts) => string;
+  string: ({ withAlpha }: IStringOpts) => string;
 
   /**
    * Converts a HEXA color to RGBA color
@@ -87,7 +85,7 @@ export interface IHEXColors {
    * @link https://pinetools.com/invert-color
    * @returns The corresponding inverse color
    */
-  invert: ({ includeAlpha }: { includeAlpha?: boolean }) => HEXColors;
+  invert: ({ includeAlpha }: IAlphaInvert) => HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.changeValueBy changeValueBy} with "saturation" as the channel

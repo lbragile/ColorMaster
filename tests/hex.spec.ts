@@ -10,23 +10,23 @@ describe("object instantiation with overloaded helper", () => {
   const LOWER_OPACITY = "#456789AB";
 
   test("object", () => {
-    expect(CM.HEXAFrom({ r: "45", g: "67", b: "89", a: "AB" }).string()).toBe(`'${LOWER_OPACITY}'`);
-    expect(CM.HEXAFrom({ r: "45", g: "67", b: "89" }).string()).toBe(`'${FULL_OPACITY}'`);
+    expect(CM.HEXAFrom({ r: "45", g: "67", b: "89", a: "AB" }).string()).toBe(LOWER_OPACITY);
+    expect(CM.HEXAFrom({ r: "45", g: "67", b: "89" }).string()).toBe(FULL_OPACITY);
   });
 
   test("array", () => {
-    expect(CM.HEXAFrom(["45", "67", "89", "AB"]).string()).toBe(`'${LOWER_OPACITY}'`);
-    expect(CM.HEXAFrom(["45", "67", "89"]).string()).toBe(`'${FULL_OPACITY}'`);
+    expect(CM.HEXAFrom(["45", "67", "89", "AB"]).string()).toBe(LOWER_OPACITY);
+    expect(CM.HEXAFrom(["45", "67", "89"]).string()).toBe(FULL_OPACITY);
   });
 
   test("values", () => {
-    expect(CM.HEXAFrom("45", "67", "89", "AB").string()).toBe(`'${LOWER_OPACITY}'`);
-    expect(CM.HEXAFrom("45", "67", "89").string()).toBe(`'${FULL_OPACITY}'`);
+    expect(CM.HEXAFrom("45", "67", "89", "AB").string()).toBe(LOWER_OPACITY);
+    expect(CM.HEXAFrom("45", "67", "89").string()).toBe(FULL_OPACITY);
   });
 
   test("string with just values", () => {
-    expect(CM.HEXAFrom("45, 67, 89, AB").string()).toBe(`'${LOWER_OPACITY}'`);
-    expect(CM.HEXAFrom("45, 67, 89").string()).toBe(`'${FULL_OPACITY}'`);
+    expect(CM.HEXAFrom("45, 67, 89, AB").string()).toBe(LOWER_OPACITY);
+    expect(CM.HEXAFrom("45, 67, 89").string()).toBe(FULL_OPACITY);
   });
 
   test("string with prefix(s)", () => {
@@ -50,7 +50,7 @@ describe("getters & setters", () => {
 
   test("object setter", () => {
     cm.hexaObj = { ...cm.hexaObj, r: "33" };
-    expect(cm.string({ withAlpha: false })).toBe("'#337788'");
+    expect(cm.string({ withAlpha: false })).toBe("#337788");
   });
 
   test("array getter", () => {
@@ -61,25 +61,17 @@ describe("getters & setters", () => {
     const currArr = cm.hexaArr;
     currArr[0] = "33";
     cm.hexaArr = currArr;
-    expect(cm.string({ withAlpha: false })).toBe("'#337788'");
+    expect(cm.string({ withAlpha: false })).toBe("#337788");
   });
 });
 
 describe("string formation", () => {
-  test("no args", () => {
-    expect(cm.string({ withAlpha: false })).toBe("'#667788'");
+  test("without alpha", () => {
+    expect(cm.string({ withAlpha: false })).toBe("#667788");
   });
 
   test("with alpha", () => {
-    expect(cm.string()).toBe("'#66778899'");
-  });
-
-  test("single quotes", () => {
-    expect(cm.string({ withAlpha: false, quotes: "single" })).toBe("'#667788'");
-  });
-
-  test("with alpha && double quotes", () => {
-    expect(cm.string({ quotes: "double" })).toBe('"#66778899"');
+    expect(cm.string()).toBe("#66778899");
   });
 });
 
@@ -87,10 +79,10 @@ describe("changeValueTo", () => {
   describe("no clamping", () => {
     test.each`
       channel    | value   | expected
-      ${"red"}   | ${"55"} | ${"'#55778899'"}
-      ${"green"} | ${"55"} | ${"'#66558899'"}
-      ${"blue"}  | ${"55"} | ${"'#66775599'"}
-      ${"alpha"} | ${"55"} | ${"'#66778855'"}
+      ${"red"}   | ${"55"} | ${"#55778899"}
+      ${"green"} | ${"55"} | ${"#66558899"}
+      ${"blue"}  | ${"55"} | ${"#66775599"}
+      ${"alpha"} | ${"55"} | ${"#66778855"}
     `("change $channel channel", ({ channel, value, expected }) => {
       expect(cm.changeValueTo(channel, value).string()).toBe(expected);
     });
@@ -99,14 +91,14 @@ describe("changeValueTo", () => {
   describe("clamping", () => {
     test.each`
       channel    | value   | expected
-      ${"red"}   | ${"FG"} | ${"'#FF778899'"}
-      ${"red"}   | ${"0"}  | ${"'#00778899'"}
-      ${"green"} | ${"FG"} | ${"'#66FF8899'"}
-      ${"green"} | ${"0"}  | ${"'#66008899'"}
-      ${"blue"}  | ${"FG"} | ${"'#6677FF99'"}
-      ${"blue"}  | ${"0"}  | ${"'#66770099'"}
-      ${"alpha"} | ${"FG"} | ${"'#667788FF'"}
-      ${"alpha"} | ${"0"}  | ${"'#66778800'"}
+      ${"red"}   | ${"FG"} | ${"#FF778899"}
+      ${"red"}   | ${"0"}  | ${"#00778899"}
+      ${"green"} | ${"FG"} | ${"#66FF8899"}
+      ${"green"} | ${"0"}  | ${"#66008899"}
+      ${"blue"}  | ${"FG"} | ${"#6677FF99"}
+      ${"blue"}  | ${"0"}  | ${"#66770099"}
+      ${"alpha"} | ${"FG"} | ${"#667788FF"}
+      ${"alpha"} | ${"0"}  | ${"#66778800"}
     `("change $channel channel - value: $value", ({ channel, value, expected }) => {
       expect(cm.changeValueTo(channel, value).string()).toBe(expected);
     });
@@ -117,14 +109,14 @@ describe("changeValueBy", () => {
   describe("no clamping", () => {
     test.each`
       channel    | type     | expected
-      ${"red"}   | ${"add"} | ${"'#78778899'"}
-      ${"red"}   | ${"sub"} | ${"'#54778899'"}
-      ${"green"} | ${"add"} | ${"'#66898899'"}
-      ${"green"} | ${"sub"} | ${"'#66658899'"}
-      ${"blue"}  | ${"add"} | ${"'#66779A99'"}
-      ${"blue"}  | ${"sub"} | ${"'#66777699'"}
-      ${"alpha"} | ${"add"} | ${"'#667788AB'"}
-      ${"alpha"} | ${"sub"} | ${"'#66778887'"}
+      ${"red"}   | ${"add"} | ${"#78778899"}
+      ${"red"}   | ${"sub"} | ${"#54778899"}
+      ${"green"} | ${"add"} | ${"#66898899"}
+      ${"green"} | ${"sub"} | ${"#66658899"}
+      ${"blue"}  | ${"add"} | ${"#66779A99"}
+      ${"blue"}  | ${"sub"} | ${"#66777699"}
+      ${"alpha"} | ${"add"} | ${"#667788AB"}
+      ${"alpha"} | ${"sub"} | ${"#66778887"}
     `("change $channel channel → type $type", ({ channel, type, expected }) => {
       expect(cm.changeValueBy(channel, "12", type).string()).toBe(expected);
     });
@@ -133,14 +125,14 @@ describe("changeValueBy", () => {
   describe("clamping", () => {
     test.each`
       channel    | type     | expected
-      ${"red"}   | ${"add"} | ${"'#FF778899'"}
-      ${"red"}   | ${"sub"} | ${"'#00778899'"}
-      ${"green"} | ${"add"} | ${"'#66FF8899'"}
-      ${"green"} | ${"sub"} | ${"'#66008899'"}
-      ${"blue"}  | ${"add"} | ${"'#6677FF99'"}
-      ${"blue"}  | ${"sub"} | ${"'#66770099'"}
-      ${"alpha"} | ${"add"} | ${"'#667788FF'"}
-      ${"alpha"} | ${"sub"} | ${"'#66778800'"}
+      ${"red"}   | ${"add"} | ${"#FF778899"}
+      ${"red"}   | ${"sub"} | ${"#00778899"}
+      ${"green"} | ${"add"} | ${"#66FF8899"}
+      ${"green"} | ${"sub"} | ${"#66008899"}
+      ${"blue"}  | ${"add"} | ${"#6677FF99"}
+      ${"blue"}  | ${"sub"} | ${"#66770099"}
+      ${"alpha"} | ${"add"} | ${"#667788FF"}
+      ${"alpha"} | ${"sub"} | ${"#66778800"}
     `("change $channel channel - type: $type", ({ channel, type, expected }) => {
       expect(cm.changeValueBy(channel, "FF", type).string()).toBe(expected);
     });
@@ -149,35 +141,35 @@ describe("changeValueBy", () => {
 
 describe("alpha", () => {
   test("alphaTo", () => {
-    expect(cm.alphaTo("F1").string()).toBe("'#667788F1'");
+    expect(cm.alphaTo("F1").string()).toBe("#667788F1");
   });
 
   test("alphaBy", () => {
-    expect(cm.alphaBy("35", "add").string()).toBe("'#667788CE'");
-    expect(cm.alphaBy("73", "sub").string()).toBe("'#66778826'");
+    expect(cm.alphaBy("35", "add").string()).toBe("#667788CE");
+    expect(cm.alphaBy("73", "sub").string()).toBe("#66778826");
   });
 });
 
 describe("invert", () => {
   test("include alpha", () => {
-    expect(cm.invert().string()).toBe("'#99887766'");
+    expect(cm.invert().string()).toBe("#99887766");
   });
 
   test("exclude alpha", () => {
-    expect(cm.invert({ includeAlpha: false }).string()).toBe("'#99887799'");
+    expect(cm.invert({ includeAlpha: false }).string()).toBe("#99887799");
   });
 });
 
 test("saturateBy/desaturateBy", () => {
-  expect(cm.saturateBy("21").string()).toBe("'#56779799'"); // 57779899
-  expect(cm.desaturateBy("21").string()).toBe("'#75767899'"); // 75777999
+  expect(cm.saturateBy("21").string()).toBe("#56779799"); // 57779899
+  expect(cm.desaturateBy("21").string()).toBe("#75767899"); // 75777999
 });
 
 test("lighterBy/darkerBy", () => {
-  expect(cm.lighterBy("21").string()).toBe("'#8998A699'"); // 8998A799
-  expect(cm.darkerBy("21").string()).toBe("'#49556299'"); // 4A566299
+  expect(cm.lighterBy("21").string()).toBe("#8998A699"); // 8998A799
+  expect(cm.darkerBy("21").string()).toBe("#49556299"); // 4A566299
 });
 
 test("grayscale", () => {
-  expect(cm.grayscale().string()).toBe("'#76767699'"); // 77777799
+  expect(cm.grayscale().string()).toBe("#76767699"); // 77777799
 });

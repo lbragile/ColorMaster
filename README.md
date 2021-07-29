@@ -43,30 +43,25 @@ Then simply start using **ColorMaster** in your project:
 import CM from "colormaster";
 
 // object argument
-CM.RGBAFrom({ r: 128, g: 128, b: 128 }).string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
-CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).string(); // 'rgba(128, 128, 128, 0.5)' ← note, single quote
-CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).string({ withAlpha: false }); // 'rgb(128, 128, 128)'
-CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).string(); // "rgba(128, 128, 128, 0.5)"
+CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).string({ withAlpha: false }); // "rgb(128, 128, 128)"
+CM.RGBAFrom({ r: 128, g: 128, b: 128, a: 0.5 }).alphaTo(0.8).string(); // "rgba(128, 128, 128, 0.8)"
 
 // array argument
-CM.RGBAFrom([128, 128, 128]).string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
-CM.RGBAFrom([128, 128, 128, 0.5]).string(); // 'rgba(128, 128, 128, 0.5)' ← note, single quote
-CM.RGBAFrom([128, 128, 128, 0.5]).string({ withAlpha: false }); // 'rgb(128, 128, 128)'
-CM.RGBAFrom([128, 128, 128, 0.5]).alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom([128, 128, 128, 0.5]).string(); // "rgba(128, 128, 128, 0.5)"
+CM.RGBAFrom([128, 128, 128, 0.5]).string({ withAlpha: false }); // "rgb(128, 128, 128)"
+CM.RGBAFrom([128, 128, 128, 0.5]).alphaTo(0.8).string(); // "rgba(128, 128, 128, 0.8)"
 
 // string argument
-CM.RGBAFrom("128, 128, 128").string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
-CM.RGBAFrom("rgb(128, 128, 128)").string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
-CM.RGBAFrom("128, 128, 128, 0.5").string(); // 'rgba(128, 128, 128, 0.5)' ← note, single quote
-CM.RGBAFrom("128, 128, 128, 0.5").string({ withAlpha: false }); // 'rgb(128, 128, 128)'
-CM.RGBAFrom("128, 128, 128, 0.5").alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
-CM.RGBAFrom("rgba(128, 128, 128, 0.5)").alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom("128, 128, 128, 0.5").string(); // "rgba(128, 128, 128, 0.5)"
+CM.RGBAFrom("128, 128, 128, 0.5").string({ withAlpha: false }); // "rgb(128, 128, 128)"
+CM.RGBAFrom("128, 128, 128, 0.5").alphaTo(0.8).string(); // "rgba(128, 128, 128, 0.8)"
+CM.RGBAFrom("rgba(128, 128, 128, 0.5)").alphaTo(0.8).string(); // "rgba(128, 128, 128, 0.8)"
 
 // list of values as arguments
-CM.RGBAFrom(128, 128, 128).string({ quotes: "double" }); // "rgba(128, 128, 128, 1)"
-CM.RGBAFrom(128, 128, 128, 0.5).string(); // 'rgba(128, 128, 128, 0.5)' ← note, single quote
-CM.RGBAFrom(128, 128, 128, 0.5).string({ withAlpha: false }); // 'rgb(128, 128, 128)'
-CM.RGBAFrom(128, 128, 128, 0.5).alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0.8)'
+CM.RGBAFrom(128, 128, 128, 0.5).string(); // "rgba(128, 128, 128, 0.5)"
+CM.RGBAFrom(128, 128, 128, 0.5).string({ withAlpha: false }); // "rgb(128, 128, 128)"
+CM.RGBAFrom(128, 128, 128, 0.5).alphaTo(0.8).string(); // "rgba(128, 128, 128, 0.8)"
 ```
 
 </details>
@@ -78,30 +73,25 @@ CM.RGBAFrom(128, 128, 128, 0.5).alphaTo(0.8).string(); // 'rgba(128, 128, 128, 0
 import CM from "colormaster";
 
 // object argument
-CM.HSLAFrom({ h: 300, s: 50, l: 60 }).string({ quotes: "double" }); // "hsla(300, 50%, 60%, 1)"
-CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).string(); // 'hsla(300, 50%, 60%, 0.5)' ← note, single quote
-CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).string({ withAlpha: false }); // 'hsl(300, 50%, 60%)'
-CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).string(); // "hsla(300, 50%, 60%, 0.5)"
+CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).string({ withAlpha: false }); // "hsl(300, 50%, 60%)"
+CM.HSLAFrom({ h: 300, s: 50, l: 60, a: 0.5 }).alphaTo(0.8).string(); // "hsla(300, 50%, 60%, 0.8)"
 
 // array argument
-CM.HSLAFrom([300, 50, 60]).string({ quotes: "double" }); // "hsla(300, 50%, 60%, 1)"
-CM.HSLAFrom([300, 50, 60, 0.5]).string(); // 'hsla(300, 50%, 60%, 0.5)' ← note, single quote
-CM.HSLAFrom([300, 50, 60, 0.5]).string({ withAlpha: false }); // 'hsl(300, 50%, 60%)'
-CM.HSLAFrom([300, 50, 60, 0.5]).alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+CM.HSLAFrom([300, 50, 60, 0.5]).string(); // "hsla(300, 50%, 60%, 0.5)"
+CM.HSLAFrom([300, 50, 60, 0.5]).string({ withAlpha: false }); // "hsl(300, 50%, 60%)"
+CM.HSLAFrom([300, 50, 60, 0.5]).alphaTo(0.8).string(); // "hsla(300, 50%, 60%, 0.8)"
 
 // string argument
-CM.HSLAFrom("300, 50%, 60%").string({ quotes: "double" }); // "hsla(300, 50%, 60%, 1)"
-CM.HSLAFrom("hsl(300, 50%, 60%)").string({ quotes: "double" }); // "hsl(300, 50%, 60%, 1)"
-CM.HSLAFrom("300, 50%, 60, 0.5").string(); // 'hsla(300, 50%, 60%, 0.5)' ← note, single quote
-CM.HSLAFrom("300, 50, 60%, 0.5").string({ withAlpha: false }); // 'hsl(300, 50%, 60%)'
-CM.HSLAFrom("300, 50%, 60%, 0.5").alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
-CM.HSLAFrom("hsla(300, 50%, 60%, 0.5)").alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+CM.HSLAFrom("300, 50%, 60, 0.5").string(); // "hsla(300, 50%, 60%, 0.5)"
+CM.HSLAFrom("300, 50, 60%, 0.5").string({ withAlpha: false }); // "hsl(300, 50%, 60%)"
+CM.HSLAFrom("300, 50%, 60%, 0.5").alphaTo(0.8).string(); // "hsla(300, 50%, 60%, 0.8)"
+CM.HSLAFrom("hsla(300, 50%, 60%, 0.5)").alphaTo(0.8).string(); // "hsla(300, 50%, 60%, 0.8)"
 
 // list of values as arguments
-CM.HSLAFrom(300, 50, 60).string({ quotes: "double" }); // "hsla(300, 50%, 60%, 1)"
-CM.HSLAFrom(300, 50, 60, 0.5).string(); // 'hsla(300, 50%, 60%, 0.5)' ← note, single quote
-CM.HSLAFrom(300, 50, 60, 0.5).string({ withAlpha: false }); // 'hsl(300, 50%, 60%)'
-CM.HSLAFrom(300, 50, 60, 0.5).alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8)'
+CM.HSLAFrom(300, 50, 60, 0.5).string(); // "hsla(300, 50%, 60%, 0.5)"
+CM.HSLAFrom(300, 50, 60, 0.5).string({ withAlpha: false }); // "hsl(300, 50%, 60%)"
+CM.HSLAFrom(300, 50, 60, 0.5).alphaTo(0.8).string(); // "hsla(300, 50%, 60%, 0.8)"
 ```
 
 </details>
@@ -113,30 +103,25 @@ CM.HSLAFrom(300, 50, 60, 0.5).alphaTo(0.8).string(); // 'hsla(300, 50%, 60%, 0.8
 import CM from "colormaster";
 
 // object argument
-CM.HEXAFrom({ r: "44", g: "55", b: "66" }).string({ quotes: "double" }); // "#445566FF)"
-CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).string(); // '#44556677' ← note, single quote
-CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).string({ withAlpha: false }); // '#445566'
-CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).alphaTo("CC").string(); // '#445566CC'
+CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).string(); // "#44556677"
+CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).string({ withAlpha: false }); // "#445566"
+CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).alphaTo("CC").string(); // "#445566CC"
 
 // array argument
-CM.HEXAFrom(["44", "55", "66"]).string({ quotes: "double" }); // "#445566FF"
-CM.HEXAFrom(["44", "55", "66", "77"]).string(); // '#44556677' ← note, single quote
-CM.HEXAFrom(["44", "55", "66", "77"]).string({ withAlpha: false }); // '#445566'
-CM.HEXAFrom(["44", "55", "66", "77"]).alphaTo("CC").string(); // '#445566CC'
+CM.HEXAFrom(["44", "55", "66", "77"]).string(); // "#44556677"
+CM.HEXAFrom(["44", "55", "66", "77"]).string({ withAlpha: false }); // "#445566"
+CM.HEXAFrom(["44", "55", "66", "77"]).alphaTo("CC").string(); // "#445566CC"
 
 // string argument
-CM.HEXAFrom("44", "55", "66").string({ quotes: "double" }); // "#445566FF"
-CM.HEXAFrom("#445566").string({ quotes: "double" }); // "#445566FF"
-CM.HEXAFrom("44, 55, 66, 77").string(); // '#44556677' ← note, single quote
-CM.HEXAFrom("44, 55, 66, 77").string({ withAlpha: false }); // '#445566'
-CM.HEXAFrom("44, 55, 66, 77").alphaTo("CC").string(); // '#445566CC'
-CM.HEXAFrom("#44556677").alphaTo("CC").string(); // '#445566CC'
+CM.HEXAFrom("44, 55, 66, 77").string(); // "#44556677"
+CM.HEXAFrom("44, 55, 66, 77").string({ withAlpha: false }); // "#445566"
+CM.HEXAFrom("44, 55, 66, 77").alphaTo("CC").string(); // "#445566CC"
+CM.HEXAFrom("#44556677").alphaTo("CC").string(); // "#445566CC"
 
 // list of values as arguments
-CM.HEXAFrom("44", "55", "66").string({ quotes: "double" }); // "#445566FF"
-CM.HEXAFrom("44", "55", "66", "77").string(); // '#44556677' ← note, single quote
-CM.HEXAFrom("44", "55", "66", "77").string({ withAlpha: false }); // '#445566'
-CM.HEXAFrom("44", "55", "66", "77").alphaTo("CC").string(); // '#445566CC'
+CM.HEXAFrom("44", "55", "66", "77").string(); // "#44556677"
+CM.HEXAFrom("44", "55", "66", "77").string({ withAlpha: false }); // "#445566"
+CM.HEXAFrom("44", "55", "66", "77").alphaTo("CC").string(); // "#445566CC"
 ```
 
 **Note:** HEXA string are always returned in _upperCase_ by **ColorMaster**. If you prefer _lowerCase_ strings,

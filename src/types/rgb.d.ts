@@ -1,7 +1,7 @@
 import HEXColors from "../models/hex";
 import HSLColors from "../models/hsl";
 import RGBColors from "../models/rgb";
-import { IStringOpts, TChannel } from "./common";
+import { IAlphaInvert, IStringOpts, TChannel } from "./common";
 
 export interface Irgb {
   r: number;
@@ -20,10 +20,10 @@ export interface IRGBColors {
    *  - withAlpha → whether or not to include the alpha channel in the output
    *  - quotes → type of quotes to use around the output
    *  - precision → how many decimal places to include for each value
-   * @returns ```'rgba?(r, g, b, a?)'``` or ```"rgba?(r, g, b, a?)"```
-   * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string({ quotes: 'double' }) → "rgba(128, 64, 32, 0.5)"
+   * @returns ```rgba?(r, g, b, a?)```
+   * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string() → "rgba(128, 64, 32, 0.5)"
    */
-  string: ({ withAlpha, quotes, precision }: IStringOpts) => string;
+  string: ({ withAlpha, precision }: IStringOpts) => string;
 
   /**
    * Converts a RGBA color to HSLA color
@@ -81,7 +81,7 @@ export interface IRGBColors {
    * @param { includeAlpha } opts Whether or not to also invert the alpha channel
    * @returns The corresponding inverse color
    */
-  invert: ({ includeAlpha }: { includeAlpha?: boolean }) => RGBColors;
+  invert: ({ includeAlpha }: IAlphaInvert) => RGBColors;
 
   /**
    * Saturates (intensity) the color in HSLA space to get the corresponding RGBA space color

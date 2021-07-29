@@ -1,4 +1,4 @@
-import { IStringOpts, TChannel, TNumArr } from "../types/common";
+import { IAlphaInvert, IStringOpts, TChannel, TNumArr } from "../types/common";
 import { Irgba, IRGBColors } from "../types/rgb";
 import { BOUNDS } from "../enums/bounds";
 import { clamp, round } from "../utils/numeric";
@@ -32,11 +32,10 @@ export default class RGBColors implements IRGBColors {
     this.#rgba = { r: arr[0], g: arr[1], b: arr[2], a: arr[3] ?? 1 };
   }
 
-  string({ withAlpha = true, quotes = "single", precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
-    const quote = quotes === "single" ? "'" : '"';
+  string({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
     const [Rp, Gp, Bp, Ap] = this.rgbaArr.map((val, i) => round(val, precision[i] ?? 1));
     const alpha = withAlpha ? ", " + Ap : "";
-    return `${quote}rgb${withAlpha ? "a" : ""}(${Rp}, ${Gp}, ${Bp}${alpha})${quote}`;
+    return `rgb${withAlpha ? "a" : ""}(${Rp}, ${Gp}, ${Bp}${alpha})`;
   }
 
   hsl(): HSLColors {
@@ -90,7 +89,7 @@ export default class RGBColors implements IRGBColors {
     return this.changeValueBy("alpha", delta);
   }
 
-  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): RGBColors {
+  invert({ includeAlpha = true }: IAlphaInvert = {}): RGBColors {
     const { r, g, b, a } = this.rgbaObj;
     const [Rnew, Gnew, Bnew] = [r, g, b].map((val) => BOUNDS.RGB_CHANNEL - val);
     const Anew = includeAlpha ? 1 - a : a;

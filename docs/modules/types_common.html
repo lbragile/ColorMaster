@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>types/common | ColorMaster - v0.0.6</title>
-	<meta name="description" content="Documentation for ColorMaster - v0.0.6">
+	<title>types/common | ColorMaster - v0.0.7</title>
+	<meta name="description" content="Documentation for ColorMaster - v0.0.7">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ColorMaster - v0.0.6</a>
+					<a href="../index.html" class="title">ColorMaster - v0.0.7</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../index.html">ColorMaster - v0.0.6</a>
+					<a href="../index.html">ColorMaster - v0.0.7</a>
 				</li>
 				<li>
 					<a href="types_common.html">types/common</a>
@@ -79,7 +79,9 @@
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="types_common.html#TChannel" class="tsd-kind-icon">TChannel</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="types_common.html#TChannelHSL" class="tsd-kind-icon">TChannelHSL</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="types_common.html#TNumArr" class="tsd-kind-icon">TNum<wbr>Arr</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="types_common.html#TOperator" class="tsd-kind-icon">TOperator</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="types_common.html#TStrArr" class="tsd-kind-icon">TStr<wbr>Arr</a></li>
 							</ul>
 						</section>
@@ -94,9 +96,29 @@
 					<div class="tsd-signature tsd-kind-icon">TChannel<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;red&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;green&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;blue&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;alpha&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/8050f44/src/types/common.d.ts#L7">types/common.d.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/types/common.d.ts#L28">types/common.d.ts:28</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible Channels for RGBA and HEXA color space</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="TChannelHSL" class="tsd-anchor"></a>
+					<h3>TChannelHSL</h3>
+					<div class="tsd-signature tsd-kind-icon">TChannelHSL<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;hue&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;saturation&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;lightness&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;alpha&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/types/common.d.ts#L33">types/common.d.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible Channels for HSLA color space</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="TNumArr" class="tsd-anchor"></a>
@@ -104,9 +126,29 @@
 					<div class="tsd-signature tsd-kind-icon">TNum<wbr>Arr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/8050f44/src/types/common.d.ts#L9">types/common.d.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/types/common.d.ts#L4">types/common.d.ts:4</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Array value form when instantiating a RGBA or HSLA object</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="TOperator" class="tsd-anchor"></a>
+					<h3>TOperator</h3>
+					<div class="tsd-signature tsd-kind-icon">TOperator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;add&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;sub&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/types/common.d.ts#L14">types/common.d.ts:14</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Possible operator for value adjustment of HEXA color space</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
 					<a name="TStrArr" class="tsd-anchor"></a>
@@ -114,9 +156,14 @@
 					<div class="tsd-signature tsd-kind-icon">TStr<wbr>Arr<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">?</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/8050f44/src/types/common.d.ts#L10">types/common.d.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/types/common.d.ts#L9">types/common.d.ts:9</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Array value form when instantiating a HEXA object</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -170,7 +217,13 @@
 						<a href="types_common.html#TChannel" class="tsd-kind-icon">TChannel</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="types_common.html#TChannelHSL" class="tsd-kind-icon">TChannelHSL</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="types_common.html#TNumArr" class="tsd-kind-icon">TNum<wbr>Arr</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="types_common.html#TOperator" class="tsd-kind-icon">TOperator</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="types_common.html#TStrArr" class="tsd-kind-icon">TStr<wbr>Arr</a>

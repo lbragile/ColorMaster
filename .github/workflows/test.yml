@@ -40,6 +40,7 @@ jobs:
         run: npm test
 
       - name: Upload Coverage Report to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v1
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/coverage-final.json

@@ -1,35 +1,39 @@
 {
   "name": "colormaster",
-  "version": "0.0.1",
+  "version": "0.0.7",
   "description": "🏆 A powerful and fully typed module for all your coloring needs.",
   "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
   "license": "MIT",
-  "main": "./dist/src/index.js",
-  "types": "./dist/src/index.d.ts",
+  "main": "./index.js",
+  "types": "./index.d.ts",
   "files": [
-    "./dist/src/**/*.{js,ts}"
+    "**/*.{js,ts}"
   ],
+  "sideEffects": false,
   "scripts": {
+    "postinstall": "husky install",
     "lint": "eslint -c config/.eslintrc.js --ext ts --max-warnings=0 src tests",
     "format:check": "prettier --config config/.prettierrc.json --check src/**/*.ts",
     "format": "prettier --config config/.prettierrc.json --write src",
-    "tsc": "tsc -p ./config/tsconfig.json",
+    "tsc": "tsc --project config/tsconfig.development.json --watch",
     "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js",
     "benchmark": "ts-node tests/benchmark.ts",
     "docs": "typedoc --options config/typedoc.json",
-    "prepare": "husky install",
-    "prepublish": "npm run tsc"
+    "build": "webpack --config config/webpack.config.js",
+    "preversion": "npm test",
+    "version:patch": "npm version patch -m \"🎉 Automatic package publish → bump to version v%s\"",
+    "version:minor": "npm version minor -m \"🎉 Automatic package publish → bump to version v%s\"",
+    "version:major": "npm version major -m \"🎉 Automatic package publish → bump to version v%s\"",
+    "postversion": "npm run docs && npm run build && git add . && git commit --amend --no-edit --no-verify",
+    "release:patch": "npm run version:patch && npm publish dist",
+    "release:minor": "npm run version:minor && npm publish dist",
+    "release:major": "npm run version:major && npm publish dist"
   },
   "babel": {
     "extends": "./config/.babelrc.json"
   },
   "eslintConfig": {
     "extends": "./config/.eslintrc.js"
-  },
-  "np": {
-    "yarn": false,
-    "preview": false,
-    "message": "🎉 Automatic package publish → bump to version v%s"
   },
   "repository": "github:lbragile/ColorMaster",
   "homepage": "https://github.com/lbragile/ColorMaster#readme",
@@ -66,16 +70,19 @@
     "chroma-js": "^2.1.2",
     "color": "^4.0.0",
     "colord": "^2.4.0",
+    "copy-webpack-plugin": "^9.0.1",
     "eslint": "^7.31.0",
     "eslint-plugin-jest": "^24.4.0",
     "husky": "^7.0.1",
     "jest": "^27.0.6",
-    "np": "^7.5.0",
     "prettier": "^2.3.2",
     "tinycolor2": "^1.4.2",
     "ts-jest": "^27.0.4",
+    "ts-loader": "^9.2.4",
     "ts-node": "^10.1.0",
     "typedoc": "^0.21.4",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "webpack": "^5.46.0",
+    "webpack-cli": "^4.7.2"
   }
 }

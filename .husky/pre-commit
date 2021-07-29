@@ -1,6 +1,8 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+git stash -k -u
 npm run lint 
 npm run format
+npm dedupe
 git add .

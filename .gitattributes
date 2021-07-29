@@ -7,3 +7,4 @@
 *.json linguist-detectable=false
 *.yaml linguist-detectable=false
 *.md linguist-detectable=false
+*.sh linguist-detectable=false

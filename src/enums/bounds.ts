@@ -1,0 +1,12 @@
+export enum BOUNDS {
+  // RGB
+  RGB_CHANNEL = 255,
+
+  // HSL
+  HSL_SATURATION = 100,
+  HSL_LIGHTNESS = 100,
+
+  // HEX
+  HEX_CHANNEL_UPPER = "FF",
+  HEX_CHANNEL_LOWER = "00"
+}

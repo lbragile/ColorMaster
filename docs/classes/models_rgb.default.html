@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>default | ColorMaster - v0.0.0</title>
-	<meta name="description" content="Documentation for ColorMaster - v0.0.0">
+	<title>default | ColorMaster - v0.0.7</title>
+	<meta name="description" content="Documentation for ColorMaster - v0.0.7">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ColorMaster - v0.0.0</a>
+					<a href="../index.html" class="title">ColorMaster - v0.0.7</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../index.html">ColorMaster - v0.0.0</a>
+					<a href="../index.html">ColorMaster - v0.0.7</a>
 				</li>
 				<li>
 					<a href="../modules/models_rgb.html">models/rgb</a>
@@ -76,6 +76,12 @@
 					</li>
 				</ul>
 			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/types_rgb.IRGBColors.html" class="tsd-signature-type" data-tsd-kind="Interface">IRGBColors</a></li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -89,13 +95,13 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="models_rgb.default.html#_rgbStr" class="tsd-kind-icon">#rgb<wbr>Str</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="models_rgb.default.html#_rgba" class="tsd-kind-icon">#rgba</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="models_rgb.default.html#rgbaArr" class="tsd-kind-icon">rgba<wbr>Arr</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="models_rgb.default.html#rgbaObj" class="tsd-kind-icon">rgba<wbr>Obj</a></li>
 							</ul>
 						</section>
@@ -104,8 +110,16 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#alphaBy" class="tsd-kind-icon">alpha<wbr>By</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#alphaTo" class="tsd-kind-icon">alpha<wbr>To</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#channelValueBy" class="tsd-kind-icon">channel<wbr>Value<wbr>By</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#channelValueTo" class="tsd-kind-icon">channel<wbr>Value<wbr>To</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#changeValueBy" class="tsd-kind-icon">change<wbr>Value<wbr>By</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#changeValueTo" class="tsd-kind-icon">change<wbr>Value<wbr>To</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#darkerBy" class="tsd-kind-icon">darker<wbr>By</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#desaturateBy" class="tsd-kind-icon">desaturate<wbr>By</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#grayscale" class="tsd-kind-icon">grayscale</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#hex" class="tsd-kind-icon">hex</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#hsl" class="tsd-kind-icon">hsl</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#invert" class="tsd-kind-icon">invert</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#lighterBy" class="tsd-kind-icon">lighter<wbr>By</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#saturateBy" class="tsd-kind-icon">saturate<wbr>By</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="models_rgb.default.html#string" class="tsd-kind-icon">string</a></li>
 							</ul>
 						</section>
@@ -118,25 +132,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new default<span class="tsd-signature-symbol">(</span>r<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, g<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, b<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, a<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+						<li class="tsd-signature tsd-kind-icon">new default<span class="tsd-signature-symbol">(</span>r<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, g<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, b<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, a<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L8">models/rgb.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L11">models/rgb.ts:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>r: <span class="tsd-signature-type">number</span></h5>
+									<h5>r: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
 								</li>
 								<li>
-									<h5>g: <span class="tsd-signature-type">number</span></h5>
+									<h5>g: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
 								</li>
 								<li>
-									<h5>b: <span class="tsd-signature-type">number</span></h5>
+									<h5>b: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></h5>
 								</li>
 								<li>
 									<h5>a: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></h5>
@@ -150,28 +164,50 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_rgbStr" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> #rgb<wbr>Str</h3>
-					<div class="tsd-signature tsd-kind-icon">#rgb<wbr>Str<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L6">models/rgb.ts:6</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_rgba" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> #rgba</h3>
 					<div class="tsd-signature tsd-kind-icon">#rgba<span class="tsd-signature-symbol">:</span> <a href="../interfaces/types_rgb.Irgba.html" class="tsd-signature-type" data-tsd-kind="Interface">Irgba</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L5">models/rgb.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L9">models/rgb.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="rgbaArr" class="tsd-anchor"></a>
+					<h3>rgba<wbr>Arr</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> rgbaArr<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> rgbaArr<span class="tsd-signature-symbol">(</span>arr<span class="tsd-signature-symbol">: </span><a href="../modules/types_common.html#TNumArr" class="tsd-signature-type" data-tsd-kind="Type alias">TNumArr</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L27">models/rgb.ts:27</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L31">models/rgb.ts:31</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>arr: <a href="../modules/types_common.html#TNumArr" class="tsd-signature-type" data-tsd-kind="Type alias">TNumArr</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="rgbaObj" class="tsd-anchor"></a>
 					<h3>rgba<wbr>Obj</h3>
@@ -183,7 +219,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L23">models/rgb.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L19">models/rgb.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../interfaces/types_rgb.Irgba.html" class="tsd-signature-type" data-tsd-kind="Interface">Irgba</a></h4>
@@ -191,7 +227,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L27">models/rgb.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L23">models/rgb.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -216,26 +252,23 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#alphaBy">alphaBy</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L91">models/rgb.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L89">models/rgb.ts:89</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Syntactic sugar for {@link RGBColors.channelValueBy channelValueBy} with &quot;alpha&quot; as the channel</p>
+									<p>Syntactic sugar for {@link RGBColors.changeValueBy changeValueBy} with &quot;alpha&quot; as the channel</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>delta: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>When added to current alpha value, range must remain in [0, 1]</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
-							<p>The instance that was acted upon → for function chaining</p>
 						</li>
 					</ul>
 				</section>
@@ -248,78 +281,70 @@
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#alphaTo">alphaTo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L81">models/rgb.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L85">models/rgb.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Syntactic sugar for {@link RGBColors.channelValueTo channelValueTo} with &quot;alpha&quot; as the channel</p>
+									<p>Syntactic sugar for {@link RGBColors.changeValueTo changeValueTo} with &quot;alpha&quot; as the channel</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>value: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Must be in range [0, 1] as this is the alpha channel</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
-							<p>The instance that was acted upon → for function chaining</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="channelValueBy" class="tsd-anchor"></a>
-					<h3>channel<wbr>Value<wbr>By</h3>
+					<a name="changeValueBy" class="tsd-anchor"></a>
+					<h3>change<wbr>Value<wbr>By</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">channel<wbr>Value<wbr>By<span class="tsd-signature-symbol">(</span>channel<span class="tsd-signature-symbol">: </span><a href="../modules/types_rgb.html#TChannel" class="tsd-signature-type" data-tsd-kind="Type alias">TChannel</a>, delta<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Value<wbr>By<span class="tsd-signature-symbol">(</span>channel<span class="tsd-signature-symbol">: </span><a href="../modules/types_common.html#TChannel" class="tsd-signature-type" data-tsd-kind="Type alias">TChannel</a>, delta<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#changeValueBy">changeValueBy</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L65">models/rgb.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L78">models/rgb.ts:78</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Instead of setting the value as in {@link RGBColors.channelValueTo channelValueTo}, this allows you to adjust the channel value by <code>delta</code> amount.</p>
+									<p>Instead of setting the value as in {@link RGBColors.changeValueTo changeValueTo}, this allows you to adjust the channel value by <code>delta</code> amount.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>channel: <a href="../modules/types_rgb.html#TChannel" class="tsd-signature-type" data-tsd-kind="Type alias">TChannel</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Which RGBA channel to increment/decrement</p>
-									</div>
+									<h5>channel: <a href="../modules/types_common.html#TChannel" class="tsd-signature-type" data-tsd-kind="Type alias">TChannel</a></h5>
 								</li>
 								<li>
 									<h5>delta: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A positive OR negative integer/decimal number to adjust the channel by</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
-							<p>The instance that was acted upon → for function chaining</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="channelValueTo" class="tsd-anchor"></a>
-					<h3>channel<wbr>Value<wbr>To</h3>
+					<a name="changeValueTo" class="tsd-anchor"></a>
+					<h3>change<wbr>Value<wbr>To</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">channel<wbr>Value<wbr>To<span class="tsd-signature-symbol">(</span>channel<span class="tsd-signature-symbol">: </span><a href="../modules/types_rgb.html#TChannel" class="tsd-signature-type" data-tsd-kind="Type alias">TChannel</a>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Value<wbr>To<span class="tsd-signature-symbol">(</span>channel<span class="tsd-signature-symbol">: </span><a href="../modules/types_common.html#TChannel" class="tsd-signature-type" data-tsd-kind="Type alias">TChannel</a>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#changeValueTo">changeValueTo</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L53">models/rgb.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L72">models/rgb.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -330,20 +355,232 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>channel: <a href="../modules/types_rgb.html#TChannel" class="tsd-signature-type" data-tsd-kind="Type alias">TChannel</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Which RGBA channel to set</p>
-									</div>
+									<h5>channel: <a href="../modules/types_common.html#TChannel" class="tsd-signature-type" data-tsd-kind="Type alias">TChannel</a></h5>
 								</li>
 								<li>
 									<h5>value: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>In range [0, 255] for red, green, blue. In range [0, 1] for alpha</p>
-									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
-							<p>The instance that was acted upon → for function chaining</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="darkerBy" class="tsd-anchor"></a>
+					<h3>darker<wbr>By</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">darker<wbr>By<span class="tsd-signature-symbol">(</span>delta<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#darkerBy">darkerBy</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L113">models/rgb.ts:113</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Removes lightness (tone) of the color in HSLA space to get the corresponding RGBA space color</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>delta: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="desaturateBy" class="tsd-anchor"></a>
+					<h3>desaturate<wbr>By</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">desaturate<wbr>By<span class="tsd-signature-symbol">(</span>delta<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#desaturateBy">desaturateBy</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L105">models/rgb.ts:105</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>De-saturates (intensity) the color in HSLA space to get the corresponding RGBA space color</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>delta: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="grayscale" class="tsd-anchor"></a>
+					<h3>grayscale</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">grayscale<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#grayscale">grayscale</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L117">models/rgb.ts:117</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the saturation of the color to 0% in HSLA space to get the corresponding RGBA space color</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="hex" class="tsd-anchor"></a>
+					<h3>hex</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">hex<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_hex.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#hex">hex</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L66">models/rgb.ts:66</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a RGBA color to HEXA color</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="models_hex.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="hsl" class="tsd-anchor"></a>
+					<h3>hsl</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">hsl<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_hsl.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#hsl">hsl</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L42">models/rgb.ts:42</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts a RGBA color to HSLA color</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="models_hsl.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="invert" class="tsd-anchor"></a>
+					<h3>invert</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">invert<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>includeAlpha<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#invert">invert</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L93">models/rgb.ts:93</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Given an input color, get its inverse value by subtracting current value from the upper bound for each channel</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>includeAlpha<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> include<wbr>Alpha<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span></h5>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="lighterBy" class="tsd-anchor"></a>
+					<h3>lighter<wbr>By</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">lighter<wbr>By<span class="tsd-signature-symbol">(</span>delta<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#lighterBy">lighterBy</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L109">models/rgb.ts:109</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Adds lightness (tone) of the color in HSLA space to get the corresponding RGBA space color</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>delta: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="saturateBy" class="tsd-anchor"></a>
+					<h3>saturate<wbr>By</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">saturate<wbr>By<span class="tsd-signature-symbol">(</span>delta<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#saturateBy">saturateBy</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L101">models/rgb.ts:101</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Saturates (intensity) the color in HSLA space to get the corresponding RGBA space color</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>delta: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="models_rgb.default.html" class="tsd-signature-type" data-tsd-kind="Class">default</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -351,33 +588,28 @@
 					<a name="string" class="tsd-anchor"></a>
 					<h3>string</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">string<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types_rgb.IStringOpts.html" class="tsd-signature-type" data-tsd-kind="Interface">IStringOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">string<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types_common.IStringOpts.html" class="tsd-signature-type" data-tsd-kind="Interface">IStringOpts</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/types_rgb.IRGBColors.html">IRGBColors</a>.<a href="../interfaces/types_rgb.IRGBColors.html#string">string</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/68f3a9a/src/models/rgb.ts#L39">models/rgb.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c6a74a5/src/models/rgb.ts#L35">models/rgb.ts:35</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Gives the string representation of an input RGBA color object</p>
 								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><p>({ r: 128, g: 64, b: 32, a: 0.5 }).string({ withAlpha: true, quotes: &#39;double&#39; }) → &quot;rgba(128, 64, 32, 0.5)&quot;</p>
-									</dd>
-								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <a href="../interfaces/types_rgb.IStringOpts.html" class="tsd-signature-type" data-tsd-kind="Interface">IStringOpts</a><span class="tsd-signature-symbol"> = {}</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/types_common.IStringOpts.html" class="tsd-signature-type" data-tsd-kind="Interface">IStringOpts</a><span class="tsd-signature-symbol"> = {}</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p><code>&#39;rgba?(r, g, b, a?)&#39;</code> or <code>&quot;rgba?(r, g, b, a?)&quot;</code></p>
 						</li>
 					</ul>
 				</section>
@@ -390,13 +622,31 @@
 						<a href="../index.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/enums_bounds.html">enums/bounds</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/enums_colors.html">enums/colors</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/index.html">index</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/models_hex.html">models/hex</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/models_hsl.html">models/hsl</a>
+					</li>
 					<li class="current tsd-kind-module">
 						<a href="../modules/models_rgb.html">models/rgb</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_common.html">types/common</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_hex.html">types/hex</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/types_hsl.html">types/hsl</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/types_rgb.html">types/rgb</a>
@@ -417,10 +667,10 @@
 								<a href="models_rgb.default.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="models_rgb.default.html#_rgbStr" class="tsd-kind-icon">#rgb<wbr>Str</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="models_rgb.default.html#_rgba" class="tsd-kind-icon">#rgba</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="models_rgb.default.html#rgbaArr" class="tsd-kind-icon">rgba<wbr>Arr</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="models_rgb.default.html#rgbaObj" class="tsd-kind-icon">rgba<wbr>Obj</a>
@@ -432,10 +682,34 @@
 								<a href="models_rgb.default.html#alphaTo" class="tsd-kind-icon">alpha<wbr>To</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="models_rgb.default.html#channelValueBy" class="tsd-kind-icon">channel<wbr>Value<wbr>By</a>
+								<a href="models_rgb.default.html#changeValueBy" class="tsd-kind-icon">change<wbr>Value<wbr>By</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="models_rgb.default.html#channelValueTo" class="tsd-kind-icon">channel<wbr>Value<wbr>To</a>
+								<a href="models_rgb.default.html#changeValueTo" class="tsd-kind-icon">change<wbr>Value<wbr>To</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="models_rgb.default.html#darkerBy" class="tsd-kind-icon">darker<wbr>By</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="models_rgb.default.html#desaturateBy" class="tsd-kind-icon">desaturate<wbr>By</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="models_rgb.default.html#grayscale" class="tsd-kind-icon">grayscale</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="models_rgb.default.html#hex" class="tsd-kind-icon">hex</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="models_rgb.default.html#hsl" class="tsd-kind-icon">hsl</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="models_rgb.default.html#invert" class="tsd-kind-icon">invert</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="models_rgb.default.html#lighterBy" class="tsd-kind-icon">lighter<wbr>By</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="models_rgb.default.html#saturateBy" class="tsd-kind-icon">saturate<wbr>By</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="models_rgb.default.html#string" class="tsd-kind-icon">string</a>
@@ -454,14 +728,16 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>

@@ -26,6 +26,15 @@ export interface IRGBColors {
   string: ({ withAlpha, precision }: IStringOpts) => string;
 
   /**
+   * Gets the color table HTML/CSS name for a given color
+   *
+   * @note Colors with an alpha value of '0' return 'transparent'. Also, colors with alpha < 1, return `CSS_NAME (with opacity)`
+   * @example CM.RGBAFrom("rgb(128, 0, 0)") → "maroon"
+   * @returns The color's HTML/CSS name
+   */
+  name: () => string;
+
+  /**
    * Converts a RGBA color to HSLA color
    *
    * @link https://www.rapidtables.com/convert/color/rgb-to-hsl.html
@@ -129,4 +138,10 @@ export interface IRGBColors {
    * @returns The instance that was acted upon → for function chaining
    */
   grayscale: () => RGBColors;
+
+  /**
+   * Rotation changes the hue of a color by `value` degrees in HSLA space
+   * @returns The instance that was acted upon → for function chaining
+   */
+  rotate: (value: number) => RGBColors;
 }

@@ -1,18 +1,26 @@
 /**
- * Restricts the value of `val` to be between `min` and `max`
- * @param min Lower bound
+ * Restricts the value of `val` to be between `min` and `max` for number inputs
+ * @param min Lower bound (0)
  * @param val Current value
- * @param max Upper bound
+ * @param max Upper bound (typically 100, 255, 359)
  *
- * @note This clamp needs to work for both number and string inputs and thus avoids the use of Math module to accommodate
  * @returns A number in the range `[min, max]` such that `min <= val <= max`
  */
-export function clamp<T>(min: T, val: T, max: T): T {
-  const isAllNum = typeof min === "number" && typeof val === "number" && typeof max === "number";
-  const isAllStr = typeof min === "string" && typeof val === "string" && typeof max === "string";
+export function clampNum(min: number, val: number, max: number): number {
+  return val < min ? min : val > max ? max : val;
+}
 
-  if (isAllNum || isAllStr) return val < min ? min : val > max ? max : val;
-  else throw new Error("All values must be the same type → 'number' or 'string'");
+/**
+ * Restricts the value of `val` to be between `min` and `max` for string inputs
+ * @param min Lower bound ("00")
+ * @param val Current value
+ * @param max Upper bound ("FF")
+ *
+ * @returns A an uppercase 2 character string in the range `[min, max]` such that `min <= val <= max`
+ */
+export function clampStr(min: string, val: string, max: string): string {
+  const clampVal = clampNum(parseInt(min, 16), parseInt(val, 16), parseInt(max, 16));
+  return clampVal.toString(16).padStart(2, "0").toUpperCase();
 }
 
 /**

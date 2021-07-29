@@ -33,6 +33,16 @@ export interface IHSLColors {
   rgb: () => RGBColors;
 
   /**
+   * Gets the color table HTML/CSS name for a given color in RGBA color space
+   *
+   * @note Colors with an alpha value of '00' return 'transparent'. Also, colors with alpha < "FF", return `CSS_NAME (with opacity)`
+   * @example CM.HSLAFrom("hsl(0, 100%, 25.1%)") → "maroon"
+   * @see {@link RGBColors.name} for functionality
+   * @returns The color's HTML/CSS name
+   */
+  name: () => string;
+
+  /**
    * Converts a HSLA color to HEXA color
    *
    * @note First we convert to RGBA space, then to HEXA space
@@ -139,4 +149,11 @@ export interface IHSLColors {
    * @returns The instance that was acted upon → for function chaining
    */
   grayscale: () => HSLColors;
+
+  /**
+   * Rotation changes the hue of a color by `value` degrees
+   * This is syntactic sugar for {@link HSLColors.hueBy hueBy}
+   * @returns The instance that was acted upon → for function chaining
+   */
+  rotate: (value: number) => HSLColors;
 }

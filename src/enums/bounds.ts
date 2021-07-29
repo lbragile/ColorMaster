@@ -4,7 +4,7 @@ export enum BOUNDS {
 
   // HSL
   HSL_SATURATION = 100,
-  HSL_LIGHTNESS = 100,
+  HSL_LIGHTNESS  = 100,
 
   // HEX
   HEX_CHANNEL_UPPER = "FF",

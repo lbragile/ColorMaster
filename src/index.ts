@@ -146,9 +146,9 @@ class ColorMaster {
       ) as TStrArr;
       return new HEXColors(r, g, b, a);
     } else if (typeof rOrValues === "string" && rOrValues[0] === "#") {
-      const hexParts = rOrValues.slice(1).match(/\w\w/gi);
-      if (!hexParts) throw new Error("Impossible to convert as the provided HEX string is invalid");
-      const [r, g, b, a] = hexParts;
+      const hex = rOrValues.slice(1);
+      const hexParts = hex.length >= 6 ? hex.match(/\w\w/gi) : hex.match(/\w/gi)?.map((item) => item.repeat(2));
+      const [r, g, b, a] = hexParts ?? ["00", "00", "00", "FF"];
       return new HEXColors(r, g, b, a);
     } else {
       return new HEXColors(rOrValues as string, g as string, b as string, a);

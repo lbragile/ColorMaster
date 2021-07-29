@@ -1,4 +1,4 @@
-import CM from "../src/index";
+import CM, { TNumArr } from "../src/index";
 import HSLColors from "../src/models/hsl";
 
 let cm: HSLColors;
@@ -40,49 +40,55 @@ describe("object instantiation with overloaded helper", () => {
   });
 
   it("handles invalid input by returning a default color 'black' or a mixture with valid input", () => {
-    expect(CM.HSLAFrom("128, 50%").hslaObj).toMatchObject({ h: 128, s: 50, l: 0, a: 1 });
-    expect(CM.HSLAFrom("128, 50%, 60%, 0.6, 0.6").hslaObj).toMatchObject({ h: 128, s: 50, l: 60, a: 0.6 });
-    expect(CM.HSLAFrom({ h: 128, s: 50, l: 60, a: 5 }).hslaObj).toMatchObject({ h: 128, s: 50, l: 60, a: 1 });
-    expect(CM.HSLAFrom([128, 50, 60, 128]).hslaObj).toMatchObject({ h: 128, s: 50, l: 60, a: 1 });
+    expect(CM.HSLAFrom("128, 50%").object).toMatchObject({ h: 128, s: 50, l: 0, a: 1 });
+    expect(CM.HSLAFrom("128, 50%, 60%, 0.6, 0.6").object).toMatchObject({ h: 128, s: 50, l: 60, a: 0.6 });
+    expect(CM.HSLAFrom({ h: 128, s: 50, l: 60, a: 5 }).object).toMatchObject({ h: 128, s: 50, l: 60, a: 1 });
+    expect(CM.HSLAFrom([128, 50, 60, 128]).object).toMatchObject({ h: 128, s: 50, l: 60, a: 1 });
+    expect(CM.HSLAFrom([-232, 50, 60, 128]).object).toMatchObject({ h: 128, s: 50, l: 60, a: 1 });
   });
 });
 
 describe("getters & setters", () => {
-  test("object getter", () => {
-    expect(cm.hslaObj).toMatchObject({ h: 190, s: 60, l: 60, a: 0.6 });
-  });
+  test("object getter", () => expect(cm.object).toMatchObject({ h: 190, s: 60, l: 60, a: 0.6 }));
 
   test("object setter", () => {
-    cm.hslaObj = { ...cm.hslaObj, h: 120 };
+    cm.object = { ...cm.object, h: 120 };
     expect(cm.string({ withAlpha: false })).toBe("hsl(120, 60%, 60%)");
   });
 
-  test("array getter", () => {
-    expect(cm.hslaArr).toEqual([190, 60, 60, 0.6]);
-  });
+  test("array getter", () => expect(cm.array).toEqual([190, 60, 60, 0.6]));
 
   test("array setter", () => {
-    const currArr = cm.hslaArr;
+    const currArr = cm.array;
     currArr[0] = 210;
-    cm.hslaArr = currArr;
-    expect(cm.string({ withAlpha: false })).toBe("hsl(210, 60%, 60%)");
+
+    cm.array = currArr;
+    expect(cm.string()).toBe("hsla(210, 60%, 60%, 0.6)");
+
+    cm.array = currArr.slice(0, 3) as TNumArr;
+    expect(cm.string()).toBe("hsla(210, 60%, 60%, 1.0)");
   });
+
+  test("format getter", () => expect(cm.format).toBe("hsl"));
 });
 
 describe("string formation", () => {
-  test("without alpha", () => {
-    expect(cm.string({ withAlpha: false })).toBe("hsl(190, 60%, 60%)");
-  });
-
-  test("with alpha", () => {
-    expect(cm.string()).toBe("hsla(190, 60%, 60%, 0.6)");
-  });
-
+  test("without alpha", () => expect(cm.string({ withAlpha: false })).toBe("hsl(190, 60%, 60%)"));
+  test("with alpha", () => expect(cm.string()).toBe("hsla(190, 60%, 60%, 0.6)"));
   test("with precision", () => {
     const CM_PRECISE = CM.HSLAFrom("hsl(190.032, 60.35%, 60.2342%, 0.654321)");
     expect(CM_PRECISE.string({ precision: [0, 1, 2, 3] })).toBe("hsla(190, 60.4%, 60.23%, 0.654)");
     expect(CM_PRECISE.string({ precision: [0, 1, 2] })).toBe("hsla(190, 60.4%, 60.23%, 0.7)");
+    expect(CM_PRECISE.string({ precision: [-1, -1, 2] })).toBe("hsla(190.032, 60.35%, 60.23%, 0.7)");
   });
+});
+
+describe("name", () => {
+  test("with alpha = 1", () => expect(CM.HSLAFrom("hsl(0, 100%, 25.1%, 1)").name()).toBe("maroon"));
+  test("with 0 < alpha < 1", () =>
+    expect(CM.HSLAFrom("hsl(0, 100%, 25.1%, 0.5)").name()).toBe("maroon (with opacity)"));
+  test("with alpha = 0", () => expect(CM.HSLAFrom("hsl(0, 100%, 25.1%, 0)").name()).toBe("transparent"));
+  test("undefined", () => expect(CM.HSLAFrom("hsl(0, 1%, 50%,0.9)").name()).toBe("undefined"));
 });
 
 describe("changeValueTo", () => {
@@ -150,9 +156,7 @@ describe("changeValueBy", () => {
 });
 
 describe("hue", () => {
-  test("hueTo", () => {
-    expect(cm.hueTo(210).string()).toBe("hsla(210, 60%, 60%, 0.6)");
-  });
+  test("hueTo", () => expect(cm.hueTo(210).string()).toBe("hsla(210, 60%, 60%, 0.6)"));
 
   test("hueBy", () => {
     expect(cm.hueBy(50).string()).toBe("hsla(240, 60%, 60%, 0.6)");
@@ -161,9 +165,7 @@ describe("hue", () => {
 });
 
 describe("alpha", () => {
-  test("alphaTo", () => {
-    expect(cm.alphaTo(0.95).string({ precision: [0, 0, 0, 2] })).toBe("hsla(190, 60%, 60%, 0.95)");
-  });
+  test("alphaTo", () => expect(cm.alphaTo(0.95).string({ precision: [0, 0, 0, 2] })).toBe("hsla(190, 60%, 60%, 0.95)"));
 
   test("alphaBy", () => {
     expect(cm.alphaBy(0.2).string()).toBe("hsla(190, 60%, 60%, 0.8)");
@@ -172,13 +174,8 @@ describe("alpha", () => {
 });
 
 describe("invert", () => {
-  test("include alpha", () => {
-    expect(cm.invert().string()).toBe("hsla(10, 60%, 40%, 0.4)");
-  });
-
-  test("exclude alpha", () => {
-    expect(cm.invert({ includeAlpha: false }).string()).toBe("hsla(10, 60%, 40%, 0.6)");
-  });
+  test("include alpha", () => expect(cm.invert().string()).toBe("hsla(10, 60%, 40%, 0.4)"));
+  test("exclude alpha", () => expect(cm.invert({ includeAlpha: false }).string()).toBe("hsla(10, 60%, 40%, 0.6)"));
 });
 
 describe("saturateBy/desaturateBy", () => {
@@ -205,6 +202,10 @@ describe("lighterBy/darkerBy", () => {
   });
 });
 
-test("grayscale", () => {
-  expect(cm.grayscale().string()).toBe("hsla(190, 0%, 60%, 0.6)");
+test("grayscale", () => expect(cm.grayscale().string()).toBe("hsla(190, 0%, 60%, 0.6)"));
+
+describe("rotate", () => {
+  test("value > 0", () => expect(cm.rotate(240).string()).toBe("hsla(70, 60%, 60%, 0.6)"));
+  test("value = 0", () => expect(cm.rotate(0).string()).toBe("hsla(190, 60%, 60%, 0.6)"));
+  test("value < 0", () => expect(cm.rotate(-240).string()).toBe("hsla(310, 60%, 60%, 0.6)"));
 });

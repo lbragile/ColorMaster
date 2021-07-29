@@ -103,25 +103,29 @@ CM.HSLAFrom(300, 50, 60, 0.5).alphaTo(0.8).string(); // "hsla(300, 50%, 60%, 0.8
 import CM from "colormaster";
 
 // object argument
-CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).string(); // "#44556677"
-CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).string({ withAlpha: false }); // "#445566"
-CM.HEXAFrom({ r: "44", g: "55", b: "66", a: "77" }).alphaTo("CC").string(); // "#445566CC"
+CM.HEXAFrom({ r: "45", g: "67", b: "89", a: "AB" }).string(); // "#456789AB"
+CM.HEXAFrom({ r: "45", g: "67", b: "89", a: "AB" }).string({ withAlpha: false }); // "#456789"
+CM.HEXAFrom({ r: "45", g: "67", b: "89", a: "AB" }).alphaTo("CC").string(); // "#456789CC"
 
 // array argument
-CM.HEXAFrom(["44", "55", "66", "77"]).string(); // "#44556677"
-CM.HEXAFrom(["44", "55", "66", "77"]).string({ withAlpha: false }); // "#445566"
-CM.HEXAFrom(["44", "55", "66", "77"]).alphaTo("CC").string(); // "#445566CC"
+CM.HEXAFrom(["45", "67", "89", "AB"]).string(); // "#456789AB"
+CM.HEXAFrom(["45", "67", "89", "AB"]).string({ withAlpha: false }); // "#456789"
+CM.HEXAFrom(["45", "67", "89", "AB"]).alphaTo("CC").string(); // "#456789CC"
 
 // string argument
-CM.HEXAFrom("44, 55, 66, 77").string(); // "#44556677"
-CM.HEXAFrom("44, 55, 66, 77").string({ withAlpha: false }); // "#445566"
-CM.HEXAFrom("44, 55, 66, 77").alphaTo("CC").string(); // "#445566CC"
-CM.HEXAFrom("#44556677").alphaTo("CC").string(); // "#445566CC"
+CM.HEXAFrom("45, 67, 89, AB").string(); // "#456789AB"
+CM.HEXAFrom("#456789AB").string(); // "#456789AB" ← 8-Digit Hex Input
+CM.HEXAFrom("#456789").string(); // "#456789FF"
+CM.HEXAFrom("#4567").string(); // "#44556677" ← 4-Digit Hex Input
+CM.HEXAFrom("#456").string(); // "#445566FF"
+CM.HEXAFrom("45, 67, 89, AB").string({ withAlpha: false }); // "#456789"
+CM.HEXAFrom("45, 67, 89, AB").alphaTo("CC").string(); // "#456789CC"
+CM.HEXAFrom("#456789AB").alphaTo("CC").string(); // "#456789CC"
 
 // list of values as arguments
-CM.HEXAFrom("44", "55", "66", "77").string(); // "#44556677"
-CM.HEXAFrom("44", "55", "66", "77").string({ withAlpha: false }); // "#445566"
-CM.HEXAFrom("44", "55", "66", "77").alphaTo("CC").string(); // "#445566CC"
+CM.HEXAFrom("45", "67", "89", "AB").string(); // "#456789AB"
+CM.HEXAFrom("45", "67", "89", "AB").string({ withAlpha: false }); // "#456789"
+CM.HEXAFrom("45", "67", "89", "AB").alphaTo("CC").string(); // "#456789CC"
 ```
 
 **Note:** HEXA string are always returned in _upperCase_ by **ColorMaster**. If you prefer _lowerCase_ strings,

@@ -1,4 +1,4 @@
-import CM from "../src/index";
+import CM, { TNumArr } from "../src/index";
 import RGBColors from "../src/models/rgb";
 
 let cm: RGBColors;
@@ -39,49 +39,53 @@ describe("object instantiation with overloaded helper", () => {
   });
 
   it("handles invalid input by throwing errors when needed", () => {
-    expect(CM.RGBAFrom("128, 64").rgbaObj).toMatchObject({ r: 128, g: 64, b: 0, a: 1 });
-    expect(CM.RGBAFrom("128, 64, 32, 5, 5").rgbaObj).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
-    expect(CM.RGBAFrom({ r: 128, g: 64, b: 32, a: 5 }).rgbaObj).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
-    expect(CM.RGBAFrom([128, 64, 32, 5]).rgbaObj).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
+    expect(CM.RGBAFrom("128, 64").object).toMatchObject({ r: 128, g: 64, b: 0, a: 1 });
+    expect(CM.RGBAFrom("128, 64, 32, 5, 5").object).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
+    expect(CM.RGBAFrom({ r: 128, g: 64, b: 32, a: 5 }).object).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
+    expect(CM.RGBAFrom([128, 64, 32, 5]).object).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
   });
 });
 
 describe("getters & setters", () => {
-  test("object getter", () => {
-    expect(cm.rgbaObj).toMatchObject({ r: 128, g: 64, b: 32, a: 0.7 });
-  });
+  test("object getter", () => expect(cm.object).toMatchObject({ r: 128, g: 64, b: 32, a: 0.7 }));
 
   test("object setter", () => {
-    cm.rgbaObj = { ...cm.rgbaObj, r: 100 };
+    cm.object = { ...cm.object, r: 100 };
     expect(cm.string({ withAlpha: false })).toBe("rgb(100, 64, 32)");
   });
 
-  test("array getter", () => {
-    expect(cm.rgbaArr).toEqual([128, 64, 32, 0.7]);
-  });
+  test("array getter", () => expect(cm.array).toEqual([128, 64, 32, 0.7]));
 
   test("array setter", () => {
-    const currArr = cm.rgbaArr;
+    const currArr = cm.array;
     currArr[0] = 48;
-    cm.rgbaArr = currArr;
-    expect(cm.string({ withAlpha: false })).toBe("rgb(48, 64, 32)");
+
+    cm.array = currArr;
+    expect(cm.string()).toBe("rgba(48, 64, 32, 0.7)");
+
+    cm.array = currArr.slice(0, 3) as TNumArr;
+    expect(cm.string()).toBe("rgba(48, 64, 32, 1.0)");
   });
+
+  test("format getter", () => expect(cm.format).toBe("rgb"));
 });
 
 describe("string formation", () => {
-  test("without alpha", () => {
-    expect(cm.string({ withAlpha: false })).toBe("rgb(128, 64, 32)");
-  });
-
-  test("with alpha", () => {
-    expect(cm.string()).toBe("rgba(128, 64, 32, 0.7)");
-  });
-
+  test("without alpha", () => expect(cm.string({ withAlpha: false })).toBe("rgb(128, 64, 32)"));
+  test("with alpha", () => expect(cm.string()).toBe("rgba(128, 64, 32, 0.7)"));
   test("with precision", () => {
     const CM_PRECISE = CM.RGBAFrom("190.234, 60.35, 60.545, 0.73");
     expect(CM_PRECISE.string({ precision: [0, 1, 2, 3] })).toBe("rgba(190, 60.4, 60.55, 0.730)");
     expect(CM_PRECISE.string({ precision: [0, 1, 2] })).toBe("rgba(190, 60.4, 60.55, 0.7)");
+    expect(CM_PRECISE.string({ precision: [-1, 1, 2] })).toBe("rgba(190.234, 60.4, 60.55, 0.7)");
   });
+});
+
+describe("name", () => {
+  test("with alpha = 1", () => expect(CM.RGBAFrom("rgb(128.4, 0, 0, 1)").name()).toBe("maroon"));
+  test("with 0 < alpha < 1", () => expect(CM.RGBAFrom("rgb(128.4, 0, 0, 0.5)").name()).toBe("maroon (with opacity)"));
+  test("with alpha = 0", () => expect(CM.RGBAFrom("rgb(128.4, 0, 0, 0)").name()).toBe("transparent"));
+  test("undefined", () => expect(CM.RGBAFrom("rgb(1, 0, 0)").name()).toBe("undefined"));
 });
 
 describe("changeValueTo", () => {
@@ -149,9 +153,7 @@ describe("changeValueBy", () => {
 });
 
 describe("alpha", () => {
-  test("alphaTo", () => {
-    expect(cm.alphaTo(0.5).string()).toBe("rgba(128, 64, 32, 0.5)");
-  });
+  test("alphaTo", () => expect(cm.alphaTo(0.5).string()).toBe("rgba(128, 64, 32, 0.5)"));
 
   test("alphaBy", () => {
     expect(cm.alphaBy(0.1).string()).toBe("rgba(128, 64, 32, 0.8)");
@@ -160,13 +162,8 @@ describe("alpha", () => {
 });
 
 describe("invert", () => {
-  test("include alpha", () => {
-    expect(cm.invert().string()).toBe("rgba(127, 191, 223, 0.3)");
-  });
-
-  test("exclude alpha", () => {
-    expect(cm.invert({ includeAlpha: false }).string()).toBe("rgba(127, 191, 223, 0.7)");
-  });
+  test("include alpha", () => expect(cm.invert().string()).toBe("rgba(127, 191, 223, 0.3)"));
+  test("exclude alpha", () => expect(cm.invert({ includeAlpha: false }).string()).toBe("rgba(127, 191, 223, 0.7)"));
 });
 
 describe("saturateBy/desaturateBy", () => {
@@ -193,6 +190,10 @@ describe("lighterBy/darkerBy", () => {
   });
 });
 
-test("grayscale", () => {
-  expect(cm.grayscale().string()).toBe("rgba(80, 80, 80, 0.7)");
+test("grayscale", () => expect(cm.grayscale().string()).toBe("rgba(80, 80, 80, 0.7)"));
+
+describe("rotate", () => {
+  test("value > 0", () => expect(cm.rotate(120).string()).toBe("rgba(32, 128, 64, 0.7)"));
+  test("value = 0", () => expect(cm.rotate(0).string()).toBe("rgba(128, 64, 32, 0.7)"));
+  test("value < 0", () => expect(cm.rotate(-120).string()).toBe("rgba(64, 32, 128, 0.7)"));
 });

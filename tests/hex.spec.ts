@@ -1,4 +1,4 @@
-import CM from "../src/index";
+import CM, { TStrArr } from "../src/index";
 import HEXColors from "../src/models/hex";
 
 let cm: HEXColors;
@@ -30,49 +30,58 @@ describe("object instantiation with overloaded helper", () => {
   });
 
   test("string with prefix(s)", () => {
-    expect(CM.HEXAFrom("#456789").hexaObj).toMatchObject({ r: "45", g: "67", b: "89", a: "FF" });
-    expect(CM.HEXAFrom("(45, 67, 89)").hexaObj).toMatchObject({ r: "45", g: "67", b: "89", a: "FF" });
-    expect(CM.HEXAFrom("(45, 67, 89, AB)").hexaObj).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
-    expect(CM.HEXAFrom(FULL_OPACITY).hexaObj).toMatchObject({ r: "45", g: "67", b: "89", a: "FF" });
-    expect(CM.HEXAFrom(LOWER_OPACITY).hexaObj).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
+    expect(CM.HEXAFrom("#456789").object).toMatchObject({ r: "45", g: "67", b: "89", a: "FF" });
+    expect(CM.HEXAFrom("#456789AB").object).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
+    expect(CM.HEXAFrom("#456").object).toMatchObject({ r: "44", g: "55", b: "66", a: "FF" });
+    expect(CM.HEXAFrom("#4567").object).toMatchObject({ r: "44", g: "55", b: "66", a: "77" });
+    expect(CM.HEXAFrom("(45, 67, 89)").object).toMatchObject({ r: "45", g: "67", b: "89", a: "FF" });
+    expect(CM.HEXAFrom("(45, 67, 89, AB)").object).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
+    expect(CM.HEXAFrom(FULL_OPACITY).object).toMatchObject({ r: "45", g: "67", b: "89", a: "FF" });
+    expect(CM.HEXAFrom(LOWER_OPACITY).object).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
   });
 
   it("handles invalid input by throwing errors when needed", () => {
-    expect(CM.HEXAFrom("45, 67").hexaObj).toMatchObject({ r: "45", g: "67", b: "00", a: "FF" });
-    expect(CM.HEXAFrom("45, 67, 89, AB, AB").hexaObj).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
+    expect(CM.HEXAFrom("45, 67").object).toMatchObject({ r: "45", g: "67", b: "00", a: "FF" });
+    expect(CM.HEXAFrom("45, 67, 89, AB, AB").object).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
+    expect(CM.HEXAFrom("#45").object).toMatchObject({ r: "44", g: "55", b: "00", a: "FF" }); // hex not long enough
+    expect(CM.HEXAFrom("#").object).toMatchObject({ r: "00", g: "00", b: "00", a: "FF" }); // no hex provided
   });
 });
 
 describe("getters & setters", () => {
-  test("object getter", () => {
-    expect(cm.hexaObj).toMatchObject({ r: "66", g: "77", b: "88", a: "99" });
-  });
+  test("object getter", () => expect(cm.object).toMatchObject({ r: "66", g: "77", b: "88", a: "99" }));
 
   test("object setter", () => {
-    cm.hexaObj = { ...cm.hexaObj, r: "33" };
+    cm.object = { ...cm.object, r: "33" };
     expect(cm.string({ withAlpha: false })).toBe("#337788");
   });
 
-  test("array getter", () => {
-    expect(cm.hexaArr).toEqual(["66", "77", "88", "99"]);
-  });
+  test("array getter", () => expect(cm.array).toEqual(["66", "77", "88", "99"]));
 
   test("array setter", () => {
-    const currArr = cm.hexaArr;
+    const currArr = cm.array;
     currArr[0] = "33";
-    cm.hexaArr = currArr;
-    expect(cm.string({ withAlpha: false })).toBe("#337788");
+
+    cm.array = currArr;
+    expect(cm.string()).toBe("#33778899");
+
+    cm.array = currArr.slice(0, 3) as TStrArr;
+    expect(cm.string()).toBe("#337788FF");
   });
+
+  test("format getter", () => expect(cm.format).toBe("hex"));
 });
 
 describe("string formation", () => {
-  test("without alpha", () => {
-    expect(cm.string({ withAlpha: false })).toBe("#667788");
-  });
+  test("without alpha", () => expect(cm.string({ withAlpha: false })).toBe("#667788"));
+  test("with alpha", () => expect(cm.string()).toBe("#66778899"));
+});
 
-  test("with alpha", () => {
-    expect(cm.string()).toBe("#66778899");
-  });
+describe("name", () => {
+  test("with alpha = 'FF'", () => expect(CM.HEXAFrom("#800000FF").name()).toBe("maroon"));
+  test("with '00' < alpha < 'FF'", () => expect(CM.HEXAFrom("#80000077)").name()).toBe("maroon (with opacity)"));
+  test("with alpha = '00'", () => expect(CM.HEXAFrom("#80000000").name()).toBe("transparent"));
+  test("undefined", () => expect(CM.HEXAFrom("#800001").name()).toBe("undefined"));
 });
 
 describe("changeValueTo", () => {
@@ -140,9 +149,7 @@ describe("changeValueBy", () => {
 });
 
 describe("alpha", () => {
-  test("alphaTo", () => {
-    expect(cm.alphaTo("F1").string()).toBe("#667788F1");
-  });
+  test("alphaTo", () => expect(cm.alphaTo("F1").string()).toBe("#667788F1"));
 
   test("alphaBy", () => {
     expect(cm.alphaBy("35", "add").string()).toBe("#667788CE");
@@ -151,13 +158,8 @@ describe("alpha", () => {
 });
 
 describe("invert", () => {
-  test("include alpha", () => {
-    expect(cm.invert().string()).toBe("#99887766");
-  });
-
-  test("exclude alpha", () => {
-    expect(cm.invert({ includeAlpha: false }).string()).toBe("#99887799");
-  });
+  test("include alpha", () => expect(cm.invert().string()).toBe("#99887766"));
+  test("exclude alpha", () => expect(cm.invert({ includeAlpha: false }).string()).toBe("#99887799"));
 });
 
 test("saturateBy/desaturateBy", () => {
@@ -170,6 +172,10 @@ test("lighterBy/darkerBy", () => {
   expect(cm.darkerBy("21").string()).toBe("#49556299"); // 4A566299
 });
 
-test("grayscale", () => {
-  expect(cm.grayscale().string()).toBe("#76767699"); // 77777799
+test("grayscale", () => expect(cm.grayscale().string()).toBe("#76767699")); // 77777799
+
+describe("rotate", () => {
+  test("value > 0", () => expect(cm.rotate(120).string()).toBe("#87657699")); // 88667799
+  test("value = 0", () => expect(cm.rotate(0).string()).toBe("#65768799")); // 66778899
+  test("value < 0", () => expect(cm.rotate(-120).string()).toBe("#76876599")); // 77886699
 });

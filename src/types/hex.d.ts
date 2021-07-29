@@ -23,6 +23,16 @@ export interface IHEXColors {
   string: ({ withAlpha }: IStringOpts) => string;
 
   /**
+   * Gets the color table HTML/CSS name for a given color in RGBA color space
+   *
+   * @note Colors with an alpha value of '00' return 'transparent'. Also, colors with alpha < "FF", return `CSS_NAME (with opacity)`
+   * @example CM.HEXAFrom("#800000") → "maroon"
+   * @see {@link RGBColors.name} for functionality
+   * @returns The color's HTML/CSS name
+   */
+  name: () => string;
+
+  /**
    * Converts a HEXA color to RGBA color
    *
    * @returns {RGBColors} An RGBA instance that can be acted upon → for function chaining
@@ -126,4 +136,10 @@ export interface IHEXColors {
    * @returns The instance that was acted upon → for function chaining
    */
   grayscale: () => HEXColors;
+
+  /**
+   * Rotation changes the hue of a color by `value` degrees in HSLA space
+   * @returns The instance that was acted upon → for function chaining
+   */
+  rotate: (value: number) => HEXColors;
 }

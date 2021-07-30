@@ -209,3 +209,14 @@ describe("rotate", () => {
   test("value = 0", () => expect(cm.rotate(0).string()).toBe("hsla(190, 60%, 60%, 0.6)"));
   test("value < 0", () => expect(cm.rotate(-240).string()).toBe("hsla(310, 60%, 60%, 0.6)"));
 });
+
+test("closestWebSafe", () => {
+  // works if RGBA.closestWebSafe works, so will only check a few cases
+  expect(CM.HSLAFrom(3, 97, 47, 0.7).closestWebSafe().string()).toBe("hsla(0, 100%, 50%, 0.7)");
+  expect(CM.HSLAFrom(63, 97, 53, 0.7).closestWebSafe().string()).toBe("hsla(60, 100%, 50%, 0.7)");
+  expect(CM.HSLAFrom(123, 97, 47, 0.7).closestWebSafe().string()).toBe("hsla(120, 100%, 50%, 0.7)");
+  expect(CM.HSLAFrom(183, 97, 53, 0.7).closestWebSafe().string()).toBe("hsla(180, 100%, 50%, 0.7)");
+  expect(CM.HSLAFrom(243, 97, 47, 0.7).closestWebSafe().string()).toBe("hsla(240, 100%, 50%, 0.7)");
+  expect(CM.HSLAFrom(303, 97, 53, 0.7).closestWebSafe().string()).toBe("hsla(300, 100%, 50%, 0.7)");
+  expect(CM.HSLAFrom(357, 97, 47, 0.7).closestWebSafe().string()).toBe("hsla(0, 100%, 50%, 0.7)");
+});

@@ -144,4 +144,10 @@ export interface IRGBColors {
    * @returns The instance that was acted upon → for function chaining
    */
   rotate: (value: number) => RGBColors;
+
+  /**
+   * Finds the closest Web Safe color to the current color from the list at: https://www.rapidtables.com/web/color/Web_Safe.html
+   * @returns The instance that was acted upon → for function chaining
+   */
+  closestWebSafe: () => RGBColors;
 }

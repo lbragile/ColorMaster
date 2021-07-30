@@ -140,4 +140,8 @@ export default class HSLColors implements IHSLColors {
   rotate(value: number): HSLColors {
     return this.hueBy(value);
   }
+
+  closestWebSafe(): HSLColors {
+    return this.rgb().closestWebSafe().hsl();
+  }
 }

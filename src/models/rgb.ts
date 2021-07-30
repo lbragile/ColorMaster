@@ -1,7 +1,7 @@
 import { IAlphaInvert, IStringOpts, TChannel, TNumArr } from "../types/common";
 import { Irgba, IRGBColors } from "../types/rgb";
 import { BOUNDS } from "../enums/bounds";
-import { RGBExtended } from "../enums/colors";
+import { RGBExtended, WebSafe } from "../enums/colors";
 import { clampNum, round } from "../utils/numeric";
 import HSLColors from "./hsl";
 import HEXColors from "./hex";
@@ -135,5 +135,26 @@ export default class RGBColors implements IRGBColors {
 
   rotate(value: number): RGBColors {
     return this.hsl().rotate(value).rgb();
+  }
+
+  closestWebSafe(): RGBColors {
+    const { r, g, b, a } = this.object;
+    const webSafeArr = Object.values(WebSafe).map((str) => str.replace(/rgb\(|\)/g, ""));
+
+    let closestVal = new Array(3).fill(0);
+    let minDist = Number.POSITIVE_INFINITY;
+    for (let i = 0; i < webSafeArr.length; i++) {
+      const [Rs, Gs, Bs] = webSafeArr[i].split(",").map((val) => +val);
+
+      // channel wise distance
+      const currDist = Math.abs(Rs - r) + Math.abs(Gs - g) + Math.abs(Bs - b);
+      if (currDist < minDist) {
+        closestVal = [Rs, Gs, Bs];
+        minDist = currDist;
+      }
+    }
+
+    this.array = [...closestVal, a] as Required<TNumArr>;
+    return this;
   }
 }

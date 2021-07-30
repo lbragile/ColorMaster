@@ -197,3 +197,34 @@ describe("rotate", () => {
   test("value = 0", () => expect(cm.rotate(0).string()).toBe("rgba(128, 64, 32, 0.7)"));
   test("value < 0", () => expect(cm.rotate(-120).string()).toBe("rgba(64, 32, 128, 0.7)"));
 });
+
+describe("closestWebSafe", () => {
+  test.each`
+    val    | location
+    ${0}   | ${"first"}
+    ${51}  | ${"first"}
+    ${102} | ${"first"}
+    ${153} | ${"first"}
+    ${204} | ${"first"}
+    ${255} | ${"first"}
+    ${0}   | ${"middle"}
+    ${51}  | ${"middle"}
+    ${102} | ${"middle"}
+    ${153} | ${"middle"}
+    ${204} | ${"middle"}
+    ${255} | ${"middle"}
+    ${0}   | ${"last"}
+    ${51}  | ${"last"}
+    ${102} | ${"last"}
+    ${153} | ${"last"}
+    ${204} | ${"last"}
+    ${255} | ${"last"}
+  `("$val $location", ({ val, location }) => {
+    const [isFirst, isMiddle, isLast] = [location === "first", location === "middle", location === "last"];
+    const [lower, upper] = [val - 25, val + 25];
+    const expected = `rgba(${isFirst ? val : 0}, ${isMiddle ? val : 0}, ${isLast ? val : 0}, 0.7)`;
+
+    expect(CM.RGBAFrom(isFirst ? lower : 1, isMiddle ? lower : 1, isLast ? lower : 1, 0.7).closestWebSafe().string()).toBe(expected); // prettier-ignore
+    expect(CM.RGBAFrom(isFirst ? upper : 1, isMiddle ? upper : 1, isLast ? upper : 1, 0.7).closestWebSafe().string()).toBe(expected); // prettier-ignore
+  });
+});

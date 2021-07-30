@@ -116,4 +116,8 @@ export default class HEXColors implements IHEXColors {
   rotate(value: number): HEXColors {
     return this.hsl().rotate(value).hex();
   }
+
+  closestWebSafe(): HEXColors {
+    return this.rgb().closestWebSafe().hex();
+  }
 }

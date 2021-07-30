@@ -142,4 +142,12 @@ export interface IHEXColors {
    * @returns The instance that was acted upon → for function chaining
    */
   rotate: (value: number) => HEXColors;
+
+  /**
+   * Finds the closest Web Safe color (via RGBA color space) to the current color from the list at: https://www.rapidtables.com/web/color/Web_Safe.html
+   *
+   * @see {@link RGBColors.closestWebSafe} for functionality
+   * @returns The instance that was acted upon → for function chaining
+   */
+  closestWebSafe: () => HEXColors;
 }

@@ -179,3 +179,15 @@ describe("rotate", () => {
   test("value = 0", () => expect(cm.rotate(0).string()).toBe("#65768799")); // 66778899
   test("value < 0", () => expect(cm.rotate(-120).string()).toBe("#76876599")); // 77886699
 });
+
+test("closestWebSafe", () => {
+  // works if RGBA.closestWebSafe works, so will only check a few cases
+  expect(CM.HEXAFrom("#FA0303FD").closestWebSafe().string()).toBe("#FF0000FD");
+  expect(CM.HEXAFrom("#FAFA03FD").closestWebSafe().string()).toBe("#FFFF00FD");
+  expect(CM.HEXAFrom("#03FA03FD").closestWebSafe().string()).toBe("#00FF00FD");
+  expect(CM.HEXAFrom("#03FAFAFD").closestWebSafe().string()).toBe("#00FFFFFD");
+  expect(CM.HEXAFrom("#0303FAFD").closestWebSafe().string()).toBe("#0000FFFD");
+  expect(CM.HEXAFrom("#FA03FAFD").closestWebSafe().string()).toBe("#FF00FFFD");
+  expect(CM.HEXAFrom("#030303FD").closestWebSafe().string()).toBe("#000000FD");
+  expect(CM.HEXAFrom("#FAFAFAFD").closestWebSafe().string()).toBe("#FFFFFFFD");
+});

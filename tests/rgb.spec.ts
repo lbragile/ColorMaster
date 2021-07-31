@@ -1,3 +1,4 @@
+import { BOUNDS } from "../src/enums/bounds";
 import CM, { TNumArr } from "../src/index";
 import RGBColors from "../src/models/rgb";
 
@@ -68,6 +69,13 @@ describe("getters & setters", () => {
   });
 
   test("format getter", () => expect(cm.format).toBe("rgb"));
+  test("red getter", () => expect(cm.red).toEqual(128));
+  test("green getter", () => expect(cm.green).toEqual(64));
+  test("blue getter", () => expect(cm.blue).toEqual(32));
+  test("alpha getter", () => expect(cm.alpha).toEqual(0.7));
+  test("hue getter", () => expect(cm.hue).toEqual(20));
+  test("saturation getter", () => expect(cm.saturation).toEqual(60));
+  test("lightness getter", () => expect(+cm.lightness.toFixed(1)).toEqual(31.4));
 });
 
 describe("string formation", () => {
@@ -227,4 +235,120 @@ describe("closestWebSafe", () => {
     expect(CM.RGBAFrom(isFirst ? lower : 1, isMiddle ? lower : 1, isLast ? lower : 1, 0.7).closestWebSafe().string()).toBe(expected); // prettier-ignore
     expect(CM.RGBAFrom(isFirst ? upper : 1, isMiddle ? upper : 1, isLast ? upper : 1, 0.7).closestWebSafe().string()).toBe(expected); // prettier-ignore
   });
+});
+
+describe("brightness", () => {
+  test("percentage = false", () => {
+    expect(CM.RGBAFrom(0, 0, 0).brightness()).toEqual(0);
+    expect(CM.RGBAFrom(64, 64, 64).brightness()).toEqual(0.251);
+    expect(CM.RGBAFrom(128, 128, 128).brightness()).toEqual(0.502);
+    expect(CM.RGBAFrom(192, 192, 192).brightness()).toEqual(0.7529);
+    expect(CM.RGBAFrom(255, 255, 255).brightness()).toEqual(1);
+  });
+
+  test("percentage = true", () => {
+    expect(CM.RGBAFrom(0, 0, 0).brightness({ percentage: true })).toEqual(0);
+    expect(CM.RGBAFrom(64, 64, 64).brightness({ percentage: true })).toEqual(25.1);
+    expect(CM.RGBAFrom(128, 128, 128).brightness({ percentage: true })).toEqual(50.2);
+    expect(CM.RGBAFrom(192, 192, 192).brightness({ percentage: true })).toEqual(75.29);
+    expect(CM.RGBAFrom(255, 255, 255).brightness({ percentage: true })).toEqual(100);
+  });
+});
+
+describe("luminance", () => {
+  test("luminance = false", () => {
+    expect(CM.RGBAFrom(0, 0, 0).luminance()).toEqual(0);
+    expect(CM.RGBAFrom(64, 64, 64).luminance()).toEqual(0.0513);
+    expect(CM.RGBAFrom(128, 128, 128).luminance()).toEqual(0.2159);
+    expect(CM.RGBAFrom(192, 192, 192).luminance()).toEqual(0.5271);
+    expect(CM.RGBAFrom(255, 255, 255).luminance()).toEqual(1);
+  });
+
+  test("luminance = true", () => {
+    expect(CM.RGBAFrom(0, 0, 0).luminance({ percentage: true })).toEqual(0);
+    expect(CM.RGBAFrom(64, 64, 64).luminance({ percentage: true })).toEqual(5.13);
+    expect(CM.RGBAFrom(128, 128, 128).luminance({ percentage: true })).toEqual(21.59);
+    expect(CM.RGBAFrom(192, 192, 192).luminance({ percentage: true })).toEqual(52.71);
+    expect(CM.RGBAFrom(255, 255, 255).luminance({ percentage: true })).toEqual(100);
+  });
+});
+
+describe("contrast", () => {
+  test("ratio = false", () => {
+    expect(CM.RGBAFrom(0, 0, 0).contrast()).toEqual(21);
+    expect(CM.RGBAFrom(64, 64, 64).contrast()).toEqual(10.3653);
+    expect(CM.RGBAFrom(128, 128, 128).contrast()).toEqual(3.9489);
+    expect(CM.RGBAFrom(192, 192, 192).contrast()).toEqual(1.8194);
+    expect(CM.RGBAFrom(255, 255, 255).contrast()).toEqual(1);
+  });
+
+  test("ratio = true", () => {
+    expect(CM.RGBAFrom(0, 0, 0).contrast("255, 255, 255", { ratio: true })).toBe("21.0000:1");
+    expect(CM.RGBAFrom(64, 64, 64).contrast("255, 255, 255", { ratio: true })).toEqual("10.3653:1");
+    expect(CM.RGBAFrom(128, 128, 128).contrast("255, 255, 255", { ratio: true })).toEqual("3.9489:1");
+    expect(CM.RGBAFrom(192, 192, 192).contrast("255, 255, 255", { ratio: true })).toEqual("1.8194:1");
+    expect(CM.RGBAFrom(255, 255, 255).contrast("255, 255, 255", { ratio: true })).toEqual("1.0000:1");
+  });
+});
+
+test("light/dark", () => {
+  expect(CM.RGBAFrom(0, 0, 0).isLight()).toBeFalsy();
+  expect(CM.RGBAFrom(0, 0, 0).isDark()).toBeTruthy();
+
+  // boundary of brightness < 0.50
+  expect(CM.RGBAFrom(127, 127, 127).isLight()).toBeFalsy();
+  expect(CM.RGBAFrom(127, 127, 127).isDark()).toBeTruthy();
+
+  // boundary of brightness >= 0.50
+  expect(CM.RGBAFrom(128, 128, 128).isLight()).toBeTruthy();
+  expect(CM.RGBAFrom(128, 128, 128).isDark()).toBeFalsy();
+
+  expect(CM.RGBAFrom(255, 255, 255).isLight()).toBeTruthy();
+  expect(CM.RGBAFrom(255, 255, 255).isDark()).toBeFalsy();
+});
+
+test("readableOn", () => {
+  // Contrast checker: https://webaim.org/resources/contrastchecker/
+  const blackColor = CM.RGBAFrom(0, 0, 0);
+
+  // extremes
+  expect(CM.RGBAFrom(255, 255, 255).readableOn()).toBeFalsy();
+  expect(blackColor.readableOn()).toBeTruthy();
+
+  // 3.0:1
+  expect(blackColor.readableOn("89, 89, 89", { size: "large", ratio: "minimum" })).toBeFalsy();
+  expect(blackColor.readableOn("90, 90, 90", { size: "large", ratio: "minimum" })).toBeTruthy();
+
+  // 4.5:1
+  expect(blackColor.readableOn("116, 116, 116")).toBeFalsy();
+  expect(blackColor.readableOn("117, 117, 117")).toBeTruthy();
+  expect(blackColor.readableOn("116, 116, 116", { size: "large", ratio: "enhanced" })).toBeFalsy();
+  expect(blackColor.readableOn("117, 117, 117", { size: "large", ratio: "enhanced" })).toBeTruthy();
+
+  // 7.0:1
+  expect(blackColor.readableOn("148, 148, 148", { size: "body", ratio: "enhanced" })).toBeFalsy();
+  expect(blackColor.readableOn("149, 149, 149", { size: "body", ratio: "enhanced" })).toBeTruthy();
+});
+
+test("equalTo", () => {
+  expect(CM.RGBAFrom(255, 255, 255).equalTo()).toBeTruthy();
+  expect(CM.RGBAFrom(255, 255, 255, 1).equalTo()).toBeTruthy();
+  expect(CM.RGBAFrom(255, 255, 255).equalTo("255, 255, 255, 0.8")).toBeFalsy();
+  expect(CM.RGBAFrom(255, 255, 255, 0.8).equalTo()).toBeFalsy();
+  expect(CM.RGBAFrom(0, 255, 255, 1).equalTo()).toBeFalsy();
+  expect(CM.RGBAFrom(255, 0, 255, 1).equalTo()).toBeFalsy();
+  expect(CM.RGBAFrom(255, 255, 0, 1).equalTo()).toBeFalsy();
+  expect(CM.RGBAFrom(255, 255, 0, 1).equalTo(CM.RGBAFrom(255, 255, 0))).toBeTruthy();
+});
+
+test("random generation", () => {
+  jest
+    .spyOn(global.Math, "random")
+    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
+    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // green → 222
+    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // blue  → 222
+    .mockReturnValueOnce(0.5) // alpha → 0.5
+    .mockReturnValueOnce(0.7); // 0.7 * 3 = 2.1 → floor(2.1) = 2 → RGBA color instance
+
+  expect(CM.random().string()).toBe("rgba(222, 222, 222, 0.5)");
 });

@@ -1,3 +1,5 @@
+import { BOUNDS } from "../enums/bounds";
+
 /**
  * Restricts the value of `val` to be between `min` and `max` for number inputs
  * @param min Lower bound (0)
@@ -33,4 +35,26 @@ export function clampStr(min: string, val: string, max: string): string {
  */
 export function round(value: number, precision: number): string {
   return precision >= 0 ? value.toFixed(precision) : value.toString();
+}
+
+/**
+ * Converts a RGB color space channel value into its corresponding standard RGB (sRGB) color space value
+ * @param value The RGB channel value to convert
+ *
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_Colors_and_Luminance}
+ * @returns standard RGB equivalent of the RGB channel value provided
+ */
+export function sRGB(value: number): number {
+  value /= BOUNDS.RGB_CHANNEL;
+  return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+}
+
+/**
+ * Helper for generating random numbers (integer) from an upper bounded range
+ *
+ * @param max Output will be bounded to [0, max]
+ * @returns A positive integer that is randomly generated and guaranteed to be less than `max`
+ */
+export function random(max: number): number {
+  return Math.floor(Math.random() * max);
 }

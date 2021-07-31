@@ -1,7 +1,8 @@
+import { TNumArr } from "..";
 import HEXColors from "../models/hex";
 import HSLColors from "../models/hsl";
 import RGBColors from "../models/rgb";
-import { IAlphaInvert, IStringOpts, TChannel } from "./common";
+import { IA11yOpts, IAlphaInvert, IReadable, IStringOpts, TChannel, TRGBAInput } from "./common";
 
 export interface Irgb {
   r: number;
@@ -14,6 +15,57 @@ export interface Irgba extends Irgb {
 }
 
 export interface IRGBColors {
+  /**
+   * the RGBA color instance as an object
+   */
+  readonly object: Irgba;
+
+  /**
+   * the RGBA color instance as an array
+   */
+  readonly array: Required<TNumArr>;
+
+  /**
+   * the color format of a RGBA color instance
+   * @note Useful when you are using variables and are not sure what color space the color is from
+   */
+  readonly format: string;
+
+  /**
+   * the red channel value of this RGBA color instance
+   */
+  readonly red: number;
+
+  /**
+   * the blue channel value of this RGBA color instance
+   */
+  readonly blue: number;
+
+  /**
+   * the green channel value of this RGBA color instance
+   */
+  readonly green: number;
+
+  /**
+   * the alpha channel channel value of this RGBA color instance
+   */
+  readonly alpha: number;
+
+  /**
+   * the hue channel value from the corresponding HSLA color space
+   */
+  readonly hue: number;
+
+  /**
+   * the saturation channel value from the corresponding HSLA color space
+   */
+  readonly saturation: number;
+
+  /**
+   * the lightness channel value from the corresponding HSLA color space
+   */
+  readonly lightness: number;
+
   /**
    * Gives the string representation of an input RGBA color object
    * @param opts -
@@ -150,4 +202,76 @@ export interface IRGBColors {
    * @returns The instance that was acted upon → for function chaining
    */
   closestWebSafe: () => RGBColors;
+
+  /**
+   * Finds the normalized brightness of the color
+   *
+   * @param opts -
+   * - precision → How many decimal places to use in the output
+   * - percentage → Whether or not to multiply the output by 100
+   *
+   * @see {@link https://www.w3.org/TR/AERT/#color-contrast}
+   * @returns A value in the range [0, 1] = [dim (black), bright (white)] (or [0, 100] if `percentage = true`)
+   */
+  brightness: () => number;
+
+  /**
+   * Finds normalized relative luminance of the color
+   *
+   * @param opts -
+   * - precision → How many decimal places to use in the output
+   * - percentage → Whether or not to multiply the output by 100
+   *
+   * @see {@link https://www.w3.org/TR/WCAG20/#relativeluminancedef}
+   * @returns A value in the range [0, 1] = [darkest black, lightest white] (or [0, 100] if `percentage = true`)
+   */
+  luminance: (opts: IA11yOpts) => number;
+
+  /**
+   * Given a background color as input, determines the contrast ratio if the current color is used as the foreground color
+   *
+   * @param bgColor the background RGBA color instance
+   * @param opts -
+   * - precision → How many decimal places to use in the output
+   * - ratio → Whether or not to append `:1` to the output (express as a ratio)
+   *
+   * @note This ratio will range from `1:1 → white fg : white bg` to `21:1 → black fg : white bg`
+   * @see {@link RGBColors.readableOn readableOn} for readable contrast ratios
+   * @returns The contrast between current color instance and `bgColor` as a number (value → `ratio = false`) or string ("value:1" → `ratio = true`)
+   */
+  contrast: (bgColor: TRGBAInput | RGBColors, opts: IA11yOpts) => string | number;
+
+  /**
+   * Determines if a given color is light based on its brightness (brightness ≥ 0.50)
+   */
+  isLight: () => boolean;
+
+  /**
+   * Determines if a given color is dark based on its brightness (brightness < 0.50)
+   */
+  isDark: () => boolean;
+
+  /**
+   * Given a background color as input, determines if the current color is readable if it is used as the foreground color
+   *
+   * |           | Minimum | Enhanced |
+   * | :-------- | :------ | :------- |
+   * | **Body**  |  4.5:1  |  7.0:1   |
+   * | **Large** |  3.0:1  |  4.5:1   |
+   *
+   * @param bgColor the background RGBA color instance
+   * @param opts -
+   * - size → Either "body" or "large" text size (large is 120-150% larger than body text)
+   * - ratio → Either "minimum" ("AA" rating) or "enhanced" ("AAA" rating)
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast}
+   * @returns Whether or not the color is readable on `bgColor`
+   */
+  readableOn: (bgColor: TRGBAInput | RGBColors, opts: IReadable) => boolean;
+
+  /**
+   * Given an input color to compare with, determine if that color is identical to the current color instance
+   * @returns True if the two color instances are identical (same RGBA channel values). False otherwise.
+   */
+  equalTo: (compareColor: TRGBAInput | RGBColors) => boolean;
 }

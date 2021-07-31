@@ -1,5 +1,15 @@
+import CM from "../index";
 import { BOUNDS } from "../enums/bounds";
-import { IAlphaInvert, IStringOpts, TChannel, TOperator, TStrArr } from "../types/common";
+import {
+  IA11yOpts,
+  IAlphaInvert,
+  IReadable,
+  IStringOpts,
+  TChannel,
+  THEXAInput,
+  TOperator,
+  TStrArr
+} from "../types/common";
 import { Ihexa, IHEXColors } from "../types/hex";
 import { clampStr } from "../utils/numeric";
 import HSLColors from "./hsl";
@@ -35,6 +45,34 @@ export default class HEXColors implements IHEXColors {
 
   get format(): string {
     return "hex";
+  }
+
+  get red(): string {
+    return this.object.r;
+  }
+
+  get blue(): string {
+    return this.object.b;
+  }
+
+  get green(): string {
+    return this.object.g;
+  }
+
+  get alpha(): string {
+    return this.object.a;
+  }
+
+  get hue(): number {
+    return this.hsl().object.h;
+  }
+
+  get saturation(): number {
+    return this.hsl().object.s;
+  }
+
+  get lightness(): number {
+    return this.hsl().object.l;
   }
 
   string({ withAlpha = true }: IStringOpts = {}): string {
@@ -119,5 +157,42 @@ export default class HEXColors implements IHEXColors {
 
   closestWebSafe(): HEXColors {
     return this.rgb().closestWebSafe().hex();
+  }
+
+  brightness({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+    return this.rgb().brightness({ precision, percentage });
+  }
+
+  luminance({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+    return this.rgb().luminance({ precision, percentage });
+  }
+
+  contrast(
+    bgColor: THEXAInput | HEXColors = "#FFFFFFFF",
+    { precision = 4, ratio = false }: IA11yOpts = {}
+  ): string | number {
+    bgColor = bgColor instanceof HEXColors ? bgColor : CM.HEXAFrom(bgColor);
+    return this.rgb().contrast(bgColor.rgb(), { precision, ratio });
+  }
+
+  isLight(): boolean {
+    return this.brightness() >= 0.5;
+  }
+
+  isDark(): boolean {
+    return !this.isLight();
+  }
+
+  readableOn(
+    bgColor: THEXAInput | HEXColors = "#FFFFFFFF",
+    { size = "body", ratio = "minimum" }: IReadable = {}
+  ): boolean {
+    bgColor = bgColor instanceof HEXColors ? bgColor : CM.HEXAFrom(bgColor);
+    return this.rgb().readableOn(bgColor.rgb(), { size, ratio });
+  }
+
+  equalTo(compareColor: THEXAInput | HEXColors = "#FFFFFFFF"): boolean {
+    compareColor = compareColor instanceof HEXColors ? compareColor : CM.HEXAFrom(compareColor);
+    return this.array.join("") === compareColor.array.join("");
   }
 }

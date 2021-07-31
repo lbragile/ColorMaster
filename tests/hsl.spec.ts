@@ -1,3 +1,4 @@
+import { BOUNDS } from "../src/enums/bounds";
 import CM, { TNumArr } from "../src/index";
 import HSLColors from "../src/models/hsl";
 
@@ -70,6 +71,13 @@ describe("getters & setters", () => {
   });
 
   test("format getter", () => expect(cm.format).toBe("hsl"));
+  test("red getter", () => expect(cm.red).toEqual(91.8));
+  test("green getter", () => expect(cm.green).toEqual(193.8));
+  test("blue getter", () => expect(cm.blue).toEqual(214.2));
+  test("alpha getter", () => expect(cm.alpha).toEqual(0.6));
+  test("hue getter", () => expect(cm.hue).toEqual(190));
+  test("saturation getter", () => expect(cm.saturation).toEqual(60));
+  test("lightness getter", () => expect(cm.lightness).toEqual(60));
 });
 
 describe("string formation", () => {
@@ -219,4 +227,122 @@ test("closestWebSafe", () => {
   expect(CM.HSLAFrom(243, 97, 47, 0.7).closestWebSafe().string()).toBe("hsla(240, 100%, 50%, 0.7)");
   expect(CM.HSLAFrom(303, 97, 53, 0.7).closestWebSafe().string()).toBe("hsla(300, 100%, 50%, 0.7)");
   expect(CM.HSLAFrom(357, 97, 47, 0.7).closestWebSafe().string()).toBe("hsla(0, 100%, 50%, 0.7)");
+});
+
+describe("brightness", () => {
+  test("percentage = false", () => {
+    expect(CM.HSLAFrom(0, 0, 0).brightness()).toEqual(0);
+    expect(CM.HSLAFrom(0, 0, 25.1).brightness()).toEqual(0.251);
+    expect(CM.HSLAFrom(0, 0, 50.2).brightness()).toEqual(0.502);
+    expect(CM.HSLAFrom(0, 0, 75.29).brightness()).toEqual(0.7529);
+    expect(CM.HSLAFrom(0, 0, 100).brightness()).toEqual(1);
+  });
+
+  test("percentage = true", () => {
+    expect(CM.HSLAFrom(0, 0, 0).brightness({ percentage: true })).toEqual(0);
+    expect(CM.HSLAFrom(0, 0, 25.1).brightness({ percentage: true })).toEqual(25.1);
+    expect(CM.HSLAFrom(0, 0, 50.2).brightness({ percentage: true })).toEqual(50.2);
+    expect(CM.HSLAFrom(0, 0, 75.29).brightness({ percentage: true })).toEqual(75.29);
+    expect(CM.HSLAFrom(0, 0, 100).brightness({ percentage: true })).toEqual(100);
+  });
+});
+
+describe("luminance", () => {
+  test("luminance = false", () => {
+    expect(CM.HSLAFrom(0, 0, 0).luminance()).toEqual(0);
+    expect(CM.HSLAFrom(0, 0, 25.1).luminance()).toEqual(0.0513);
+    expect(CM.HSLAFrom(0, 0, 50.2).luminance()).toEqual(0.2159);
+    expect(CM.HSLAFrom(0, 0, 75.29).luminance()).toEqual(0.5271);
+    expect(CM.HSLAFrom(0, 0, 100).luminance()).toEqual(1);
+  });
+
+  test("luminance = true", () => {
+    expect(CM.HSLAFrom(0, 0, 0).luminance({ percentage: true })).toEqual(0);
+    expect(CM.HSLAFrom(0, 0, 25.1).luminance({ percentage: true })).toEqual(5.13);
+    expect(CM.HSLAFrom(0, 0, 50.2).luminance({ percentage: true })).toEqual(21.59);
+    expect(CM.HSLAFrom(0, 0, 75.29).luminance({ percentage: true })).toEqual(52.71);
+    expect(CM.HSLAFrom(0, 0, 100).luminance({ percentage: true })).toEqual(100);
+  });
+});
+
+describe("contrast", () => {
+  test("ratio = false", () => {
+    expect(CM.HSLAFrom(0, 0, 0).contrast()).toEqual(21);
+    expect(CM.HSLAFrom(0, 0, 25.1).contrast()).toEqual(10.3653);
+    expect(CM.HSLAFrom(0, 0, 50.2).contrast()).toEqual(3.9489);
+    expect(CM.HSLAFrom(0, 0, 75.29).contrast()).toEqual(1.8194);
+    expect(CM.HSLAFrom(0, 0, 100).contrast()).toEqual(1);
+  });
+
+  test("ratio = true", () => {
+    expect(CM.HSLAFrom(0, 0, 0).contrast("0, 0, 100", { ratio: true })).toBe("21.0000:1");
+    expect(CM.HSLAFrom(0, 0, 25.1).contrast("0, 0, 100", { ratio: true })).toEqual("10.3653:1");
+    expect(CM.HSLAFrom(0, 0, 50.2).contrast("0, 0, 100", { ratio: true })).toEqual("3.9489:1");
+    expect(CM.HSLAFrom(0, 0, 75.29).contrast("0, 0, 100", { ratio: true })).toEqual("1.8194:1");
+    expect(CM.HSLAFrom(0, 0, 100).contrast("0, 0, 100", { ratio: true })).toEqual("1.0000:1");
+    expect(CM.HSLAFrom(0, 0, 100).contrast(CM.HSLAFrom(0, 0, 100), { ratio: true })).toEqual("1.0000:1");
+  });
+});
+
+test("light/dark", () => {
+  expect(CM.HSLAFrom(0, 0, 0).isLight()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 0, 0).isDark()).toBeTruthy();
+
+  // boundary of brightness < 0.50
+  expect(CM.HSLAFrom(0, 0, 49.9).isLight()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 0, 49.9).isDark()).toBeTruthy();
+
+  // boundary of brightness >= 0.50
+  expect(CM.HSLAFrom(0, 0, 50.1).isLight()).toBeTruthy();
+  expect(CM.HSLAFrom(0, 0, 50.1).isDark()).toBeFalsy();
+
+  expect(CM.HSLAFrom(0, 0, 100).isLight()).toBeTruthy();
+  expect(CM.HSLAFrom(0, 0, 100).isDark()).toBeFalsy();
+});
+
+test("readableOn", () => {
+  // Contrast checker: https://webaim.org/resources/contrastchecker/
+  const blackColor = CM.HSLAFrom(0, 0, 0);
+
+  // extremes (default color is white as bg)
+  expect(CM.HSLAFrom(0, 0, 100).readableOn()).toBeFalsy();
+  expect(blackColor.readableOn()).toBeTruthy();
+  expect(blackColor.readableOn(blackColor)).toBeFalsy();
+
+  // 3.0:1
+  expect(blackColor.readableOn([0, 0, 34.9], { size: "large", ratio: "minimum" })).toBeFalsy();
+  expect(blackColor.readableOn([0, 0, 35.3], { size: "large", ratio: "minimum" })).toBeTruthy();
+
+  // 4.5:1
+  expect(blackColor.readableOn([0, 0, 45.5])).toBeFalsy();
+  expect(blackColor.readableOn([0, 0, 45.9])).toBeTruthy();
+  expect(blackColor.readableOn([0, 0, 45.5], { size: "large", ratio: "enhanced" })).toBeFalsy();
+  expect(blackColor.readableOn([0, 0, 45.9], { size: "large", ratio: "enhanced" })).toBeTruthy();
+
+  // 7.0:1
+  expect(blackColor.readableOn([0, 0, 58.0], { size: "body", ratio: "enhanced" })).toBeFalsy();
+  expect(blackColor.readableOn([0, 0, 58.4], { size: "body", ratio: "enhanced" })).toBeTruthy();
+});
+
+test("equalTo", () => {
+  expect(CM.HSLAFrom(0, 0, 100).equalTo()).toBeTruthy();
+  expect(CM.HSLAFrom(0, 0, 100, 1).equalTo()).toBeTruthy();
+  expect(CM.HSLAFrom(0, 0, 100).equalTo("0, 0, 100, 0.8")).toBeFalsy();
+  expect(CM.HSLAFrom(0, 0, 100, 0.8).equalTo()).toBeFalsy();
+  expect(CM.HSLAFrom(1, 0, 100, 1).equalTo()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 1, 100, 1).equalTo()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 0, 99, 1).equalTo()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 0, 99, 1).equalTo(CM.HSLAFrom(0, 0, 99, 1))).toBeTruthy();
+});
+
+test("random generation", () => {
+  jest
+    .spyOn(global.Math, "random")
+    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
+    .mockReturnValueOnce(192 / BOUNDS.RGB_CHANNEL) // green → 192
+    .mockReturnValueOnce(162 / BOUNDS.RGB_CHANNEL) // blue  → 162
+    .mockReturnValueOnce(0.5) // alpha → 0.5
+    .mockReturnValueOnce(0.4); // 0.4 * 3 = 1.2 → floor(1.2) = 1 → HSLA color instance
+
+  expect(CM.random().string({ precision: [0, 1, 1, 1] })).toBe("hsla(30, 47.6%, 75.3%, 0.5)");
 });

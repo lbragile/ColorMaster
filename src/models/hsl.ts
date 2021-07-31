@@ -1,5 +1,6 @@
+import CM from "../index";
 import { BOUNDS } from "../enums/bounds";
-import { IAlphaInvert, IStringOpts, TChannelHSL, TNumArr } from "../types/common";
+import { IA11yOpts, IAlphaInvert, IReadable, IStringOpts, TChannelHSL, THSLAInput, TNumArr } from "../types/common";
 import { Ihsla, IHSLColors } from "../types/hsl";
 import { clampNum, round } from "../utils/numeric";
 import HEXColors from "./hex";
@@ -37,6 +38,34 @@ export default class HSLColors implements IHSLColors {
 
   get format(): string {
     return "hsl";
+  }
+
+  get red(): number {
+    return this.rgb().object.r;
+  }
+
+  get blue(): number {
+    return this.rgb().object.b;
+  }
+
+  get green(): number {
+    return this.rgb().object.g;
+  }
+
+  get alpha(): number {
+    return this.object.a;
+  }
+
+  get hue(): number {
+    return this.object.h;
+  }
+
+  get saturation(): number {
+    return this.object.s;
+  }
+
+  get lightness(): number {
+    return this.object.l;
   }
 
   string({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
@@ -143,5 +172,43 @@ export default class HSLColors implements IHSLColors {
 
   closestWebSafe(): HSLColors {
     return this.rgb().closestWebSafe().hsl();
+  }
+
+  brightness({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+    return this.rgb().brightness({ precision, percentage });
+  }
+
+  luminance({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+    return this.rgb().luminance({ precision, percentage });
+  }
+
+  contrast(
+    bgColor: THSLAInput | HSLColors = [0, 0, 100, 1.0],
+    { precision = 4, ratio = false }: IA11yOpts = {}
+  ): string | number {
+    bgColor = bgColor instanceof HSLColors ? bgColor : CM.HSLAFrom(bgColor);
+    return this.rgb().contrast(bgColor.rgb(), { precision, ratio });
+  }
+
+  isLight(): boolean {
+    return this.brightness() >= 0.5;
+  }
+
+  isDark(): boolean {
+    return !this.isLight();
+  }
+
+  readableOn(
+    bgColor: THSLAInput | HSLColors = [0, 0, 100, 1.0],
+    { size = "body", ratio = "minimum" }: IReadable = {}
+  ): boolean {
+    bgColor = bgColor instanceof HSLColors ? bgColor : CM.HSLAFrom(bgColor);
+    return this.rgb().readableOn(bgColor.rgb(), { size, ratio });
+  }
+
+  equalTo(compareColor: THSLAInput | HSLColors = [0, 0, 100, 1.0]): boolean {
+    // ! do not convert to RGB space since HSLA is a many-to-one mapping in RGBA space (example, 100% lightness)
+    compareColor = compareColor instanceof HSLColors ? compareColor : CM.HSLAFrom(compareColor);
+    return JSON.stringify(this.array) === JSON.stringify(compareColor.array);
   }
 }

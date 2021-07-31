@@ -1,10 +1,12 @@
+import { BOUNDS } from "./enums/bounds";
 import HEXColors from "./models/hex";
 import HSLColors from "./models/hsl";
 import RGBColors from "./models/rgb";
-import { TNumArr, TStrArr } from "./types/common";
-import { Ihex, Ihexa } from "./types/hex";
-import { Ihsl, Ihsla } from "./types/hsl";
-import { Irgb, Irgba } from "./types/rgb";
+import { TAllColors, THEXAInput, THSLAInput, TNumArr, TRGBAInput, TStrArr } from "./types/common";
+import { Ihexa } from "./types/hex";
+import { Ihsla } from "./types/hsl";
+import { Irgba } from "./types/rgb";
+import { random } from "./utils/numeric";
 
 /**
  * Generates color space instances that ColorMaster interpret.
@@ -28,7 +30,7 @@ class ColorMaster {
    * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
    * @returns An RGBColors object instance
    */
-  RGBAFrom(values: Irgb | Irgba | TNumArr | string): RGBColors;
+  RGBAFrom(values: TRGBAInput): RGBColors;
 
   /**
    * Wrapper for instantiating a RGBColors object
@@ -42,12 +44,13 @@ class ColorMaster {
    */
   RGBAFrom(r: number, g: number, b: number, a?: number): RGBColors;
 
-  RGBAFrom(rOrValues: Irgba | Irgb | TNumArr | number | string, g?: number, b?: number, a?: number): RGBColors {
+  RGBAFrom(rOrValues: TRGBAInput | number, g?: number, b?: number, a?: number): RGBColors {
+    let r = rOrValues;
+
     if (rOrValues.constructor.name.toLowerCase() === "object") {
-      const { r, g, b, a } = rOrValues as Irgba;
-      return new RGBColors(r, g, b, a);
+      ({ r, g, b, a } = rOrValues as Irgba);
     } else if (Array.isArray(rOrValues) || typeof rOrValues === "string") {
-      const [r, g, b, a] = (
+      [r, g, b, a] = (
         typeof rOrValues === "string"
           ? rOrValues
               .replace(/(rgba?)?\(|\)/g, "")
@@ -55,10 +58,9 @@ class ColorMaster {
               .map((val) => +val)
           : rOrValues
       ) as TNumArr;
-      return new RGBColors(r, g, b, a);
-    } else {
-      return new RGBColors(rOrValues as number, g as number, b as number, a);
     }
+
+    return new RGBColors(r as number, g, b, a);
   }
 
   /**
@@ -75,7 +77,7 @@ class ColorMaster {
    * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
    * @returns An HSLColors object instance
    */
-  HSLAFrom(values: Ihsl | Ihsla | number[] | string): HSLColors;
+  HSLAFrom(values: THSLAInput): HSLColors;
 
   /**
    * Wrapper for instantiating a HSLColors object
@@ -89,12 +91,13 @@ class ColorMaster {
    */
   HSLAFrom(h: number, s: number, l: number, a?: number): HSLColors;
 
-  HSLAFrom(hOrValues: Ihsla | Ihsl | number[] | number | string, s?: number, l?: number, a?: number): HSLColors {
+  HSLAFrom(hOrValues: THSLAInput | number, s?: number, l?: number, a?: number): HSLColors {
+    let h = hOrValues;
+
     if (hOrValues.constructor.name.toLowerCase() === "object") {
-      const { h, s, l, a } = hOrValues as Ihsla;
-      return new HSLColors(h, s, l, a);
+      ({ h, s, l, a } = hOrValues as Ihsla);
     } else if (Array.isArray(hOrValues) || typeof hOrValues === "string") {
-      const [h, s, l, a] = (
+      [h, s, l, a] = (
         typeof hOrValues === "string"
           ? hOrValues
               .replace(/(hsla?)?\(|\)|%/g, "")
@@ -102,10 +105,9 @@ class ColorMaster {
               .map((val) => +val)
           : hOrValues
       ) as TNumArr;
-      return new HSLColors(h, s, l, a);
-    } else {
-      return new HSLColors(hOrValues as number, s as number, l as number, a);
     }
+
+    return new HSLColors(h as number, s, l, a);
   }
 
   /**
@@ -122,7 +124,7 @@ class ColorMaster {
    * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
    * @returns An HEXColors object instance
    */
-  HEXAFrom(values: Ihex | Ihexa | TStrArr | string): HEXColors;
+  HEXAFrom(values: THEXAInput): HEXColors;
 
   /**
    * Wrapper for instantiating a HEXColors object
@@ -136,30 +138,64 @@ class ColorMaster {
    */
   HEXAFrom(r: string, g: string, b: string, a?: string): HEXColors;
 
-  HEXAFrom(rOrValues: Ihex | Ihexa | TStrArr | string, g?: string, b?: string, a?: string): HEXColors {
+  HEXAFrom(rOrValues: THEXAInput, g?: string, b?: string, a?: string): HEXColors {
+    let r = rOrValues;
+
     if (rOrValues.constructor.name.toLowerCase() === "object") {
-      const { r, g, b, a } = rOrValues as Ihexa;
-      return new HEXColors(r, g, b, a);
+      ({ r, g, b, a } = rOrValues as Ihexa);
     } else if (Array.isArray(rOrValues) || (typeof rOrValues === "string" && rOrValues.includes(","))) {
-      const [r, g, b, a] = (
+      [r, g, b, a] = (
         typeof rOrValues === "string" ? rOrValues.replace(/\(|\s|\)/g, "").split(",") : rOrValues
       ) as TStrArr;
-      return new HEXColors(r, g, b, a);
     } else if (typeof rOrValues === "string" && rOrValues[0] === "#") {
       const hex = rOrValues.slice(1);
       const hexParts = hex.length >= 6 ? hex.match(/\w\w/gi) : hex.match(/\w/gi)?.map((item) => item.repeat(2));
-      const [r, g, b, a] = hexParts ?? ["00", "00", "00", "FF"];
-      return new HEXColors(r, g, b, a);
-    } else {
-      return new HEXColors(rOrValues as string, g as string, b as string, a);
+      [r, g, b, a] = hexParts ?? ["00", "00", "00", "FF"];
     }
+
+    return new HEXColors(r as string, g, b, a);
+  }
+
+  random(): TAllColors {
+    const MAX = BOUNDS.RGB_CHANNEL;
+    let randomColor: TAllColors = new RGBColors(random(MAX), random(MAX), random(MAX), Math.random());
+
+    switch (Math.floor(Math.random() * 3)) {
+      case 0:
+        randomColor = randomColor.hex();
+        break;
+
+      case 1:
+        randomColor = randomColor.hsl();
+        break;
+
+      default:
+        break;
+    }
+
+    return randomColor;
   }
 }
 
 const CM = new ColorMaster();
 export default CM;
 
-export { IStringOpts, TChannel, TChannelHSL, TOperator, TNumArr, TStrArr } from "./types/common";
+export {
+  TNumArr,
+  TStrArr,
+  TOperator,
+  IStringOpts,
+  IA11yOpts,
+  IReadable,
+  IAlphaInvert,
+  TChannel,
+  TChannelHSL,
+  TRGBAInput,
+  THSLAInput,
+  THEXAInput,
+  TAllInput,
+  TAllColors
+} from "./types/common";
 export { Irgb, Irgba } from "./types/rgb";
 export { Ihex, Ihexa } from "./types/hex";
 export { Ihsl, Ihsla } from "./types/hsl";

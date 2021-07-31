@@ -1,3 +1,4 @@
+import { BOUNDS } from "../src/enums/bounds";
 import CM, { TStrArr } from "../src/index";
 import HEXColors from "../src/models/hex";
 
@@ -70,6 +71,13 @@ describe("getters & setters", () => {
   });
 
   test("format getter", () => expect(cm.format).toBe("hex"));
+  test("red getter", () => expect(cm.red).toEqual("66"));
+  test("green getter", () => expect(cm.green).toEqual("77"));
+  test("blue getter", () => expect(cm.blue).toEqual("88"));
+  test("alpha getter", () => expect(cm.alpha).toEqual("99"));
+  test("hue getter", () => expect(cm.hue).toEqual(210));
+  test("saturation getter", () => expect(+cm.saturation.toFixed(1)).toEqual(14.3));
+  test("lightness getter", () => expect(+cm.lightness.toFixed(1)).toEqual(46.7));
 });
 
 describe("string formation", () => {
@@ -190,4 +198,123 @@ test("closestWebSafe", () => {
   expect(CM.HEXAFrom("#FA03FAFD").closestWebSafe().string()).toBe("#FF00FFFD");
   expect(CM.HEXAFrom("#030303FD").closestWebSafe().string()).toBe("#000000FD");
   expect(CM.HEXAFrom("#FAFAFAFD").closestWebSafe().string()).toBe("#FFFFFFFD");
+});
+
+describe("brightness", () => {
+  test("percentage = false", () => {
+    expect(CM.HEXAFrom("#000000FF").brightness()).toEqual(0);
+    expect(CM.HEXAFrom("#404040FF").brightness()).toEqual(0.251);
+    expect(CM.HEXAFrom("#808080FF").brightness()).toEqual(0.502);
+    expect(CM.HEXAFrom("#C0C0C0FF").brightness()).toEqual(0.7529);
+    expect(CM.HEXAFrom("#FFFFFFFF").brightness()).toEqual(1);
+  });
+
+  test("percentage = true", () => {
+    expect(CM.HEXAFrom("#000000FF").brightness({ percentage: true })).toEqual(0);
+    expect(CM.HEXAFrom("#404040FF").brightness({ percentage: true })).toEqual(25.1);
+    expect(CM.HEXAFrom("#808080FF").brightness({ percentage: true })).toEqual(50.2);
+    expect(CM.HEXAFrom("#C0C0C0FF").brightness({ percentage: true })).toEqual(75.29);
+    expect(CM.HEXAFrom("#FFFFFFFF").brightness({ percentage: true })).toEqual(100);
+  });
+});
+
+describe("luminance", () => {
+  test("luminance = false", () => {
+    expect(CM.HEXAFrom("#000000FF").luminance()).toEqual(0);
+    expect(CM.HEXAFrom("#404040FF").luminance()).toEqual(0.0513);
+    expect(CM.HEXAFrom("#808080FF").luminance()).toEqual(0.2159);
+    expect(CM.HEXAFrom("#C0C0C0FF").luminance()).toEqual(0.5271);
+    expect(CM.HEXAFrom("#FFFFFFFF").luminance()).toEqual(1);
+  });
+
+  test("luminance = true", () => {
+    expect(CM.HEXAFrom("#000000FF").luminance({ percentage: true })).toEqual(0);
+    expect(CM.HEXAFrom("#404040FF").luminance({ percentage: true })).toEqual(5.13);
+    expect(CM.HEXAFrom("#808080FF").luminance({ percentage: true })).toEqual(21.59);
+    expect(CM.HEXAFrom("#C0C0C0FF").luminance({ percentage: true })).toEqual(52.71);
+    expect(CM.HEXAFrom("#FFFFFFFF").luminance({ percentage: true })).toEqual(100);
+  });
+});
+
+describe("contrast", () => {
+  test("ratio = false", () => {
+    expect(CM.HEXAFrom("#000000FF").contrast()).toEqual(21);
+    expect(CM.HEXAFrom("#404040FF").contrast()).toEqual(10.3653);
+    expect(CM.HEXAFrom("#808080FF").contrast()).toEqual(3.9489);
+    expect(CM.HEXAFrom("#C0C0C0FF").contrast()).toEqual(1.8194);
+    expect(CM.HEXAFrom("#FFFFFFFF").contrast()).toEqual(1);
+  });
+
+  test("ratio = true", () => {
+    const whiteColor = CM.HEXAFrom("#FFFFFFFF");
+    expect(CM.HEXAFrom("#000000FF").contrast(whiteColor, { ratio: true })).toBe("21.0000:1");
+    expect(CM.HEXAFrom("#404040FF").contrast(whiteColor, { ratio: true })).toEqual("10.3653:1");
+    expect(CM.HEXAFrom("#808080FF").contrast(whiteColor, { ratio: true })).toEqual("3.9489:1");
+    expect(CM.HEXAFrom("#C0C0C0FF").contrast(whiteColor, { ratio: true })).toEqual("1.8194:1");
+    expect(CM.HEXAFrom("#FFFFFFFF").contrast(whiteColor, { ratio: true })).toEqual("1.0000:1");
+    expect(CM.HEXAFrom("#FFFFFFFF").contrast(whiteColor, { ratio: true })).toEqual("1.0000:1");
+  });
+});
+
+test("light/dark", () => {
+  expect(CM.HEXAFrom("#000000FF").isLight()).toBeFalsy();
+  expect(CM.HEXAFrom("#000000FF").isDark()).toBeTruthy();
+
+  // boundary of brightness < 0.50
+  expect(CM.HEXAFrom("#777777FF").isLight()).toBeFalsy();
+  expect(CM.HEXAFrom("#777777FF").isDark()).toBeTruthy();
+
+  // boundary of brightness >= 0.50
+  expect(CM.HEXAFrom("#808080FF").isLight()).toBeTruthy();
+  expect(CM.HEXAFrom("#808080FF").isDark()).toBeFalsy();
+
+  expect(CM.HEXAFrom("#FFFFFFFF").isLight()).toBeTruthy();
+  expect(CM.HEXAFrom("#FFFFFFFF").isDark()).toBeFalsy();
+});
+
+test("readableOn", () => {
+  // Contrast checker: https://webaim.org/resources/contrastchecker/
+  const blackColor = CM.HEXAFrom("#000000FF");
+
+  // extremes (default color is white as bg)
+  expect(CM.HEXAFrom("#FFFFFFFF").readableOn()).toBeFalsy();
+  expect(blackColor.readableOn()).toBeTruthy();
+  expect(blackColor.readableOn(blackColor)).toBeFalsy();
+
+  // 3.0:1
+  expect(blackColor.readableOn("#595959FF", { size: "large", ratio: "minimum" })).toBeFalsy();
+  expect(blackColor.readableOn("#5A5A5AFF", { size: "large", ratio: "minimum" })).toBeTruthy();
+
+  // 4.5:1
+  expect(blackColor.readableOn("##747474")).toBeFalsy();
+  expect(blackColor.readableOn("#757575")).toBeTruthy();
+  expect(blackColor.readableOn("##747474", { size: "large", ratio: "enhanced" })).toBeFalsy();
+  expect(blackColor.readableOn("#757575", { size: "large", ratio: "enhanced" })).toBeTruthy();
+
+  // 7.0:1
+  expect(blackColor.readableOn("#949494", { size: "body", ratio: "enhanced" })).toBeFalsy();
+  expect(blackColor.readableOn("#959595", { size: "body", ratio: "enhanced" })).toBeTruthy();
+});
+
+test("equalTo", () => {
+  expect(CM.HEXAFrom("#FFFFFF").equalTo()).toBeTruthy();
+  expect(CM.HEXAFrom("#FFFFFFFF").equalTo()).toBeTruthy();
+  expect(CM.HEXAFrom("#FFFFFF").equalTo("#FFFFFFDC")).toBeFalsy();
+  expect(CM.HEXAFrom("#FFFFFFDC").equalTo()).toBeFalsy();
+  expect(CM.HEXAFrom("#00FFFFFF").equalTo()).toBeFalsy();
+  expect(CM.HEXAFrom("#FF00FFFF").equalTo()).toBeFalsy();
+  expect(CM.HEXAFrom("#FFFF00FF").equalTo()).toBeFalsy();
+  expect(CM.HEXAFrom("#00FF00FF").equalTo(CM.HEXAFrom("#00FF00FF"))).toBeTruthy();
+});
+
+test("random generation", () => {
+  jest
+    .spyOn(global.Math, "random")
+    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
+    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // green → 222
+    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // blue  → 222
+    .mockReturnValueOnce(0.5) // alpha → 0.5
+    .mockReturnValueOnce(0); // HEXA color instance
+
+  expect(CM.random().string()).toBe("#DEDEDE80");
 });

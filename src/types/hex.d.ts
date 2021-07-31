@@ -1,3 +1,4 @@
+import { IA11yOpts, IReadable, THEXAInput, TStrArr } from "..";
 import HEXColors from "../models/hex";
 import HSLColors from "../models/hsl";
 import RGBColors from "../models/rgb";
@@ -14,6 +15,57 @@ export interface Ihexa extends Ihex {
 }
 
 export interface IHEXColors {
+  /**
+   * the HEXA color instance as an object
+   */
+  readonly object: Ihexa;
+
+  /**
+   * the HEXA color instance as an array
+   */
+  readonly array: Required<TStrArr>;
+
+  /**
+   * the color format of a HEXA color instance
+   * @note Useful when you are using variables and are not sure what color space the color is from
+   */
+  readonly format: string;
+
+  /**
+   * the red channel value of this HEXA color instance as a 2 character string
+   */
+  readonly red: string;
+
+  /**
+   * the blue channel value of this HEXA color instance as a 2 character string
+   */
+  readonly blue: string;
+
+  /**
+   * the green channel value of this HEXA color instance as a 2 character string
+   */
+  readonly green: string;
+
+  /**
+   * the alpha channel channel value of this HEXA color instance as a 2 character string
+   */
+  readonly alpha: string;
+
+  /**
+   * the hue channel value from the corresponding HSLA color space
+   */
+  readonly hue: number;
+
+  /**
+   * the saturation channel value from the corresponding HSLA color space
+   */
+  readonly saturation: number;
+
+  /**
+   * the lightness channel value from the corresponding HSLA color space
+   */
+  readonly lightness: number;
+
   /**
    * Gives the string representation of an input HSLA color object
    * @param opts withAlpha → whether or not to include the alpha channel in the output
@@ -150,4 +202,76 @@ export interface IHEXColors {
    * @returns The instance that was acted upon → for function chaining
    */
   closestWebSafe: () => HEXColors;
+
+  /**
+   * Finds the normalized brightness of the color
+   *
+   * @param opts -
+   * - precision → How many decimal places to use in the output
+   * - percentage → Whether or not to multiply the output by 100
+   *
+   * @see {@link https://www.w3.org/TR/AERT/#color-contrast}
+   * @returns A value in the range [0, 1] = [dim (black), bright (white)] (or [0, 100] if `percentage = true`)
+   */
+  brightness: () => number;
+
+  /**
+   * Finds normalized relative luminance of the color
+   *
+   * @param opts -
+   * - precision → How many decimal places to use in the output
+   * - percentage → Whether or not to multiply the output by 100
+   *
+   * @see {@link https://www.w3.org/TR/WCAG20/#relativeluminancedef}
+   * @returns A value in the range [0, 1] = [darkest black, lightest white] (or [0, 100] if `percentage = true`)
+   */
+  luminance: (opts: IA11yOpts) => number;
+
+  /**
+   * Given a background color as input, determines the contrast ratio if the current color is used as the foreground color
+   *
+   * @param bgColor the background RGBA color instance
+   * @param opts -
+   * - precision → How many decimal places to use in the output
+   * - ratio → Whether or not to append `:1` to the output (express as a ratio)
+   *
+   * @note This ratio will range from `1:1 → white fg : white bg` to `21:1 → black fg : white bg`
+   * @see {@link HEXColors.readableOn readableOn} for readable contrast ratios
+   * @returns The contrast between current color instance and `bgColor` as a number (value → `ratio = false`) or string ("value:1" → `ratio = true`)
+   */
+  contrast: (bgColor: THEXAInput | HEXColors, opts: IA11yOpts) => string | number;
+
+  /**
+   * Determines if a given color is light based on its brightness (brightness ≥ 0.50)
+   */
+  isLight: () => boolean;
+
+  /**
+   * Determines if a given color is dark based on its brightness (brightness < 0.50)
+   */
+  isDark: () => boolean;
+
+  /**
+   * Given a background color as input, determines if the current color is readable if it is used as the foreground color
+   *
+   * |           | Minimum | Enhanced |
+   * | :-------- | :------ | :------- |
+   * | **Body**  |  4.5:1  |  7.0:1   |
+   * | **Large** |  3.0:1  |  4.5:1   |
+   *
+   * @param bgColor the background HEXA color instance
+   * @param opts -
+   * - size → Either "body" or "large" text size (large is 120-150% larger than body text)
+   * - ratio → Either "minimum" ("AA" rating) or "enhanced" ("AAA" rating)
+   *
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast}
+   * @returns Whether or not the color is readable on `bgColor`
+   */
+  readableOn: (bgColor: THEXAInput | HEXColors, opts: IReadable) => boolean;
+
+  /**
+   * Given an input color to compare with, determine if that color is identical to the current color instance
+   * @returns True if the two color instances are identical (same HEXA channel values). False otherwise.
+   */
+  equalTo: (compareColor: THEXAInput | HEXColors) => boolean;
 }

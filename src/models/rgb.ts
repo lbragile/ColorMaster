@@ -1,10 +1,11 @@
-import { IAlphaInvert, IStringOpts, TChannel, TNumArr } from "../types/common";
+import { IA11yOpts, IAlphaInvert, IReadable, IStringOpts, TChannel, TNumArr, TRGBAInput } from "../types/common";
 import { Irgba, IRGBColors } from "../types/rgb";
 import { BOUNDS } from "../enums/bounds";
 import { RGBExtended, WebSafe } from "../enums/colors";
-import { clampNum, round } from "../utils/numeric";
+import { clampNum, round, sRGB } from "../utils/numeric";
 import HSLColors from "./hsl";
 import HEXColors from "./hex";
+import CM from "../index";
 
 export default class RGBColors implements IRGBColors {
   #rgba: Irgba;
@@ -35,6 +36,34 @@ export default class RGBColors implements IRGBColors {
 
   get format(): string {
     return "rgb";
+  }
+
+  get red(): number {
+    return this.object.r;
+  }
+
+  get blue(): number {
+    return this.object.b;
+  }
+
+  get green(): number {
+    return this.object.g;
+  }
+
+  get alpha(): number {
+    return this.object.a;
+  }
+
+  get hue(): number {
+    return this.hsl().object.h;
+  }
+
+  get saturation(): number {
+    return this.hsl().object.s;
+  }
+
+  get lightness(): number {
+    return this.hsl().object.l;
   }
 
   string({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
@@ -156,5 +185,51 @@ export default class RGBColors implements IRGBColors {
 
     this.array = [...closestVal, a] as Required<TNumArr>;
     return this;
+  }
+
+  brightness({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+    const { r, g, b } = this.object;
+    const brightness = +((r * 0.299 + g * 0.587 + b * 0.114) / BOUNDS.RGB_CHANNEL).toFixed(precision);
+    return percentage ? brightness * 100 : brightness;
+  }
+
+  luminance({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+    const { r, g, b } = this.object;
+    const L = +(0.2126 * sRGB(r) + 0.7152 * sRGB(g) + 0.0722 * sRGB(b)).toFixed(precision);
+    return percentage ? L * 100 : L;
+  }
+
+  contrast(
+    bgColor: TRGBAInput | RGBColors = [255, 255, 255, 1.0],
+    { precision = 4, ratio = false }: IA11yOpts = {}
+  ): string | number {
+    bgColor = bgColor instanceof RGBColors ? bgColor : CM.RGBAFrom(bgColor);
+    const Lf = this.luminance();
+    const Lb = bgColor.luminance();
+    const contrast = ((Math.max(Lf, Lb) + 0.05) / (Math.min(Lf, Lb) + 0.05)).toFixed(precision);
+    return ratio ? contrast + ":1" : +contrast;
+  }
+
+  isLight(): boolean {
+    return this.brightness() >= 0.5;
+  }
+
+  isDark(): boolean {
+    return !this.isLight();
+  }
+
+  readableOn(
+    bgColor: TRGBAInput | RGBColors = [255, 255, 255, 1.0],
+    { size = "body", ratio = "minimum" }: IReadable = {}
+  ): boolean {
+    const contrast = this.contrast(bgColor);
+    if (size === "body" && ratio === "enhanced") return contrast >= 7.0;
+    else if (size === "large" && ratio === "minimum") return contrast >= 3.0;
+    else return contrast >= 4.5;
+  }
+
+  equalTo(compareColor: TRGBAInput | RGBColors = [255, 255, 255, 1.0]): boolean {
+    compareColor = compareColor instanceof RGBColors ? compareColor : CM.RGBAFrom(compareColor);
+    return JSON.stringify(this.array) === JSON.stringify(compareColor.array);
   }
 }

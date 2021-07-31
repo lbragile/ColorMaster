@@ -347,8 +347,9 @@ test("random generation", () => {
     .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
     .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // green → 222
     .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // blue  → 222
-    .mockReturnValueOnce(0.5) // alpha → 0.5
-    .mockReturnValueOnce(0.7); // 0.7 * 3 = 2.1 → floor(2.1) = 2 → RGBA color instance
+    .mockReturnValueOnce(0.5); // alpha → 0.5
 
   expect(CM.random().string()).toBe("rgba(222, 222, 222, 0.5)");
 });
+
+test("fromName", () => expect(CM.fromName("alice blue").string()).toBe("rgba(240, 248, 255, 1.0)"));

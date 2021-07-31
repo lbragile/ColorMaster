@@ -341,8 +341,9 @@ test("random generation", () => {
     .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
     .mockReturnValueOnce(192 / BOUNDS.RGB_CHANNEL) // green → 192
     .mockReturnValueOnce(162 / BOUNDS.RGB_CHANNEL) // blue  → 162
-    .mockReturnValueOnce(0.5) // alpha → 0.5
-    .mockReturnValueOnce(0.4); // 0.4 * 3 = 1.2 → floor(1.2) = 1 → HSLA color instance
+    .mockReturnValueOnce(0.5); // alpha → 0.5e
 
-  expect(CM.random().string({ precision: [0, 1, 1, 1] })).toBe("hsla(30, 47.6%, 75.3%, 0.5)");
+  expect(CM.random().hsl().string({ precision: [0, 1, 1, 1] })).toBe("hsla(30, 47.6%, 75.3%, 0.5)"); // prettier-ignore
 });
+
+test("fromName", () => expect(CM.fromName("alice blue").hsl().string({precision: [0, 1, 1, 1]})).toBe("hsla(208, 100.0%, 97.1%, 1.0)")); // prettier-ignore

@@ -313,8 +313,9 @@ test("random generation", () => {
     .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
     .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // green → 222
     .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // blue  → 222
-    .mockReturnValueOnce(0.5) // alpha → 0.5
-    .mockReturnValueOnce(0); // HEXA color instance
+    .mockReturnValueOnce(0.5); // alpha → 0.5
 
-  expect(CM.random().string()).toBe("#DEDEDE80");
+  expect(CM.random().hex().string()).toBe("#DEDEDE80");
 });
+
+test("fromName", () => expect(CM.fromName("alice blue").hex().string()).toBe("#F0F8FFFF"));

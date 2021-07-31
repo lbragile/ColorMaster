@@ -1,4 +1,4 @@
-name: "CodeQL Security Inspection"
+name: CodeQL Security Inspection
 
 on:
   push:
@@ -13,13 +13,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
           languages: "javascript"
 
-      - name: Perform CodeQL Analysis
+      - name: Perform Analysis
         uses: github/codeql-action/analyze@v1

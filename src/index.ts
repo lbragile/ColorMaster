@@ -1,8 +1,9 @@
 import { BOUNDS } from "./enums/bounds";
+import { RGBExtended } from "./enums/colors";
 import HEXColors from "./models/hex";
 import HSLColors from "./models/hsl";
 import RGBColors from "./models/rgb";
-import { TAllColors, THEXAInput, THSLAInput, TNumArr, TRGBAInput, TStrArr } from "./types/common";
+import { THEXAInput, THSLAInput, TNumArr, TRGBAInput, TStrArr } from "./types/common";
 import { Ihexa } from "./types/hex";
 import { Ihsla } from "./types/hsl";
 import { Irgba } from "./types/rgb";
@@ -156,24 +157,13 @@ class ColorMaster {
     return new HEXColors(r as string, g, b, a);
   }
 
-  random(): TAllColors {
+  random(): RGBColors {
     const MAX = BOUNDS.RGB_CHANNEL;
-    let randomColor: TAllColors = new RGBColors(random(MAX), random(MAX), random(MAX), Math.random());
+    return this.RGBAFrom(random(MAX), random(MAX), random(MAX), Math.random());
+  }
 
-    switch (Math.floor(Math.random() * 3)) {
-      case 0:
-        randomColor = randomColor.hex();
-        break;
-
-      case 1:
-        randomColor = randomColor.hsl();
-        break;
-
-      default:
-        break;
-    }
-
-    return randomColor;
+  fromName(name: keyof typeof RGBExtended): RGBColors {
+    return this.RGBAFrom(RGBExtended[name]);
   }
 }
 

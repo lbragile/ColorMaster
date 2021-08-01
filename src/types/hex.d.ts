@@ -76,13 +76,14 @@ export interface IHEXColors {
 
   /**
    * Gets the color table HTML/CSS name for a given color in RGBA color space
+   * @param opts - exact → If true - attempts to find an exact match (undefined if not found), else finds the nearest color name
    *
    * @note Colors with an alpha value of '00' return 'transparent'. Also, colors with alpha < "FF", return `CSS_NAME (with opacity)`
-   * @example CM.HEXAFrom("#800000") → "maroon"
+   * @example CM.HEXAFrom("#800000").name() → "maroon"
    * @see {@link RGBColors.name} for functionality
    * @returns The color's HTML/CSS name
    */
-  name: () => string;
+  name: (opts: { exact?: boolean }) => string;
 
   /**
    * Converts a HEXA color to RGBA color

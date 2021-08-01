@@ -1,5 +1,5 @@
 import { BOUNDS } from "./enums/bounds";
-import { RGBExtended } from "./enums/colors";
+import { HueColors, RGBExtended } from "./enums/colors";
 import HEXColors from "./models/hex";
 import HSLColors from "./models/hsl";
 import RGBColors from "./models/rgb";
@@ -8,6 +8,7 @@ import { Ihexa } from "./types/hex";
 import { Ihsla } from "./types/hsl";
 import { Irgba } from "./types/rgb";
 import { random } from "./utils/numeric";
+import { createColorArrFromStr } from "./utils/string";
 
 /**
  * Generates color space instances that ColorMaster interpret.
@@ -52,12 +53,7 @@ class ColorMaster {
       ({ r, g, b, a } = rOrValues as Irgba);
     } else if (Array.isArray(rOrValues) || typeof rOrValues === "string") {
       [r, g, b, a] = (
-        typeof rOrValues === "string"
-          ? rOrValues
-              .replace(/(rgba?)?\(|\)/g, "")
-              .split(",")
-              .map((val) => +val)
-          : rOrValues
+        typeof rOrValues === "string" ? createColorArrFromStr(rOrValues, /(rgba?)?\(|\)/g) : rOrValues
       ) as TNumArr;
     }
 
@@ -82,7 +78,7 @@ class ColorMaster {
 
   /**
    * Wrapper for instantiating a HSLColors object
-   * @param h hue channel → [0, 359]
+   * @param h hue channel → [0, 359] or CSS/HTML Name
    * @param s saturation channel → [0, 100]
    * @param l lightness channel → [0, 100]
    * @param a alpha channel → [0, 1]
@@ -90,7 +86,7 @@ class ColorMaster {
    * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
    * @returns An HSLColors object instance
    */
-  HSLAFrom(h: number, s: number, l: number, a?: number): HSLColors;
+  HSLAFrom(h: number | keyof typeof HueColors, s: number, l: number, a?: number): HSLColors;
 
   HSLAFrom(hOrValues: THSLAInput | number, s?: number, l?: number, a?: number): HSLColors {
     let h = hOrValues;
@@ -98,14 +94,15 @@ class ColorMaster {
     if (hOrValues.constructor.name.toLowerCase() === "object") {
       ({ h, s, l, a } = hOrValues as Ihsla);
     } else if (Array.isArray(hOrValues) || typeof hOrValues === "string") {
-      [h, s, l, a] = (
-        typeof hOrValues === "string"
-          ? hOrValues
-              .replace(/(hsla?)?\(|\)|%/g, "")
-              .split(",")
-              .map((val) => +val)
-          : hOrValues
-      ) as TNumArr;
+      if (typeof hOrValues === "string") {
+        const isCSSName = hOrValues.match(/^[a-z\s]+$/i);
+        const colorStr = isCSSName ? HueColors[hOrValues as keyof typeof HueColors] : hOrValues;
+        [h, s, l, a] = isCSSName
+          ? this.RGBAFrom(colorStr).hsl().array
+          : createColorArrFromStr(colorStr, /(hsla?)?\(|\)|%/g);
+      } else {
+        [h, s, l, a] = hOrValues as TNumArr;
+      }
     }
 
     return new HSLColors(h as number, s, l, a);
@@ -157,11 +154,22 @@ class ColorMaster {
     return new HEXColors(r as string, g, b, a);
   }
 
+  /**
+   * Generates a random RGBA color which can then be converted into any color space
+   * @returns A random RGBA color instance that is properly bounded
+   */
   random(): RGBColors {
     const MAX = BOUNDS.RGB_CHANNEL;
     return this.RGBAFrom(random(MAX), random(MAX), random(MAX), Math.random());
   }
 
+  /**
+   * Generates an RGBA color from an input CSS/HTML name
+   * @param name CSS/HTML color name to find
+   *
+   * @see {@link https://www.rapidtables.com/web/color/RGB_Color.html} for list of names
+   * @returns The RGBA color instance corresponding to the `name`
+   */
   fromName(name: keyof typeof RGBExtended): RGBColors {
     return this.RGBAFrom(RGBExtended[name]);
   }

@@ -51,6 +51,33 @@ export interface IAlphaInvert {
 }
 
 /**
+ * When using the monochromatic harmony, the user has more choices to pick from
+ */
+export interface IMonochromatic {
+  effect?: TMonoEffect;
+  amount?: number;
+}
+
+/**
+ * Hue adjustment types for monochromatic harmony
+ */
+export type TMonoEffect = "tones" | "tints" | "shades";
+
+/**
+ * The different well know color harmonies
+ * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm}
+ */
+export type THarmony =
+  | "analogous"
+  | "complementary"
+  | "split-complementary"
+  | "double-split-complementary"
+  | "triad"
+  | "rectangle"
+  | "square"
+  | "monochromatic";
+
+/**
  * Possible Channels for RGBA and HEXA color space
  */
 export type TChannel = "red" | "green" | "blue" | "alpha";

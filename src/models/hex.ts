@@ -11,7 +11,7 @@ import {
   TStrArr
 } from "../types/common";
 import { Ihexa, IHEXColors } from "../types/hex";
-import { clampStr } from "../utils/numeric";
+import { clampStr } from "../utils/string";
 import HSLColors from "./hsl";
 import RGBColors from "./rgb";
 
@@ -81,8 +81,8 @@ export default class HEXColors implements IHEXColors {
     return `#${Rp}${Gp}${Bp}${alpha}`;
   }
 
-  name(): string {
-    return this.rgb().name();
+  name({ exact = true }: { exact?: boolean } = {}): string {
+    return this.rgb().name({ exact });
   }
 
   rgb(): RGBColors {

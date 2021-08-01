@@ -1,11 +1,12 @@
+import CM from "../index";
 import { IA11yOpts, IAlphaInvert, IReadable, IStringOpts, TChannel, TNumArr, TRGBAInput } from "../types/common";
 import { Irgba, IRGBColors } from "../types/rgb";
 import { BOUNDS } from "../enums/bounds";
 import { RGBExtended, WebSafe } from "../enums/colors";
 import { clampNum, round, sRGB } from "../utils/numeric";
+import { createColorArrFromStr } from "../utils/string";
 import HSLColors from "./hsl";
 import HEXColors from "./hex";
-import CM from "../index";
 
 export default class RGBColors implements IRGBColors {
   #rgba: Irgba;
@@ -72,13 +73,32 @@ export default class RGBColors implements IRGBColors {
     return `rgb${withAlpha ? "a" : ""}(${Rp}, ${Gp}, ${Bp}${alpha})`;
   }
 
-  name(): string {
+  name({ exact = true }: { exact?: boolean } = {}): string {
     const { a } = this.object;
+    const re = /rgb\(|\)/g;
+
     if (a === 0) return "transparent";
 
-    const COLORS_OBJ = JSON.parse(JSON.stringify(RGBExtended));
     const rgbStr = this.string({ withAlpha: false }).replace(/\s/g, "");
-    const matchStr = Object.keys(COLORS_OBJ).find((key) => COLORS_OBJ[key] === rgbStr);
+    const [r, g, b] = createColorArrFromStr(rgbStr, re);
+
+    const keys = Object.keys(RGBExtended);
+    const values = Object.values(RGBExtended);
+
+    let matchStr: string | undefined;
+    if (exact) {
+      matchStr = keys.find((key) => RGBExtended[key as keyof typeof RGBExtended] === rgbStr);
+    } else {
+      let minDist = Number.POSITIVE_INFINITY;
+      for (let i = 0; i < values.length; i++) {
+        const [Rp, Gp, Bp] = createColorArrFromStr(values[i], re);
+        const currDist = Math.abs(Rp - r) + Math.abs(Gp - g) + Math.abs(Bp - b);
+        if (currDist < minDist) {
+          minDist = currDist;
+          matchStr = keys[i];
+        }
+      }
+    }
 
     return matchStr ? matchStr + (a < 1 ? " (with opacity)" : "") : "undefined";
   }

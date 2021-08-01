@@ -1,21 +1,17 @@
-// Obtained from https://www.rapidtables.com/web/color/RGB_Color.html
-export enum RGBRegular {
-  "black"             = "rgb(0,0,0)",
-  "white"             = "rgb(255,255,255)",
-  "red"               = "rgb(255,0,0)",
-  "lime"              = "rgb(0,255,0)",
-  "blue"              = "rgb(0,0,255)",
-  "yellow"            = "rgb(255,255,0)",
-  "cyan / aqua"       = "rgb(0,255,255)",
-  "magenta / fuchsia" = "rgb(255,0,255)",
-  "silver"            = "rgb(192,192,192)",
-  "gray"              = "rgb(128,128,128)",
-  "maroon"            = "rgb(128,0,0)",
-  "olive"             = "rgb(128,128,0)",
-  "green"             = "rgb(0,128,0)",
-  "purple"            = "rgb(128,0,128)",
-  "teal"              = "rgb(0,128,128)",
-  "navy"              = "rgb(0,0,128)",
+// Obtained from https://www.canva.com/colors/color-wheel/, names are given to follow the color wheel
+export enum HueColors {
+  "red"        = "rgb(255,0,0)",
+  "orange"     = "rgb(255,128,0)",
+  "yellow"     = "rgb(255,255,0)",
+  "lime"       = "rgb(128,255,0)",
+  "green"      = "rgb(0,255,0)",
+  "green cyan" = "rgb(0,255,128)",
+  "cyan"       = "rgb(0,255,255)",
+  "cyan blue"  = "rgb(0,128,255)",
+  "blue"       = "rgb(0,0,255)",
+  "purple"     = "rgb(128,0,255)",
+  "pink"       = "rgb(255,0,255)",
+  "pink red"   = "rgb(255,0,128)",
 }
 
 // Obtained from https://www.rapidtables.com/web/color/RGB_Color.html

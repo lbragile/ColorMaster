@@ -13,19 +13,6 @@ export function clampNum(min: number, val: number, max: number): number {
 }
 
 /**
- * Restricts the value of `val` to be between `min` and `max` for string inputs
- * @param min Lower bound ("00")
- * @param val Current value
- * @param max Upper bound ("FF")
- *
- * @returns A an uppercase 2 character string in the range `[min, max]` such that `min <= val <= max`
- */
-export function clampStr(min: string, val: string, max: string): string {
-  const clampVal = clampNum(parseInt(min, 16), parseInt(val, 16), parseInt(max, 16));
-  return clampVal.toString(16).padStart(2, "0").toUpperCase();
-}
-
-/**
  * Given a value, rounds the value to a given precision (number of decimal places)
  * @param value The value that needs to be rounded
  * @param precision How many decimal places to include in the result

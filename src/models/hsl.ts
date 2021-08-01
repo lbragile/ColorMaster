@@ -1,6 +1,16 @@
 import CM from "../index";
 import { BOUNDS } from "../enums/bounds";
-import { IA11yOpts, IAlphaInvert, IReadable, IStringOpts, TChannelHSL, THSLAInput, TNumArr } from "../types/common";
+import {
+  IA11yOpts,
+  IAlphaInvert,
+  IMonochromatic,
+  IReadable,
+  IStringOpts,
+  TChannelHSL,
+  THarmony,
+  THSLAInput,
+  TNumArr
+} from "../types/common";
 import { Ihsla, IHSLColors } from "../types/hsl";
 import { clampNum, round } from "../utils/numeric";
 import HEXColors from "./hex";
@@ -74,8 +84,8 @@ export default class HSLColors implements IHSLColors {
     return `hsl${withAlpha ? "a" : ""}(${Hp}, ${Sp}%, ${Lp}%${alpha})`;
   }
 
-  name(): string {
-    return this.rgb().name();
+  name({ exact = true }: { exact?: boolean } = {}): string {
+    return this.rgb().name({ exact });
   }
 
   rgb(): RGBColors {
@@ -210,5 +220,77 @@ export default class HSLColors implements IHSLColors {
     // ! do not convert to RGB space since HSLA is a many-to-one mapping in RGBA space (example, 100% lightness)
     compareColor = compareColor instanceof HSLColors ? compareColor : CM.HSLAFrom(compareColor);
     return JSON.stringify(this.array) === JSON.stringify(compareColor.array);
+  }
+
+  harmony(type: THarmony = "analogous", { effect = "tones", amount = 5 }: IMonochromatic = {}): HSLColors[] {
+    const { h, s, l, a } = this.object;
+
+    if (type === "monochromatic") {
+      amount = clampNum(2, amount, 10);
+    }
+
+    switch (type) {
+      case "analogous":
+        return [-30, 0, 30].map((angle) => new HSLColors(h + angle, s, l, a));
+
+      case "complementary":
+        return [0, 180].map((angle) => new HSLColors(h + angle, s, l, a));
+
+      case "split-complementary": // aka compound
+        return [0, 150, 210].map((angle) => new HSLColors(h + angle, s, l, a));
+
+      case "double-split-complementary":
+        return [-30, 0, 30, 150, 210].map((angle) => new HSLColors(h + angle, s, l, a));
+
+      case "triad":
+        return [0, 120, 240].map((angle) => new HSLColors(h + angle, s, l, a));
+
+      case "rectangle":
+        return [0, 60, 180, 240].map((angle) => new HSLColors(h + angle, s, l, a));
+
+      case "square":
+        return [0, 90, 180, 270].map((angle) => new HSLColors(h + angle, s, l, a));
+
+      case "monochromatic": {
+        // tones uses saturation, tints/shades use lightness
+        const valueToAdjust = effect === "tones" ? s : l;
+
+        // form array of n (amount) evenly spaced items from current saturation/lightness to min/max value
+        let delta = Math.floor((effect === "tints" ? BOUNDS.HSL_LIGHTNESS - valueToAdjust : valueToAdjust) / amount);
+        delta = effect === "tints" ? delta : -1 * delta;
+
+        const valArr: number[] = [valueToAdjust];
+        for (let i = 0; i < amount; i++) {
+          valArr.push(valArr[i] + delta);
+        }
+
+        return effect === "tones"
+          ? valArr.map((sat) => new HSLColors(h, sat, l, a))
+          : valArr.map((light) => new HSLColors(h, s, light, a));
+      }
+
+      // no default
+    }
+  }
+
+  isCool(): boolean {
+    const { h } = this.object;
+    return 75 <= h && h < 255;
+  }
+
+  isWarm(): boolean {
+    return !this.isCool();
+  }
+
+  isTinted(): boolean {
+    return this.object.l > 50.0;
+  }
+
+  isShaded(): boolean {
+    return this.object.l < 50.0;
+  }
+
+  isToned(): boolean {
+    return this.object.s < 100.0;
   }
 }

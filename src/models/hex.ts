@@ -1,11 +1,14 @@
 import CM from "../index";
 import { BOUNDS } from "../enums/bounds";
+import { HueColors } from "../enums/colors";
 import {
   IA11yOpts,
   IAlphaInvert,
+  IMonochromatic,
   IReadable,
   IStringOpts,
   TChannel,
+  THarmony,
   THEXAInput,
   TOperator,
   TStrArr
@@ -111,6 +114,14 @@ export default class HEXColors implements IHEXColors {
       .hex();
   }
 
+  hueTo(value: number | keyof typeof HueColors): HEXColors {
+    return this.hsl().hueTo(value).hex();
+  }
+
+  hueBy(delta: number): HEXColors {
+    return this.hsl().hueBy(delta).hex();
+  }
+
   alphaTo(value: string): HEXColors {
     return this.changeValueTo("alpha", value);
   }
@@ -194,5 +205,30 @@ export default class HEXColors implements IHEXColors {
   equalTo(compareColor: THEXAInput | HEXColors = "#FFFFFFFF"): boolean {
     compareColor = compareColor instanceof HEXColors ? compareColor : CM.HEXAFrom(compareColor);
     return this.array.join("") === compareColor.array.join("");
+  }
+
+  harmony(type: THarmony = "analogous", { effect = "tones", amount = 5 }: IMonochromatic = {}): HEXColors[] {
+    const hslArr = this.hsl().harmony(type, { effect, amount });
+    return hslArr.map((color) => color.hex());
+  }
+
+  isCool(): boolean {
+    return this.hsl().isCool();
+  }
+
+  isWarm(): boolean {
+    return !this.isCool();
+  }
+
+  isTinted(): boolean {
+    return this.hsl().isTinted();
+  }
+
+  isShaded(): boolean {
+    return this.hsl().isShaded();
+  }
+
+  isToned(): boolean {
+    return this.hsl().isToned();
   }
 }

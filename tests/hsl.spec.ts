@@ -1,4 +1,3 @@
-import { BOUNDS } from "../src/enums/bounds";
 import CM, { TNumArr } from "../src/index";
 import HSLColors from "../src/models/hsl";
 
@@ -7,45 +6,46 @@ let cm: HSLColors;
 beforeEach(() => (cm = CM.HSLAFrom(190, 60, 60, 0.6)));
 
 describe("object instantiation with overloaded helper", () => {
-  const FULL_OPACITY = "hsla(128, 50%, 60%, 1.0)";
-  const LOWER_OPACITY = "hsla(128, 50%, 60%, 0.7)";
+  const FULL_OPACITY = "hsla(120, 50%, 60%, 1.0)";
+  const LOWER_OPACITY = "hsla(120, 50%, 60%, 0.7)";
 
   test("object", () => {
-    expect(CM.HSLAFrom({ h: 128, s: 50, l: 60, a: 0.7 }).string()).toBe(LOWER_OPACITY);
-    expect(CM.HSLAFrom({ h: 128, s: 50, l: 60 }).string()).toBe(FULL_OPACITY);
+    expect(CM.HSLAFrom({ h: 120, s: 50, l: 60, a: 0.7 }).string()).toBe(LOWER_OPACITY);
+    expect(CM.HSLAFrom({ h: 120, s: 50, l: 60 }).string()).toBe(FULL_OPACITY);
   });
 
   test("array", () => {
-    expect(CM.HSLAFrom([128, 50, 60, 0.7]).string()).toBe(LOWER_OPACITY);
-    expect(CM.HSLAFrom([128, 50, 60]).string()).toBe(FULL_OPACITY);
+    expect(CM.HSLAFrom([120, 50, 60, 0.7]).string()).toBe(LOWER_OPACITY);
+    expect(CM.HSLAFrom([120, 50, 60]).string()).toBe(FULL_OPACITY);
   });
 
   test("values", () => {
-    expect(CM.HSLAFrom(128, 50, 60, 0.7).string()).toBe(LOWER_OPACITY);
-    expect(CM.HSLAFrom(128, 50, 60).string()).toBe(FULL_OPACITY);
+    expect(CM.HSLAFrom(120, 50, 60, 0.7).string()).toBe(LOWER_OPACITY);
+    expect(CM.HSLAFrom(120, 50, 60).string()).toBe(FULL_OPACITY);
+    expect(CM.HSLAFrom("green", 50, 60).string()).toBe(FULL_OPACITY); // unique only to HSLA space where you can use CSS/HTML name from a predefined list
   });
 
   test("string with just values", () => {
-    expect(CM.HSLAFrom("128, 50, 60, 0.7").string()).toBe(LOWER_OPACITY);
-    expect(CM.HSLAFrom("128, 50%, 60%, 0.7").string()).toBe(LOWER_OPACITY);
-    expect(CM.HSLAFrom("128, 50, 60").string()).toBe(FULL_OPACITY);
+    expect(CM.HSLAFrom("120, 50, 60, 0.7").string()).toBe(LOWER_OPACITY);
+    expect(CM.HSLAFrom("120, 50%, 60%, 0.7").string()).toBe(LOWER_OPACITY);
+    expect(CM.HSLAFrom("120, 50, 60").string()).toBe(FULL_OPACITY);
   });
 
   test("string with prefix(s)", () => {
-    expect(CM.HSLAFrom("hsl(128, 50%, 60%, 0.7)").string()).toBe(LOWER_OPACITY);
-    expect(CM.HSLAFrom("hsl(128, 50%, 60%)").string()).toBe(FULL_OPACITY);
+    expect(CM.HSLAFrom("hsl(120, 50%, 60%, 0.7)").string()).toBe(LOWER_OPACITY);
+    expect(CM.HSLAFrom("hsl(120, 50%, 60%)").string()).toBe(FULL_OPACITY);
     expect(CM.HSLAFrom(LOWER_OPACITY).string()).toBe(LOWER_OPACITY);
-    expect(CM.HSLAFrom("hsla(128, 50%, 60%)").string()).toBe(FULL_OPACITY);
-    expect(CM.HSLAFrom("(128, 50%, 60%, 0.7)").string()).toBe(LOWER_OPACITY);
-    expect(CM.HSLAFrom("(128, 50%, 60%)").string()).toBe(FULL_OPACITY);
+    expect(CM.HSLAFrom("hsla(120, 50%, 60%)").string()).toBe(FULL_OPACITY);
+    expect(CM.HSLAFrom("(120, 50%, 60%, 0.7)").string()).toBe(LOWER_OPACITY);
+    expect(CM.HSLAFrom("(120, 50%, 60%)").string()).toBe(FULL_OPACITY);
   });
 
   it("handles invalid input by returning a default color 'black' or a mixture with valid input", () => {
-    expect(CM.HSLAFrom("128, 50%").object).toMatchObject({ h: 128, s: 50, l: 0, a: 1 });
-    expect(CM.HSLAFrom("128, 50%, 60%, 0.6, 0.6").object).toMatchObject({ h: 128, s: 50, l: 60, a: 0.6 });
-    expect(CM.HSLAFrom({ h: 128, s: 50, l: 60, a: 5 }).object).toMatchObject({ h: 128, s: 50, l: 60, a: 1 });
-    expect(CM.HSLAFrom([128, 50, 60, 128]).object).toMatchObject({ h: 128, s: 50, l: 60, a: 1 });
-    expect(CM.HSLAFrom([-232, 50, 60, 128]).object).toMatchObject({ h: 128, s: 50, l: 60, a: 1 });
+    expect(CM.HSLAFrom("120, 50%").object).toMatchObject({ h: 120, s: 50, l: 0, a: 1 });
+    expect(CM.HSLAFrom("120, 50%, 60%, 0.6, 0.6").object).toMatchObject({ h: 120, s: 50, l: 60, a: 0.6 });
+    expect(CM.HSLAFrom({ h: 120, s: 50, l: 60, a: 5 }).object).toMatchObject({ h: 120, s: 50, l: 60, a: 1 });
+    expect(CM.HSLAFrom([120, 50, 60, 120]).object).toMatchObject({ h: 120, s: 50, l: 60, a: 1 });
+    expect(CM.HSLAFrom([-240, 50, 60, 120]).object).toMatchObject({ h: 120, s: 50, l: 60, a: 1 });
   });
 });
 
@@ -92,11 +92,12 @@ describe("string formation", () => {
 });
 
 describe("name", () => {
-  test("with alpha = 1", () => expect(CM.HSLAFrom("hsl(0, 100%, 25.1%, 1)").name()).toBe("maroon"));
+  test("with alpha = 1", () => expect(CM.HSLAFrom("hsla(0, 100%, 25.1%, 1)").name()).toBe("maroon"));
   test("with 0 < alpha < 1", () =>
-    expect(CM.HSLAFrom("hsl(0, 100%, 25.1%, 0.5)").name()).toBe("maroon (with opacity)"));
-  test("with alpha = 0", () => expect(CM.HSLAFrom("hsl(0, 100%, 25.1%, 0)").name()).toBe("transparent"));
-  test("undefined", () => expect(CM.HSLAFrom("hsl(0, 1%, 50%,0.9)").name()).toBe("undefined"));
+    expect(CM.HSLAFrom("hsla(0, 100%, 25.1%, 0.5)").name()).toBe("maroon (with opacity)"));
+  test("with alpha = 0", () => expect(CM.HSLAFrom("hsla(0, 100%, 25.1%, 0)").name()).toBe("transparent"));
+  test("undefined", () => expect(CM.HSLAFrom("hsla(0, 1%, 50%, 0.9)").name()).toBe("undefined"));
+  test("exact", () => expect(CM.HSLAFrom("hsla(0,1%,0%,1").name({ exact: false })).toBe("black"));
 });
 
 describe("changeValueTo", () => {
@@ -164,7 +165,10 @@ describe("changeValueBy", () => {
 });
 
 describe("hue", () => {
-  test("hueTo", () => expect(cm.hueTo(210).string()).toBe("hsla(210, 60%, 60%, 0.6)"));
+  test("hueTo", () => {
+    expect(cm.hueTo(210).string()).toBe("hsla(210, 60%, 60%, 0.6)");
+    expect(cm.hueTo("blue").string()).toBe("hsla(240, 60%, 60%, 0.6)");
+  });
 
   test("hueBy", () => {
     expect(cm.hueBy(50).string()).toBe("hsla(240, 60%, 60%, 0.6)");
@@ -335,15 +339,154 @@ test("equalTo", () => {
   expect(CM.HSLAFrom(0, 0, 99, 1).equalTo(CM.HSLAFrom(0, 0, 99, 1))).toBeTruthy();
 });
 
-test("random generation", () => {
-  jest
-    .spyOn(global.Math, "random")
-    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
-    .mockReturnValueOnce(192 / BOUNDS.RGB_CHANNEL) // green → 192
-    .mockReturnValueOnce(162 / BOUNDS.RGB_CHANNEL) // blue  → 162
-    .mockReturnValueOnce(0.5); // alpha → 0.5e
+describe("harmony", () => {
+  const ogColor = "hsla(30, 50%, 50%, 1)";
 
-  expect(CM.random().hsl().string({ precision: [0, 1, 1, 1] })).toBe("hsla(30, 47.6%, 75.3%, 0.5)"); // prettier-ignore
+  test("analogous", () => {
+    const expected = ["hsla(0, 50%, 50%, 1.0)", "hsla(30, 50%, 50%, 1.0)", "hsla(60, 50%, 50%, 1.0)"];
+
+    expect(
+      CM.HSLAFrom(ogColor)
+        .harmony()
+        .map((c) => c.string())
+    ).toStrictEqual(expected);
+
+    expect(
+      CM.HSLAFrom(ogColor)
+        .harmony("analogous")
+        .map((c) => c.string())
+    ).toStrictEqual(expected);
+  });
+
+  test("complementary", () => {
+    expect(
+      CM.HSLAFrom(ogColor)
+        .harmony("complementary")
+        .map((c) => c.string())
+    ).toStrictEqual(["hsla(30, 50%, 50%, 1.0)", "hsla(210, 50%, 50%, 1.0)"]);
+  });
+
+  test("split-complementary", () => {
+    expect(
+      CM.HSLAFrom(ogColor)
+        .harmony("split-complementary")
+        .map((c) => c.string())
+    ).toStrictEqual(["hsla(30, 50%, 50%, 1.0)", "hsla(180, 50%, 50%, 1.0)", "hsla(240, 50%, 50%, 1.0)"]);
+  });
+
+  test("double-split-complementary", () => {
+    expect(
+      CM.HSLAFrom(ogColor)
+        .harmony("double-split-complementary")
+        .map((c) => c.string())
+    ).toStrictEqual([
+      "hsla(0, 50%, 50%, 1.0)",
+      "hsla(30, 50%, 50%, 1.0)",
+      "hsla(60, 50%, 50%, 1.0)",
+      "hsla(180, 50%, 50%, 1.0)",
+      "hsla(240, 50%, 50%, 1.0)"
+    ]);
+  });
+
+  test("triad", () => {
+    expect(
+      CM.HSLAFrom(ogColor)
+        .harmony("triad")
+        .map((c) => c.string())
+    ).toStrictEqual(["hsla(30, 50%, 50%, 1.0)", "hsla(150, 50%, 50%, 1.0)", "hsla(270, 50%, 50%, 1.0)"]);
+  });
+
+  test("rectangle", () => {
+    expect(
+      CM.HSLAFrom(ogColor)
+        .harmony("rectangle")
+        .map((c) => c.string())
+    ).toStrictEqual([
+      "hsla(30, 50%, 50%, 1.0)",
+      "hsla(90, 50%, 50%, 1.0)",
+      "hsla(210, 50%, 50%, 1.0)",
+      "hsla(270, 50%, 50%, 1.0)"
+    ]);
+  });
+
+  test("square", () => {
+    expect(
+      CM.HSLAFrom(ogColor)
+        .harmony("square")
+        .map((c) => c.string())
+    ).toStrictEqual([
+      "hsla(30, 50%, 50%, 1.0)",
+      "hsla(120, 50%, 50%, 1.0)",
+      "hsla(210, 50%, 50%, 1.0)",
+      "hsla(300, 50%, 50%, 1.0)"
+    ]);
+  });
+
+  describe("monochromatic", () => {
+    test("tints", () => {
+      expect(
+        CM.HSLAFrom(ogColor)
+          .harmony("monochromatic", { effect: "tints" })
+          .map((c) => c.string())
+      ).toStrictEqual([
+        "hsla(30, 50%, 50%, 1.0)",
+        "hsla(30, 50%, 60%, 1.0)",
+        "hsla(30, 50%, 70%, 1.0)",
+        "hsla(30, 50%, 80%, 1.0)",
+        "hsla(30, 50%, 90%, 1.0)",
+        "hsla(30, 50%, 100%, 1.0)"
+      ]);
+    });
+
+    test("shades", () => {
+      expect(
+        CM.HSLAFrom(ogColor)
+          .harmony("monochromatic", { effect: "shades" })
+          .map((c) => c.string())
+      ).toStrictEqual([
+        "hsla(30, 50%, 50%, 1.0)",
+        "hsla(30, 50%, 40%, 1.0)",
+        "hsla(30, 50%, 30%, 1.0)",
+        "hsla(30, 50%, 20%, 1.0)",
+        "hsla(30, 50%, 10%, 1.0)",
+        "hsla(30, 50%, 0%, 1.0)"
+      ]);
+    });
+
+    test("tones", () => {
+      expect(
+        CM.HSLAFrom(ogColor)
+          .harmony("monochromatic", { effect: "tones" })
+          .map((c) => c.string())
+      ).toStrictEqual([
+        "hsla(30, 50%, 50%, 1.0)",
+        "hsla(30, 40%, 50%, 1.0)",
+        "hsla(30, 30%, 50%, 1.0)",
+        "hsla(30, 20%, 50%, 1.0)",
+        "hsla(30, 10%, 50%, 1.0)",
+        "hsla(30, 0%, 50%, 1.0)"
+      ]);
+    });
+  });
 });
 
-test("fromName", () => expect(CM.fromName("alice blue").hsl().string({precision: [0, 1, 1, 1]})).toBe("hsla(208, 100.0%, 97.1%, 1.0)")); // prettier-ignore
+test("isCool/isWarm", () => {
+  expect(CM.HSLAFrom(75, 100, 50, 1).isCool()).toBeTruthy();
+  expect(CM.HSLAFrom(74.9, 100, 50, 1).isWarm()).toBeTruthy();
+  expect(CM.HSLAFrom(255, 100, 50, 1).isWarm()).toBeTruthy();
+  expect(CM.HSLAFrom(254.9, 100, 50, 1).isCool()).toBeTruthy();
+  expect(CM.HSLAFrom(0, 100, 50, 1).isWarm()).toBeTruthy();
+  expect(CM.HSLAFrom(180, 100, 50, 1).isCool()).toBeTruthy();
+  expect(CM.HSLAFrom(180, 100, 50, 1).isWarm()).toBeFalsy();
+});
+
+test("isTinted/isShaded/isToned", () => {
+  expect(CM.HSLAFrom(0, 100, 50.1, 1).isTinted()).toBeTruthy();
+  expect(CM.HSLAFrom(0, 100, 50, 1).isTinted()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 100, 49.9, 1).isTinted()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 100, 49.9, 1).isShaded()).toBeTruthy();
+  expect(CM.HSLAFrom(0, 100, 50, 1).isShaded()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 100, 50.1, 1).isShaded()).toBeFalsy();
+  expect(CM.HSLAFrom(0, 99.9, 50, 1).isToned()).toBeTruthy();
+  expect(CM.HSLAFrom(0, 100, 50, 1).isToned()).toBeFalsy();
+});

@@ -1,4 +1,3 @@
-import { BOUNDS } from "../src/enums/bounds";
 import CM, { TNumArr } from "../src/index";
 import RGBColors from "../src/models/rgb";
 
@@ -94,6 +93,7 @@ describe("name", () => {
   test("with 0 < alpha < 1", () => expect(CM.RGBAFrom("rgb(128.4, 0, 0, 0.5)").name()).toBe("maroon (with opacity)"));
   test("with alpha = 0", () => expect(CM.RGBAFrom("rgb(128.4, 0, 0, 0)").name()).toBe("transparent"));
   test("undefined", () => expect(CM.RGBAFrom("rgb(1, 0, 0)").name()).toBe("undefined"));
+  test("exact", () => expect(CM.RGBAFrom("rgb(1, 0, 0)").name({ exact: false })).toBe("black"));
 });
 
 describe("changeValueTo", () => {
@@ -157,6 +157,18 @@ describe("changeValueBy", () => {
     `("change $channel channel - value: $value", ({ channel, value, expected }) => {
       expect(cm.changeValueBy(channel, value).string()).toBe(expected);
     });
+  });
+});
+
+describe("hue", () => {
+  test("hueTo", () => {
+    expect(cm.hueTo(240).string()).toBe("rgba(32, 32, 128, 0.7)");
+    expect(cm.hueTo("blue").string()).toBe("rgba(32, 32, 128, 0.7)");
+  });
+
+  test("hueBy", () => {
+    expect(cm.hueBy(30).string()).toBe("rgba(128, 112, 32, 0.7)");
+    expect(cm.hueBy(-10).string()).toBe("rgba(128, 48, 32, 0.7)");
   });
 });
 
@@ -341,15 +353,153 @@ test("equalTo", () => {
   expect(CM.RGBAFrom(255, 255, 0, 1).equalTo(CM.RGBAFrom(255, 255, 0))).toBeTruthy();
 });
 
-test("random generation", () => {
-  jest
-    .spyOn(global.Math, "random")
-    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
-    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // green → 222
-    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // blue  → 222
-    .mockReturnValueOnce(0.5); // alpha → 0.5
+describe("harmony", () => {
+  const ogColor = "rgba(143, 239, 239, 1)";
 
-  expect(CM.random().string()).toBe("rgba(222, 222, 222, 0.5)");
+  test("analogous", () => {
+    const expected = ["rgba(143, 239, 191, 1.0)", "rgba(143, 239, 239, 1.0)", "rgba(143, 191, 239, 1.0)"];
+    expect(
+      CM.RGBAFrom(ogColor)
+        .harmony()
+        .map((c) => c.string())
+    ).toStrictEqual(expected);
+
+    expect(
+      CM.RGBAFrom(ogColor)
+        .harmony("analogous")
+        .map((c) => c.string())
+    ).toStrictEqual(expected);
+  });
+
+  test("complementary", () => {
+    expect(
+      CM.RGBAFrom(ogColor)
+        .harmony("complementary")
+        .map((c) => c.string())
+    ).toStrictEqual(["rgba(143, 239, 239, 1.0)", "rgba(239, 143, 143, 1.0)"]);
+  });
+
+  test("split-complementary", () => {
+    expect(
+      CM.RGBAFrom(ogColor)
+        .harmony("split-complementary")
+        .map((c) => c.string())
+    ).toStrictEqual(["rgba(143, 239, 239, 1.0)", "rgba(239, 143, 191, 1.0)", "rgba(239, 191, 143, 1.0)"]);
+  });
+
+  test("double-split-complementary", () => {
+    expect(
+      CM.RGBAFrom(ogColor)
+        .harmony("double-split-complementary")
+        .map((c) => c.string())
+    ).toStrictEqual([
+      "rgba(143, 239, 191, 1.0)",
+      "rgba(143, 239, 239, 1.0)",
+      "rgba(143, 191, 239, 1.0)",
+      "rgba(239, 143, 191, 1.0)",
+      "rgba(239, 191, 143, 1.0)"
+    ]);
+  });
+
+  test("triad", () => {
+    expect(
+      CM.RGBAFrom(ogColor)
+        .harmony("triad")
+        .map((c) => c.string())
+    ).toStrictEqual(["rgba(143, 239, 239, 1.0)", "rgba(239, 143, 239, 1.0)", "rgba(239, 239, 143, 1.0)"]);
+  });
+
+  test("rectangle", () => {
+    expect(
+      CM.RGBAFrom(ogColor)
+        .harmony("rectangle")
+        .map((c) => c.string())
+    ).toStrictEqual([
+      "rgba(143, 239, 239, 1.0)",
+      "rgba(143, 143, 239, 1.0)",
+      "rgba(239, 143, 143, 1.0)",
+      "rgba(239, 239, 143, 1.0)"
+    ]);
+  });
+
+  test("square", () => {
+    expect(
+      CM.RGBAFrom(ogColor)
+        .harmony("square")
+        .map((c) => c.string())
+    ).toStrictEqual([
+      "rgba(143, 239, 239, 1.0)",
+      "rgba(191, 143, 239, 1.0)",
+      "rgba(239, 143, 143, 1.0)",
+      "rgba(191, 239, 143, 1.0)"
+    ]);
+  });
+
+  describe("monochromatic", () => {
+    test("tints", () => {
+      expect(
+        CM.RGBAFrom(ogColor)
+          .harmony("monochromatic", { effect: "tints" })
+          .map((c) => c.string())
+      ).toStrictEqual([
+        "rgba(143, 239, 239, 1.0)",
+        "rgba(165, 242, 242, 1.0)",
+        "rgba(188, 245, 245, 1.0)",
+        "rgba(210, 249, 249, 1.0)",
+        "rgba(233, 252, 252, 1.0)",
+        "rgba(255, 255, 255, 1.0)"
+      ]);
+    });
+
+    test("shades", () => {
+      expect(
+        CM.RGBAFrom(ogColor)
+          .harmony("monochromatic", { effect: "shades" })
+          .map((c) => c.string())
+      ).toStrictEqual([
+        "rgba(143, 239, 239, 1.0)",
+        "rgba(76, 229, 229, 1.0)",
+        "rgba(29, 201, 201, 1.0)",
+        "rgba(19, 134, 134, 1.0)",
+        "rgba(10, 67, 67, 1.0)",
+        "rgba(0, 0, 0, 1.0)"
+      ]);
+    });
+
+    test("tones", () => {
+      expect(
+        CM.RGBAFrom(ogColor)
+          .harmony("monochromatic", { effect: "tones" })
+          .map((c) => c.string())
+      ).toStrictEqual([
+        "rgba(143, 239, 239, 1.0)",
+        "rgba(153, 229, 229, 1.0)",
+        "rgba(162, 220, 220, 1.0)",
+        "rgba(172, 210, 210, 1.0)",
+        "rgba(181, 201, 201, 1.0)",
+        "rgba(191, 191, 191, 1.0)"
+      ]);
+    });
+  });
 });
 
-test("fromName", () => expect(CM.fromName("alice blue").string()).toBe("rgba(240, 248, 255, 1.0)"));
+test("isCool/isWarm", () => {
+  expect(CM.RGBAFrom(95, 64, 191, 1).isCool()).toBeTruthy();
+  expect(CM.RGBAFrom(96, 64, 191, 1).isWarm()).toBeTruthy();
+  expect(CM.RGBAFrom(191, 64, 64, 1).isWarm()).toBeTruthy();
+  expect(CM.RGBAFrom(64, 191, 191, 1).isCool()).toBeTruthy();
+  expect(CM.RGBAFrom(160, 191, 64, 1).isWarm()).toBeTruthy();
+  expect(CM.RGBAFrom(159, 191, 64, 1).isCool()).toBeTruthy();
+  expect(CM.RGBAFrom(159, 191, 64, 1).isWarm()).toBeFalsy();
+});
+
+test("isTinted/isShaded/isToned", () => {
+  expect(CM.RGBAFrom(107, 191, 65, 1).isTinted()).toBeTruthy();
+  expect(CM.RGBAFrom(107, 191, 64, 1).isTinted()).toBeFalsy();
+  expect(CM.RGBAFrom(107, 191, 63, 1).isTinted()).toBeFalsy();
+  expect(CM.RGBAFrom(107, 191, 63, 1).isShaded()).toBeTruthy();
+  expect(CM.RGBAFrom(107, 192, 63, 1).isShaded()).toBeFalsy();
+  expect(CM.RGBAFrom(107, 191, 65, 1).isShaded()).toBeFalsy();
+  expect(CM.RGBAFrom(92, 254.9, 10, 1).isToned()).toBeTruthy();
+  expect(CM.RGBAFrom(85, 255, 0, 1).isToned()).toBeFalsy();
+});

@@ -1,8 +1,18 @@
 import CM from "../index";
-import { IA11yOpts, IAlphaInvert, IReadable, IStringOpts, TChannel, TNumArr, TRGBAInput } from "../types/common";
+import {
+  IA11yOpts,
+  IAlphaInvert,
+  IMonochromatic,
+  IReadable,
+  IStringOpts,
+  TChannel,
+  THarmony,
+  TNumArr,
+  TRGBAInput
+} from "../types/common";
 import { Irgba, IRGBColors } from "../types/rgb";
 import { BOUNDS } from "../enums/bounds";
-import { RGBExtended, WebSafe } from "../enums/colors";
+import { HueColors, RGBExtended, WebSafe } from "../enums/colors";
 import { clampNum, round, sRGB } from "../utils/numeric";
 import { createColorArrFromStr } from "../utils/string";
 import HSLColors from "./hsl";
@@ -146,6 +156,14 @@ export default class RGBColors implements IRGBColors {
     return this;
   }
 
+  hueTo(value: number | keyof typeof HueColors): RGBColors {
+    return this.hsl().hueTo(value).rgb();
+  }
+
+  hueBy(delta: number): RGBColors {
+    return this.hsl().hueBy(delta).rgb();
+  }
+
   alphaTo(value: number): RGBColors {
     return this.changeValueTo("alpha", value);
   }
@@ -251,5 +269,30 @@ export default class RGBColors implements IRGBColors {
   equalTo(compareColor: TRGBAInput | RGBColors = [255, 255, 255, 1.0]): boolean {
     compareColor = compareColor instanceof RGBColors ? compareColor : CM.RGBAFrom(compareColor);
     return JSON.stringify(this.array) === JSON.stringify(compareColor.array);
+  }
+
+  harmony(type: THarmony = "analogous", { effect = "tones", amount = 5 }: IMonochromatic = {}): RGBColors[] {
+    const hslArr = this.hsl().harmony(type, { effect, amount });
+    return hslArr.map((color) => color.rgb());
+  }
+
+  isCool(): boolean {
+    return this.hsl().isCool();
+  }
+
+  isWarm(): boolean {
+    return !this.isCool();
+  }
+
+  isTinted(): boolean {
+    return this.hsl().isTinted();
+  }
+
+  isShaded(): boolean {
+    return this.hsl().isShaded();
+  }
+
+  isToned(): boolean {
+    return this.hsl().isToned();
   }
 }

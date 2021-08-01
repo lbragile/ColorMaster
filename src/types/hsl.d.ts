@@ -1,4 +1,5 @@
 import { IA11yOpts, IReadable, THSLAInput, TNumArr } from "..";
+import { HueColors } from "../enums/colors";
 import HEXColors from "../models/hex";
 import HSLColors from "../models/hsl";
 import RGBColors from "../models/rgb";
@@ -125,10 +126,10 @@ export interface IHSLColors {
 
   /**
    * Syntactic sugar for {@link HSLColors.changeValueTo changeValueTo} with "hue" as the channel
-   * @param value Must be in range [0, 359]
+   * @param value Must be in range [0, 359] or a CSS/HTML color name
    * @returns The instance that was acted upon → for function chaining
    */
-  hueTo: (value: number) => HSLColors;
+  hueTo: (value: number | keyof typeof HueColors) => HSLColors;
 
   /**
    * Syntactic sugar for {@link HSLColors.changeValueBy changeValueBy} with "hue" as the channel

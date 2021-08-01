@@ -1,8 +1,18 @@
 import { TNumArr } from "..";
+import { HueColors } from "../enums/colors";
 import HEXColors from "../models/hex";
 import HSLColors from "../models/hsl";
 import RGBColors from "../models/rgb";
-import { IA11yOpts, IAlphaInvert, IReadable, IStringOpts, TChannel, TRGBAInput } from "./common";
+import {
+  IA11yOpts,
+  IAlphaInvert,
+  IMonochromatic,
+  IReadable,
+  IStringOpts,
+  TChannel,
+  THarmony,
+  TRGBAInput
+} from "./common";
 
 export interface Irgb {
   r: number;
@@ -118,11 +128,19 @@ export interface IRGBColors {
    */
   changeValueBy: (channel: TChannel, delta: number) => RGBColors;
 
-  // TODO
-  // hueTo: (value: number) => RGBColors;
+  /**
+   * Syntactic sugar for {@link RGBColors.changeValueTo changeValueTo} with "hue" as the channel (done in HSLA space and converted back to RGBA space)
+   * @param value Must be in range [0, 359] or a CSS/HTML color name
+   * @returns The instance that was acted upon → for function chaining
+   */
+  hueTo: (value: number | keyof typeof HueColors) => RGBColors;
 
-  // TODO
-  // hueBy: (delta: number) => RGBColors;
+  /**
+   * Syntactic sugar for {@link RGBColors.changeValueBy changeValueBy} with "hue" as the channel (done in HSLA space and converted back to RGBA space)
+   * @param delta When added to current alpha value, range must remain in [0, 359]
+   * @returns The instance that was acted upon → for function chaining
+   */
+  hueBy: (delta: number) => RGBColors;
 
   /**
    * Syntactic sugar for {@link RGBColors.changeValueTo changeValueTo} with "alpha" as the channel
@@ -275,4 +293,54 @@ export interface IRGBColors {
    * @returns True if the two color instances are identical (same RGBA channel values). False otherwise.
    */
   equalTo: (compareColor: TRGBAInput | RGBColors) => boolean;
+
+  /**
+   * Generates an RGBA color instance array based on the corresponding harmony
+   *
+   * @param type The color harmony to apply
+   * @opts Only apply to 'monochromatic' harmony
+   * - effect → 'tints' (add white/add lightness), 'shades' (add black/remove lightness), 'tones' (add grey/remove saturation)
+   * - amount → the number of elements to return
+   *
+   * @see {@link // https//www.tigercolor.com/color-lab/color-theory/color-harmonies.htm}
+   * @note For 'monochromatic', the amount must be in range [2, 10]
+   * @returns - All harmony types return an array with the original color as the first element.
+   *          - The only exception to this are 'analogous' and 'double-split-complementary',
+   *            which return the original color as the second element.
+   *          - For 'monochromatic' the original color is always first and the array size is `amount + 1` evenly spaced colors.
+   */
+  harmony: (type: THarmony, opts: IMonochromatic) => RGBColors[];
+
+  /**
+   * "Cool colors give an impression of calm, and create a soothing impression"
+   *
+   * These typically contain more blue and green pigmentation (higher hue)
+   *
+   * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm} or {@link https://www.canva.com/colors/color-wheel/}
+   */
+  isCool: () => boolean;
+
+  /**
+   * "Warm colors are vivid and energetic, and tend to advance in space"
+   *
+   * These typically contain more red and yellow pigmentation (lower hue)
+   *
+   * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm} or {@link https://www.canva.com/colors/color-wheel/}
+   */
+  isWarm: () => boolean;
+
+  /**
+   * Helper for determining if a given color instance is tinted (lightness deviated upwards from a pure hue whose lightness is 50%)
+   */
+  isTinted: () => boolean;
+
+  /**
+   * Helper for determining if a given color instance is shaded (lightness deviated downwards from a pure hue whose lightness is 50%)
+   */
+  isShaded: () => boolean;
+
+  /**
+   * Helper for determining if a given color instance is toned (saturation deviated from a pure hue whose saturation is 100%)
+   */
+  isToned: () => boolean;
 }

@@ -1,4 +1,3 @@
-import { BOUNDS } from "../src/enums/bounds";
 import CM, { TStrArr } from "../src/index";
 import HEXColors from "../src/models/hex";
 
@@ -90,6 +89,7 @@ describe("name", () => {
   test("with '00' < alpha < 'FF'", () => expect(CM.HEXAFrom("#80000077)").name()).toBe("maroon (with opacity)"));
   test("with alpha = '00'", () => expect(CM.HEXAFrom("#80000000").name()).toBe("transparent"));
   test("undefined", () => expect(CM.HEXAFrom("#800001").name()).toBe("undefined"));
+  test("exact", () => expect(CM.HEXAFrom("#000001FF").name({ exact: false })).toBe("black"));
 });
 
 describe("changeValueTo", () => {
@@ -153,6 +153,18 @@ describe("changeValueBy", () => {
     `("change $channel channel - type: $type", ({ channel, type, expected }) => {
       expect(cm.changeValueBy(channel, "FF", type).string()).toBe(expected);
     });
+  });
+});
+
+describe("hue", () => {
+  test("hueTo", () => {
+    expect(cm.hueTo(240).string()).toBe("#65658799"); // #67678999
+    expect(cm.hueTo("blue").string()).toBe("#65658799"); // #67678999
+  });
+
+  test("hueBy", () => {
+    expect(cm.hueBy(30).string()).toBe("#65658799"); // #67678999
+    expect(cm.hueBy(-10).string()).toBe("#657C8799"); // #677D8999
   });
 });
 
@@ -307,15 +319,117 @@ test("equalTo", () => {
   expect(CM.HEXAFrom("#00FF00FF").equalTo(CM.HEXAFrom("#00FF00FF"))).toBeTruthy();
 });
 
-test("random generation", () => {
-  jest
-    .spyOn(global.Math, "random")
-    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // red   → 222
-    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // green → 222
-    .mockReturnValueOnce(222 / BOUNDS.RGB_CHANNEL) // blue  → 222
-    .mockReturnValueOnce(0.5); // alpha → 0.5
+describe("harmony", () => {
+  const ogColor = "#BF8040FF";
 
-  expect(CM.random().hex().string()).toBe("#DEDEDE80");
+  test("analogous", () => {
+    const expected = ["#BF4040FF", "#BF8040FF", "#BEBF40FF"];
+
+    expect(
+      CM.HEXAFrom(ogColor)
+        .harmony()
+        .map((c) => c.string())
+    ).toStrictEqual(expected);
+
+    expect(
+      CM.HEXAFrom(ogColor)
+        .harmony("analogous")
+        .map((c) => c.string())
+    ).toStrictEqual(expected);
+  });
+
+  test("complementary", () => {
+    expect(
+      CM.HEXAFrom(ogColor)
+        .harmony("complementary")
+        .map((c) => c.string())
+    ).toStrictEqual(["#BF8040FF", "#407FBFFF"]);
+  });
+
+  test("split-complementary", () => {
+    expect(
+      CM.HEXAFrom(ogColor)
+        .harmony("split-complementary")
+        .map((c) => c.string())
+    ).toStrictEqual(["#BF8040FF", "#40BEBFFF", "#4040BFFF"]);
+  });
+
+  test("double-split-complementary", () => {
+    expect(
+      CM.HEXAFrom(ogColor)
+        .harmony("double-split-complementary")
+        .map((c) => c.string())
+    ).toStrictEqual(["#BF4040FF", "#BF8040FF", "#BEBF40FF", "#40BEBFFF", "#4040BFFF"]);
+  });
+
+  test("triad", () => {
+    expect(
+      CM.HEXAFrom(ogColor)
+        .harmony("triad")
+        .map((c) => c.string())
+    ).toStrictEqual(["#BF8040FF", "#40BF80FF", "#8040BFFF"]);
+  });
+
+  test("rectangle", () => {
+    expect(
+      CM.HEXAFrom(ogColor)
+        .harmony("rectangle")
+        .map((c) => c.string())
+    ).toStrictEqual(["#BF8040FF", "#7FBF40FF", "#407FBFFF", "#8040BFFF"]);
+  });
+
+  test("square", () => {
+    expect(
+      CM.HEXAFrom(ogColor)
+        .harmony("square")
+        .map((c) => c.string())
+    ).toStrictEqual(["#BF8040FF", "#40BF40FF", "#407FBFFF", "#BF40BEFF"]);
+  });
+
+  describe("monochromatic", () => {
+    test("tints", () => {
+      expect(
+        CM.HEXAFrom(ogColor)
+          .harmony("monochromatic", { effect: "tints" })
+          .map((c) => c.string())
+      ).toStrictEqual(["#BF8040FF", "#CB9966FF", "#D8B28CFF", "#E5CCB2FF", "#F2E5D8FF", "#FFFFFFFF"]);
+    });
+
+    test("shades", () => {
+      expect(
+        CM.HEXAFrom(ogColor)
+          .harmony("monochromatic", { effect: "shades" })
+          .map((c) => c.string())
+      ).toStrictEqual(["#BF8040FF", "#986633FF", "#724C26FF", "#4C3319FF", "#26190CFF", "#000000FF"]);
+    });
+
+    test("tones", () => {
+      expect(
+        CM.HEXAFrom(ogColor)
+          .harmony("monochromatic", { effect: "tones" })
+          .map((c) => c.string())
+      ).toStrictEqual(["#BF8040FF", "#B27F4CFF", "#A57F59FF", "#987F66FF", "#8C7F72FF", "#7F7F7FFF"]);
+    });
+  });
 });
 
-test("fromName", () => expect(CM.fromName("alice blue").hex().string()).toBe("#F0F8FFFF"));
+test("isCool/isWarm", () => {
+  expect(CM.HEXAFrom("#BFFF00FF").isCool()).toBeTruthy();
+  expect(CM.HEXAFrom("#C0FF00FF").isWarm()).toBeTruthy();
+  expect(CM.HEXAFrom("#4000FFFF").isWarm()).toBeTruthy();
+  expect(CM.HEXAFrom("#3F00FFFF").isCool()).toBeTruthy();
+  expect(CM.HEXAFrom("#F00F").isWarm()).toBeTruthy();
+  expect(CM.HEXAFrom("#0FFF").isCool()).toBeTruthy();
+  expect(CM.HEXAFrom("#0FFF").isWarm()).toBeFalsy();
+});
+
+test("isTinted/isShaded/isToned", () => {
+  expect(CM.HEXAFrom("#FF0101FF").isTinted()).toBeTruthy();
+  expect(CM.HEXAFrom("#F00F").isTinted()).toBeFalsy();
+  expect(CM.HEXAFrom("#FE0000FF").isTinted()).toBeFalsy();
+  expect(CM.HEXAFrom("#FE0000FF").isShaded()).toBeTruthy();
+  expect(CM.HEXAFrom("#FF0000FF").isShaded()).toBeFalsy();
+  expect(CM.HEXAFrom("#FF0101FF").isShaded()).toBeFalsy();
+  expect(CM.HEXAFrom("#FE0101").isToned()).toBeTruthy();
+  expect(CM.HEXAFrom("#F00F").isToned()).toBeFalsy();
+});

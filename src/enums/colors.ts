@@ -1,4 +1,4 @@
-// Obtained from https://www.canva.com/colors/color-wheel/, names are given to follow the color wheel
+// Obtained from https://www.canva.com/colors/color-wheel/, names are given to follow the predominant colors on the color wheel
 export enum HueColors {
   "red"        = "rgb(255,0,0)",
   "orange"     = "rgb(255,128,0)",

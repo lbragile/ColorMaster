@@ -15,6 +15,7 @@ import { Ihsla, IHSLColors } from "../types/hsl";
 import { clampNum, round } from "../utils/numeric";
 import HEXColors from "./hex";
 import RGBColors from "./rgb";
+import { HueColors } from "../enums/colors";
 
 export default class HSLColors implements IHSLColors {
   #hsla: Ihsla;
@@ -124,8 +125,8 @@ export default class HSLColors implements IHSLColors {
     return this;
   }
 
-  hueTo(value: number): HSLColors {
-    return this.changeValueTo("hue", value);
+  hueTo(value: number | keyof typeof HueColors): HSLColors {
+    return this.changeValueTo("hue", typeof value === "string" ? CM.RGBAFrom(HueColors[value]).hue : (value as number));
   }
 
   hueBy(delta: number): HSLColors {
@@ -256,7 +257,7 @@ export default class HSLColors implements IHSLColors {
         const valueToAdjust = effect === "tones" ? s : l;
 
         // form array of n (amount) evenly spaced items from current saturation/lightness to min/max value
-        let delta = Math.floor((effect === "tints" ? BOUNDS.HSL_LIGHTNESS - valueToAdjust : valueToAdjust) / amount);
+        let delta = (effect === "tints" ? BOUNDS.HSL_LIGHTNESS - valueToAdjust : valueToAdjust) / amount;
         delta = effect === "tints" ? delta : -1 * delta;
 
         const valArr: number[] = [valueToAdjust];

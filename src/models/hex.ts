@@ -1,7 +1,20 @@
+import CM from "../index";
 import { BOUNDS } from "../enums/bounds";
-import { IStringOpts, TChannel, TOperator, TStrArr } from "../types/common";
+import { HueColors } from "../enums/colors";
+import {
+  IA11yOpts,
+  IAlphaInvert,
+  IMonochromatic,
+  IReadable,
+  IStringOpts,
+  TChannel,
+  THarmony,
+  THEXAInput,
+  TOperator,
+  TStrArr
+} from "../types/common";
 import { Ihexa, IHEXColors } from "../types/hex";
-import { clamp } from "../utils/numeric";
+import { clampStr } from "../utils/string";
 import HSLColors from "./hsl";
 import RGBColors from "./rgb";
 
@@ -11,37 +24,72 @@ export default class HEXColors implements IHEXColors {
   constructor(r = "00", g = "00", b = "00", a = "FF") {
     // make sure all elements are the same case when clamping. Also ensure that each channel is 2 characters
     const [Rp, Gp, Bp, Ap] = [r, g, b, a].map((val) =>
-      clamp("00", val.padStart(2, "0").toUpperCase(), BOUNDS.HEX_CHANNEL_UPPER)
+      clampStr("00", val.padStart(2, "0").toUpperCase(), BOUNDS.HEX_CHANNEL_UPPER)
     );
 
     this.#hexa = { r: Rp, g: Gp, b: Bp, a: Ap };
   }
 
-  get hexaObj(): Ihexa {
+  get object(): Ihexa {
     return this.#hexa;
   }
 
-  set hexaObj(obj: Ihexa) {
+  set object(obj: Ihexa) {
     this.#hexa = obj;
   }
 
-  get hexaArr(): Required<TStrArr> {
-    return Object.values(this.#hexa) as Required<TStrArr>;
+  get array(): Required<TStrArr> {
+    return Object.values(this.object) as Required<TStrArr>;
   }
 
-  set hexaArr(arr: TStrArr) {
-    this.#hexa = { r: arr[0], g: arr[1], b: arr[2], a: arr[3] ?? "FF" };
+  set array(arr: TStrArr) {
+    this.object = { r: arr[0], g: arr[1], b: arr[2], a: arr[3] ?? "FF" };
   }
 
-  string({ withAlpha = true, quotes = "single" }: IStringOpts = {}): string {
-    const quote = quotes === "single" ? "'" : '"';
-    const [Rp, Gp, Bp, Ap] = this.hexaArr.map((val) => val.slice(0, 2));
+  get format(): string {
+    return "hex";
+  }
+
+  get red(): string {
+    return this.object.r;
+  }
+
+  get blue(): string {
+    return this.object.b;
+  }
+
+  get green(): string {
+    return this.object.g;
+  }
+
+  get alpha(): string {
+    return this.object.a;
+  }
+
+  get hue(): number {
+    return this.hsl().object.h;
+  }
+
+  get saturation(): number {
+    return this.hsl().object.s;
+  }
+
+  get lightness(): number {
+    return this.hsl().object.l;
+  }
+
+  string({ withAlpha = true }: IStringOpts = {}): string {
+    const [Rp, Gp, Bp, Ap] = this.array.map((val) => val.slice(0, 2));
     const alpha = withAlpha ? Ap : "";
-    return `${quote}#${Rp}${Gp}${Bp}${alpha}${quote}`;
+    return `#${Rp}${Gp}${Bp}${alpha}`;
+  }
+
+  name({ exact = true }: { exact?: boolean } = {}): string {
+    return this.rgb().name({ exact });
   }
 
   rgb(): RGBColors {
-    const [r, g, b, a] = this.hexaArr.map((part) => parseInt(part, 16));
+    const [r, g, b, a] = this.array.map((part) => parseInt(part, 16));
     return new RGBColors(r, g, b, a / BOUNDS.RGB_CHANNEL);
   }
 
@@ -66,6 +114,14 @@ export default class HEXColors implements IHEXColors {
       .hex();
   }
 
+  hueTo(value: number | keyof typeof HueColors): HEXColors {
+    return this.hsl().hueTo(value).hex();
+  }
+
+  hueBy(delta: number): HEXColors {
+    return this.hsl().hueBy(delta).hex();
+  }
+
   alphaTo(value: string): HEXColors {
     return this.changeValueTo("alpha", value);
   }
@@ -74,7 +130,7 @@ export default class HEXColors implements IHEXColors {
     return this.changeValueBy("alpha", delta, type);
   }
 
-  invert({ includeAlpha = true }: { includeAlpha?: boolean } = {}): HEXColors {
+  invert({ includeAlpha = true }: IAlphaInvert = {}): HEXColors {
     return this.rgb().invert({ includeAlpha }).hex();
   }
 
@@ -104,5 +160,91 @@ export default class HEXColors implements IHEXColors {
 
   grayscale(): HEXColors {
     return this.hsl().grayscale().hex();
+  }
+
+  rotate(value: number): HEXColors {
+    return this.hsl().rotate(value).hex();
+  }
+
+  closestWebSafe(): HEXColors {
+    return this.rgb().closestWebSafe().hex();
+  }
+
+  brightness({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+    return this.rgb().brightness({ precision, percentage });
+  }
+
+  luminance({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+    return this.rgb().luminance({ precision, percentage });
+  }
+
+  contrast(
+    bgColor: THEXAInput | HEXColors = "#FFFFFFFF",
+    { precision = 4, ratio = false }: IA11yOpts = {}
+  ): string | number {
+    bgColor = bgColor instanceof HEXColors ? bgColor : CM.HEXAFrom(bgColor);
+    return this.rgb().contrast(bgColor.rgb(), { precision, ratio });
+  }
+
+  isLight(): boolean {
+    return this.brightness() >= 0.5;
+  }
+
+  isDark(): boolean {
+    return !this.isLight();
+  }
+
+  readableOn(
+    bgColor: THEXAInput | HEXColors = "#FFFFFFFF",
+    { size = "body", ratio = "minimum" }: IReadable = {}
+  ): boolean {
+    bgColor = bgColor instanceof HEXColors ? bgColor : CM.HEXAFrom(bgColor);
+    return this.rgb().readableOn(bgColor.rgb(), { size, ratio });
+  }
+
+  equalTo(compareColor: THEXAInput | HEXColors = "#FFFFFFFF"): boolean {
+    compareColor = compareColor instanceof HEXColors ? compareColor : CM.HEXAFrom(compareColor);
+    return this.array.join("") === compareColor.array.join("");
+  }
+
+  harmony(type: THarmony = "analogous", { effect = "tones", amount = 5 }: IMonochromatic = {}): HEXColors[] {
+    const hslArr = this.hsl().harmony(type, { effect, amount });
+    return hslArr.map((color) => color.hex());
+  }
+
+  isCool(): boolean {
+    return this.hsl().isCool();
+  }
+
+  isWarm(): boolean {
+    return !this.isCool();
+  }
+
+  closestCool(): HEXColors {
+    return this.hsl().closestCool().hex();
+  }
+
+  closestWarm(): HEXColors {
+    return this.hsl().closestWarm().hex();
+  }
+
+  isTinted(): boolean {
+    return this.hsl().isTinted();
+  }
+
+  isShaded(): boolean {
+    return this.hsl().isShaded();
+  }
+
+  isToned(): boolean {
+    return this.hsl().isToned();
+  }
+
+  isPureHue({ reason = true }: { reason?: boolean } = {}): boolean | { pure: boolean; reason: string } {
+    return this.hsl().isPureHue({ reason });
+  }
+
+  closestPureHue(): HEXColors {
+    return this.hsl().closestPureHue().hex();
   }
 }

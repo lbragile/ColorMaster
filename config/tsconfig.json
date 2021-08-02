@@ -15,5 +15,5 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["../src"],
-  "exclude": ["../node_modules", "../tests", "../coverage"]
+  "exclude": ["../node_modules", "../tests", "../coverage", "../src/debug.ts"]
 }

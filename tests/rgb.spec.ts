@@ -306,7 +306,7 @@ describe("contrast", () => {
   });
 
   test("ratio = true", () => {
-    expect(CM.RGBAFrom(0, 0, 0).contrast("255, 255, 255", { ratio: true })).toBe("21.0000:1");
+    expect(CM.RGBAFrom(0, 0, 0).contrast("255, 255, 255", { ratio: true })).toEqual("21.0000:1");
     expect(CM.RGBAFrom(64, 64, 64).contrast("255, 255, 255", { ratio: true })).toEqual("10.3653:1");
     expect(CM.RGBAFrom(128, 128, 128).contrast("255, 255, 255", { ratio: true })).toEqual("3.9489:1");
     expect(CM.RGBAFrom(192, 192, 192).contrast("255, 255, 255", { ratio: true })).toEqual("1.8194:1");

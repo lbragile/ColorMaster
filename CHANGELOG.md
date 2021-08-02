@@ -2,6 +2,59 @@
 
 All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster) module will be documented in this file.
 
+## v0.1.0 - August 1, 2021
+
+### Added
+
+- Functionality and tests for:
+
+  - `rotation`
+  - `format`
+  - `name`
+  - `random`
+  - `brightness`
+  - `luminance`
+  - `isDark`
+  - `isLight`
+  - `contrast`
+  - `readableOn`
+  - `equalTo`
+  - `harmony` ([color harmonies](https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm))
+  - `isWarm`
+  - `isCool`
+  - `isTinted`
+  - `isShaded`
+  - `isToned`
+  - `isPureHue`
+  - `closestPureHue`
+  - `closestWebSafe` ([web safe](https://www.rapidtables.com/web/color/Web_Safe.html))
+  - `closestWarm`
+  - `closestCool`
+
+- README documentation for API
+- Support for 3/4-digit HEX
+- Size check GitHub action
+
+### Fixed
+
+- Tests to provide more coverage (100% coverage)
+- `random()` and `fromName()` to generate RGB color instance which user can convert using `hsl()` or `hex()`
+- Edge cases in `colormaster` class when generating color instances
+- GitHub actions scripts
+
+### Changed
+
+- Getter & Setter function names to be more general
+- `name()` function to search by name exactly or approximately
+- `HSLAFrom()` to allow user to use CSS Name instead of number for hue channel
+
+### Removed
+
+- Benchmark tests as they are not meaningful enough
+- Packages related to benchmark script
+
+---
+
 ## v0.0.7 - July 28, 2021
 
 ### Added

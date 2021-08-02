@@ -299,7 +299,7 @@ export interface IHSLColors {
    * - effect → 'tints' (add white/add lightness), 'shades' (add black/remove lightness), 'tones' (add grey/remove saturation)
    * - amount → the number of elements to return
    *
-   * @see {@link // https//www.tigercolor.com/color-lab/color-theory/color-harmonies.htm}
+   * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm}
    * @note For 'monochromatic', the amount must be in range [2, 10]
    * @returns - All harmony types return an array with the original color as the first element.
    *          - The only exception to this are 'analogous' and 'double-split-complementary',

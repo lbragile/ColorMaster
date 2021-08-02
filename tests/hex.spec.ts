@@ -267,7 +267,7 @@ describe("contrast", () => {
 
   test("ratio = true", () => {
     const whiteColor = CM.HEXAFrom("#FFFFFFFF");
-    expect(CM.HEXAFrom("#000000FF").contrast(whiteColor, { ratio: true })).toBe("21.0000:1");
+    expect(CM.HEXAFrom("#000000FF").contrast(whiteColor, { ratio: true })).toEqual("21.0000:1");
     expect(CM.HEXAFrom("#404040FF").contrast(whiteColor, { ratio: true })).toEqual("10.3653:1");
     expect(CM.HEXAFrom("#808080FF").contrast(whiteColor, { ratio: true })).toEqual("3.9489:1");
     expect(CM.HEXAFrom("#C0C0C0FF").contrast(whiteColor, { ratio: true })).toEqual("1.8194:1");

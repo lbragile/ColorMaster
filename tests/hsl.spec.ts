@@ -284,7 +284,7 @@ describe("contrast", () => {
   });
 
   test("ratio = true", () => {
-    expect(CM.HSLAFrom(0, 0, 0).contrast("0, 0, 100", { ratio: true })).toBe("21.0000:1");
+    expect(CM.HSLAFrom(0, 0, 0).contrast("0, 0, 100", { ratio: true })).toEqual("21.0000:1");
     expect(CM.HSLAFrom(0, 0, 25.1).contrast("0, 0, 100", { ratio: true })).toEqual("10.3653:1");
     expect(CM.HSLAFrom(0, 0, 50.2).contrast("0, 0, 100", { ratio: true })).toEqual("3.9489:1");
     expect(CM.HSLAFrom(0, 0, 75.29).contrast("0, 0, 100", { ratio: true })).toEqual("1.8194:1");

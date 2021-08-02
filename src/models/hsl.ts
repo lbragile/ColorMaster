@@ -283,6 +283,18 @@ export default class HSLColors implements IHSLColors {
     return !this.isCool();
   }
 
+  closestCool(): HSLColors {
+    const { h } = this.object;
+    if (this.isCool()) return this;
+    return this.hueTo(h < 75 ? 75 : 254);
+  }
+
+  closestWarm(): HSLColors {
+    const { h } = this.object;
+    if (this.isWarm()) return this;
+    return this.hueTo(h < (255 + 75) / 2 ? 74 : 255);
+  }
+
   isTinted(): boolean {
     return this.object.l > 50.0;
   }
@@ -293,5 +305,22 @@ export default class HSLColors implements IHSLColors {
 
   isToned(): boolean {
     return this.object.s < 100.0;
+  }
+
+  isPureHue({ reason = true }: { reason?: boolean } = {}): boolean | { pure: boolean; reason: string } {
+    if (this.isTinted()) {
+      return reason ? { pure: false, reason: "tinted" } : false;
+    } else if (this.isShaded()) {
+      return reason ? { pure: false, reason: "shaded" } : false;
+    } else if (this.isToned()) {
+      return reason ? { pure: false, reason: "toned" } : false;
+    } else {
+      return reason ? { pure: true, reason: "N/A" } : true;
+    }
+  }
+
+  closestPureHue(): HSLColors {
+    const { h, a } = this.object;
+    return new HSLColors(h, 100, 50, a);
   }
 }

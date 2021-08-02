@@ -46,6 +46,11 @@ describe("object instantiation with overloaded helper", () => {
     expect(CM.HSLAFrom({ h: 120, s: 50, l: 60, a: 5 }).object).toMatchObject({ h: 120, s: 50, l: 60, a: 1 });
     expect(CM.HSLAFrom([120, 50, 60, 120]).object).toMatchObject({ h: 120, s: 50, l: 60, a: 1 });
     expect(CM.HSLAFrom([-240, 50, 60, 120]).object).toMatchObject({ h: 120, s: 50, l: 60, a: 1 });
+    expect(new HSLColors().object).toMatchObject({ h: 0, s: 100, l: 0, a: 1 });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(CM.HSLAFrom().object).toMatchObject({ h: 0, s: 100, l: 0, a: 1 });
   });
 });
 
@@ -480,6 +485,20 @@ test("isCool/isWarm", () => {
   expect(CM.HSLAFrom(180, 100, 50, 1).isWarm()).toBeFalsy();
 });
 
+test("closestCool/closestWarm", () => {
+  expect(CM.HSLAFrom(75, 100, 50, 1).closestWarm().string()).toBe("hsla(74, 100%, 50%, 1.0)");
+  expect(CM.HSLAFrom(254.9, 100, 50, 1).closestWarm().string()).toBe("hsla(255, 100%, 50%, 1.0)");
+  expect(CM.HSLAFrom(0, 100, 50, 1).closestWarm().string()).toBe("hsla(0, 100%, 50%, 1.0)");
+  expect(CM.HSLAFrom(120, 100, 50, 1).closestWarm().string()).toBe("hsla(74, 100%, 50%, 1.0)");
+  expect(CM.HSLAFrom(180, 100, 50, 1).closestWarm().string()).toBe("hsla(255, 100%, 50%, 1.0)");
+
+  expect(CM.HSLAFrom(74.9, 100, 50, 1).closestCool().string()).toBe("hsla(75, 100%, 50%, 1.0)");
+  expect(CM.HSLAFrom(255.1, 100, 50, 1).closestCool().string()).toBe("hsla(254, 100%, 50%, 1.0)");
+  expect(CM.HSLAFrom(180, 100, 50, 1).closestCool().string()).toBe("hsla(180, 100%, 50%, 1.0)");
+  expect(CM.HSLAFrom(0, 100, 50, 1).closestCool().string()).toBe("hsla(75, 100%, 50%, 1.0)");
+  expect(CM.HSLAFrom(300, 100, 50, 1).closestCool().string()).toBe("hsla(254, 100%, 50%, 1.0)");
+});
+
 test("isTinted/isShaded/isToned", () => {
   expect(CM.HSLAFrom(0, 100, 50.1, 1).isTinted()).toBeTruthy();
   expect(CM.HSLAFrom(0, 100, 50, 1).isTinted()).toBeFalsy();
@@ -489,4 +508,26 @@ test("isTinted/isShaded/isToned", () => {
   expect(CM.HSLAFrom(0, 100, 50.1, 1).isShaded()).toBeFalsy();
   expect(CM.HSLAFrom(0, 99.9, 50, 1).isToned()).toBeTruthy();
   expect(CM.HSLAFrom(0, 100, 50, 1).isToned()).toBeFalsy();
+});
+
+test("isPureHue", () => {
+  expect(CM.HSLAFrom(0, 100, 50, 1).isPureHue()).toMatchObject({ pure: true, reason: "N/A" });
+  expect(CM.HSLAFrom(0, 100, 50, 1).isPureHue({ reason: false })).toBeTruthy();
+
+  expect(CM.HSLAFrom(0, 100, 50.1, 1).isPureHue()).toMatchObject({ pure: false, reason: "tinted" });
+  expect(CM.HSLAFrom(0, 100, 50.1, 1).isPureHue({ reason: false })).toBeFalsy();
+
+  expect(CM.HSLAFrom(0, 100, 49.9, 1).isPureHue()).toMatchObject({ pure: false, reason: "shaded" });
+  expect(CM.HSLAFrom(0, 100, 49.9, 1).isPureHue({ reason: false })).toBeFalsy();
+
+  expect(CM.HSLAFrom(0, 99.9, 50, 1).isPureHue()).toMatchObject({ pure: false, reason: "toned" });
+  expect(CM.HSLAFrom(0, 99.9, 50, 1).isPureHue({ reason: false })).toBeFalsy();
+});
+
+test("closestPureHue", () => {
+  const pureHueColor = "hsla(120, 100%, 50%, 1.0)";
+  expect(CM.HSLAFrom(120, 100, 50, 1).closestPureHue().string()).toBe(pureHueColor);
+  expect(CM.HSLAFrom(120, 100, 50.1, 1).closestPureHue().string()).toBe(pureHueColor);
+  expect(CM.HSLAFrom(120, 100, 49.9, 1).closestPureHue().string()).toBe(pureHueColor);
+  expect(CM.HSLAFrom(120, 99.9, 50, 1).closestPureHue().string()).toBe(pureHueColor);
 });

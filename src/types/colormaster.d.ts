@@ -35,17 +35,7 @@ export interface IColorMaster {
   /**
    * Wrapper for instantiating a HSLColors object
    *
-   * @param {!number} h hue channel → [0, 359]
-   * @param {!number} s saturation channel → [0, 100]
-   * @param {!number} l lightness channel → [0, 100]
-   * @param {?number} a alpha channel → [0, 1]
-   *
-   * @see {@link https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads} for function overloading in TS
-   * @returns {HSLColors} An HSLColors object instance
-   */ /**
-   * Wrapper for instantiating a HSLColors object
-   *
-   * @param {keyof typeof HueColors} h CSS/HTML Name
+   * @param {!number | keyof typeof HueColors} h hue channel → [0, 359] or CSS/HTML Name
    * @param {!number} s saturation channel → [0, 100]
    * @param {!number} l lightness channel → [0, 100]
    * @param {?number} a alpha channel → [0, 1]

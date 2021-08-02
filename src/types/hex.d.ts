@@ -73,7 +73,7 @@ export interface IHEXColors {
    * @returns ```#RRGGBBAA?```
    * @example ({ r: "FF", g: "77", b: "00", a: "77" }).string() → "#FF770077"
    */
-  string: ({ withAlpha }: IStringOpts) => string;
+  string({ withAlpha }: IStringOpts): string;
 
   /**
    * Gets the color table HTML/CSS name for a given color in RGBA color space
@@ -84,14 +84,14 @@ export interface IHEXColors {
    * @see {@link RGBColors.name} for functionality
    * @returns The color's HTML/CSS name
    */
-  name: (opts: { exact?: boolean }) => string;
+  name(opts: { exact?: boolean }): string;
 
   /**
    * Converts a HEXA color to RGBA color
    *
    * @returns {RGBColors} An RGBA instance that can be acted upon → for function chaining
    */
-  rgb: () => RGBColors;
+  rgb(): RGBColors;
 
   /**
    * Converts a HEXA color to HSLA color
@@ -99,7 +99,7 @@ export interface IHEXColors {
    * @note First the color is converted to RGBA space, then HSLA
    * @returns {HSLColors} An HSLA instance that can be acted upon → for function chaining
    */
-  hsl: () => HSLColors;
+  hsl(): HSLColors;
 
   /**
    * Lets you set a single channel value to a specific number
@@ -109,7 +109,7 @@ export interface IHEXColors {
    * @note 'value' can also be 1 character, in which case it will be padded with a leading '0'
    * @returns The instance that was acted upon → for function chaining
    */
-  changeValueTo: (channel: TChannel, value: string) => HEXColors;
+  changeValueTo(channel: TChannel, value: string): HEXColors;
 
   /**
    * Instead of setting the value as in {@link HEXColors.changeValueTo changeValueTo}, this allows you to adjust the channel value by `delta` amount.
@@ -118,28 +118,28 @@ export interface IHEXColors {
    * @param type Either 'add' or 'sub' indicating whether the delta should be positive or negative
    * @returns The instance that was acted upon → for function chaining
    */
-  changeValueBy: (channel: TChannel, delta: string, type: TOperator) => HEXColors;
+  changeValueBy(channel: TChannel, delta: string, type: TOperator): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.changeValueTo changeValueTo} with "hue" as the channel (done in HSLA space and converted back to HEXA space)
    * @param value Must be in range [0, 359] or a CSS/HTML color name
    * @returns The instance that was acted upon → for function chaining
    */
-  hueTo: (value: number | keyof typeof HueColors) => HEXColors;
+  hueTo(value: number | keyof typeof HueColors): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.changeValueBy changeValueBy} with "hue" as the channel (done in HSLA space and converted back to HEXA space)
    * @param delta When added to current alpha value, range must remain in [0, 359]
    * @returns The instance that was acted upon → for function chaining
    */
-  hueBy: (delta: number) => HEXColors;
+  hueBy(delta: number): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.changeValueTo changeValueTo} with "alpha" as the channel
    * @param value Must be in range ["00", "FF"]
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaTo: (value: string) => HEXColors;
+  alphaTo(value: string): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.changeValueBy changeValueBy} with "alpha" as the channel
@@ -147,7 +147,7 @@ export interface IHEXColors {
    * @param type Either 'add' or 'sub' indicating whether the delta should be positive or negative
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaBy: (delta: string, type: TOperator) => HEXColors;
+  alphaBy(delta: string, type: TOperator): HEXColors;
 
   /**
    * Given an input color, get its inverse value by subtracting current value from the upper bound for each channel
@@ -157,7 +157,7 @@ export interface IHEXColors {
    * @link https://pinetools.com/invert-color
    * @returns The corresponding inverse color
    */
-  invert: ({ includeAlpha }: IAlphaInvert) => HEXColors;
+  invert({ includeAlpha }: IAlphaInvert): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.changeValueBy changeValueBy} with "saturation" as the channel
@@ -166,14 +166,14 @@ export interface IHEXColors {
    * @note A negative value can be used, but we recommend using {@link HEXColors.desaturateBy desaturateBy} for clarity
    * @returns The instance that was acted upon → for function chaining
    */
-  saturateBy: (delta: string) => HEXColors;
+  saturateBy(delta: string): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.saturateBy saturateBy} with a negative value
    * @param delta When added to current saturation value, range must remain in [0, 100]
    * @returns The instance that was acted upon → for function chaining
    */
-  desaturateBy: (delta: string) => HEXColors;
+  desaturateBy(delta: string): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.changeValueBy changeValueBy} with "lightness" as the channel
@@ -182,14 +182,14 @@ export interface IHEXColors {
    * @note A negative value can be used, but we recommend using {@link HEXColors.darkerBy darkerBy} for clarity
    * @returns The instance that was acted upon → for function chaining
    */
-  lighterBy: (delta: string) => HEXColors;
+  lighterBy(delta: string): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.lighterBy lighterBy} with a negative value
    * @param delta When added to current saturation value, range must remain in [0, 100]
    * @returns The instance that was acted upon → for function chaining
    */
-  darkerBy: (delta: string) => HEXColors;
+  darkerBy(delta: string): HEXColors;
 
   /**
    * Syntactic sugar for {@link HEXColors.desaturateBy desaturateBy} with a very large delta. Sets the saturation to 0%
@@ -197,13 +197,13 @@ export interface IHEXColors {
    * @note The lightness of the color remains unchanged by this operation
    * @returns The instance that was acted upon → for function chaining
    */
-  grayscale: () => HEXColors;
+  grayscale(): HEXColors;
 
   /**
    * Rotation changes the hue of a color by `value` degrees in HSLA space
    * @returns The instance that was acted upon → for function chaining
    */
-  rotate: (value: number) => HEXColors;
+  rotate(value: number): HEXColors;
 
   /**
    * Finds the closest Web Safe color (via RGBA color space) to the current color from the list at: https://www.rapidtables.com/web/color/Web_Safe.html
@@ -211,7 +211,7 @@ export interface IHEXColors {
    * @see {@link RGBColors.closestWebSafe} for functionality
    * @returns The instance that was acted upon → for function chaining
    */
-  closestWebSafe: () => HEXColors;
+  closestWebSafe(): HEXColors;
 
   /**
    * Finds the normalized brightness of the color
@@ -223,7 +223,7 @@ export interface IHEXColors {
    * @see {@link https://www.w3.org/TR/AERT/#color-contrast}
    * @returns A value in the range [0, 1] = [dim (black), bright (white)] (or [0, 100] if `percentage = true`)
    */
-  brightness: () => number;
+  brightness(): number;
 
   /**
    * Finds normalized relative luminance of the color
@@ -235,7 +235,7 @@ export interface IHEXColors {
    * @see {@link https://www.w3.org/TR/WCAG20/#relativeluminancedef}
    * @returns A value in the range [0, 1] = [darkest black, lightest white] (or [0, 100] if `percentage = true`)
    */
-  luminance: (opts: IA11yOpts) => number;
+  luminance(opts: IA11yOpts): number;
 
   /**
    * Given a background color as input, determines the contrast ratio if the current color is used as the foreground color
@@ -249,17 +249,17 @@ export interface IHEXColors {
    * @see {@link HEXColors.readableOn readableOn} for readable contrast ratios
    * @returns The contrast between current color instance and `bgColor` as a number (value → `ratio = false`) or string ("value:1" → `ratio = true`)
    */
-  contrast: (bgColor: THEXAInput | HEXColors, opts: IA11yOpts) => string | number;
+  contrast(bgColor: THEXAInput | HEXColors, opts: IA11yOpts): string | number;
 
   /**
    * Determines if a given color is light based on its brightness (brightness ≥ 0.50)
    */
-  isLight: () => boolean;
+  isLight(): boolean;
 
   /**
    * Determines if a given color is dark based on its brightness (brightness < 0.50)
    */
-  isDark: () => boolean;
+  isDark(): boolean;
 
   /**
    * Given a background color as input, determines if the current color is readable if it is used as the foreground color
@@ -277,13 +277,13 @@ export interface IHEXColors {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast}
    * @returns Whether or not the color is readable on `bgColor`
    */
-  readableOn: (bgColor: THEXAInput | HEXColors, opts: IReadable) => boolean;
+  readableOn(bgColor: THEXAInput | HEXColors, opts: IReadable): boolean;
 
   /**
    * Given an input color to compare with, determine if that color is identical to the current color instance
    * @returns True if the two color instances are identical (same HEXA channel values). False otherwise.
    */
-  equalTo: (compareColor: THEXAInput | HEXColors) => boolean;
+  equalTo(compareColor: THEXAInput | HEXColors): boolean;
 
   /**
    * Generates an HEXA color instance array based on the corresponding harmony
@@ -300,7 +300,7 @@ export interface IHEXColors {
    *            which return the original color as the second element.
    *          - For 'monochromatic' the original color is always first and the array size is `amount + 1` evenly spaced colors.
    */
-  harmony: (type: THarmony, opts: IMonochromatic) => HEXColors[];
+  harmony(type: THarmony, opts: IMonochromatic): HEXColors[];
 
   /**
    * "Cool colors give an impression of calm, and create a soothing impression"
@@ -309,7 +309,7 @@ export interface IHEXColors {
    *
    * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm} or {@link https://www.canva.com/colors/color-wheel/}
    */
-  isCool: () => boolean;
+  isCool(): boolean;
 
   /**
    * "Warm colors are vivid and energetic, and tend to advance in space"
@@ -318,20 +318,45 @@ export interface IHEXColors {
    *
    * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm} or {@link https://www.canva.com/colors/color-wheel/}
    */
-  isWarm: () => boolean;
+  isWarm(): boolean;
+
+  /**
+   * Finds the closest cool color instance to the current color (in HSLA space)
+   */
+  closestCool(): HEXColors;
+
+  /**
+   * Finds the closest warm color instance to the current color (in HSLA space)
+   */
+  closestWarm(): HEXColors;
 
   /**
    * Helper for determining if a given color instance is tinted (lightness deviated upwards from a pure hue whose lightness is 50%)
    */
-  isTinted: () => boolean;
+  isTinted(): boolean;
 
   /**
    * Helper for determining if a given color instance is shaded (lightness deviated downwards from a pure hue whose lightness is 50%)
    */
-  isShaded: () => boolean;
+  isShaded(): boolean;
 
   /**
    * Helper for determining if a given color instance is toned (saturation deviated from a pure hue whose saturation is 100%)
    */
-  isToned: () => boolean;
+  isToned(): boolean;
+
+  /**
+   * Helper for determining if a given color instance is pure (not tinted, shaded, or toned)
+   * @param opts - reason → Whether or not to include a reason for the output
+   *
+   * @note `reason` only provides extra information when the color instance is not pure hue
+   */
+  isPureHue(opts: { reason?: boolean }): boolean | { pure: boolean; reason: string };
+
+  /**
+   * Finds the closest pure hue color instance corresponding to the current color (in HSLA space)
+   *
+   * @note Alpha channel value is preserved
+   */
+  closestPureHue(): HEXColors;
 }

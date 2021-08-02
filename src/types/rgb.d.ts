@@ -85,7 +85,7 @@ export interface IRGBColors {
    * @returns ```rgba?(r, g, b, a?)```
    * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string() → "rgba(128, 64, 32, 0.5)"
    */
-  string: ({ withAlpha, precision }: IStringOpts) => string;
+  string({ withAlpha, precision }: IStringOpts): string;
 
   /**
    * Gets the color table HTML/CSS name for a given color
@@ -95,7 +95,7 @@ export interface IRGBColors {
    * @example CM.RGBAFrom("rgb(128, 0, 0)").name() → "maroon"
    * @returns The color's HTML/CSS name
    */
-  name: (opts: { exact?: boolean }) => string;
+  name(opts: { exact?: boolean }): string;
 
   /**
    * Converts a RGBA color to HSLA color
@@ -103,14 +103,14 @@ export interface IRGBColors {
    * @link https://www.rapidtables.com/convert/color/rgb-to-hsl.html
    * @returns {RGBColors} An HSLA instance that can be acted upon → for function chaining
    */
-  hsl: () => HSLColors;
+  hsl(): HSLColors;
 
   /**
    * Converts a RGBA color to HEXA color
    *
    * @returns {HEXColors} An HEXA instance that can be acted upon → for function chaining
    */
-  hex: () => HEXColors;
+  hex(): HEXColors;
 
   /**
    * Lets you set a single channel value to a specific number
@@ -118,7 +118,7 @@ export interface IRGBColors {
    * @param value In range [0, 255] for red, green, blue. In range [0, 1] for alpha
    * @returns The instance that was acted upon → for function chaining
    */
-  changeValueTo: (channel: TChannel, value: number) => RGBColors;
+  changeValueTo(channel: TChannel, value: number): RGBColors;
 
   /**
    * Instead of setting the value as in {@link RGBColors.changeValueTo changeValueTo}, this allows you to adjust the channel value by `delta` amount.
@@ -126,42 +126,42 @@ export interface IRGBColors {
    * @param delta A positive OR negative integer/decimal number to adjust the channel by
    * @returns The instance that was acted upon → for function chaining
    */
-  changeValueBy: (channel: TChannel, delta: number) => RGBColors;
+  changeValueBy(channel: TChannel, delta: number): RGBColors;
 
   /**
    * Syntactic sugar for {@link RGBColors.changeValueTo changeValueTo} with "hue" as the channel (done in HSLA space and converted back to RGBA space)
    * @param value Must be in range [0, 359] or a CSS/HTML color name
    * @returns The instance that was acted upon → for function chaining
    */
-  hueTo: (value: number | keyof typeof HueColors) => RGBColors;
+  hueTo(value: number | keyof typeof HueColors): RGBColors;
 
   /**
    * Syntactic sugar for {@link RGBColors.changeValueBy changeValueBy} with "hue" as the channel (done in HSLA space and converted back to RGBA space)
    * @param delta When added to current alpha value, range must remain in [0, 359]
    * @returns The instance that was acted upon → for function chaining
    */
-  hueBy: (delta: number) => RGBColors;
+  hueBy(delta: number): RGBColors;
 
   /**
    * Syntactic sugar for {@link RGBColors.changeValueTo changeValueTo} with "alpha" as the channel
    * @param value Must be in range [0, 1] as this is the alpha channel
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaTo: (value: number) => RGBColors;
+  alphaTo(value: number): RGBColors;
 
   /**
    * Syntactic sugar for {@link RGBColors.changeValueBy changeValueBy} with "alpha" as the channel
    * @param delta When added to current alpha value, range must remain in [0, 1]
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaBy: (delta: number) => RGBColors;
+  alphaBy(delta: number): RGBColors;
 
   /**
    * Given an input color, get its inverse value by subtracting current value from the upper bound for each channel
    * @param { includeAlpha } opts Whether or not to also invert the alpha channel
    * @returns The corresponding inverse color
    */
-  invert: ({ includeAlpha }: IAlphaInvert) => RGBColors;
+  invert({ includeAlpha }: IAlphaInvert): RGBColors;
 
   /**
    * Saturates (intensity) the color in HSLA space to get the corresponding RGBA space color
@@ -171,7 +171,7 @@ export interface IRGBColors {
    * @note A negative value can be used, but we recommend using {@link RGBColors.desaturateBy desaturateBy} for clarity
    * @returns The instance that was acted upon → for function chaining
    */
-  saturateBy: (delta: number) => RGBColors;
+  saturateBy(delta: number): RGBColors;
 
   /**
    * De-saturates (intensity) the color in HSLA space to get the corresponding RGBA space color
@@ -180,7 +180,7 @@ export interface IRGBColors {
    * @see {@link HSLColors.desaturateBy desaturateBy} for functionality
    * @returns The instance that was acted upon → for function chaining
    */
-  desaturateBy: (delta: number) => RGBColors;
+  desaturateBy(delta: number): RGBColors;
 
   /**
    * Adds lightness (tone) of the color in HSLA space to get the corresponding RGBA space color
@@ -190,7 +190,7 @@ export interface IRGBColors {
    * @note A negative value can be used, but we recommend using {@link RGBColors.darkerBy darkerBy} for clarity
    * @returns The instance that was acted upon → for function chaining
    */
-  lighterBy: (delta: number) => RGBColors;
+  lighterBy(delta: number): RGBColors;
 
   /**
    * Removes lightness (tone) of the color in HSLA space to get the corresponding RGBA space color
@@ -199,7 +199,7 @@ export interface IRGBColors {
    * @see {@link HSLColors.darkerBy darkerBy} for functionality
    * @returns The instance that was acted upon → for function chaining
    */
-  darkerBy: (delta: number) => RGBColors;
+  darkerBy(delta: number): RGBColors;
 
   /**
    * Sets the saturation of the color to 0% in HSLA space to get the corresponding RGBA space color
@@ -208,19 +208,19 @@ export interface IRGBColors {
    * @note The lightness of the color remains unchanged by this operation
    * @returns The instance that was acted upon → for function chaining
    */
-  grayscale: () => RGBColors;
+  grayscale(): RGBColors;
 
   /**
    * Rotation changes the hue of a color by `value` degrees in HSLA space
    * @returns The instance that was acted upon → for function chaining
    */
-  rotate: (value: number) => RGBColors;
+  rotate(value: number): RGBColors;
 
   /**
    * Finds the closest Web Safe color to the current color from the list at: https://www.rapidtables.com/web/color/Web_Safe.html
    * @returns The instance that was acted upon → for function chaining
    */
-  closestWebSafe: () => RGBColors;
+  closestWebSafe(): RGBColors;
 
   /**
    * Finds the normalized brightness of the color
@@ -232,7 +232,7 @@ export interface IRGBColors {
    * @see {@link https://www.w3.org/TR/AERT/#color-contrast}
    * @returns A value in the range [0, 1] = [dim (black), bright (white)] (or [0, 100] if `percentage = true`)
    */
-  brightness: () => number;
+  brightness(): number;
 
   /**
    * Finds normalized relative luminance of the color
@@ -244,7 +244,7 @@ export interface IRGBColors {
    * @see {@link https://www.w3.org/TR/WCAG20/#relativeluminancedef}
    * @returns A value in the range [0, 1] = [darkest black, lightest white] (or [0, 100] if `percentage = true`)
    */
-  luminance: (opts: IA11yOpts) => number;
+  luminance(opts: IA11yOpts): number;
 
   /**
    * Given a background color as input, determines the contrast ratio if the current color is used as the foreground color
@@ -258,17 +258,17 @@ export interface IRGBColors {
    * @see {@link RGBColors.readableOn readableOn} for readable contrast ratios
    * @returns The contrast between current color instance and `bgColor` as a number (value → `ratio = false`) or string ("value:1" → `ratio = true`)
    */
-  contrast: (bgColor: TRGBAInput | RGBColors, opts: IA11yOpts) => string | number;
+  contrast(bgColor: TRGBAInput | RGBColors, opts: IA11yOpts): string | number;
 
   /**
    * Determines if a given color is light based on its brightness (brightness ≥ 0.50)
    */
-  isLight: () => boolean;
+  isLight(): boolean;
 
   /**
    * Determines if a given color is dark based on its brightness (brightness < 0.50)
    */
-  isDark: () => boolean;
+  isDark(): boolean;
 
   /**
    * Given a background color as input, determines if the current color is readable if it is used as the foreground color
@@ -286,13 +286,13 @@ export interface IRGBColors {
    * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast}
    * @returns Whether or not the color is readable on `bgColor`
    */
-  readableOn: (bgColor: TRGBAInput | RGBColors, opts: IReadable) => boolean;
+  readableOn(bgColor: TRGBAInput | RGBColors, opts: IReadable): boolean;
 
   /**
    * Given an input color to compare with, determine if that color is identical to the current color instance
    * @returns True if the two color instances are identical (same RGBA channel values). False otherwise.
    */
-  equalTo: (compareColor: TRGBAInput | RGBColors) => boolean;
+  equalTo(compareColor: TRGBAInput | RGBColors): boolean;
 
   /**
    * Generates an RGBA color instance array based on the corresponding harmony
@@ -309,7 +309,7 @@ export interface IRGBColors {
    *            which return the original color as the second element.
    *          - For 'monochromatic' the original color is always first and the array size is `amount + 1` evenly spaced colors.
    */
-  harmony: (type: THarmony, opts: IMonochromatic) => RGBColors[];
+  harmony(type: THarmony, opts: IMonochromatic): RGBColors[];
 
   /**
    * "Cool colors give an impression of calm, and create a soothing impression"
@@ -318,7 +318,7 @@ export interface IRGBColors {
    *
    * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm} or {@link https://www.canva.com/colors/color-wheel/}
    */
-  isCool: () => boolean;
+  isCool(): boolean;
 
   /**
    * "Warm colors are vivid and energetic, and tend to advance in space"
@@ -327,20 +327,45 @@ export interface IRGBColors {
    *
    * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm} or {@link https://www.canva.com/colors/color-wheel/}
    */
-  isWarm: () => boolean;
+  isWarm(): boolean;
+
+  /**
+   * Finds the closest cool color instance to the current color (in HSLA space)
+   */
+  closestCool(): RGBColors;
+
+  /**
+   * Finds the closest warm color instance to the current color (in HSLA space)
+   */
+  closestWarm(): RGBColors;
 
   /**
    * Helper for determining if a given color instance is tinted (lightness deviated upwards from a pure hue whose lightness is 50%)
    */
-  isTinted: () => boolean;
+  isTinted(): boolean;
 
   /**
    * Helper for determining if a given color instance is shaded (lightness deviated downwards from a pure hue whose lightness is 50%)
    */
-  isShaded: () => boolean;
+  isShaded(): boolean;
 
   /**
    * Helper for determining if a given color instance is toned (saturation deviated from a pure hue whose saturation is 100%)
    */
-  isToned: () => boolean;
+  isToned(): boolean;
+
+  /**
+   * Helper for determining if a given color instance is pure (not tinted, shaded, or toned)
+   * @param opts - reason → Whether or not to include a reason for the output
+   *
+   * @note `reason` only provides extra information when the color instance is not pure hue
+   */
+  isPureHue(opts: { reason?: boolean }): boolean | { pure: boolean; reason: string };
+
+  /**
+   * Finds the closest pure hue color instance corresponding to the current color (in HSLA space)
+   *
+   * @note Alpha channel value is preserved
+   */
+  closestPureHue(): RGBColors;
 }

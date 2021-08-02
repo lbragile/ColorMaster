@@ -38,11 +38,22 @@ describe("object instantiation with overloaded helper", () => {
     expect(CM.RGBAFrom("(128, 64, 32, 1)").string()).toBe(FULL_OPACITY);
   });
 
-  it("handles invalid input by throwing errors when needed", () => {
+  it("handles invalid input by returning a default color 'black' or a mixture with valid input", () => {
     expect(CM.RGBAFrom("128, 64").object).toMatchObject({ r: 128, g: 64, b: 0, a: 1 });
     expect(CM.RGBAFrom("128, 64, 32, 5, 5").object).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
     expect(CM.RGBAFrom({ r: 128, g: 64, b: 32, a: 5 }).object).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
     expect(CM.RGBAFrom([128, 64, 32, 5]).object).toMatchObject({ r: 128, g: 64, b: 32, a: 1 });
+    expect(CM.RGBAFrom("blue").object).toMatchObject({ r: 0, g: 0, b: 0, a: 1 });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(CM.RGBAFrom("blue", 64, 32).object).toMatchObject({ r: 0, g: 64, b: 32, a: 1 });
+
+    expect(new RGBColors().object).toMatchObject({ r: 0, g: 0, b: 0, a: 1 });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(CM.RGBAFrom().object).toMatchObject({ r: 0, g: 0, b: 0, a: 1 });
   });
 });
 
@@ -491,6 +502,19 @@ test("isCool/isWarm", () => {
   expect(CM.RGBAFrom(160, 191, 64, 1).isWarm()).toBeTruthy();
   expect(CM.RGBAFrom(159, 191, 64, 1).isCool()).toBeTruthy();
   expect(CM.RGBAFrom(159, 191, 64, 1).isWarm()).toBeFalsy();
+  expect(CM.RGBAFrom(255, 255, 255, 1).isWarm()).toBeTruthy();
+});
+
+test("closestCool/closestWarm", () => {
+  expect(CM.RGBAFrom(191, 255, 0, 1).closestWarm().string()).toBe("rgba(195, 255, 0, 1.0)");
+  expect(CM.RGBAFrom(63, 0, 255, 1).closestWarm().string()).toBe("rgba(64, 0, 255, 1.0)");
+  expect(CM.RGBAFrom(0, 0, 255, 1).closestWarm().string()).toBe("rgba(64, 0, 255, 1.0)");
+  expect(CM.RGBAFrom(255, 0, 0, 1).closestWarm().string()).toBe("rgba(255, 0, 0, 1.0)");
+
+  expect(CM.RGBAFrom(191, 255, 0, 1).closestCool().string()).toBe("rgba(191, 255, 0, 1.0)");
+  expect(CM.RGBAFrom(63, 0, 255, 1).closestCool().string()).toBe("rgba(63, 0, 255, 1.0)");
+  expect(CM.RGBAFrom(255, 0, 0, 1).closestCool().string()).toBe("rgba(191, 255, 0, 1.0)");
+  expect(CM.RGBAFrom(0, 0, 255, 1).closestCool().string()).toBe("rgba(0, 0, 255, 1.0)");
 });
 
 test("isTinted/isShaded/isToned", () => {
@@ -502,4 +526,26 @@ test("isTinted/isShaded/isToned", () => {
   expect(CM.RGBAFrom(107, 191, 65, 1).isShaded()).toBeFalsy();
   expect(CM.RGBAFrom(92, 254.9, 10, 1).isToned()).toBeTruthy();
   expect(CM.RGBAFrom(85, 255, 0, 1).isToned()).toBeFalsy();
+});
+
+test("isPureHue", () => {
+  expect(CM.RGBAFrom(63, 0, 255, 1).isPureHue()).toMatchObject({ pure: true, reason: "N/A" });
+  expect(CM.RGBAFrom(63, 0, 255, 1).isPureHue({ reason: false })).toBeTruthy();
+
+  expect(CM.RGBAFrom(68, 5, 255, 1).isPureHue()).toMatchObject({ pure: false, reason: "tinted" });
+  expect(CM.RGBAFrom(68, 5, 255, 1).isPureHue({ reason: false })).toBeFalsy();
+
+  expect(CM.RGBAFrom(62, 0, 250, 1).isPureHue()).toMatchObject({ pure: false, reason: "shaded" });
+  expect(CM.RGBAFrom(62, 0, 250, 1).isPureHue({ reason: false })).toBeFalsy();
+
+  expect(CM.RGBAFrom(64, 1, 254, 1).isPureHue()).toMatchObject({ pure: false, reason: "toned" });
+  expect(CM.RGBAFrom(64, 1, 254, 1).isPureHue({ reason: false })).toBeFalsy();
+});
+
+test("closestPureHue", () => {
+  const precision: TNumArr = [1, 0, 0, 1];
+  expect(CM.RGBAFrom(63, 0, 255, 1).closestPureHue().string({ precision })).toBe("rgba(63.0, 0, 255, 1.0)");
+  expect(CM.RGBAFrom(68, 5, 255, 1).closestPureHue().string({ precision })).toBe("rgba(64.3, 0, 255, 1.0)");
+  expect(CM.RGBAFrom(62, 0, 250, 1).closestPureHue().string({ precision })).toBe("rgba(63.2, 0, 255, 1.0)");
+  expect(CM.RGBAFrom(64, 1, 254, 1).closestPureHue().string({ precision })).toBe("rgba(63.5, 0, 255, 1.0)");
 });

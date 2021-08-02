@@ -284,6 +284,14 @@ export default class RGBColors implements IRGBColors {
     return !this.isCool();
   }
 
+  closestCool(): RGBColors {
+    return this.hsl().closestCool().rgb();
+  }
+
+  closestWarm(): RGBColors {
+    return this.hsl().closestWarm().rgb();
+  }
+
   isTinted(): boolean {
     return this.hsl().isTinted();
   }
@@ -294,5 +302,13 @@ export default class RGBColors implements IRGBColors {
 
   isToned(): boolean {
     return this.hsl().isToned();
+  }
+
+  isPureHue({ reason = true }: { reason?: boolean } = {}): boolean | { pure: boolean; reason: string } {
+    return this.hsl().isPureHue({ reason });
+  }
+
+  closestPureHue(): RGBColors {
+    return this.hsl().closestPureHue().rgb();
   }
 }

@@ -22,36 +22,37 @@ export class ColorMaster implements IColorMaster {
   RGBAFrom(values: TRGBAInput): RGBColors;
   RGBAFrom(r: number, g: number, b: number, a?: number): RGBColors;
   RGBAFrom(rOrValues: TRGBAInput | number, g?: number, b?: number, a?: number): RGBColors {
-    let r = rOrValues;
+    let r = rOrValues ?? 0;
 
-    if (rOrValues.constructor.name.toLowerCase() === "object") {
-      ({ r, g, b, a } = rOrValues as Irgba);
-    } else if (Array.isArray(rOrValues) || typeof rOrValues === "string") {
-      [r, g, b, a] = (
-        typeof rOrValues === "string" ? createColorArrFromStr(rOrValues, /(rgba?)?\(|\)/g) : rOrValues
-      ) as TNumArr;
+    if (r.constructor.name.toLowerCase() === "object") {
+      ({ r, g, b, a } = r as Irgba);
+    } else if (Array.isArray(r) || typeof r === "string") {
+      if (typeof r === "string" && !r.includes(",")) {
+        [r, g, b, a] = [0, g, b, a] as TNumArr;
+      } else {
+        [r, g, b, a] = (typeof r === "string" ? createColorArrFromStr(r, /(rgba?)?\(|\)/g) : r) as TNumArr;
+      }
     }
 
     return new RGBColors(r as number, g, b, a);
   }
 
   HSLAFrom(values: THSLAInput): HSLColors;
-  HSLAFrom(h: number, s: number, l: number, a?: number): HSLColors;
-  HSLAFrom(h: keyof typeof HueColors, s: number, l: number, a?: number): HSLColors;
+  HSLAFrom(h: number | keyof typeof HueColors, s: number, l: number, a?: number): HSLColors;
   HSLAFrom(hOrValues: THSLAInput | keyof typeof HueColors | number, s?: number, l?: number, a?: number): HSLColors {
-    let h = hOrValues;
+    let h = hOrValues ?? 0;
 
-    if (hOrValues.constructor.name.toLowerCase() === "object") {
-      ({ h, s, l, a } = hOrValues as Ihsla);
-    } else if (Array.isArray(hOrValues) || typeof hOrValues === "string") {
-      if (typeof hOrValues === "string") {
-        const isCSSName = hOrValues.match(/^[a-z\s]+$/i);
-        const colorStr = isCSSName ? HueColors[hOrValues as keyof typeof HueColors] : hOrValues;
+    if (h.constructor.name.toLowerCase() === "object") {
+      ({ h, s, l, a } = h as Ihsla);
+    } else if (Array.isArray(h) || typeof h === "string") {
+      if (typeof h === "string") {
+        const isCSSName = h.match(/^[a-z\s]+$/i);
+        const colorStr = isCSSName ? HueColors[h as keyof typeof HueColors] : h;
         [h, s, l, a] = isCSSName
           ? [this.RGBAFrom(colorStr).hue, s, l, a]
           : createColorArrFromStr(colorStr, /(hsla?)?\(|\)|%/g);
       } else {
-        [h, s, l, a] = hOrValues as TNumArr;
+        [h, s, l, a] = h as TNumArr;
       }
     }
 
@@ -61,21 +62,20 @@ export class ColorMaster implements IColorMaster {
   HEXAFrom(values: THEXAInput): HEXColors;
   HEXAFrom(r: string, g: string, b: string, a?: string): HEXColors;
   HEXAFrom(rOrValues: THEXAInput, g?: string, b?: string, a?: string): HEXColors {
-    let r = rOrValues;
+    let r = rOrValues ?? "00";
 
-    if (rOrValues.constructor.name.toLowerCase() === "object") {
-      ({ r, g, b, a } = rOrValues as Ihexa);
-    } else if (Array.isArray(rOrValues) || (typeof rOrValues === "string" && rOrValues.includes(","))) {
-      [r, g, b, a] = (
-        typeof rOrValues === "string" ? rOrValues.replace(/\(|\s|\)/g, "").split(",") : rOrValues
-      ) as TStrArr;
-    } else if (typeof rOrValues === "string" && rOrValues[0] === "#") {
-      const hex = rOrValues.slice(1);
+    if (r.constructor.name.toLowerCase() === "object") {
+      ({ r, g, b, a } = r as Ihexa);
+    } else if (Array.isArray(r) || (typeof r === "string" && r.includes(","))) {
+      [r, g, b, a] = (typeof r === "string" ? r.replace(/\(|\s|\)/g, "").split(",") : r) as TStrArr;
+    } else if (typeof r === "string" && r[0] === "#") {
+      const hex = r.slice(1);
       const hexParts = hex.length >= 6 ? hex.match(/\w\w/gi) : hex.match(/\w/gi)?.map((item) => item.repeat(2));
       [r, g, b, a] = hexParts ?? ["00", "00", "00", "FF"];
     }
 
-    return new HEXColors(r as string, g, b, a);
+    r = r as string;
+    return new HEXColors(r.length > 2 ? "00" : r, g, b, a);
   }
 
   random(): RGBColors {

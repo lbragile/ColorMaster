@@ -40,11 +40,19 @@ describe("object instantiation with overloaded helper", () => {
     expect(CM.HEXAFrom(LOWER_OPACITY).object).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
   });
 
-  it("handles invalid input by throwing errors when needed", () => {
+  it("handles invalid input by returning a default color 'black' or a mixture with valid input", () => {
     expect(CM.HEXAFrom("45, 67").object).toMatchObject({ r: "45", g: "67", b: "00", a: "FF" });
     expect(CM.HEXAFrom("45, 67, 89, AB, AB").object).toMatchObject({ r: "45", g: "67", b: "89", a: "AB" });
     expect(CM.HEXAFrom("#45").object).toMatchObject({ r: "44", g: "55", b: "00", a: "FF" }); // hex not long enough
     expect(CM.HEXAFrom("#").object).toMatchObject({ r: "00", g: "00", b: "00", a: "FF" }); // no hex provided
+    expect(CM.HEXAFrom("blue").object).toMatchObject({ r: "00", g: "00", b: "00", a: "FF" });
+    expect(CM.HEXAFrom("blue", "67", "89", "AB").object).toMatchObject({ r: "00", g: "67", b: "89", a: "AB" });
+    expect(CM.HEXAFrom("blue", "67", "89").object).toMatchObject({ r: "00", g: "67", b: "89", a: "FF" });
+    expect(new HEXColors().object).toMatchObject({ r: "00", g: "00", b: "00", a: "FF" });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    expect(CM.HEXAFrom().object).toMatchObject({ r: "00", g: "00", b: "00", a: "FF" });
   });
 });
 
@@ -423,6 +431,20 @@ test("isCool/isWarm", () => {
   expect(CM.HEXAFrom("#0FFF").isWarm()).toBeFalsy();
 });
 
+test("closestCool/closestWarm", () => {
+  expect(CM.HEXAFrom("#BFFF00FF").closestWarm().string()).toBe("#C3FF00FF");
+  expect(CM.HEXAFrom("#3C00FFFF").closestWarm().string()).toBe("#3F00FFFF");
+  expect(CM.HEXAFrom("#FF0000FF").closestWarm().string()).toBe("#FF0000FF");
+  expect(CM.HEXAFrom("#00FF00FF").closestWarm().string()).toBe("#C3FF00FF");
+  expect(CM.HEXAFrom("#00FFFFFF").closestWarm().string()).toBe("#3F00FFFF");
+
+  expect(CM.HEXAFrom("#C0FF00FF").closestCool().string()).toBe("#BFFF00FF");
+  expect(CM.HEXAFrom("#4400FFFF").closestCool().string()).toBe("#3B00FFFF");
+  expect(CM.HEXAFrom("#00FFFFFF").closestCool().string()).toBe("#00FFFFFF");
+  expect(CM.HEXAFrom("#FF0000FF").closestCool().string()).toBe("#BFFF00FF");
+  expect(CM.HEXAFrom("#FF00FFFF").closestCool().string()).toBe("#3B00FFFF");
+});
+
 test("isTinted/isShaded/isToned", () => {
   expect(CM.HEXAFrom("#FF0101FF").isTinted()).toBeTruthy();
   expect(CM.HEXAFrom("#F00F").isTinted()).toBeFalsy();
@@ -432,4 +454,26 @@ test("isTinted/isShaded/isToned", () => {
   expect(CM.HEXAFrom("#FF0101FF").isShaded()).toBeFalsy();
   expect(CM.HEXAFrom("#FE0101").isToned()).toBeTruthy();
   expect(CM.HEXAFrom("#F00F").isToned()).toBeFalsy();
+});
+
+test("isPureHue", () => {
+  expect(CM.HEXAFrom("#F00F").isPureHue()).toMatchObject({ pure: true, reason: "N/A" });
+  expect(CM.HEXAFrom("#F00F").isPureHue({ reason: false })).toBeTruthy();
+
+  expect(CM.HEXAFrom("#FF0505FF").isPureHue()).toMatchObject({ pure: false, reason: "tinted" });
+  expect(CM.HEXAFrom("#FF0505FF").isPureHue({ reason: false })).toBeFalsy();
+
+  expect(CM.HEXAFrom("#FA0000FF").isPureHue()).toMatchObject({ pure: false, reason: "shaded" });
+  expect(CM.HEXAFrom("#FA0000FF").isPureHue({ reason: false })).toBeFalsy();
+
+  expect(CM.HEXAFrom("#FE0101").isPureHue()).toMatchObject({ pure: false, reason: "toned" });
+  expect(CM.HEXAFrom("#FE0101").isPureHue({ reason: false })).toBeFalsy();
+});
+
+test("closestPureHue", () => {
+  const pureHueColor = "#00FF00FF";
+  expect(CM.HEXAFrom(pureHueColor).closestPureHue().string()).toBe(pureHueColor);
+  expect(CM.HEXAFrom("#05FF05FF").closestPureHue().string()).toBe(pureHueColor);
+  expect(CM.HEXAFrom("#00FA00FF").closestPureHue().string()).toBe(pureHueColor);
+  expect(CM.HEXAFrom("#01FE01FF").closestPureHue().string()).toBe(pureHueColor);
 });

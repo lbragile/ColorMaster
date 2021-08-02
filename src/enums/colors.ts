@@ -374,4 +374,4 @@ export enum WebSafe {
   "#FFFF99" = "rgb(255,255,153)",
   "#FFFFCC" = "rgb(255,255,204)",
   "#FFFFFF" = "rgb(255,255,255)"
-} 
+}

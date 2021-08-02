@@ -220,6 +220,14 @@ export default class HEXColors implements IHEXColors {
     return !this.isCool();
   }
 
+  closestCool(): HEXColors {
+    return this.hsl().closestCool().hex();
+  }
+
+  closestWarm(): HEXColors {
+    return this.hsl().closestWarm().hex();
+  }
+
   isTinted(): boolean {
     return this.hsl().isTinted();
   }
@@ -230,5 +238,13 @@ export default class HEXColors implements IHEXColors {
 
   isToned(): boolean {
     return this.hsl().isToned();
+  }
+
+  isPureHue({ reason = true }: { reason?: boolean } = {}): boolean | { pure: boolean; reason: string } {
+    return this.hsl().isPureHue({ reason });
+  }
+
+  closestPureHue(): HEXColors {
+    return this.hsl().closestPureHue().hex();
   }
 }

@@ -1,16 +1,18 @@
 import { Irgba, Ihsla } from "../types/common";
 
-const HSLA_RE = /hsla?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(0\.?\d*%?|1\.?0*%?)\s*\)/gi;
+const HSLA_RE =
+  /hsla?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(0\.?\d*%?|1\.?0*%?)?\s*\)/gi;
 
-export function hslaParser(color: string): Irgba | null {
+export function hslaParser(color: string): Irgba {
   const matches = HSLA_RE.exec(color);
   if (matches) {
     const [h, s, l, a] = matches
-      .slice(1, 5)
+      .filter((val) => val !== undefined)
+      .slice(1)
       .map((elem, i) => (elem.includes("%") ? +elem.slice(-1) * (i === 0 ? 3.59 : 1) : +elem));
     return HSLtoRGB({ h, s, l, a: a ?? 1 });
   }
-  return null;
+  return { r: 0, g: 0, b: 0, a: 1 };
 }
 
 export function HSLtoRGB(obj: Ihsla): Irgba {

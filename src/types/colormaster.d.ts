@@ -152,7 +152,7 @@ export interface IColorMaster {
    * @param { includeAlpha } opts Whether or not to also invert the alpha channel
    * @returns The corresponding inverse color
    */
-  invert({ includeAlpha }: IAlphaInvert): ColorMaster;
+  invert({ includeAlpha }?: IAlphaInvert): ColorMaster;
 
   /**
    * Saturates (intensity) the color in HSLA space to get the corresponding RGBA space color
@@ -223,7 +223,7 @@ export interface IColorMaster {
    * @see {@link https://www.w3.org/TR/AERT/#color-contrast}
    * @returns A value in the range [0, 1] = [dim (black), bright (white)] (or [0, 100] if `percentage = true`)
    */
-  brightness(): number;
+  brightness(opts: IA11yOpts): number;
 
   /**
    * Finds normalized relative luminance of the color

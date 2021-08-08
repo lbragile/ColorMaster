@@ -1,17 +1,19 @@
-// Obtained from https://www.canva.com/colors/color-wheel/, names are given to follow the predominant colors on the color wheel
+// Obtained from https://www.canva.com/colors/color-wheel/
+// names are given to follow the predominant colors on the color wheel:
+// https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#fully_saturated_colors
 export enum HueColors {
-  "red"        = "rgb(255,0,0)",
-  "orange"     = "rgb(255,128,0)",
-  "yellow"     = "rgb(255,255,0)",
-  "lime"       = "rgb(128,255,0)",
-  "green"      = "rgb(0,255,0)",
-  "green cyan" = "rgb(0,255,128)",
-  "cyan"       = "rgb(0,255,255)",
-  "cyan blue"  = "rgb(0,128,255)",
-  "blue"       = "rgb(0,0,255)",
-  "purple"     = "rgb(128,0,255)",
-  "pink"       = "rgb(255,0,255)",
-  "pink red"   = "rgb(255,0,128)",
+  "red"        = "hsl(0, 100%, 50%)",
+  "orange"     = "hsl(30, 100%, 50%)",
+  "yellow"     = "hsl(60, 100%, 50%)",
+  "lime green" = "hsl(90, 100%, 50%)",
+  "green"      = "hsl(120, 100%, 50%)",
+  "blue green" = "hsl(150, 100%, 50%)",
+  "cyan"       = "hsl(180, 100%, 50%)",
+  "sky blue"   = "hsl(210, 100%, 50%)",
+  "blue"       = "hsl(240, 100%, 50%)",
+  "purple"     = "hsl(270, 100%, 50%)",
+  "magenta"    = "hsl(300, 100%, 50%)",
+  "pink"       = "hsl(330, 100%, 50%)"
 }
 
 // Obtained from https://www.rapidtables.com/web/color/RGB_Color.html

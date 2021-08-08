@@ -2,7 +2,7 @@ import { Irgba, Ihexa } from "../types/common";
 
 const HEXA_RE = /^#?(([\da-f])([\da-f])([\da-f])([\da-f])?)$|^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})?([\da-f]{2})?$/gi;
 
-export function hexaParser(color: string): Irgba | null {
+export function hexaParser(color: string): Irgba {
   const matches = HEXA_RE.exec(color);
   if (matches) {
     const [r, g, b, a] = matches
@@ -11,7 +11,7 @@ export function hexaParser(color: string): Irgba | null {
       .map((elem) => (elem.length === 1 ? elem.repeat(2) : elem));
     return HEXtoRGB({ r, g, b, a: a ?? "FF" });
   }
-  return null;
+  return { r: 0, g: 0, b: 0, a: 1 };
 }
 
 export function HEXtoRGB(obj: Ihexa): Irgba {

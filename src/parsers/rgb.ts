@@ -1,16 +1,18 @@
 import { Ihexa, Ihsla, Irgba } from "../types/common";
 
-const RGBA_RE = /rgba?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(0\.?\d*%?|1\.?0*%?)\s*\)/gi;
+const RGBA_RE =
+  /rgba?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(0\.?\d*%?|1\.?0*%?)?\s*\)/gi;
 
-export function rgbaParser(color: string): Irgba | null {
+export function rgbaParser(color: string): Irgba {
   const matches = RGBA_RE.exec(color);
   if (matches) {
     const [r, g, b, a] = matches
-      .slice(1, 5)
+      .filter((val) => val !== undefined)
+      .slice(1)
       .map((elem, i) => (elem.includes("%") ? +elem.slice(-1) * (i < 3 ? 2.55 : 1) : +elem));
     return { r, g, b, a: a ?? 1 };
   }
-  return null;
+  return { r: 0, g: 0, b: 0, a: 1 };
 }
 
 export function RGBtoHEX(obj: Irgba): Ihexa {

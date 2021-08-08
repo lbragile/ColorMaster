@@ -1,5 +1,3 @@
-import { BOUNDS } from "../enums/bounds";
-
 /**
  * Restricts the value of `val` to be between `min` and `max` for number inputs
  * @param min Lower bound (0)
@@ -8,7 +6,7 @@ import { BOUNDS } from "../enums/bounds";
  *
  * @returns A number in the range `[min, max]` such that `min <= val <= max`
  */
-export function clampNum(min: number, val: number, max: number): number {
+export function clamp(min: number, val: number, max: number): number {
   return val < min ? min : val > max ? max : val;
 }
 
@@ -32,7 +30,7 @@ export function round(value: number, precision: number): string {
  * @returns standard RGB equivalent of the RGB channel value provided
  */
 export function sRGB(value: number): number {
-  value /= BOUNDS.RGB_CHANNEL;
+  value /= 255;
   return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
 }
 

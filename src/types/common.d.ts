@@ -1,7 +1,50 @@
-import { Irgba, Irgb, Ihsla, Ihsl, Ihexa, Ihex } from "../index";
-import HEXColors from "../models/hex";
-import HSLColors from "../models/hsl";
-import RGBColors from "../models/rgb";
+type THexBase = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+type THexLower = "a" | "b" | "c" | "d" | "e" | "f";
+type THexUpper = "A" | "B" | "C" | "D" | "E" | "F";
+
+export type THexStr =
+  | `${THexBase}${THexBase}`
+  | `${THexBase}${THexLower}`
+  | `${THexLower}${THexBase}`
+  | `${THexBase}${THexUpper}`
+  | `${THexUpper}${THexBase}`
+  | `${THexLower}${THexLower}`
+  | `${THexLower}${THexUpper}`
+  | `${THexUpper}${THexLower}`
+  | `${THexUpper}${THexUpper}`
+  | THexBase
+  | THexLower
+  | THexUpper;
+
+export interface Irgb {
+  r: number;
+  g: number;
+  b: number;
+}
+
+export interface Ihsl {
+  h: number;
+  s: number;
+  l: number;
+}
+
+export interface Ihex {
+  r: string;
+  g: string;
+  b: string;
+}
+
+export interface Irgba extends Irgb {
+  a: number;
+}
+
+export interface Ihsla extends Ihsl {
+  a: number;
+}
+
+export interface Ihexa extends Ihex {
+  a: string;
+}
 
 /**
  * Array value form when instantiating a RGBA or HSLA object
@@ -11,7 +54,7 @@ export type TNumArr = [number, number, number, number?];
 /**
  * Array value form when instantiating a HEXA object
  */
-export type TStrArr = [string, string, string, string?];
+export type TStrArr = [THexStr, THexStr, THexStr, THexStr?];
 
 /**
  * Possible operator for value adjustment of HEXA color space
@@ -88,26 +131,6 @@ export type TChannel = "red" | "green" | "blue" | "alpha";
 export type TChannelHSL = "hue" | "saturation" | "lightness" | "alpha";
 
 /**
- * Simplified type that combines all possible RGBA inputs
- */
-export type TRGBAInput = Irgba | Irgb | TNumArr | string;
-
-/**
- * Simplified type that combines all possible HSLA inputs
- */
-export type THSLAInput = Ihsla | Ihsl | TNumArr | string;
-
-/**
- * Simplified type that combines all possible HEXA inputs
- */
-export type THEXAInput = Ihexa | Ihex | TStrArr | string;
-
-/**
  * Simplified type that combines all possible color space inputs
  */
-export type TAllInput = TRGBAInput | THSLAInput | THEXAInput;
-
-/**
- * Simplified type that combines all possible color space instances
- */
-export type TAllColors = RGBColors | HEXColors | HSLColors;
+export type TInput = string | Irgb | Irgba | Ihex | Ihexa | Ihsl | Ihsla;

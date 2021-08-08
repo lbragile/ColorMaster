@@ -1,15 +1,10 @@
-import { IColorMaster } from "./types/colormaster";
-import { BOUNDS } from "./enums/bounds";
-import { HueColors, RGBExtended } from "./enums/colors";
-import HEXColors from "./models/hex";
-import HSLColors from "./models/hsl";
-import RGBColors from "./models/rgb";
-import { THEXAInput, THSLAInput, TNumArr, TRGBAInput, TStrArr } from "./types/common";
-import { Ihexa } from "./types/hex";
-import { Ihsla } from "./types/hsl";
-import { Irgba } from "./types/rgb";
-import { random } from "./utils/numeric";
-import { createColorArrFromStr } from "./utils/string";
+import { RGBExtended } from "./enums/colors";
+import { HEXtoRGB, hexaParser } from "./parsers/hex";
+import { HSLtoRGB, hslaParser } from "./parsers/hsl";
+import { rgbaParser, RGBtoHEX, RGBtoHSL } from "./parsers/rgb";
+import { Irgba, TInput, Ihexa, Ihsla, TNumArr, IStringOpts } from "./types/common";
+import { clamp, round } from "./utils/numeric";
+import { isHEXObject, isHSLObject, isRGBObject } from "./utils/typeGuards";
 
 /**
  * Generates color space instances that ColorMaster interpret.
@@ -18,72 +13,132 @@ import { createColorArrFromStr } from "./utils/string";
  * @note If a color's values are not valid, ColorMaster uses "black" or a mixture
  *       with provided values that are valid (in the corresponding colorspace) by default
  */
-export class ColorMaster implements IColorMaster {
-  RGBAFrom(values: TRGBAInput): RGBColors;
-  RGBAFrom(r: number, g: number, b: number, a?: number): RGBColors;
-  RGBAFrom(rOrValues: TRGBAInput | number, g?: number, b?: number, a?: number): RGBColors {
-    let r = rOrValues ?? 0;
+export class ColorMaster {
+  #color: Irgba = { r: 0, g: 0, b: 0, a: 1 };
+  #format: "rgb" | "hex" | "hsl" = "rgb";
 
-    if (r.constructor.name.toLowerCase() === "object") {
-      ({ r, g, b, a } = r as Irgba);
-    } else if (Array.isArray(r) || typeof r === "string") {
-      if (typeof r === "string" && !r.includes(",")) {
-        [r, g, b, a] = [0, g, b, a] as TNumArr;
-      } else {
-        [r, g, b, a] = (typeof r === "string" ? createColorArrFromStr(r, /(rgba?)?\(|\)/g) : r) as TNumArr;
+  constructor(values: TInput) {
+    if (values.constructor.name.toLowerCase() === "object") {
+      if (isHEXObject(values)) {
+        this.#color = HEXtoRGB(values as Ihexa);
+        this.#format = "hex";
+      } else if (isHSLObject(values)) {
+        this.#color = HSLtoRGB(values as Ihsla);
+        this.#format = "hsl";
+      } else if (isRGBObject(values)) {
+        this.#color = values as Irgba;
+        this.#format = "rgb";
+      }
+    } else if (typeof values === "string") {
+      const hexaMatch = hexaParser(values);
+      const hslaMatch = hslaParser(values);
+      const rgbaMatch = rgbaParser(values);
+
+      if (hexaMatch) {
+        this.#color = hexaMatch;
+        this.#format = "hex";
+      } else if (hslaMatch) {
+        this.#color = hslaMatch;
+        this.#format = "hsl";
+      } else if (rgbaMatch) {
+        this.#color = rgbaMatch;
+        this.#format = "rgb";
       }
     }
 
-    return new RGBColors(r as number, g, b, a);
+    const { r, g, b, a } = this.#color;
+    this.#color = { r: clamp(0, r, 255), g: clamp(0, g, 255), b: clamp(0, b, 255), a: clamp(0, a, 1) };
   }
 
-  HSLAFrom(values: THSLAInput): HSLColors;
-  HSLAFrom(h: number | keyof typeof HueColors, s: number, l: number, a?: number): HSLColors;
-  HSLAFrom(hOrValues: THSLAInput | keyof typeof HueColors | number, s?: number, l?: number, a?: number): HSLColors {
-    let h = hOrValues ?? 0;
+  get red(): number {
+    return this.#color.r;
+  }
 
-    if (h.constructor.name.toLowerCase() === "object") {
-      ({ h, s, l, a } = h as Ihsla);
-    } else if (Array.isArray(h) || typeof h === "string") {
-      if (typeof h === "string") {
-        const isCSSName = h.match(/^[a-z\s]+$/i);
-        const colorStr = isCSSName ? HueColors[h as keyof typeof HueColors] : h;
-        [h, s, l, a] = isCSSName
-          ? [this.RGBAFrom(colorStr).hue, s, l, a]
-          : createColorArrFromStr(colorStr, /(hsla?)?\(|\)|%/g);
+  get blue(): number {
+    return this.#color.b;
+  }
+
+  get green(): number {
+    return this.#color.g;
+  }
+
+  get alpha(): number {
+    return this.#color.a;
+  }
+
+  get hue(): number {
+    return RGBtoHSL(this.#color).h;
+  }
+
+  get saturation(): number {
+    return RGBtoHSL(this.#color).s;
+  }
+
+  get lightness(): number {
+    return RGBtoHSL(this.#color).l;
+  }
+
+  get format(): "rgb" | "hex" | "hsl" {
+    return this.#format;
+  }
+
+  get array(): Required<TNumArr> {
+    return Object.values(this.#color) as Required<TNumArr>;
+  }
+
+  rgba(): Irgba {
+    return this.#color;
+  }
+
+  hsla(): Ihsla {
+    return RGBtoHSL(this.#color);
+  }
+
+  hexa(): Ihexa {
+    return RGBtoHEX(this.#color);
+  }
+
+  string({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
+    const [r, g, b, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
+    return withAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
+  }
+
+  name({ exact = true }: { exact?: boolean } = {}): string {
+    const { a } = this.#color;
+
+    if (a === 0) return "transparent";
+
+    const rgbStr = this.string({ withAlpha: false });
+    const parsedObj = rgbaParser(rgbStr);
+    const [keys, values] = Object.entries(RGBExtended);
+
+    let matchStr: string | undefined;
+    if (parsedObj) {
+      const { r, g, b } = parsedObj;
+
+      if (exact) {
+        matchStr = keys.find((key) => RGBExtended[key as keyof typeof RGBExtended] === rgbStr);
       } else {
-        [h, s, l, a] = h as TNumArr;
+        let minDist = Number.POSITIVE_INFINITY;
+        for (let i = 0; i < values.length; i++) {
+          const [Rp, Gp, Bp] = Object.values(rgbaParser(values[i]) as Irgba) as TNumArr;
+          const currDist = Math.abs(Rp - r) + Math.abs(Gp - g) + Math.abs(Bp - b);
+          if (currDist < minDist) {
+            minDist = currDist;
+            matchStr = keys[i];
+          }
+        }
       }
     }
 
-    return new HSLColors(h as number, s, l, a);
+    return matchStr ? matchStr + (a < 1 ? " (with opacity)" : "") : "undefined";
   }
 
-  HEXAFrom(values: THEXAInput): HEXColors;
-  HEXAFrom(r: string, g: string, b: string, a?: string): HEXColors;
-  HEXAFrom(rOrValues: THEXAInput, g?: string, b?: string, a?: string): HEXColors {
-    let r = rOrValues ?? "00";
+  // random(): RGBColors {
+  //   return new RGBColors(random(255), random(255), random(255), Math.random());
+  // }
 
-    if (r.constructor.name.toLowerCase() === "object") {
-      ({ r, g, b, a } = r as Ihexa);
-    } else if (Array.isArray(r) || (typeof r === "string" && r.includes(","))) {
-      [r, g, b, a] = (typeof r === "string" ? r.replace(/\(|\s|\)/g, "").split(",") : r) as TStrArr;
-    } else if (typeof r === "string" && r[0] === "#") {
-      const hex = r.slice(1);
-      const hexParts = hex.length >= 6 ? hex.match(/\w\w/gi) : hex.match(/\w/gi)?.map((item) => item.repeat(2));
-      [r, g, b, a] = hexParts ?? ["00", "00", "00", "FF"];
-    }
-
-    r = r as string;
-    return new HEXColors(r.length > 2 ? "00" : r, g, b, a);
-  }
-
-  random(): RGBColors {
-    const MAX = BOUNDS.RGB_CHANNEL;
-    return this.RGBAFrom(random(MAX), random(MAX), random(MAX), Math.random());
-  }
-
-  fromName(name: keyof typeof RGBExtended): RGBColors {
-    return this.RGBAFrom(RGBExtended[name]);
-  }
+  // fromName(name: keyof typeof RGBExtended): RGBColors {
+  //   return new RGBColors(RGBExtended[name]);
+  // }
 }

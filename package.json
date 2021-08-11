@@ -7,7 +7,7 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "files": [
-    "**/*.{js,ts}"
+    "**/*.{js,ts, map}"
   ],
   "sideEffects": false,
   "scripts": {
@@ -17,9 +17,10 @@
     "tsc": "tsc --project config/tsconfig.development.json --watch",
     "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js",
     "start": "ts-node src/index.ts",
-    "benchmark": "ts-node tests/benchmark.ts",
     "docs": "typedoc --options config/typedoc.json",
-    "build": "webpack --config config/webpack.config.js",
+    "build:dev": "webpack --node-env development --config config/webpack.config.js",
+    "build": "webpack --node-env production --config config/webpack.config.js",
+    "dry": "npm run build && npm publish dist --dry-run",
     "preversion": "npm test",
     "version:patch": "npm version patch -m \"🎉 Automatic package publish → bump to version v%s\"",
     "version:minor": "npm version minor -m \"🎉 Automatic package publish → bump to version v%s\"",
@@ -71,7 +72,7 @@
     "copy-webpack-plugin": "^9.0.1",
     "eslint": "^7.31.0",
     "eslint-plugin-jest": "^24.4.0",
-    "husky": "^7.0.1",
+    "glob": "^7.1.7",
     "jest": "^27.0.6",
     "prettier": "^2.3.2",
     "ts-jest": "^27.0.4",

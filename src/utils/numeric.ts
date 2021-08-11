@@ -40,6 +40,6 @@ export function sRGB(value: number): number {
  * @param max Output will be bounded to [0, max]
  * @returns A positive integer that is randomly generated and guaranteed to be less than `max`
  */
-export function random(max: number): number {
+export function rng(max: number): number {
   return Math.floor(Math.random() * max);
 }

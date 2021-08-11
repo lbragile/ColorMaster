@@ -1,4 +1,4 @@
-import { Ihexa, Ihsla, Irgba } from "../types/common";
+import { Ihexa, Ihsla, Irgba, THexStr } from "../types/common";
 
 const RGBA_RE =
   /rgba?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(0\.?\d*%?|1\.?0*%?)?\s*\)/gi;
@@ -17,7 +17,7 @@ export function rgbaParser(color: string): Irgba {
 
 export function RGBtoHEX(obj: Irgba): Ihexa {
   const { r, g, b, a } = obj;
-  const [Rp, Gp, Bp, Ap] = [r, g, b, Math.round(a * 255) ?? 255].map((x) => x.toString(16).padStart(2, "0"));
+  const [Rp, Gp, Bp, Ap] = [r, g, b, Math.round(a * 255) ?? 255].map((x) => x.toString(16).padStart(2, "0") as THexStr);
   return { r: Rp, g: Gp, b: Bp, a: Ap };
 }
 

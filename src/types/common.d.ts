@@ -1,18 +1,18 @@
-type THexBase = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+type THexDigit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 type THexLower = "a" | "b" | "c" | "d" | "e" | "f";
 type THexUpper = "A" | "B" | "C" | "D" | "E" | "F";
 
 export type THexStr =
-  | `${THexBase}${THexBase}`
-  | `${THexBase}${THexLower}`
-  | `${THexLower}${THexBase}`
-  | `${THexBase}${THexUpper}`
-  | `${THexUpper}${THexBase}`
+  | `${THexDigit}${THexDigit}`
+  | `${THexDigit}${THexLower}`
+  | `${THexLower}${THexDigit}`
+  | `${THexDigit}${THexUpper}`
+  | `${THexUpper}${THexDigit}`
   | `${THexLower}${THexLower}`
   | `${THexLower}${THexUpper}`
   | `${THexUpper}${THexLower}`
   | `${THexUpper}${THexUpper}`
-  | THexBase
+  | THexDigit
   | THexLower
   | THexUpper;
 
@@ -29,9 +29,9 @@ export interface Ihsl {
 }
 
 export interface Ihex {
-  r: string;
-  g: string;
-  b: string;
+  r: THexStr;
+  g: THexStr;
+  b: THexStr;
 }
 
 export interface Irgba extends Irgb {

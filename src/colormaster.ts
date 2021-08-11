@@ -1,7 +1,8 @@
-import { HueColors, RGBExtended } from "./enums/colors";
+import { HueColors } from "./enums/colors";
 import { HEXtoRGB, hexaParser } from "./parsers/hex";
 import { HSLtoRGB, hslaParser } from "./parsers/hsl";
 import { rgbaParser, RGBtoHEX, RGBtoHSL } from "./parsers/rgb";
+import { IColorMaster } from "./types/colormaster";
 import {
   Irgba,
   TInput,
@@ -10,11 +11,10 @@ import {
   TNumArr,
   IStringOpts,
   IAlphaInvert,
-  IA11yOpts,
   THarmony,
   IMonochromatic
 } from "./types/common";
-import { clamp, round, sRGB } from "./utils/numeric";
+import { clamp, round } from "./utils/numeric";
 import { isHEXObject, isHSLObject, isRGBObject } from "./utils/typeGuards";
 
 /**
@@ -24,7 +24,7 @@ import { isHEXObject, isHSLObject, isRGBObject } from "./utils/typeGuards";
  * @note If a color's values are not valid, ColorMaster uses "black" or a mixture
  *       with provided values that are valid (in the corresponding colorspace) by default
  */
-export class ColorMaster {
+export class ColorMaster implements IColorMaster {
   #color: Irgba = { r: 0, g: 0, b: 0, a: 1 };
   #format: "rgb" | "hex" | "hsl" = "rgb";
 
@@ -38,7 +38,6 @@ export class ColorMaster {
         this.#format = "hsl";
       } else if (isRGBObject(values)) {
         this.#color = values as Irgba;
-        this.#format = "rgb";
       }
     } else if (typeof values === "string") {
       const hexaMatch = hexaParser(values);
@@ -53,7 +52,6 @@ export class ColorMaster {
         this.#format = "hsl";
       } else if (rgbaMatch) {
         this.#color = rgbaMatch;
-        this.#format = "rgb";
       }
     }
 
@@ -109,40 +107,19 @@ export class ColorMaster {
     return RGBtoHEX(this.#color);
   }
 
-  string({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
+  stringRGB({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
     const [r, g, b, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
     return withAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
   }
 
-  name({ exact = true }: { exact?: boolean } = {}): string {
-    const { a } = this.#color;
+  stringHEX({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
+    const [r, g, b, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
+    return `#${r}${g}${b}${withAlpha ? a : ""}`;
+  }
 
-    if (a === 0) return "transparent";
-
-    const rgbStr = this.string({ withAlpha: false });
-    const parsedObj = rgbaParser(rgbStr);
-
-    const [keys, values] = [Object.keys(RGBExtended), Object.values(RGBExtended)];
-
-    let matchStr: string | undefined;
-    if (parsedObj) {
-      if (exact) {
-        matchStr = keys.find((key) => RGBExtended[key as keyof typeof RGBExtended] === rgbStr);
-      } else {
-        const { r, g, b } = parsedObj;
-        let minDist = Number.POSITIVE_INFINITY;
-        for (let i = 0; i < values.length; i++) {
-          const [Rp, Gp, Bp] = values[i].match(/\d{1,3}/g)?.map((val) => +val) ?? [0, 0, 0];
-          const currDist = Math.abs(Rp - r) + Math.abs(Gp - g) + Math.abs(Bp - b);
-          if (currDist < minDist) {
-            minDist = currDist;
-            matchStr = keys[i];
-          }
-        }
-      }
-    }
-
-    return matchStr ? matchStr + (a < 1 ? " (with opacity)" : "") : "undefined";
+  stringHSL({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
+    const [h, s, l, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
+    return withAlpha ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
   }
 
   // changeValueTo(channel: TChannelHSL, value: number): HSLColors {
@@ -268,105 +245,4 @@ export class ColorMaster {
       // no default
     }
   }
-
-  brightness({ precision = 4, percentage = false }: IA11yOpts = {}): number {
-    const { r, g, b } = this.#color;
-    const brightness = +((r * 0.299 + g * 0.587 + b * 0.114) / 255).toFixed(precision);
-    return percentage ? brightness * 100 : brightness;
-  }
-
-  luminance({ precision = 4, percentage = false }: IA11yOpts = {}): number {
-    const { r, g, b } = this.#color;
-    const L = +(0.2126 * sRGB(r) + 0.7152 * sRGB(g) + 0.0722 * sRGB(b)).toFixed(precision);
-    return percentage ? L * 100 : L;
-  }
-
-  // contrast(
-  //   bgColor: THSLAInput | HSLColors = [0, 0, 100, 1.0],
-  //   { precision = 4, ratio = false }: IA11yOpts = {}
-  // ): string | number {
-  //   bgColor = bgColor instanceof HSLColors ? bgColor : CM.HSLAFrom(bgColor);
-  //   return this.rgb().contrast(bgColor.rgb(), { precision, ratio });
-  // }
-
-  // readableOn(
-  //   bgColor: THSLAInput | HSLColors = [0, 0, 100, 1.0],
-  //   { size = "body", ratio = "minimum" }: IReadable = {}
-  // ): boolean {
-  //   bgColor = bgColor instanceof HSLColors ? bgColor : CM.HSLAFrom(bgColor);
-  //   return this.rgb().readableOn(bgColor.rgb(), { size, ratio });
-  // }
-
-  // equalTo(compareColor: THSLAInput | HSLColors = [0, 0, 100, 1.0]): boolean {
-  //   // ! do not convert to RGB space since HSLA is a many-to-one mapping in RGBA space (example, 100% lightness)
-  //   compareColor = compareColor instanceof HSLColors ? compareColor : CM.HSLAFrom(compareColor);
-  //   return JSON.stringify(this.array) === JSON.stringify(compareColor.array);
-  // }
-
-  isLight(): boolean {
-    return this.brightness() >= 0.5;
-  }
-
-  isDark(): boolean {
-    return !this.isLight();
-  }
-
-  isCool(): boolean {
-    const { h } = this.hsla();
-    return 75 <= h && h < 255;
-  }
-
-  isWarm(): boolean {
-    return !this.isCool();
-  }
-
-  closestCool(): ColorMaster {
-    const { h } = this.hsla();
-    if (this.isCool()) return this;
-    return this.hueTo(h < 75 ? 75 : 254);
-  }
-
-  closestWarm(): ColorMaster {
-    const { h } = this.hsla();
-    if (this.isWarm()) return this;
-    return this.hueTo(h < (255 + 75) / 2 ? 74 : 255);
-  }
-
-  isTinted(): boolean {
-    return this.hsla().l > 50.0;
-  }
-
-  isShaded(): boolean {
-    return this.hsla().l < 50.0;
-  }
-
-  isToned(): boolean {
-    return this.hsla().s < 100.0;
-  }
-
-  isPureHue({ reason = true }: { reason?: boolean } = {}): boolean | { pure: boolean; reason: string } {
-    if (this.isTinted()) {
-      return reason ? { pure: false, reason: "tinted" } : false;
-    } else if (this.isShaded()) {
-      return reason ? { pure: false, reason: "shaded" } : false;
-    } else if (this.isToned()) {
-      return reason ? { pure: false, reason: "toned" } : false;
-    } else {
-      return reason ? { pure: true, reason: "N/A" } : true;
-    }
-  }
-
-  closestPureHue(): ColorMaster {
-    const { h, a } = this.hsla();
-    this.#color = HSLtoRGB({ h, s: 100, l: 50, a });
-    return this;
-  }
-
-  // random(): RGBColors {
-  //   return new RGBColors(random(255), random(255), random(255), Math.random());
-  // }
-
-  // fromName(name: keyof typeof RGBExtended): RGBColors {
-  //   return new RGBColors(RGBExtended[name]);
-  // }
 }

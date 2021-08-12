@@ -104,6 +104,7 @@ export interface IAlphaInvert {
 export interface IMonochromatic {
   effect?: TMonoEffect;
   amount?: number;
+  type?: THarmony;
 }
 
 /**
@@ -304,21 +305,4 @@ export interface IColorMaster {
    * @returns The instance that was acted upon → for function chaining
    */
   rotate(value: number): ColorMaster;
-
-  /**
-   * Generates an RGBA color instance array based on the corresponding harmony
-   *
-   * @param type The color harmony to apply
-   * @opts Only apply to 'monochromatic' harmony
-   * - effect → 'tints' (add white/add lightness), 'shades' (add black/remove lightness), 'tones' (add grey/remove saturation)
-   * - amount → the number of elements to return
-   *
-   * @see {@link // https//www.tigercolor.com/color-lab/color-theory/color-harmonies.htm}
-   * @note For 'monochromatic', the amount must be in range [2, 10]
-   * @returns - All harmony types return an array with the original color as the first element.
-   *          - The only exception to this are 'analogous' and 'double-split-complementary',
-   *            which return the original color as the second element.
-   *          - For 'monochromatic' the original color is always first and the array size is `amount + 1` evenly spaced colors.
-   */
-  harmony(type: THarmony, opts: IMonochromatic): ColorMaster[];
 }

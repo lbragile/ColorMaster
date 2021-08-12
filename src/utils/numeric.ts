@@ -23,6 +23,17 @@ export function round(value: number, precision: number): number {
 }
 
 /**
+ * Given a hue (`value`) - ensure that it is in range [0, 359]
+ * @param value The value that needs to be rounded
+ *
+ * @returns A positively bounded hue value
+ */
+export function adjustHue(value: number): number {
+  const modHue = value % 360;
+  return modHue < 0 ? modHue + 360 : modHue;
+}
+
+/**
  * Converts a RGB color space channel value into its corresponding standard RGB (sRGB) color space value
  * @param value The RGB channel value to convert
  *

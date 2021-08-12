@@ -7,7 +7,8 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "files": [
-    "**/*.{js,ts, map}"
+    "**/*.{js,ts, map}",
+    "plugins/*.{js,ts,map}"
   ],
   "sideEffects": false,
   "scripts": {

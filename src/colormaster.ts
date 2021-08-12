@@ -7,15 +7,13 @@ import {
   IColorMaster,
   Ihexa,
   Ihsla,
-  IMonochromatic,
   Irgba,
   IStringOpts,
   TFormat,
-  THarmony,
   TInput,
   TNumArr
 } from "./types/colormaster";
-import { clamp, round } from "./utils/numeric";
+import { adjustHue, clamp, round } from "./utils/numeric";
 
 /**
  * Generates color space instances that ColorMaster interpret.
@@ -100,7 +98,7 @@ export class ColorMaster implements IColorMaster {
 
   stringHSL({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
     const [h, s, l, a] = Object.values(this.hsla()).map((val, i) => round(val, precision[i] ?? 1));
-    return withAlpha ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
+    return withAlpha ? `hsla(${adjustHue(h)}, ${s}%, ${l}%, ${a})` : `hsl(${adjustHue(h)}, ${s}%, ${l}%)`;
   }
 
   // changeValueTo(channel: TChannelHSL, value: number): HSLColors {
@@ -173,57 +171,5 @@ export class ColorMaster implements IColorMaster {
 
   rotate(value: number): ColorMaster {
     return this.hueBy(value);
-  }
-
-  harmony(type: THarmony = "analogous", { effect = "tones", amount = 5 }: IMonochromatic = {}): ColorMaster[] {
-    const { h, s, l, a } = this.hsla();
-
-    // at most 10 harmony elements for monochromatic
-    if (type === "monochromatic") {
-      amount = clamp(2, amount, 10);
-    }
-
-    switch (type) {
-      case "analogous":
-        return [-30, 0, 30].map((angle) => new ColorMaster({ h: h + angle, s, l, a }));
-
-      case "complementary":
-        return [0, 180].map((angle) => new ColorMaster({ h: h + angle, s, l, a }));
-
-      case "split-complementary": // aka compound
-        return [0, 150, 210].map((angle) => new ColorMaster({ h: h + angle, s, l, a }));
-
-      case "double-split-complementary":
-        return [-30, 0, 30, 150, 210].map((angle) => new ColorMaster({ h: h + angle, s, l, a }));
-
-      case "triad":
-        return [0, 120, 240].map((angle) => new ColorMaster({ h: h + angle, s, l, a }));
-
-      case "rectangle":
-        return [0, 60, 180, 240].map((angle) => new ColorMaster({ h: h + angle, s, l, a }));
-
-      case "square":
-        return [0, 90, 180, 270].map((angle) => new ColorMaster({ h: h + angle, s, l, a }));
-
-      case "monochromatic": {
-        // tones uses saturation, tints/shades use lightness
-        const valueToAdjust = effect === "tones" ? s : l;
-
-        // form array of n (amount) evenly spaced items from current saturation/lightness to min/max value
-        let delta = (effect === "tints" ? 100 - valueToAdjust : valueToAdjust) / amount;
-        delta = effect === "tints" ? delta : -1 * delta;
-
-        const valArr: number[] = [valueToAdjust];
-        for (let i = 0; i < amount; i++) {
-          valArr.push(valArr[i] + delta);
-        }
-
-        return effect === "tones"
-          ? valArr.map((sat) => new ColorMaster({ h, s: sat, l, a }))
-          : valArr.map((light) => new ColorMaster({ h, s, l: light, a }));
-      }
-
-      // no default
-    }
   }
 }

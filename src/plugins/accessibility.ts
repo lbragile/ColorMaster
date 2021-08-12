@@ -1,5 +1,5 @@
-import { ColorMaster } from "../colormaster";
-import { WebSafe } from "../enums/colors";
+import { ColorMaster } from "..";
+import { WebSafe as WebSafeArr } from "../enums/colors";
 import { HSLtoRGB } from "../parsers/hsl";
 import { IA11yOpts, IReadable, Irgba, TInput, TPlugin } from "../types/colormaster";
 import { sRGB } from "../utils/numeric";
@@ -243,10 +243,9 @@ const A11yPlugin: TPlugin = (CM): void => {
     let [Rc, Gc, Bc] = new Array(3).fill(0);
     let minDist = Number.POSITIVE_INFINITY;
 
-    const webSafeArr = Object.values(WebSafe);
     let closestMatch: Irgba = { r, g, b, a };
-    for (let i = 0; i < webSafeArr.length; i++) {
-      const matches = webSafeArr[i].match(/\d{1,3}/g);
+    for (let i = 0; i < WebSafeArr.length; i++) {
+      const matches = WebSafeArr[i].match(/\d{1,3}/g);
       if (matches) {
         [Rc, Gc, Bc] = matches.map((val) => +val);
       }

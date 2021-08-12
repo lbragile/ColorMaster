@@ -1,4 +1,4 @@
-import { ColorMaster } from "../colormaster";
+import { TPlugin } from "../types/colormaster";
 import { rng } from "../utils/numeric";
 
 declare module "../colormaster" {
@@ -11,6 +11,10 @@ declare module "../colormaster" {
   }
 }
 
-ColorMaster.prototype.random = function (): ColorMaster {
-  return new ColorMaster({ r: rng(255), g: rng(255), b: rng(255), a: Math.random() });
+const RandomPlugin: TPlugin = (CM): void => {
+  CM.prototype.random = function () {
+    return new CM({ r: rng(255), g: rng(255), b: rng(255), a: Math.random() });
+  };
 };
+
+export default RandomPlugin;

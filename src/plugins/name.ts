@@ -1,5 +1,4 @@
 import { RGBExtended } from "../enums/colors";
-import { rgbaParser } from "../parsers/rgb";
 import { TPlugin } from "../types/colormaster";
 
 declare module "../colormaster" {
@@ -27,30 +26,25 @@ declare module "../colormaster" {
 
 const NamePlugin: TPlugin = (CM): void => {
   CM.prototype.name = function ({ exact = true }: { exact?: boolean } = {}): string {
-    const { a } = this.rgba();
+    const { r, g, b, a } = this.rgba();
 
     if (a === 0) return "transparent";
-
-    const rgbStr = this.stringRGB({ withAlpha: false });
-    const parsedObj = rgbaParser(rgbStr)[0];
 
     const [keys, values] = [Object.keys(RGBExtended), Object.values(RGBExtended)];
 
     let matchStr: string | undefined;
-    if (parsedObj) {
-      if (exact) {
-        matchStr = keys.find((key) => RGBExtended[key as keyof typeof RGBExtended] === rgbStr);
-      } else {
-        const { r, g, b } = parsedObj;
-        let minDist = Number.POSITIVE_INFINITY;
-        for (let i = 0; i < values.length; i++) {
-          const [Rp, Gp, Bp] = values[i].match(/\d{1,3}/g)?.map((val) => +val) ?? [0, 0, 0];
+    if (exact) {
+      const rgbStr: string = this.stringRGB({ withAlpha: false }).replace(/\s/g, "");
+      matchStr = keys.find((key) => RGBExtended[key as keyof typeof RGBExtended] === rgbStr);
+    } else {
+      let minDist = Number.POSITIVE_INFINITY;
+      for (let i = 0; i < values.length; i++) {
+        const [Rp, Gp, Bp] = values[i].match(/\d{1,3}/g)?.map((val) => +val) ?? [0, 0, 0];
 
-          const currDist = Math.abs(Rp - r) + Math.abs(Gp - g) + Math.abs(Bp - b);
-          if (currDist < minDist) {
-            minDist = currDist;
-            matchStr = keys[i];
-          }
+        const currDist = Math.abs(Rp - r) + Math.abs(Gp - g) + Math.abs(Bp - b);
+        if (currDist < minDist) {
+          minDist = currDist;
+          matchStr = keys[i];
         }
       }
     }

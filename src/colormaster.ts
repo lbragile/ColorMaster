@@ -1,21 +1,21 @@
 import { HueColors } from "./enums/colors";
-import { HEXtoRGB, hexaParser } from "./parsers/hex";
+import { hexaParser } from "./parsers/hex";
 import { HSLtoRGB, hslaParser } from "./parsers/hsl";
 import { rgbaParser, RGBtoHEX, RGBtoHSL } from "./parsers/rgb";
-import { IColorMaster } from "./types/colormaster";
 import {
-  Irgba,
-  TInput,
+  IAlphaInvert,
+  IColorMaster,
   Ihexa,
   Ihsla,
-  TNumArr,
+  IMonochromatic,
+  Irgba,
   IStringOpts,
-  IAlphaInvert,
+  TFormat,
   THarmony,
-  IMonochromatic
-} from "./types/common";
+  TInput,
+  TNumArr
+} from "./types/colormaster";
 import { clamp, round } from "./utils/numeric";
-import { isHEXObject, isHSLObject, isRGBObject } from "./utils/typeGuards";
 
 /**
  * Generates color space instances that ColorMaster interpret.
@@ -26,37 +26,18 @@ import { isHEXObject, isHSLObject, isRGBObject } from "./utils/typeGuards";
  */
 export class ColorMaster implements IColorMaster {
   #color: Irgba = { r: 0, g: 0, b: 0, a: 1 };
-  #format: "rgb" | "hex" | "hsl" = "rgb";
+  #format: TFormat = "rgb";
+  #parsers = [rgbaParser, hexaParser, hslaParser];
 
-  constructor(values: TInput) {
-    if (values.constructor.name.toLowerCase() === "object") {
-      if (isHEXObject(values)) {
-        this.#color = HEXtoRGB(values as Ihexa);
-        this.#format = "hex";
-      } else if (isHSLObject(values)) {
-        this.#color = HSLtoRGB(values as Ihsla);
-        this.#format = "hsl";
-      } else if (isRGBObject(values)) {
-        this.#color = values as Irgba;
-      }
-    } else if (typeof values === "string") {
-      const hexaMatch = hexaParser(values);
-      const hslaMatch = hslaParser(values);
-      const rgbaMatch = rgbaParser(values);
-
-      if (hexaMatch) {
-        this.#color = hexaMatch;
-        this.#format = "hex";
-      } else if (hslaMatch) {
-        this.#color = hslaMatch;
-        this.#format = "hsl";
-      } else if (rgbaMatch) {
-        this.#color = rgbaMatch;
-      }
+  constructor(color: TInput) {
+    const result = this.#parsers.map((parser) => parser(color)).find((parsedArr) => parsedArr[1] !== "invalid");
+    if (result) {
+      const { r, g, b, a } = result[0];
+      this.#format = result[1];
+      this.#color = { r: clamp(0, r, 255), g: clamp(0, g, 255), b: clamp(0, b, 255), a: clamp(0, a, 1) };
+    } else {
+      this.#format = "invalid";
     }
-
-    const { r, g, b, a } = this.#color;
-    this.#color = { r: clamp(0, r, 255), g: clamp(0, g, 255), b: clamp(0, b, 255), a: clamp(0, a, 1) };
   }
 
   get red(): number {
@@ -87,7 +68,7 @@ export class ColorMaster implements IColorMaster {
     return RGBtoHSL(this.#color).l;
   }
 
-  get format(): "rgb" | "hex" | "hsl" {
+  get format(): TFormat {
     return this.#format;
   }
 
@@ -112,13 +93,13 @@ export class ColorMaster implements IColorMaster {
     return withAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
   }
 
-  stringHEX({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
-    const [r, g, b, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
+  stringHEX({ withAlpha = true }: IStringOpts = {}): string {
+    const [r, g, b, a] = Object.values(this.hexa()).map((val) => val.toUpperCase());
     return `#${r}${g}${b}${withAlpha ? a : ""}`;
   }
 
   stringHSL({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
-    const [h, s, l, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
+    const [h, s, l, a] = Object.values(this.hsla()).map((val, i) => round(val, precision[i] ?? 1));
     return withAlpha ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
   }
 

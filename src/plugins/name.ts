@@ -32,7 +32,7 @@ const NamePlugin: TPlugin = (CM): void => {
     if (a === 0) return "transparent";
 
     const rgbStr = this.stringRGB({ withAlpha: false });
-    const parsedObj = rgbaParser(rgbStr);
+    const parsedObj = rgbaParser(rgbStr)[0];
 
     const [keys, values] = [Object.keys(RGBExtended), Object.values(RGBExtended)];
 

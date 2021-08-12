@@ -1,4 +1,4 @@
-import { TInput, TNumArr, TStrArr, Ihex, Ihexa, Ihsl, Ihsla, Irgb, Irgba } from "../types/common";
+import { TInput, TNumArr, TStrArr, Ihex, Ihexa, Ihsl, Ihsla, Irgb, Irgba } from "../types/colormaster";
 
 export function isHEXObject(type: TInput | TNumArr | TStrArr): type is Ihex | Ihexa {
   return (type as Ihex).r !== undefined && typeof (type as Ihex).r === "string";

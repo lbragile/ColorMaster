@@ -1,20 +1,10 @@
 import { HueColors } from "./enums/colors";
-import { hexaParser } from "./parsers/hex";
-import { hslaParser, HSLtoRGB } from "./parsers/hsl";
-import { LCHtoRGB } from "./parsers/lch";
-import { rgbaParser, RGBtoHEX, RGBtoHSL, RGBtoLCH } from "./parsers/rgb";
-import {
-  IAlphaInvert,
-  IColorMaster,
-  Ihexa,
-  Ihsla,
-  Irgba,
-  IStringOpts,
-  TFormat,
-  TInput,
-  TNumArr
-} from "./types/colormaster";
+import Parsers from "./parsers/all";
+import { IColorMaster, Ihexa, Ihsla, Irgba, IStringOpts, TFormat, TInput, TNumArr } from "./types/colormaster";
 import { adjustHue, clamp, rng, round } from "./utils/numeric";
+import { RGBtoHEX, RGBtoHSL, RGBtoLCH } from "./conversions/rgb";
+import { LCHtoRGB } from "./conversions/lch";
+import { HSLtoRGB } from "./conversions/hsl";
 
 /**
  * Generates color space instances that ColorMaster interpret.
@@ -26,10 +16,9 @@ import { adjustHue, clamp, rng, round } from "./utils/numeric";
 export class ColorMaster implements IColorMaster {
   #color: Irgba = { r: 0, g: 0, b: 0, a: 1 };
   #format: TFormat = "rgb";
-  #parsers = [rgbaParser, hexaParser, hslaParser];
 
   constructor(color: TInput) {
-    const result = this.#parsers.map((parser) => parser(color)).find((parsedArr) => parsedArr[1] !== "invalid");
+    const result = Parsers.map((parser) => parser(color)).find((parsedArr) => parsedArr[1] !== "invalid");
     if (result) {
       const { r, g, b, a } = result[0];
       this.#format = result[1];
@@ -87,35 +76,35 @@ export class ColorMaster implements IColorMaster {
     return RGBtoHSL(this.#color);
   }
 
-  hexa(): Ihexa {
-    return RGBtoHEX(this.#color);
+  hexa({ round = false } = {}): Ihexa {
+    return RGBtoHEX(this.#color, round);
   }
 
-  stringRGB({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
+  stringRGB({ alpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
     const [r, g, b, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
-    return withAlpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
+    return alpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
   }
 
-  stringHEX({ withAlpha = true }: IStringOpts = {}): string {
-    const [r, g, b, a] = Object.values(this.hexa()).map((val) => val.toUpperCase());
-    return `#${r}${g}${b}${withAlpha ? a : ""}`;
+  stringHEX({ alpha = true }: IStringOpts = {}): string {
+    const [r, g, b, a] = Object.values(this.hexa({ round: true }));
+    return `#${r}${g}${b}${alpha ? a : ""}`;
   }
 
-  stringHSL({ withAlpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
+  stringHSL({ alpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
     const [h, s, l, a] = Object.values(this.hsla()).map((val, i) => round(val, precision[i] ?? 1));
-    return withAlpha ? `hsla(${adjustHue(h)}, ${s}%, ${l}%, ${a})` : `hsl(${adjustHue(h)}, ${s}%, ${l}%)`;
+    return alpha ? `hsla(${adjustHue(h)}, ${s}%, ${l}%, ${a})` : `hsl(${adjustHue(h)}, ${s}%, ${l}%)`;
   }
 
   hueTo(value: number | keyof typeof HueColors): ColorMaster {
     const { h, s, l, a } = this.hsla();
-    const newHue = typeof value === "number" ? clamp(0, value, 359) : Number(HueColors[value].match(/\d{1,3}/) ?? h);
+    const newHue = typeof value === "number" ? adjustHue(value) : Number(HueColors[value].match(/\d{1,3}/) ?? h);
     this.#color = HSLtoRGB({ h: newHue, s, l, a });
     return this;
   }
 
   hueBy(delta: number): ColorMaster {
     const { h, s, l, a } = this.hsla();
-    this.#color = HSLtoRGB({ h: clamp(0, h + delta, 359), s, l, a });
+    this.#color = HSLtoRGB({ h: adjustHue(h + delta), s, l, a });
     return this;
   }
 
@@ -149,9 +138,9 @@ export class ColorMaster implements IColorMaster {
     return this;
   }
 
-  invert({ includeAlpha = false }: IAlphaInvert = {}): ColorMaster {
+  invert({ alpha = false } = {}): ColorMaster {
     const { r, g, b, a } = this.#color;
-    this.#color = { r: 255 - r, g: 255 - g, b: 255 - b, a: includeAlpha ? 1 - a : a };
+    this.#color = { r: 255 - r, g: 255 - g, b: 255 - b, a: alpha ? 1 - a : a };
     return this;
   }
 

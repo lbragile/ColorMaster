@@ -98,7 +98,7 @@ export type TOperator = "add" | "sub";
  * Formatting options for output string
  */
 export interface IStringOpts {
-  withAlpha?: boolean;
+  alpha?: boolean;
   precision?: TNumArr;
 }
 
@@ -119,13 +119,6 @@ export interface IReadable {
   size?: "body" | "large";
   ratio?: "minimum" | "enhanced";
   bgColor?: TInput;
-}
-
-/**
- * Options for the inverting process
- */
-export interface IAlphaInvert {
-  includeAlpha?: boolean;
 }
 
 /**
@@ -171,9 +164,11 @@ export type TChannelHSL = "hue" | "saturation" | "lightness" | "alpha";
  */
 export type TInput = string | Irgb | Irgba | Ihex | Ihexa | Ihsl | Ihsla;
 
-export type TFormat = "invalid" | "rgb" | "hex" | "hsl";
+export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "xyz" | "lab" | "lch";
 
 export type TPlugin = (CM: typeof ColorMaster) => void;
+
+export type TParser = (color: TInput) => [Irgba, TFormat];
 
 export interface IColorMaster {
   /**
@@ -193,14 +188,14 @@ export interface IColorMaster {
   readonly red: number;
 
   /**
-   * the blue channel value of this RGBA color instance
-   */
-  readonly blue: number;
-
-  /**
    * the green channel value of this RGBA color instance
    */
   readonly green: number;
+
+  /**
+   * the blue channel value of this RGBA color instance
+   */
+  readonly blue: number;
 
   /**
    * the alpha channel channel value of this RGBA color instance
@@ -230,13 +225,34 @@ export interface IColorMaster {
   /**
    * Gives the string representation of an input RGBA color object
    * @param opts -
-   *  - withAlpha → whether or not to include the alpha channel in the output
-   *  - quotes → type of quotes to use around the output
+   *  - alpha → whether or not to include the alpha channel in the output
    *  - precision → how many decimal places to include for each value
-   * @returns ```rgba?(r, g, b, a?)```
-   * @example ({ r: 128, g: 64, b: 32, a: 0.5 }).string() → "rgba(128, 64, 32, 0.5)"
+   * @example ({ r: 200, g: 150, b: 100, a: 0.7 }).stringRGB() → "rgba(200, 150, 100, 0.7)"
+   * @default { alpha: true, precision: [0, 0, 0, 1] }
+   * @returns ```rgb[a](R, G, B[, A])```
    */
-  stringRGB({ withAlpha, precision }: IStringOpts): string;
+  stringRGB({ alpha, precision }?: IStringOpts): string;
+
+  /**
+   * Gives the string representation of an input HEXA color object
+   * @param opts -
+   *  - alpha → whether or not to include the alpha channel in the output
+   * @example ({ r: 200, g: 150, b: 100, a: 0.7 }).stringHEX() → "#C89664B3"
+   * @default { alpha: true }
+   * @returns ```#RRGGBB[AA]```
+   */
+  stringHEX({ alpha }?: IStringOpts): string;
+
+  /**
+   * Gives the string representation of an input HSLA color object
+   * @param opts -
+   *  - alpha → whether or not to include the alpha channel in the output
+   *  - precision → how many decimal places to include for each value
+   * @example ({ r: 200, g: 150, b: 100, a: 0.7 }).stringHSL() → "hsla(30, 48%, 59%, 0.7)"
+   * @default { alpha: true, precision: [0, 0, 0, 1] }
+   * @returns ```hsl[a](H, S, L[, A])```
+   */
+  stringHSL({ alpha, precision }?: IStringOpts): string;
 
   /**
    * Converts a RGBA color to HSLA color
@@ -249,9 +265,10 @@ export interface IColorMaster {
   /**
    * Converts a RGBA color to HEXA color
    *
+   * @default { round: false }
    * @returns {HEXColors} An HEXA instance that can be acted upon → for function chaining
    */
-  hexa(): Ihexa;
+  hexa({ round }?: { round: boolean }): Ihexa;
 
   /**
    * Syntactic sugar for {@link ColorMaster.changeValueTo changeValueTo} with "hue" as the channel (done in HSLA space and converted back to RGBA space)
@@ -283,10 +300,12 @@ export interface IColorMaster {
 
   /**
    * Given an input color, get its inverse value by subtracting current value from the upper bound for each channel
-   * @param { includeAlpha } opts Whether or not to also invert the alpha channel
+   * @param { alpha } opts Whether or not to also invert the alpha channel
+   *
+   * @default { alpha = false }
    * @returns The corresponding inverse color
    */
-  invert({ includeAlpha }?: IAlphaInvert): ColorMaster;
+  invert({ alpha }?: { alpha: boolean }): ColorMaster;
 
   /**
    * Saturates (intensity) the color in HSLA space to get the corresponding RGBA space color

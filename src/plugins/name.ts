@@ -1,5 +1,6 @@
 import { RGBExtended } from "../enums/colors";
-import { TPlugin } from "../types/colormaster";
+import Parsers from "../parsers/all";
+import { Irgba, TFormat, TParser, TPlugin } from "../types/colormaster";
 import { channelWiseDifference, getRGBArr } from "../utils/numeric";
 
 declare module "../colormaster" {
@@ -13,15 +14,6 @@ declare module "../colormaster" {
      * @returns The color's HTML/CSS name
      */
     name(opts?: { exact?: boolean }): string;
-
-    /**
-     * Generates an RGBA color from an input CSS/HTML name
-     * @param name CSS/HTML color name to find
-     *
-     * @see {@link https://www.rapidtables.com/web/color/RGB_Color.html} for list of names
-     * @returns The RGBA color instance corresponding to the `name`
-     */
-    fromName(name: keyof typeof RGBExtended): ColorMaster;
   }
 }
 
@@ -35,7 +27,7 @@ const NamePlugin: TPlugin = (CM): void => {
 
     let matchStr: string | undefined;
     if (exact) {
-      const rgbStr: string = this.stringRGB({ withAlpha: false }).replace(/\s/g, "");
+      const rgbStr: string = this.stringRGB({ alpha: false }).replace(/\s/g, "");
       matchStr = keys.find((key) => RGBExtended[key as keyof typeof RGBExtended] === rgbStr);
     } else {
       let minDist = Number.POSITIVE_INFINITY;
@@ -51,10 +43,23 @@ const NamePlugin: TPlugin = (CM): void => {
     return matchStr ? matchStr + (a < 1 ? " (with opacity)" : "") : "undefined";
   };
 
-  CM.prototype.fromName = function (name: keyof typeof RGBExtended) {
-    const [r, g, b] = getRGBArr(RGBExtended[name]);
-    return new CM({ r, g, b });
-  };
+  /**
+   * Generates an RGBA color from an input CSS/HTML name
+   * @param color CSS/HTML color name to find
+   *
+   * @see {@link https://www.rapidtables.com/web/color/RGB_Color.html} for list of names
+   * @returns The RGBA color instance corresponding to the `name`
+   */
+  function nameParser(color: keyof typeof RGBExtended): [Irgba, TFormat] {
+    if (Object.keys(RGBExtended).includes(color)) {
+      const [r, g, b] = getRGBArr(RGBExtended[color]);
+      return [{ r, g, b, a: 1 }, "name"];
+    } else {
+      return [{ r: 0, g: 0, b: 0, a: 1 }, "invalid"];
+    }
+  }
+
+  Parsers.push(nameParser as unknown as TParser);
 };
 
 export default NamePlugin;

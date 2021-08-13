@@ -1,3 +1,4 @@
+import { HEXtoRGB } from "../conversions/hex";
 import { TInput, Irgba, TFormat, Ihexa, THexStr } from "../types/colormaster";
 import { isHEXObject } from "../utils/typeGuards";
 
@@ -20,9 +21,4 @@ export function hexaParser(color: TInput): [Irgba, TFormat] {
   }
 
   return [{ r: 0, g: 0, b: 0, a: 1 }, "invalid"];
-}
-
-export function HEXtoRGB(obj: Ihexa): Irgba {
-  const [r, g, b, a] = Object.values(obj).map((part) => parseInt(part, 16));
-  return { r, g, b, a: a / 255 ?? 1 } as Irgba;
 }

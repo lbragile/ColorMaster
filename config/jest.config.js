@@ -1,4 +1,4 @@
-const ignore_arr = ["(<rootDir>/)(?=(node_modules|build|public))", "<rootDir>/src/utils/Tree.ts"];
+const ignore_arr = ["(<rootDir>/)(?=(node_modules|dist|public))"];
 
 module.exports = {
   rootDir: "../",
@@ -9,9 +9,6 @@ module.exports = {
       tsConfig: "config/tsconfig.json",
       babelConfig: "config/.babelrc.json"
     }
-  },
-  moduleNameMapper: {
-    "\\.(jpg|jpeg|png|gif|css|scss)$": "<rootDir>/tests/__mocks__/emptyMock.ts"
   },
   moduleFileExtensions: ["js", "ts"],
   testPathIgnorePatterns: ignore_arr,

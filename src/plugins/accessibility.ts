@@ -1,5 +1,5 @@
+import { HSLtoRGB } from "../conversions/hsl";
 import { WebSafe as WebSafeArr } from "../enums/colors";
-import { HSLtoRGB } from "../parsers/hsl";
 import { IA11yOpts, IReadable, Irgba, TInput, TPlugin } from "../types/colormaster";
 import { channelWiseDifference, getRGBArr, sRGB } from "../utils/numeric";
 

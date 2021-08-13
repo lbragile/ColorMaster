@@ -1,3 +1,5 @@
+import { TNumArr } from "../types/colormaster";
+
 /**
  * Restricts the value of `val` to be between `min` and `max` for number inputs
  * @param min Lower bound (0)
@@ -53,4 +55,26 @@ export function sRGB(value: number): number {
  */
 export function rng(max: number): number {
   return Math.floor(Math.random() * max);
+}
+
+/**
+ * Transforms an input RGBA string into an RGB ([r, g, b]) numeric array
+ * @param str Input RGBA string from which the RGB values are extracted
+ * @param alternative If the string is not RGBA, this array is returned instead
+ *
+ * @returns An RGBA array based on the input string in the form [r, g, b]
+ */
+export function getRGBArr(str: string, alternative = [0, 0, 0]): TNumArr {
+  return (str.match(/\d{1,3}/g)?.map((val) => +val) ?? alternative) as TNumArr;
+}
+
+/**
+ * Given two RGB arrays, this computes the sum of their channel wise difference
+ * @param rgb1 First RGB array
+ * @param rgb2 Second RGB array
+ *
+ * @returns The sum of absolute differences between the channels of the two input RGB arrays
+ */
+export function channelWiseDifference(rgb1: TNumArr, rgb2: TNumArr): number {
+  return Math.abs(rgb1[0] - rgb2[0]) + Math.abs(rgb1[1] - rgb2[1]) + Math.abs(rgb1[2] - rgb2[2]);
 }

@@ -1,5 +1,6 @@
 import { RGBExtended } from "../enums/colors";
 import { TPlugin } from "../types/colormaster";
+import { channelWiseDifference, getRGBArr } from "../utils/numeric";
 
 declare module "../colormaster" {
   interface ColorMaster {
@@ -39,9 +40,7 @@ const NamePlugin: TPlugin = (CM): void => {
     } else {
       let minDist = Number.POSITIVE_INFINITY;
       for (let i = 0; i < values.length; i++) {
-        const [Rp, Gp, Bp] = values[i].match(/\d{1,3}/g)?.map((val) => +val) ?? [0, 0, 0];
-
-        const currDist = Math.abs(Rp - r) + Math.abs(Gp - g) + Math.abs(Bp - b);
+        const currDist = channelWiseDifference(getRGBArr(values[i]), [r, g, b]);
         if (currDist < minDist) {
           minDist = currDist;
           matchStr = keys[i];
@@ -53,7 +52,7 @@ const NamePlugin: TPlugin = (CM): void => {
   };
 
   CM.prototype.fromName = function (name: keyof typeof RGBExtended) {
-    const [r, g, b] = RGBExtended[name].match(/\d{1,3}/g)?.map((val) => +val) ?? [0, 0, 0];
+    const [r, g, b] = getRGBArr(RGBExtended[name]);
     return new CM({ r, g, b });
   };
 };

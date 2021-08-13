@@ -1,7 +1,7 @@
 import { HueColors } from "./enums/colors";
 import { hexaParser } from "./parsers/hex";
-import { HSLtoRGB, hslaParser } from "./parsers/hsl";
-import { rgbaParser, RGBtoHEX, RGBtoHSL } from "./parsers/rgb";
+import { hslaParser, HSLtoRGB } from "./parsers/hsl";
+import { rgbaParser, RGBtoHEX, RGBtoHSL, RGBtoLCH } from "./parsers/rgb";
 import {
   IAlphaInvert,
   IColorMaster,
@@ -13,7 +13,7 @@ import {
   TInput,
   TNumArr
 } from "./types/colormaster";
-import { adjustHue, clamp, round } from "./utils/numeric";
+import { adjustHue, clamp, rng, round } from "./utils/numeric";
 
 /**
  * Generates color space instances that ColorMaster interpret.
@@ -74,6 +74,10 @@ export class ColorMaster implements IColorMaster {
     return Object.values(this.#color) as Required<TNumArr>;
   }
 
+  isValid(): boolean {
+    return this.#format !== "invalid";
+  }
+
   rgba(): Irgba {
     return this.#color;
   }
@@ -100,21 +104,6 @@ export class ColorMaster implements IColorMaster {
     const [h, s, l, a] = Object.values(this.hsla()).map((val, i) => round(val, precision[i] ?? 1));
     return withAlpha ? `hsla(${adjustHue(h)}, ${s}%, ${l}%, ${a})` : `hsl(${adjustHue(h)}, ${s}%, ${l}%)`;
   }
-
-  // changeValueTo(channel: TChannelHSL, value: number): HSLColors {
-  //   value = channel === "hue" ? value % 360 : clampNum(0, value, channel === "alpha" ? 1 : BOUNDS.HSL_LIGHTNESS);
-  //   this.object = { ...this.object, [channel[0]]: value };
-  //   return this;
-  // }
-
-  // changeValueBy(channel: TChannelHSL, delta: number): HSLColors {
-  //   const firstChannelLetter = channel[0] as keyof Ihsla;
-  //   const currVal = this.object[firstChannelLetter] + delta;
-  //   const value =
-  //     channel === "hue" ? currVal % 360 : clampNum(0, currVal, channel === "alpha" ? 1 : BOUNDS.HSL_LIGHTNESS);
-  //   this.object[channel[0] as keyof Ihsla] = value < 0 ? value + 360 : value;
-  //   return this;
-  // }
 
   hueTo(value: number | keyof typeof HueColors): ColorMaster {
     const { h, s, l, a } = this.hsla();
@@ -172,4 +161,28 @@ export class ColorMaster implements IColorMaster {
   rotate(value: number): ColorMaster {
     return this.hueBy(value);
   }
+
+  mix(color: TInput, ratio = 0.5): ColorMaster {
+    ratio = clamp(0, ratio, 1);
+
+    // ? https://math.stackexchange.com/a/3263100 ?
+    const lcha1 = Object.values(RGBtoLCH(this.rgba()));
+    const lcha2 = Object.values(RGBtoLCH(new ColorMaster(color).rgba()));
+
+    const [l, c, h, a] = lcha1.map((val, i) => val * (1 - ratio) + lcha2[i] * ratio);
+
+    // TODO convert LCHtoRGB, give option to user to return array of evenly spaced mixtures, allow user to input percentages
+    console.log(l, c, h, a);
+    return new ColorMaster("#f70");
+  }
 }
+
+/**
+ * Generates a random RGBA color which can then be converted into any color space
+ * @returns A random RGBA color instance that is properly bounded
+ */
+export function random(): ColorMaster {
+  return new ColorMaster({ r: rng(255), g: rng(255), b: rng(255), a: Math.random() });
+}
+
+export default (color: TInput): ColorMaster => new ColorMaster(color);

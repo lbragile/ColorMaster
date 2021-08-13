@@ -37,6 +37,24 @@ export interface Ihex {
   b: THexStr;
 }
 
+export interface Ixyz {
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface Ilab {
+  l: number;
+  a: number;
+  b: number;
+}
+
+export interface Ilch {
+  l: number;
+  c: number;
+  h: number;
+}
+
 export interface Irgba extends Irgb {
   a: number;
 }
@@ -47,6 +65,18 @@ export interface Ihsla extends Ihsl {
 
 export interface Ihexa extends Ihex {
   a: string;
+}
+
+export interface Ixyza extends Ixyz {
+  a: number;
+}
+
+export interface Ilaba extends Ilab {
+  alpha: number;
+}
+
+export interface Ilcha extends Ilch {
+  a: number;
 }
 
 /**
@@ -193,6 +223,11 @@ export interface IColorMaster {
   readonly lightness: number;
 
   /**
+   * Determines if the current color instance is valid (based on the format returned by the parsers)
+   */
+  isValid(): boolean;
+
+  /**
    * Gives the string representation of an input RGBA color object
    * @param opts -
    *  - withAlpha → whether or not to include the alpha channel in the output
@@ -305,4 +340,13 @@ export interface IColorMaster {
    * @returns The instance that was acted upon → for function chaining
    */
   rotate(value: number): ColorMaster;
+
+  /**
+   * Mix current color instance with another based on a given ratio (done in LCHA space for best results)
+   * @note The ratio represents a percentage of the input `color` that will be mixed
+   *       with the remaining portion of the current color instance
+   * @example mix('#fff', 0.2) → "mix 80% of the current color with 20% of white"
+   * @returns A new color instance corresponding to the new mixture
+   */
+  mix(color: TInput, ratio: number): ColorMaster;
 }

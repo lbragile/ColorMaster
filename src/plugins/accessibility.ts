@@ -1,8 +1,7 @@
-import { ColorMaster } from "..";
 import { WebSafe as WebSafeArr } from "../enums/colors";
 import { HSLtoRGB } from "../parsers/hsl";
 import { IA11yOpts, IReadable, Irgba, TInput, TPlugin } from "../types/colormaster";
-import { sRGB } from "../utils/numeric";
+import { channelWiseDifference, getRGBArr, sRGB } from "../utils/numeric";
 
 declare module "../colormaster" {
   interface ColorMaster {
@@ -158,7 +157,7 @@ const A11yPlugin: TPlugin = (CM): void => {
   CM.prototype.contrast = function ({ bgColor = "#fff", precision = 4, ratio = false }: IA11yOpts = {}):
     | string
     | number {
-    const bgColorObj = new ColorMaster(bgColor);
+    const bgColorObj = new CM(bgColor);
     const Lf = this.luminance();
     const Lb = bgColorObj.luminance();
     const contrast = ((Math.max(Lf, Lb) + 0.05) / (Math.min(Lf, Lb) + 0.05)).toFixed(precision);
@@ -173,7 +172,7 @@ const A11yPlugin: TPlugin = (CM): void => {
   };
 
   CM.prototype.equalTo = function (compareColor = "#fff"): boolean {
-    return JSON.stringify(this.array) === JSON.stringify(new ColorMaster(compareColor).array);
+    return JSON.stringify(this.array) === JSON.stringify(new CM(compareColor).array);
   };
 
   CM.prototype.isLight = function (): boolean {
@@ -245,20 +244,17 @@ const A11yPlugin: TPlugin = (CM): void => {
 
     let closestMatch: Irgba = { r, g, b, a };
     for (let i = 0; i < WebSafeArr.length; i++) {
-      const matches = WebSafeArr[i].match(/\d{1,3}/g);
-      if (matches) {
-        [Rc, Gc, Bc] = matches.map((val) => +val);
-      }
+      [Rc, Gc, Bc] = getRGBArr(WebSafeArr[i], [Rc, Gc, Bc]);
 
       // channel wise distance
-      const currDist = Math.abs(Rc - r) + Math.abs(Gc - g) + Math.abs(Bc - b);
+      const currDist = channelWiseDifference([Rc, Gc, Bc], [r, g, b]);
       if (currDist < minDist) {
         minDist = currDist;
         closestMatch = { r: Rc, g: Gc, b: Bc, a };
       }
     }
 
-    return new ColorMaster(closestMatch);
+    return new CM(closestMatch);
   };
 };
 

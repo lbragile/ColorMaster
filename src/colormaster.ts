@@ -1,6 +1,7 @@
 import { HueColors } from "./enums/colors";
 import { hexaParser } from "./parsers/hex";
 import { hslaParser, HSLtoRGB } from "./parsers/hsl";
+import { LCHtoRGB } from "./parsers/lch";
 import { rgbaParser, RGBtoHEX, RGBtoHSL, RGBtoLCH } from "./parsers/rgb";
 import {
   IAlphaInvert,
@@ -165,15 +166,12 @@ export class ColorMaster implements IColorMaster {
   mix(color: TInput, ratio = 0.5): ColorMaster {
     ratio = clamp(0, ratio, 1);
 
-    // ? https://math.stackexchange.com/a/3263100 ?
     const lcha1 = Object.values(RGBtoLCH(this.rgba()));
     const lcha2 = Object.values(RGBtoLCH(new ColorMaster(color).rgba()));
 
     const [l, c, h, a] = lcha1.map((val, i) => val * (1 - ratio) + lcha2[i] * ratio);
 
-    // TODO convert LCHtoRGB, give option to user to return array of evenly spaced mixtures, allow user to input percentages
-    console.log(l, c, h, a);
-    return new ColorMaster("#f70");
+    return new ColorMaster(LCHtoRGB({ l, c, h, a }));
   }
 }
 

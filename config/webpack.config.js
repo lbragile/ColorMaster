@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const CopyPlugin = require("copy-webpack-plugin");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+
 const path = require("path");
 const glob = require("glob");
 
@@ -45,7 +47,14 @@ const patterns = [
   }))
 ];
 
-const plugins = [new CopyPlugin({ patterns })];
+const plugins = [
+  new CopyPlugin({ patterns }),
+  new BundleAnalyzerPlugin({
+    defaultSizes: "gzip",
+    openAnalyzer: process.env.NODE_ENV === "production",
+    analyzerMode: "static"
+  })
+];
 
 /* WEBPACK CONFIG */
 module.exports = {

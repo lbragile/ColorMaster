@@ -44,7 +44,18 @@ export function adjustHue(value: number): number {
  */
 export function sRGB(value: number): number {
   value /= 255;
-  return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+  return value < 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4);
+}
+
+/**
+ * Inverse of sRGB - converts sRGB to RGB color space value
+ * @param value The sRGB channel value to convert
+ *
+ * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
+ * @returns RGB equivalent of the standard RGB channel value provided
+ */
+export function sRGBInv(value: number): number {
+  return (value > 0.0031308 ? 1.055 * Math.pow(value, 1 / 2.4) - 0.055 : 12.92 * value) * 255.0;
 }
 
 /**

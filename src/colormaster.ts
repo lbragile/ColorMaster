@@ -1,10 +1,12 @@
 import { HueColors } from "./enums/colors";
-import Parsers from "./parsers/all";
-import { IColorMaster, Ihexa, Ihsla, Irgba, TFormat, TInput, TNumArr } from "./types/colormaster";
+import { IColorMaster, Ihexa, Ihsla, Irgba, TFormat, TInput, TNumArr, TParser } from "./types/colormaster";
 import { adjustHue, clamp, rng, round } from "./utils/numeric";
 import { RGBtoHEX, RGBtoHSL, RGBtoLCH } from "./conversions/rgb";
 import { LCHtoRGB } from "./conversions/lch";
 import { HSLtoRGB } from "./conversions/hsl";
+import { hexaParser } from "./parsers/hex";
+import { hslaParser } from "./parsers/hsl";
+import { rgbaParser } from "./parsers/rgb";
 
 /**
  * Generates color space instances that ColorMaster interpret.
@@ -20,9 +22,10 @@ import { HSLtoRGB } from "./conversions/hsl";
 export class ColorMaster implements IColorMaster {
   #color: Irgba = { r: 0, g: 0, b: 0, a: 1 };
   #format: TFormat = "rgb";
+  static Parsers: TParser[] = [rgbaParser, hexaParser, hslaParser];
 
   constructor(color: TInput) {
-    const result = Parsers.map((parser) => parser(color)).find((parsedArr) => parsedArr[1] !== "invalid");
+    const result = ColorMaster.Parsers.map((parser) => parser(color)).find((parsedArr) => parsedArr[1] !== "invalid");
     if (result) {
       const { r, g, b, a } = result[0];
       this.#format = result[1];

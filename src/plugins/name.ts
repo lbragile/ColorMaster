@@ -1,5 +1,4 @@
 import { RGBExtended } from "../enums/colors";
-import Parsers from "../parsers/all";
 import { Irgba, TFormat, TParser, TPlugin } from "../types/colormaster";
 import { channelWiseDifference, getRGBArr } from "../utils/numeric";
 
@@ -59,7 +58,7 @@ const NamePlugin: TPlugin = (CM): void => {
     }
   }
 
-  Parsers.push(nameParser as TParser);
+  CM.Parsers.push(nameParser as TParser);
 };
 
 export default NamePlugin;

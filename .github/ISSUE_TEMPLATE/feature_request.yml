@@ -1,0 +1,59 @@
+name: 🧪 Feature
+description: Use this template to suggest a new feature or enhancement
+title: "<title>"
+labels: [enhancement]
+assignees:
+  - lbragile
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: textarea
+    attributes:
+      label: Description
+      description: Is your feature request related to a problem? Please provide a clear and concise description.
+      placeholder: When using <x>, I would like to have the option to perform <y>...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: Describe the solution you'd like.
+      placeholder: A clear and concise description of what you want to happen.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Alternatives
+      description: Describe alternatives you've considered.
+      placeholder: A clear and concise description of any alternative solutions or features you've considered.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Acceptance Criteria
+      description: |
+        List all possible criteria that you can come up with which would resolve the issue. 
+
+        These will be used during testing and to approve the corresponding Pull Request.
+      value: |
+        1. [ ] When this happens, the following should happen
+        2. [ ] Edge cases
+        3. [ ] **(regression)**
+        ...
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Anything else?
+      description: |
+        Links? References? Anything that will give us more context about the issue you are encountering!
+
+        Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
+    validations:
+      required: false

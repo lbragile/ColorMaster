@@ -1,4 +1,4 @@
-const ignore_arr = ["(<rootDir>/)(?=(node_modules|build|public))", "<rootDir>/src/utils/Tree.ts"];
+const ignore_arr = ["(<rootDir>/)(?=(node_modules|dist|public))"];
 
 module.exports = {
   rootDir: "../",
@@ -10,9 +10,6 @@ module.exports = {
       babelConfig: "config/.babelrc.json"
     }
   },
-  moduleNameMapper: {
-    "\\.(jpg|jpeg|png|gif|css|scss)$": "<rootDir>/tests/__mocks__/emptyMock.ts"
-  },
   moduleFileExtensions: ["js", "ts"],
   testPathIgnorePatterns: ignore_arr,
   coveragePathIgnorePatterns: ignore_arr,
@@ -22,10 +19,10 @@ module.exports = {
   verbose: true,
   coverageThreshold: {
     global: {
-      statements: 50,
-      branches: 50,
-      functions: 50,
-      lines: 50
+      statements: 85,
+      branches: 85,
+      functions: 85,
+      lines: 85
     }
   }
 };

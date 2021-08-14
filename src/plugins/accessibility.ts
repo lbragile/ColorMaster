@@ -13,6 +13,7 @@ declare module "../colormaster" {
      * - percentage → Whether or not to multiply the output by 100
      *
      * @see {@link https://www.w3.org/TR/AERT/#color-contrast}
+     * @default { precision = 4, percentage = false }
      * @returns A value in the range [0, 1] = [dim (black), bright (white)] (or [0, 100] if `percentage = true`)
      */
     brightness(opts?: IA11yOpts): number;
@@ -25,6 +26,7 @@ declare module "../colormaster" {
      * - percentage → Whether or not to multiply the output by 100
      *
      * @see {@link https://www.w3.org/TR/WCAG20/#relativeluminancedef}
+     * @default { precision = 4, percentage = false }
      * @returns A value in the range [0, 1] = [darkest black, lightest white] (or [0, 100] if `percentage = true`)
      */
     luminance(opts?: IA11yOpts): number;
@@ -33,11 +35,13 @@ declare module "../colormaster" {
      * Given a background color as input, determines the contrast ratio if the current color is used as the foreground color
      *
      * @param opts -
+     * - bgColor → The background color to contrast against
      * - precision → How many decimal places to use in the output
      * - ratio → Whether or not to append `:1` to the output (express as a ratio)
      *
      * @note This ratio will range from `1:1 → white fg : white bg` to `21:1 → black fg : white bg`
      * @see {@link RGBColors.readableOn readableOn} for readable contrast ratios
+     * @default { bgColor = "#fff", precision = 4, ratio = false }
      * @returns The contrast between current color instance and `bgColor` as a number (value → `ratio = false`) or string ("value:1" → `ratio = true`)
      */
     contrast(opts?: IA11yOpts): string | number;
@@ -51,19 +55,25 @@ declare module "../colormaster" {
      * | **Large** |  3.0:1  |  4.5:1   |
      *
      * @param opts -
+     * - bgColor → The background color that the current color will be read on
      * - size → Either "body" or "large" text size (large is 120-150% larger than body text)
      * - ratio → Either "minimum" ("AA" rating) or "enhanced" ("AAA" rating)
      *
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast}
+     * @default { bgColor = "#fff", size = "body", ratio = "minimum" }
      * @returns Whether or not the color is readable on `bgColor`
      */
     readableOn(opts?: IReadable): boolean;
 
     /**
      * Given an input color to compare with, determine if that color is identical to the current color instance
+     * @param cmpColor The color to compare against for equality
+     *
+     * @default "#fff"
+     * @note Alpha values are included in the equality checks
      * @returns True if the two color instances are identical (same RGBA channel values). False otherwise.
      */
-    equalTo(compareColor?: TInput): boolean;
+    equalTo(cmpColor?: TInput | ColorMaster): boolean;
 
     /**
      * Determines if a given color is light based on its brightness (brightness ≥ 0.50)
@@ -113,6 +123,8 @@ declare module "../colormaster" {
      * @param opts - reason → Whether or not to include a reason for the output
      *
      * @note `reason` only provides extra information when the color instance is not pure hue
+     * @default { reason = true }
+     * @returns boolean (if reason is truthy), an object containing the reason for purity determination (if reason is falsy)
      */
     isPureHue(opts?: { reason?: boolean }): boolean | { pure: boolean; reason: string };
 
@@ -142,37 +154,34 @@ declare module "../colormaster" {
 }
 
 const A11yPlugin: TPlugin = (CM): void => {
-  CM.prototype.brightness = function ({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+  CM.prototype.brightness = function ({ precision = 4, percentage = false } = {}): number {
     const { r, g, b } = this.rgba();
     const brightness = +((r * 0.299 + g * 0.587 + b * 0.114) / 255).toFixed(precision);
     return percentage ? brightness * 100 : brightness;
   };
 
-  CM.prototype.luminance = function ({ precision = 4, percentage = false }: IA11yOpts = {}): number {
+  CM.prototype.luminance = function ({ precision = 4, percentage = false } = {}): number {
     const { r, g, b } = this.rgba();
     const L = +(0.2126 * sRGB(r) + 0.7152 * sRGB(g) + 0.0722 * sRGB(b)).toFixed(precision);
     return percentage ? L * 100 : L;
   };
 
-  CM.prototype.contrast = function ({ bgColor = "#fff", precision = 4, ratio = false }: IA11yOpts = {}):
-    | string
-    | number {
-    const bgColorObj = new CM(bgColor);
+  CM.prototype.contrast = function ({ bgColor = "#fff", precision = 4, ratio = false } = {}): string | number {
     const Lf = this.luminance();
-    const Lb = bgColorObj.luminance();
+    const Lb = (bgColor instanceof CM ? bgColor : new CM(bgColor)).luminance();
     const contrast = ((Math.max(Lf, Lb) + 0.05) / (Math.min(Lf, Lb) + 0.05)).toFixed(precision);
     return ratio ? contrast + ":1" : +contrast;
   };
 
-  CM.prototype.readableOn = function ({ bgColor = "#fff", size = "body", ratio = "minimum" }: IReadable = {}): boolean {
+  CM.prototype.readableOn = function ({ bgColor = "#fff", size = "body", ratio = "minimum" } = {}): boolean {
     const contrast = this.contrast({ bgColor });
     if (size === "body" && ratio === "enhanced") return contrast >= 7.0;
     else if (size === "large" && ratio === "minimum") return contrast >= 3.0;
     else return contrast >= 4.5;
   };
 
-  CM.prototype.equalTo = function (compareColor = "#fff"): boolean {
-    return JSON.stringify(this.array) === JSON.stringify(new CM(compareColor).array);
+  CM.prototype.equalTo = function (cmpColor = "#fff"): boolean {
+    return JSON.stringify(this.array) === JSON.stringify((cmpColor instanceof CM ? cmpColor : new CM(cmpColor)).array);
   };
 
   CM.prototype.isLight = function (): boolean {
@@ -204,9 +213,7 @@ const A11yPlugin: TPlugin = (CM): void => {
     return this.hsla().s < 100.0;
   };
 
-  CM.prototype.isPureHue = function ({ reason = true }: { reason?: boolean } = {}):
-    | boolean
-    | { pure: boolean; reason: string } {
+  CM.prototype.isPureHue = function ({ reason = true } = {}): boolean | { pure: boolean; reason: string } {
     if (this.isTinted()) {
       return reason ? { pure: false, reason: "tinted" } : false;
     } else if (this.isShaded()) {

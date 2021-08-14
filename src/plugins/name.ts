@@ -18,7 +18,7 @@ declare module "../colormaster" {
 }
 
 const NamePlugin: TPlugin = (CM): void => {
-  CM.prototype.name = function ({ exact = true }: { exact?: boolean } = {}): string {
+  CM.prototype.name = function ({ exact = true } = {}): string {
     const { r, g, b, a } = this.rgba();
 
     if (a === 0) return "transparent";
@@ -59,7 +59,7 @@ const NamePlugin: TPlugin = (CM): void => {
     }
   }
 
-  Parsers.push(nameParser as unknown as TParser);
+  Parsers.push(nameParser as TParser);
 };
 
 export default NamePlugin;

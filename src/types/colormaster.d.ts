@@ -1,5 +1,5 @@
 import { ColorMaster } from "../colormaster";
-import { HueColors } from "../enums/colors";
+import { HueColors, RGBExtended } from "../enums/colors";
 
 type THexDigit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 type THexLower = "a" | "b" | "c" | "d" | "e" | "f";
@@ -31,6 +31,12 @@ export interface Ihsl {
   l: number;
 }
 
+export interface Ihsv {
+  h: number;
+  s: number;
+  v: number;
+}
+
 export interface Ihex {
   r: THexStr;
   g: THexStr;
@@ -60,6 +66,10 @@ export interface Irgba extends Irgb {
 }
 
 export interface Ihsla extends Ihsl {
+  a: number;
+}
+
+export interface Ihsva extends Ihsv {
   a: number;
 }
 
@@ -99,7 +109,7 @@ export type TOperator = "add" | "sub";
  */
 export interface IStringOpts {
   alpha?: boolean;
-  precision?: TNumArr;
+  precision?: Required<TNumArr>;
 }
 
 /**
@@ -109,16 +119,15 @@ export interface IA11yOpts {
   precision?: number;
   percentage?: boolean;
   ratio?: boolean;
-  bgColor?: TInput;
+  bgColor?: TInput | ColorMaster;
 }
 
 /**
  * Options for determining if a color is readable
  */
-export interface IReadable {
+export interface IReadable extends Pick<IA11yOpts, "bgColor"> {
   size?: "body" | "large";
   ratio?: "minimum" | "enhanced";
-  bgColor?: TInput;
 }
 
 /**
@@ -168,7 +177,7 @@ export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "xyz" | "lab"
 
 export type TPlugin = (CM: typeof ColorMaster) => void;
 
-export type TParser = (color: TInput) => [Irgba, TFormat];
+export type TParser = (color: TInput | keyof typeof RGBExtended) => [Irgba, TFormat];
 
 export interface IColorMaster {
   /**

@@ -1,6 +1,6 @@
 import { HueColors } from "./enums/colors";
 import Parsers from "./parsers/all";
-import { IColorMaster, Ihexa, Ihsla, Irgba, IStringOpts, TFormat, TInput, TNumArr } from "./types/colormaster";
+import { IColorMaster, Ihexa, Ihsla, Irgba, TFormat, TInput, TNumArr } from "./types/colormaster";
 import { adjustHue, clamp, rng, round } from "./utils/numeric";
 import { RGBtoHEX, RGBtoHSL, RGBtoLCH } from "./conversions/rgb";
 import { LCHtoRGB } from "./conversions/lch";
@@ -11,7 +11,11 @@ import { HSLtoRGB } from "./conversions/hsl";
  * This allows the user to manipulate colors via helpful functions/wrappers.
  *
  * @note If a color's values are not valid, ColorMaster uses "black" or a mixture
- *       with provided values that are valid (in the corresponding colorspace) by default
+ *       with provided values that are valid (in the corresponding colorspace) by default.
+ *       Additionally, ColorMaster works in RGBA space internally by default and only converts to other color
+ *       spaces as necessary. For example, printing a string requires conversion to the correct color space.
+ *       On that end, it is also easier to work with HSLA space when performing rotation and other hue related adjustments.
+ *       This approach ensures the highest possible accuracy when converting to other color spaces.
  */
 export class ColorMaster implements IColorMaster {
   #color: Irgba = { r: 0, g: 0, b: 0, a: 1 };
@@ -80,17 +84,17 @@ export class ColorMaster implements IColorMaster {
     return RGBtoHEX(this.#color, round);
   }
 
-  stringRGB({ alpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
+  stringRGB({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
     const [r, g, b, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
     return alpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
   }
 
-  stringHEX({ alpha = true }: IStringOpts = {}): string {
+  stringHEX({ alpha = true } = {}): string {
     const [r, g, b, a] = Object.values(this.hexa({ round: true }));
     return `#${r}${g}${b}${alpha ? a : ""}`;
   }
 
-  stringHSL({ alpha = true, precision = [0, 0, 0, 1] }: IStringOpts = {}): string {
+  stringHSL({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
     const [h, s, l, a] = Object.values(this.hsla()).map((val, i) => round(val, precision[i] ?? 1));
     return alpha ? `hsla(${adjustHue(h)}, ${s}%, ${l}%, ${a})` : `hsl(${adjustHue(h)}, ${s}%, ${l}%)`;
   }
@@ -152,11 +156,11 @@ export class ColorMaster implements IColorMaster {
     return this.hueBy(value);
   }
 
-  mix(color: TInput, ratio = 0.5): ColorMaster {
+  mix(color: TInput | ColorMaster, ratio = 0.5): ColorMaster {
     ratio = clamp(0, ratio, 1);
 
     const lcha1 = Object.values(RGBtoLCH(this.rgba()));
-    const lcha2 = Object.values(RGBtoLCH(new ColorMaster(color).rgba()));
+    const lcha2 = Object.values(RGBtoLCH((color instanceof ColorMaster ? color : new ColorMaster(color)).rgba()));
 
     const [l, c, h, a] = lcha1.map((val, i) => val * (1 - ratio) + lcha2[i] * ratio);
 

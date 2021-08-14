@@ -1,18 +1,11 @@
-import { Irgba, Ihexa, THexStr, Ihsla, Ixyza, Ilaba, Ilcha } from "../types/colormaster";
+import { Irgba, Ihexa, THexStr, Ihsla, Ixyza, Ilaba, Ilcha, Ihsva } from "../types/colormaster";
 import { sRGB, adjustHue } from "../utils/numeric";
 
-export function RGBtoHEX(obj: Irgba, round = false): Ihexa {
-  let { r, g, b, a } = obj;
-  a *= 255;
-
-  if (round) {
-    [r, g, b, a] = [r, g, b, a].map((val) => val && Math.round(val));
-  }
-  const [Rp, Gp, Bp, Ap] = [r, g, b, a ?? 255].map((x) => x.toString(16).padStart(2, "0").toUpperCase() as THexStr);
-  return { r: Rp, g: Gp, b: Bp, a: Ap };
-}
-
-export function RGBtoHSL(obj: Irgba): Ihsla {
+/**
+ * Calculation for HSLA and HSVA from RGBA space is almost identical, thus this groups the common logic
+ * @returns The necessary details to compute the required color space properties
+ */
+function commonHS(obj: Irgba) {
   const [Rp, Gp, Bp] = Object.values(obj).map((val) => val / 255);
 
   const Cmax = Math.max(Rp, Gp, Bp);
@@ -27,10 +20,40 @@ export function RGBtoHSL(obj: Irgba): Ihsla {
       : Cmax === Gp
       ? (Bp - Rp) / delta + 2
       : (Rp - Gp) / delta + 4;
+
+  return { Cmin, Cmax, H, delta };
+}
+
+export function RGBtoHEX(obj: Irgba, round = false): Ihexa {
+  let { r, g, b, a } = obj;
+  a *= 255;
+
+  if (round) {
+    [r, g, b, a] = [r, g, b, a].map((val) => val && Math.round(val));
+  }
+  const [Rp, Gp, Bp, Ap] = [r, g, b, a ?? 255].map((x) => x.toString(16).padStart(2, "0").toUpperCase() as THexStr);
+  return { r: Rp, g: Gp, b: Bp, a: Ap };
+}
+
+/**
+ * @see {@link https://www.rapidtables.com/convert/color/rgb-to-hsl.html}
+ */
+export function RGBtoHSL(obj: Irgba): Ihsla {
+  const { Cmin, Cmax, H, delta } = commonHS(obj);
   const L = (Cmax + Cmin) / 2;
   const S = delta === 0 ? 0 : delta / (1 - Math.abs(2 * L - 1));
 
-  return { h: H * 60, s: S * 100, l: L * 100, a: obj.a ?? 1 };
+  return { h: adjustHue(H * 60), s: S * 100, l: L * 100, a: obj.a ?? 1 };
+}
+
+/**
+ * @see {@link https://www.rapidtables.com/convert/color/rgb-to-hsv.html}
+ */
+export function RGBtoHSV(obj: Irgba): Ihsva {
+  const { Cmax, H, delta } = commonHS(obj);
+  const S = delta === 0 ? 0 : delta / Cmax;
+
+  return { h: adjustHue(H * 60), s: S * 100, v: Cmax * 100, a: obj.a ?? 1 };
 }
 
 /**

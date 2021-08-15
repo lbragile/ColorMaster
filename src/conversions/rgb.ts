@@ -1,4 +1,5 @@
 import { Irgba, Ihexa, THexStr, Ihsla, Ixyza, Ilaba, Ilcha, Ihsva } from "../types/colormaster";
+import { multiplyMatrix } from "../utils/matrix";
 import { sRGB, adjustHue } from "../utils/numeric";
 
 /**
@@ -24,9 +25,27 @@ function commonHS(obj: Irgba) {
   return { Cmin, Cmax, H, delta };
 }
 
+/**
+ * Bradford chromatic adaptation from D50 to D65
+ * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
+ *
+ * @note For best results, XYZ color space is assumed to be adapted to a D50 reference white
+ */
+function D65_to_D50(obj: Ixyza): Ixyza {
+  const M = [
+    [1.0479298208405488, 0.022946793341019088, -0.05019222954313557],
+    [0.029627815688159344, 0.990434484573249, -0.01707382502938514],
+    [-0.009243058152591178, 0.015055144896577895, 0.7518742899580008]
+  ];
+
+  const [x, y, z] = multiplyMatrix(M, Object.values(obj));
+
+  return { x, y, z, a: obj.a };
+}
+
 export function RGBtoHEX(obj: Irgba, round = false): Ihexa {
   let { r, g, b, a } = obj;
-  a *= 255;
+  if (a) a *= 255;
 
   if (round) {
     [r, g, b, a] = [r, g, b, a].map((val) => val && Math.round(val));
@@ -67,13 +86,13 @@ export function RGBtoXYZ(obj: Irgba): Ixyza {
     [0.01933081871559182, 0.11919477979462598, 0.9505321522496607]
   ];
 
-  const [Rs, Gs, Bs] = Object.values(obj).map((val) => sRGB(val));
+  const [x, y, z] = multiplyMatrix(
+    M,
+    Object.values(obj).map((val) => sRGB(val))
+  );
 
-  const X = M[0][0] * Rs + M[0][1] * Gs + M[0][2] * Bs;
-  const Y = M[1][0] * Rs + M[1][1] * Gs + M[1][2] * Bs;
-  const Z = M[2][0] * Rs + M[2][1] * Gs + M[2][2] * Bs;
-
-  return { x: X, y: Y, z: Z, a: obj.a };
+  // ensure it is adapted to D50
+  return D65_to_D50({ x, y, z, a: obj.a });
 }
 
 /**

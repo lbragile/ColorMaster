@@ -88,7 +88,7 @@ export class ColorMaster implements IColorMaster {
   }
 
   stringRGB({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
-    const [r, g, b, a] = this.array.map((val, i) => round(val, precision[i] ?? 1));
+    const [r, g, b, a] = this.array.map((val, i) => round(val ?? 1, precision[i] ?? 1));
     return alpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
   }
 

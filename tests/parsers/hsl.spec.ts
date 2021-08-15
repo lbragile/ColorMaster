@@ -1,4 +1,4 @@
-import CM from "../../src/colormaster";
+import CM from "../../src/index";
 
 test("string with percents", () => expect(CM("hsla(50%, 20%, 30%, 80%)").stringHSL()).toBe("hsla(180, 20%, 30%, 0.8)"));
 test("string without percents", () =>

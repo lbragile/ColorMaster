@@ -1,7 +1,7 @@
-import { IMonochromatic, TPlugin } from "../types/colormaster";
+import { IMonochromatic, TPlugin } from "../types";
 import { adjustHue, clamp } from "../utils/numeric";
 
-declare module "../colormaster" {
+declare module ".." {
   interface ColorMaster {
     /**
      * Generates an RGBA color instance array based on the corresponding harmony

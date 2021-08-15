@@ -1,4 +1,4 @@
-import { Irgba, Ixyza } from "../types/colormaster";
+import { Ixyza, Irgba } from "../types";
 import { multiplyMatrix } from "../utils/matrix";
 import { sRGBInv } from "../utils/numeric";
 

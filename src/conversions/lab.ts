@@ -1,4 +1,4 @@
-import { Ilaba, Irgba } from "../types/colormaster";
+import { Ilaba, Irgba } from "../types";
 import { XYZtoRGB } from "./xyz";
 
 // https://en.wikipedia.org/wiki/CIELAB_color_space

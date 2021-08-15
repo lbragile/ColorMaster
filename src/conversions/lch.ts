@@ -1,4 +1,4 @@
-import { Ilcha, Irgba } from "../types/colormaster";
+import { Ilcha, Irgba } from "../types";
 import { LABtoRGB } from "./lab";
 
 export function LCHtoRGB(obj: Ilcha): Irgba {

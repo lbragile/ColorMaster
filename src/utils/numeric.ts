@@ -1,4 +1,4 @@
-import { TNumArr } from "../types/colormaster";
+import { TNumArr } from "../types";
 
 /**
  * Restricts the value of `val` to be between `min` and `max` for number inputs

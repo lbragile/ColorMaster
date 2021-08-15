@@ -1,4 +1,4 @@
-import { TInput, Irgba, TFormat } from "../types/colormaster";
+import { TInput, Irgba, TFormat } from "../types";
 import { clamp } from "../utils/numeric";
 import { isRGBObject } from "../utils/typeGuards";
 

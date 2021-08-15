@@ -1,4 +1,4 @@
-import CM from "../../src/colormaster";
+import CM from "../../src/index";
 
 test("string with percents", () => expect(CM("rgba(50%, 20%, 30%, 80%)").stringRGB()).toBe("rgba(127, 51, 77, 0.8)"));
 test("string without percents", () => expect(CM("rgba(50, 20, 30, 0.8)").stringRGB()).toBe("rgba(50, 20, 30, 0.8)"));

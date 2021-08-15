@@ -1,4 +1,4 @@
-import { Irgba, Ihexa, THexStr, Ihsla, Ixyza, Ilaba, Ilcha, Ihsva } from "../types/colormaster";
+import { Irgba, Ixyza, Ihexa, THexStr, Ihsla, Ihsva, Ilaba, Ilcha } from "../types";
 import { multiplyMatrix } from "../utils/matrix";
 import { sRGB, adjustHue } from "../utils/numeric";
 

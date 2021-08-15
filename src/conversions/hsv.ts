@@ -1,4 +1,4 @@
-import { Ihsva, Irgba } from "../types/colormaster";
+import { Ihsva, Irgba } from "../types";
 
 /**
  * @see {@link https://www.rapidtables.com/convert/color/hsv-to-rgb.html}

@@ -1,4 +1,4 @@
-import CM from "../../src/colormaster";
+import CM from "../../src/index";
 
 test("string 3 digit", () => expect(CM("#fff").stringHEX()).toBe("#FFFFFFFF"));
 test("string 4 digit", () => expect(CM("#fffa").stringHEX()).toBe("#FFFFFFAA"));

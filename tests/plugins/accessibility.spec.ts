@@ -1,4 +1,4 @@
-import CM from "../../src/colormaster";
+import CM from "../../src/index";
 import { extendPlugins } from "../../src";
 import A11yPlugin from "../../src/plugins/accessibility";
 

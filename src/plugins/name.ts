@@ -1,8 +1,8 @@
 import { RGBExtended } from "../enums/colors";
-import { Irgba, TFormat, TParser, TPlugin } from "../types/colormaster";
+import { TPlugin, Irgba, TFormat, TParser } from "../types";
 import { channelWiseDifference, getRGBArr } from "../utils/numeric";
 
-declare module "../colormaster" {
+declare module ".." {
   interface ColorMaster {
     /**
      * Gets the color table HTML/CSS name for a given color
@@ -17,7 +17,7 @@ declare module "../colormaster" {
 }
 
 const NamePlugin: TPlugin = (CM): void => {
-  CM.prototype.name = function ({ exact = true } = {}): string {
+  CM.prototype.name = function ({ exact = true } = {}) {
     const { r, g, b, a } = this.rgba();
 
     if (a === 0) return "transparent";

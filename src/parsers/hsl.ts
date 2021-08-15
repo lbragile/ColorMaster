@@ -1,5 +1,5 @@
 import { HSLtoRGB } from "../conversions/hsl";
-import { TInput, Irgba, TFormat, Ihsla } from "../types/colormaster";
+import { TInput, Irgba, TFormat, Ihsla } from "../types";
 import { adjustHue, clamp } from "../utils/numeric";
 import { isHSLObject } from "../utils/typeGuards";
 

@@ -9,7 +9,8 @@ declare module ".." {
      * @param opts - exact → If true - attempts to find an exact match (undefined if not found), else finds the nearest color name
      *
      * @note Colors with an alpha value of '0' return 'transparent'. Also, colors with alpha < 1, return `CSS_NAME (with opacity)`
-     * @example CM.RGBAFrom("rgb(128, 0, 0)").name() → "maroon"
+     * @example CM("rgb(128, 0, 0)").name() → "maroon"
+     * @default { exact = true }
      * @returns The color's HTML/CSS name
      */
     name(opts?: { exact?: boolean }): string;

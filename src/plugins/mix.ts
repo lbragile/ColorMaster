@@ -9,7 +9,7 @@ declare module ".." {
      * Mix current color instance with another based on a given ratio (done in LCHA space for best results)
      * @note The ratio represents a percentage of the input `color` that will be mixed
      *       with the remaining portion of the current color instance
-     * @example mix('#fff', 0.2) → "mix 80% of the current color with 20% of white"
+     * @example CM("#000").mix('#fff', 0.2) → "mix 20% of white INTO 80% of the current color (black)"
      * @see {@link https://math.stackexchange.com/a/3263100} For argument of why LCH space should be used over LAB space
      * @returns A new color instance corresponding to the new mixture
      */

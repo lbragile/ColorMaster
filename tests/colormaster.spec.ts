@@ -29,6 +29,7 @@ describe("hueTo", () => {
   test("> 0 & < 360", () => expect(cm.hueTo(180).stringHSL({ precision })).toBe("hsla(180, 47.6%, 58.8%, 0.7)"));
   test("= 360", () => expect(cm.hueTo(360).stringHSL({ precision })).toBe("hsla(0, 47.6%, 58.8%, 0.7)"));
   test("> 360", () => expect(cm.hueTo(361).stringHSL({ precision })).toBe("hsla(1, 47.6%, 58.8%, 0.7)"));
+  test("css name", () => expect(cm.hueTo("green").stringHSL({ precision })).toBe("hsla(120, 47.6%, 58.8%, 0.7)"));
 });
 
 describe("hueBy", () => {

@@ -94,17 +94,17 @@ export interface Ilcha extends Ilch {
 }
 
 /**
- * Array value form when instantiating a RGBA or HSLA object
+ * Array value form when instantiating color space objects that have numeric values like RGBA
  */
 export type TNumArr = [number, number, number, number?];
 
 /**
- * Array value form when instantiating a HEXA object
+ * Array value form when instantiating color space objects that have string values like HEXA
  */
 export type TStrArr = [THexStr, THexStr, THexStr, THexStr?];
 
 /**
- * Possible operator for value adjustment of HEXA color space
+ * Possible operator for value adjustment of HEXA color space as there is not unary operator in HEXA space
  */
 export type TOperator = "add" | "sub";
 
@@ -137,7 +137,7 @@ export interface IReadable extends Pick<IA11yOpts, "bgColor"> {
 /**
  * When using the monochromatic harmony, the user has more choices to pick from
  */
-export interface IMonochromatic {
+export interface IColorHarmony {
   effect?: TMonoEffect;
   amount?: number;
   type?: THarmony;

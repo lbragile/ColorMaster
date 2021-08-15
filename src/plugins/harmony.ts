@@ -1,4 +1,4 @@
-import { IMonochromatic, TPlugin } from "../types";
+import { IColorHarmony, TPlugin } from "../types";
 import { adjustHue, clamp } from "../utils/numeric";
 
 declare module ".." {
@@ -18,7 +18,7 @@ declare module ".." {
      *            which return the original color as the second element.
      *          - For 'monochromatic' the original color is always first and the array size is `amount + 1` evenly spaced colors.
      */
-    harmony(opts?: IMonochromatic): ColorMaster[];
+    harmony(opts?: IColorHarmony): ColorMaster[];
   }
 }
 

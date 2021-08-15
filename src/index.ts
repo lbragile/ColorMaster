@@ -24,7 +24,7 @@ export class ColorMaster implements IColorMaster {
   #format: TFormat = "rgb";
   static Parsers: TParser[] = [rgbaParser, hexaParser, hslaParser];
 
-  constructor(color: TInput) {
+  constructor(color: TInput | keyof typeof HueColors) {
     const result = ColorMaster.Parsers.map((parser) => parser(color)).find((parsedArr) => parsedArr[1] !== "invalid");
     if (result) {
       const { r, g, b, a } = result[0];
@@ -175,4 +175,4 @@ export function extendPlugins(plugins: TPlugin[]): void {
   plugins.forEach((plugin) => plugin(ColorMaster));
 }
 
-export default (color: TInput): ColorMaster => new ColorMaster(color);
+export default (color: TInput | keyof typeof HueColors): ColorMaster => new ColorMaster(color);

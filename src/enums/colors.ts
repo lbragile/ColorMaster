@@ -1,7 +1,168 @@
+type THue =
+  | "red"
+  | "orange"
+  | "yellow"
+  | "lime green"
+  | "green"
+  | "blue green"
+  | "cyan"
+  | "sky blue"
+  | "blue"
+  | "purple"
+  | "magenta"
+  | "pink";
+
+type TCSSName =
+  | "maroon"
+  | "dark red"
+  | "brown"
+  | "firebrick"
+  | "crimson"
+  | "red"
+  | "tomato"
+  | "coral"
+  | "indian red"
+  | "light coral"
+  | "dark salmon"
+  | "salmon"
+  | "light salmon"
+  | "orange red"
+  | "dark orange"
+  | "orange"
+  | "gold"
+  | "dark golden rod"
+  | "golden rod"
+  | "pale golden rod"
+  | "dark khaki"
+  | "khaki"
+  | "olive"
+  | "yellow"
+  | "yellow green"
+  | "dark olive green"
+  | "olive drab"
+  | "lawn green"
+  | "chart reuse"
+  | "green yellow"
+  | "dark green"
+  | "green"
+  | "forest green"
+  | "lime"
+  | "lime green"
+  | "light green"
+  | "pale green"
+  | "dark sea green"
+  | "medium spring green"
+  | "spring green"
+  | "sea green"
+  | "medium aqua marine"
+  | "medium sea green"
+  | "light sea green"
+  | "dark slate gray"
+  | "teal"
+  | "dark cyan"
+  | "cyan"
+  | "aqua"
+  | "light cyan"
+  | "dark turquoise"
+  | "turquoise"
+  | "medium turquoise"
+  | "pale turquoise"
+  | "aqua marine"
+  | "powder blue"
+  | "cadet blue"
+  | "steel blue"
+  | "corn flower blue"
+  | "deep sky blue"
+  | "dodger blue"
+  | "light blue"
+  | "sky blue"
+  | "light sky blue"
+  | "midnight blue"
+  | "navy"
+  | "dark blue"
+  | "medium blue"
+  | "blue"
+  | "royal blue"
+  | "blue violet"
+  | "indigo"
+  | "dark slate blue"
+  | "slate blue"
+  | "medium slate blue"
+  | "medium purple"
+  | "dark magenta"
+  | "dark violet"
+  | "dark orchid"
+  | "medium orchid"
+  | "purple"
+  | "thistle"
+  | "plum"
+  | "violet"
+  | "magenta"
+  | "fuchsia"
+  | "orchid"
+  | "medium violet red"
+  | "pale violet red"
+  | "deep pink"
+  | "hot pink"
+  | "light pink"
+  | "pink"
+  | "antique white"
+  | "beige"
+  | "bisque"
+  | "blanched almond"
+  | "wheat"
+  | "corn silk"
+  | "lemon chiffon"
+  | "light golden rod yellow"
+  | "light yellow"
+  | "saddle brown"
+  | "sienna"
+  | "chocolate"
+  | "peru"
+  | "sandy brown"
+  | "burly wood"
+  | "tan"
+  | "rosy brown"
+  | "moccasin"
+  | "navajo white"
+  | "peach puff"
+  | "misty rose"
+  | "lavender blush"
+  | "linen"
+  | "old lace"
+  | "papaya whip"
+  | "sea shell"
+  | "mint cream"
+  | "slate gray"
+  | "light slate gray"
+  | "light steel blue"
+  | "lavender"
+  | "floral white"
+  | "alice blue"
+  | "ghost white"
+  | "honeydew"
+  | "ivory"
+  | "azure"
+  | "snow"
+  | "black"
+  | "dim gray"
+  | "dim grey"
+  | "gray"
+  | "grey"
+  | "dark gray"
+  | "dark grey"
+  | "silver"
+  | "light gray"
+  | "light grey"
+  | "gainsboro"
+  | "gainsborough"
+  | "white smoke"
+  | "white";
+
 // Obtained from https://www.canva.com/colors/color-wheel/
 // names are given to follow the predominant colors on the color wheel:
 // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value#fully_saturated_colors
-export const HueColors: Record<string, string> = {
+export const HueColors: Record<THue, string> = {
   red         : "hsl(0, 100%, 50%)",
   orange      : "hsl(30, 100%, 50%)",
   yellow      : "hsl(60, 100%, 50%)",
@@ -17,7 +178,7 @@ export const HueColors: Record<string, string> = {
 };
 
 // Obtained from https://www.rapidtables.com/web/color/RGB_Color.html
-export const RGBExtended: Record<string, string> = {
+export const RGBExtended: Record<TCSSName, string> = {
   maroon                   : "rgb(128,0,0)",
   "dark red"               : "rgb(139,0,0)",
   brown                    : "rgb(165,42,42)",
@@ -65,8 +226,8 @@ export const RGBExtended: Record<string, string> = {
   "dark slate gray"        : "rgb(47,79,79)",
   teal                     : "rgb(0,128,128)",
   "dark cyan"              : "rgb(0,139,139)",
-  "cyan"                   : "rgb(0,255,255)",
-  "aqua"                   : "rgb(0,255,255)",
+  cyan                     : "rgb(0,255,255)",
+  aqua                     : "rgb(0,255,255)",
   "light cyan"             : "rgb(224,255,255)",
   "dark turquoise"         : "rgb(0,206,209)",
   turquoise                : "rgb(64,224,208)",
@@ -102,8 +263,8 @@ export const RGBExtended: Record<string, string> = {
   thistle                  : "rgb(216,191,216)",
   plum                     : "rgb(221,160,221)",
   violet                   : "rgb(238,130,238)",
-  "magenta"                : "rgb(255,0,255)",
-  "fuchsia"                : "rgb(255,0,255)",
+  magenta                  : "rgb(255,0,255)",
+  fuchsia                  : "rgb(255,0,255)",
   orchid                   : "rgb(218,112,214)",
   "medium violet red"      : "rgb(199,21,133)",
   "pale violet red"        : "rgb(219,112,147)",
@@ -152,234 +313,235 @@ export const RGBExtended: Record<string, string> = {
   black                    : "rgb(0,0,0)",
   "dim gray"               : "rgb(105,105,105)",
   "dim grey"               : "rgb(105,105,105)",
-  "gray"                   : "rgb(128,128,128)",
-  "grey"                   : "rgb(128,128,128)",
+  gray                     : "rgb(128,128,128)",
+  grey                     : "rgb(128,128,128)",
   "dark gray"              : "rgb(169,169,169)",
   "dark grey"              : "rgb(169,169,169)",
   silver                   : "rgb(192,192,192)",
   "light gray"             : "rgb(211,211,211)",
   "light grey"             : "rgb(211,211,211)",
   gainsboro                : "rgb(220,220,220)",
+  gainsborough             : "rgb(220,220,220)",
   "white smoke"            : "rgb(245,245,245)",
   white                    : "rgb(255,255,255)"
 };
 
 // Obtained from https://www.rapidtables.com/web/color/Web_Safe.html
 export const WebSafe: string[] = [
-   "rgb(0,0,0)",
-   "rgb(0,0,51)",
-   "rgb(0,0,102)",
-   "rgb(0,0,153)",
-   "rgb(0,0,204)",
-   "rgb(0,0,255)",
-   "rgb(0,51,0)",
-   "rgb(0,51,51)",
-   "rgb(0,51,102)",
-   "rgb(0,51,153)",
-   "rgb(0,51,204)",
-   "rgb(0,51,255)",
-   "rgb(0,102,0)",
-   "rgb(0,102,51)",
-   "rgb(0,102,102)",
-   "rgb(0,102,153)",
-   "rgb(0,102,204)",
-   "rgb(0,102,255)",
-   "rgb(0,153,0)",
-   "rgb(0,153,51)",
-   "rgb(0,153,102)",
-   "rgb(0,153,153)",
-   "rgb(0,153,204)",
-   "rgb(0,153,255)",
-   "rgb(0,204,0)",
-   "rgb(0,204,51)",
-   "rgb(0,204,102)",
-   "rgb(0,204,153)",
-   "rgb(0,204,204)",
-   "rgb(0,204,255)",
-   "rgb(0,255,0)",
-   "rgb(0,255,51)",
-   "rgb(0,255,102)",
-   "rgb(0,255,153)",
-   "rgb(0,255,204)",
-   "rgb(0,255,255)",
-   "rgb(51,0,0)",
-   "rgb(51,0,51)",
-   "rgb(51,0,102)",
-   "rgb(51,0,153)",
-   "rgb(51,0,204)",
-   "rgb(51,0,255)",
-   "rgb(51,51,0)",
-   "rgb(51,51,51)",
-   "rgb(51,51,102)",
-   "rgb(51,51,153)",
-   "rgb(51,51,204)",
-   "rgb(51,51,255)",
-   "rgb(51,102,0)",
-   "rgb(51,102,51)",
-   "rgb(51,102,102)",
-   "rgb(51,102,153)",
-   "rgb(51,102,204)",
-   "rgb(51,102,255)",
-   "rgb(51,153,0)",
-   "rgb(51,153,51)",
-   "rgb(51,153,102)",
-   "rgb(51,153,153)",
-   "rgb(51,153,204)",
-   "rgb(51,153,255)",
-   "rgb(51,204,0)",
-   "rgb(51,204,51)",
-   "rgb(51,204,102)",
-   "rgb(51,204,153)",
-   "rgb(51,204,204)",
-   "rgb(51,204,255)",
-   "rgb(51,255,0)",
-   "rgb(51,255,51)",
-   "rgb(51,255,102)",
-   "rgb(51,255,153)",
-   "rgb(51,255,204)",
-   "rgb(51,255,255)",
-   "rgb(102,0,0)",
-   "rgb(102,0,51)",
-   "rgb(102,0,102)",
-   "rgb(102,0,153)",
-   "rgb(102,0,204)",
-   "rgb(102,0,255)",
-   "rgb(102,51,0)",
-   "rgb(102,51,51)",
-   "rgb(102,51,102)",
-   "rgb(102,51,153)",
-   "rgb(102,51,204)",
-   "rgb(102,51,255)",
-   "rgb(102,102,0)",
-   "rgb(102,102,51)",
-   "rgb(102,102,102)",
-   "rgb(102,102,153)",
-   "rgb(102,102,204)",
-   "rgb(102,102,255)",
-   "rgb(102,153,0)",
-   "rgb(102,153,51)",
-   "rgb(102,153,102)",
-   "rgb(102,153,153)",
-   "rgb(102,153,204)",
-   "rgb(102,153,255)",
-   "rgb(102,204,0)",
-   "rgb(102,204,51)",
-   "rgb(102,204,102)",
-   "rgb(102,204,153)",
-   "rgb(102,204,204)",
-   "rgb(102,204,255)",
-   "rgb(102,255,0)",
-   "rgb(102,255,51)",
-   "rgb(102,255,102)",
-   "rgb(102,255,153)",
-   "rgb(102,255,204)",
-   "rgb(102,255,255)",
-   "rgb(153,0,0)",
-   "rgb(153,0,51)",
-   "rgb(153,0,102)",
-   "rgb(153,0,153)",
-   "rgb(153,0,204)",
-   "rgb(153,0,255)",
-   "rgb(153,51,0)",
-   "rgb(153,51,51)",
-   "rgb(153,51,102)",
-   "rgb(153,51,153)",
-   "rgb(153,51,204)",
-   "rgb(153,51,255)",
-   "rgb(153,102,0)",
-   "rgb(153,102,51)",
-   "rgb(153,102,102)",
-   "rgb(153,102,153)",
-   "rgb(153,102,204)",
-   "rgb(153,102,255)",
-   "rgb(153,153,0)",
-   "rgb(153,153,51)",
-   "rgb(153,153,102)",
-   "rgb(153,153,153)",
-   "rgb(153,153,204)",
-   "rgb(153,153,255)",
-   "rgb(153,204,0)",
-   "rgb(153,204,51)",
-   "rgb(153,204,102)",
-   "rgb(153,204,153)",
-   "rgb(153,204,204)",
-   "rgb(153,204,255)",
-   "rgb(153,255,0)",
-   "rgb(153,255,51)",
-   "rgb(153,255,102)",
-   "rgb(153,255,153)",
-   "rgb(153,255,204)",
-   "rgb(153,255,255)",
-   "rgb(204,0,0)",
-   "rgb(204,0,51)",
-   "rgb(204,0,102)",
-   "rgb(204,0,153)",
-   "rgb(204,0,204)",
-   "rgb(204,0,255)",
-   "rgb(204,51,0)",
-   "rgb(204,51,51)",
-   "rgb(204,51,102)",
-   "rgb(204,51,153)",
-   "rgb(204,51,204)",
-   "rgb(204,51,255)",
-   "rgb(204,102,0)",
-   "rgb(204,102,51)",
-   "rgb(204,102,102)",
-   "rgb(204,102,153)",
-   "rgb(204,102,204)",
-   "rgb(204,102,255)",
-   "rgb(204,153,0)",
-   "rgb(204,153,51)",
-   "rgb(204,153,102)",
-   "rgb(204,153,153)",
-   "rgb(204,153,204)",
-   "rgb(204,153,255)",
-   "rgb(204,204,0)",
-   "rgb(204,204,51)",
-   "rgb(204,204,102)",
-   "rgb(204,204,153)",
-   "rgb(204,204,204)",
-   "rgb(204,204,255)",
-   "rgb(204,255,0)",
-   "rgb(204,255,51)",
-   "rgb(204,255,102)",
-   "rgb(204,255,153)",
-   "rgb(204,255,204)",
-   "rgb(204,255,255)",
-   "rgb(255,0,0)",
-   "rgb(255,0,51)",
-   "rgb(255,0,102)",
-   "rgb(255,0,153)",
-   "rgb(255,0,204)",
-   "rgb(255,0,255)",
-   "rgb(255,51,0)",
-   "rgb(255,51,51)",
-   "rgb(255,51,102)",
-   "rgb(255,51,153)",
-   "rgb(255,51,204)",
-   "rgb(255,51,255)",
-   "rgb(255,102,0)",
-   "rgb(255,102,51)",
-   "rgb(255,102,102)",
-   "rgb(255,102,153)",
-   "rgb(255,102,204)",
-   "rgb(255,102,255)",
-   "rgb(255,153,0)",
-   "rgb(255,153,51)",
-   "rgb(255,153,102)",
-   "rgb(255,153,153)",
-   "rgb(255,153,204)",
-   "rgb(255,153,255)",
-   "rgb(255,204,0)",
-   "rgb(255,204,51)",
-   "rgb(255,204,102)",
-   "rgb(255,204,153)",
-   "rgb(255,204,204)",
-   "rgb(255,204,255)",
-   "rgb(255,255,0)",
-   "rgb(255,255,51)",
-   "rgb(255,255,102)",
-   "rgb(255,255,153)",
-   "rgb(255,255,204)",
-   "rgb(255,255,255)"
+  "rgb(0,0,0)",
+  "rgb(0,0,51)",
+  "rgb(0,0,102)",
+  "rgb(0,0,153)",
+  "rgb(0,0,204)",
+  "rgb(0,0,255)",
+  "rgb(0,51,0)",
+  "rgb(0,51,51)",
+  "rgb(0,51,102)",
+  "rgb(0,51,153)",
+  "rgb(0,51,204)",
+  "rgb(0,51,255)",
+  "rgb(0,102,0)",
+  "rgb(0,102,51)",
+  "rgb(0,102,102)",
+  "rgb(0,102,153)",
+  "rgb(0,102,204)",
+  "rgb(0,102,255)",
+  "rgb(0,153,0)",
+  "rgb(0,153,51)",
+  "rgb(0,153,102)",
+  "rgb(0,153,153)",
+  "rgb(0,153,204)",
+  "rgb(0,153,255)",
+  "rgb(0,204,0)",
+  "rgb(0,204,51)",
+  "rgb(0,204,102)",
+  "rgb(0,204,153)",
+  "rgb(0,204,204)",
+  "rgb(0,204,255)",
+  "rgb(0,255,0)",
+  "rgb(0,255,51)",
+  "rgb(0,255,102)",
+  "rgb(0,255,153)",
+  "rgb(0,255,204)",
+  "rgb(0,255,255)",
+  "rgb(51,0,0)",
+  "rgb(51,0,51)",
+  "rgb(51,0,102)",
+  "rgb(51,0,153)",
+  "rgb(51,0,204)",
+  "rgb(51,0,255)",
+  "rgb(51,51,0)",
+  "rgb(51,51,51)",
+  "rgb(51,51,102)",
+  "rgb(51,51,153)",
+  "rgb(51,51,204)",
+  "rgb(51,51,255)",
+  "rgb(51,102,0)",
+  "rgb(51,102,51)",
+  "rgb(51,102,102)",
+  "rgb(51,102,153)",
+  "rgb(51,102,204)",
+  "rgb(51,102,255)",
+  "rgb(51,153,0)",
+  "rgb(51,153,51)",
+  "rgb(51,153,102)",
+  "rgb(51,153,153)",
+  "rgb(51,153,204)",
+  "rgb(51,153,255)",
+  "rgb(51,204,0)",
+  "rgb(51,204,51)",
+  "rgb(51,204,102)",
+  "rgb(51,204,153)",
+  "rgb(51,204,204)",
+  "rgb(51,204,255)",
+  "rgb(51,255,0)",
+  "rgb(51,255,51)",
+  "rgb(51,255,102)",
+  "rgb(51,255,153)",
+  "rgb(51,255,204)",
+  "rgb(51,255,255)",
+  "rgb(102,0,0)",
+  "rgb(102,0,51)",
+  "rgb(102,0,102)",
+  "rgb(102,0,153)",
+  "rgb(102,0,204)",
+  "rgb(102,0,255)",
+  "rgb(102,51,0)",
+  "rgb(102,51,51)",
+  "rgb(102,51,102)",
+  "rgb(102,51,153)",
+  "rgb(102,51,204)",
+  "rgb(102,51,255)",
+  "rgb(102,102,0)",
+  "rgb(102,102,51)",
+  "rgb(102,102,102)",
+  "rgb(102,102,153)",
+  "rgb(102,102,204)",
+  "rgb(102,102,255)",
+  "rgb(102,153,0)",
+  "rgb(102,153,51)",
+  "rgb(102,153,102)",
+  "rgb(102,153,153)",
+  "rgb(102,153,204)",
+  "rgb(102,153,255)",
+  "rgb(102,204,0)",
+  "rgb(102,204,51)",
+  "rgb(102,204,102)",
+  "rgb(102,204,153)",
+  "rgb(102,204,204)",
+  "rgb(102,204,255)",
+  "rgb(102,255,0)",
+  "rgb(102,255,51)",
+  "rgb(102,255,102)",
+  "rgb(102,255,153)",
+  "rgb(102,255,204)",
+  "rgb(102,255,255)",
+  "rgb(153,0,0)",
+  "rgb(153,0,51)",
+  "rgb(153,0,102)",
+  "rgb(153,0,153)",
+  "rgb(153,0,204)",
+  "rgb(153,0,255)",
+  "rgb(153,51,0)",
+  "rgb(153,51,51)",
+  "rgb(153,51,102)",
+  "rgb(153,51,153)",
+  "rgb(153,51,204)",
+  "rgb(153,51,255)",
+  "rgb(153,102,0)",
+  "rgb(153,102,51)",
+  "rgb(153,102,102)",
+  "rgb(153,102,153)",
+  "rgb(153,102,204)",
+  "rgb(153,102,255)",
+  "rgb(153,153,0)",
+  "rgb(153,153,51)",
+  "rgb(153,153,102)",
+  "rgb(153,153,153)",
+  "rgb(153,153,204)",
+  "rgb(153,153,255)",
+  "rgb(153,204,0)",
+  "rgb(153,204,51)",
+  "rgb(153,204,102)",
+  "rgb(153,204,153)",
+  "rgb(153,204,204)",
+  "rgb(153,204,255)",
+  "rgb(153,255,0)",
+  "rgb(153,255,51)",
+  "rgb(153,255,102)",
+  "rgb(153,255,153)",
+  "rgb(153,255,204)",
+  "rgb(153,255,255)",
+  "rgb(204,0,0)",
+  "rgb(204,0,51)",
+  "rgb(204,0,102)",
+  "rgb(204,0,153)",
+  "rgb(204,0,204)",
+  "rgb(204,0,255)",
+  "rgb(204,51,0)",
+  "rgb(204,51,51)",
+  "rgb(204,51,102)",
+  "rgb(204,51,153)",
+  "rgb(204,51,204)",
+  "rgb(204,51,255)",
+  "rgb(204,102,0)",
+  "rgb(204,102,51)",
+  "rgb(204,102,102)",
+  "rgb(204,102,153)",
+  "rgb(204,102,204)",
+  "rgb(204,102,255)",
+  "rgb(204,153,0)",
+  "rgb(204,153,51)",
+  "rgb(204,153,102)",
+  "rgb(204,153,153)",
+  "rgb(204,153,204)",
+  "rgb(204,153,255)",
+  "rgb(204,204,0)",
+  "rgb(204,204,51)",
+  "rgb(204,204,102)",
+  "rgb(204,204,153)",
+  "rgb(204,204,204)",
+  "rgb(204,204,255)",
+  "rgb(204,255,0)",
+  "rgb(204,255,51)",
+  "rgb(204,255,102)",
+  "rgb(204,255,153)",
+  "rgb(204,255,204)",
+  "rgb(204,255,255)",
+  "rgb(255,0,0)",
+  "rgb(255,0,51)",
+  "rgb(255,0,102)",
+  "rgb(255,0,153)",
+  "rgb(255,0,204)",
+  "rgb(255,0,255)",
+  "rgb(255,51,0)",
+  "rgb(255,51,51)",
+  "rgb(255,51,102)",
+  "rgb(255,51,153)",
+  "rgb(255,51,204)",
+  "rgb(255,51,255)",
+  "rgb(255,102,0)",
+  "rgb(255,102,51)",
+  "rgb(255,102,102)",
+  "rgb(255,102,153)",
+  "rgb(255,102,204)",
+  "rgb(255,102,255)",
+  "rgb(255,153,0)",
+  "rgb(255,153,51)",
+  "rgb(255,153,102)",
+  "rgb(255,153,153)",
+  "rgb(255,153,204)",
+  "rgb(255,153,255)",
+  "rgb(255,204,0)",
+  "rgb(255,204,51)",
+  "rgb(255,204,102)",
+  "rgb(255,204,153)",
+  "rgb(255,204,204)",
+  "rgb(255,204,255)",
+  "rgb(255,255,0)",
+  "rgb(255,255,51)",
+  "rgb(255,255,102)",
+  "rgb(255,255,153)",
+  "rgb(255,255,204)",
+  "rgb(255,255,255)"
 ];

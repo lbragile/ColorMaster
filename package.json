@@ -1,6 +1,6 @@
 {
   "name": "colormaster",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "🏆 A powerful and fully typed module for all your coloring needs.",
   "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
   "license": "MIT",
@@ -23,9 +23,10 @@
     "build": "webpack --node-env production --config config/webpack.config.js",
     "dry": "npm run build && npm publish dist --dry-run",
     "preversion": "npm test",
-    "version:patch": "npm version patch -m \"🎉 Automatic package publish → bump to version v%s\"",
-    "version:minor": "npm version minor -m \"🎉 Automatic package publish → bump to version v%s\"",
-    "version:major": "npm version major -m \"🎉 Automatic package publish → bump to version v%s\"",
+    "version:patch": "npm version patch -m \"🎉 Automatic package publish → bump to version v%s\" --git-tag-version false",
+    "version:minor": "npm version minor -m \"🎉 Automatic package publish → bump to version v%s\" --git-tag-version false",
+    "version:major": "npm version major -m \"🎉 Automatic package publish → bump to version v%s\" --git-tag-version false",
+    "postversion": "npm run build",
     "release:patch": "npm run version:patch && npm publish dist",
     "release:minor": "npm run version:minor && npm publish dist",
     "release:major": "npm run version:major && npm publish dist"

@@ -1,6 +1,6 @@
-import { Ihexa, Irgba } from "../types/colormaster";
+import { Ihexa, Irgba } from "../types";
 
 export function HEXtoRGB(obj: Ihexa): Irgba {
   const [r, g, b, a] = Object.values(obj).map((part) => parseInt(part, 16));
-  return { r, g, b, a: a / 255 ?? 1 } as Irgba;
+  return { r, g, b, a: a ? a / 255 : 1 };
 }

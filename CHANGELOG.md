@@ -2,6 +2,48 @@
 
 All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster) module will be documented in this file.
 
+## v1.0.0 - August 15, 2021
+
+### Added
+
+- Ability to extend plugins
+- [Tree Shaking](https://webpack.js.org/guides/tree-shaking/) with Webpack
+- Bundle size analyzer (webpack plugin) ← only runs in production build
+- Harmony plugin
+- Mix in [LCHA](https://en.wikipedia.org/wiki/HCL_color_space) space (needs work to be more accurate)
+- `isValid()` function & format getter is more robust
+- Conversion helper functions to different color spaces
+- Option to `hexa()` for rounding
+- Tests for conversions
+- Ability to extend parsers → allows to extend ColorMaster instantiation by CSS name
+- LABA, LCHA, XYZA, HSVA conversion logic to and from RGBA
+- `static Parsers` property to simplify logic
+- Community related files & templates for issues/PRs
+- Mixing (plugin) & tests
+- Parsing tests
+- Types to color Records so that they give intellisense
+
+### Fixed
+
+- Negative hue parsing
+- Closest color logic by adding helper functions. Added `random()` outside of ColorMaster class. Start of `mix()` - working on RGBtoLAB & RGBtoLCH
+- Improved parsers (RegExp)
+- Fixed Jest config & adjusted coverage thresholds to be at **least 95%**
+- README to reflect the refactor
+
+### Changed
+
+- Refactor to only use RGB behind the scene
+- Parser functionality to be more general (better RegExp)
+- All accessibility functions are now more general (independent of input format)
+- `ColorMaster` class to make it default export a function that returns an instance
+- Opts to be alpha for some method
+- Separated parsers from conversion logic
+
+### Removed
+
+- Redundant typing on class method opts objects
+
 ## v0.1.0 - August 1, 2021
 
 ### Added

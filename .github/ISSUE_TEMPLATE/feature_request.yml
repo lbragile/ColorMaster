@@ -37,7 +37,7 @@ body:
     attributes:
       label: Acceptance Criteria
       description: |
-        List all possible criteria that you can come up with which would resolve the issue. 
+        List all possible criteria that you can come up with which would resolve the issue.
 
         These will be used during testing and to approve the corresponding Pull Request.
       value: |

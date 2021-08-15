@@ -1,7 +1,7 @@
-import { IMonochromatic, TPlugin } from "../types/colormaster";
+import { IColorHarmony, TPlugin } from "../types";
 import { adjustHue, clamp } from "../utils/numeric";
 
-declare module "../colormaster" {
+declare module ".." {
   interface ColorMaster {
     /**
      * Generates an RGBA color instance array based on the corresponding harmony
@@ -18,7 +18,7 @@ declare module "../colormaster" {
      *            which return the original color as the second element.
      *          - For 'monochromatic' the original color is always first and the array size is `amount + 1` evenly spaced colors.
      */
-    harmony(opts?: IMonochromatic): ColorMaster[];
+    harmony(opts?: IColorHarmony): ColorMaster[];
   }
 }
 

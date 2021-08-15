@@ -1,5 +1,5 @@
-import CM, { ColorMaster, random } from "../src/colormaster";
-import { TNumArr } from "../src/types/colormaster";
+import CM, { ColorMaster, random } from "../src/index";
+import { TNumArr } from "../src/types/index";
 
 let cm: ColorMaster;
 const TEST_COLOR = "rgba(200, 150, 100, 0.7)";
@@ -29,6 +29,7 @@ describe("hueTo", () => {
   test("> 0 & < 360", () => expect(cm.hueTo(180).stringHSL({ precision })).toBe("hsla(180, 47.6%, 58.8%, 0.7)"));
   test("= 360", () => expect(cm.hueTo(360).stringHSL({ precision })).toBe("hsla(0, 47.6%, 58.8%, 0.7)"));
   test("> 360", () => expect(cm.hueTo(361).stringHSL({ precision })).toBe("hsla(1, 47.6%, 58.8%, 0.7)"));
+  test("css name", () => expect(cm.hueTo("green").stringHSL({ precision })).toBe("hsla(120, 47.6%, 58.8%, 0.7)"));
 });
 
 describe("hueBy", () => {
@@ -85,7 +86,6 @@ describe("darkerBy", () => {
 });
 
 describe("getters", () => {
-  test("array", () => expect(cm.array).toEqual([200, 150, 100, 0.7]));
   test("format", () => expect(cm.format).toBe("rgb"));
   test("format - invalid", () => expect(CM("magic").format).toBe("invalid"));
   test("format - name", () => expect(CM("red").format).toBe("invalid")); // name plugin is not defined
@@ -115,12 +115,6 @@ describe("rotate", () => {
   test("> 0 & < 360", () => expect(cm.rotate(180).stringHSL({ precision })).toBe("hsla(210, 47.6%, 58.8%, 0.7)"));
   test("= 360", () => expect(cm.rotate(360).stringHSL({ precision })).toBe("hsla(30, 47.6%, 58.8%, 0.7)"));
   test("> 360", () => expect(cm.rotate(361).stringHSL({ precision })).toBe("hsla(31, 47.6%, 58.8%, 0.7)"));
-});
-
-// eslint-disable-next-line jest/no-disabled-tests
-describe.skip("mix", () => {
-  test("opposite", () =>
-    expect(CM("rgba(255, 255, 255, 1)").mix("rgba(0, 0, 0, 1)", 0.5).stringRGB()).toBe("#777777FF"));
 });
 
 test("random generation", () => {

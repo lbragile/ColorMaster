@@ -1,9 +1,9 @@
 import { HSLtoRGB } from "../conversions/hsl";
 import { WebSafe as WebSafeArr } from "../enums/colors";
-import { IA11yOpts, IReadable, Irgba, TInput, TPlugin } from "../types/colormaster";
+import { IA11yOpts, IReadable, TInput, TPlugin, Irgba } from "../types";
 import { channelWiseDifference, getRGBArr, sRGB } from "../utils/numeric";
 
-declare module "../colormaster" {
+declare module ".." {
   interface ColorMaster {
     /**
      * Finds the normalized brightness of the color
@@ -146,7 +146,9 @@ declare module "../colormaster" {
     closestPureHue(): ColorMaster;
 
     /**
-     * Finds the closest Web Safe color to the current color from the list at: https://www.rapidtables.com/web/color/Web_Safe.html
+     * Finds the closest Web Safe color to the current color
+     *
+     * @see {@link https://www.rapidtables.com/web/color/Web_Safe.html}
      * @returns The instance that was acted upon → for function chaining
      */
     closestWebSafe(): ColorMaster;
@@ -154,66 +156,68 @@ declare module "../colormaster" {
 }
 
 const A11yPlugin: TPlugin = (CM): void => {
-  CM.prototype.brightness = function ({ precision = 4, percentage = false } = {}): number {
+  CM.prototype.brightness = function ({ precision = 4, percentage = false } = {}) {
     const { r, g, b } = this.rgba();
     const brightness = +((r * 0.299 + g * 0.587 + b * 0.114) / 255).toFixed(precision);
     return percentage ? brightness * 100 : brightness;
   };
 
-  CM.prototype.luminance = function ({ precision = 4, percentage = false } = {}): number {
+  CM.prototype.luminance = function ({ precision = 4, percentage = false } = {}) {
     const { r, g, b } = this.rgba();
     const L = +(0.2126 * sRGB(r) + 0.7152 * sRGB(g) + 0.0722 * sRGB(b)).toFixed(precision);
     return percentage ? L * 100 : L;
   };
 
-  CM.prototype.contrast = function ({ bgColor = "#fff", precision = 4, ratio = false } = {}): string | number {
+  CM.prototype.contrast = function ({ bgColor = "#fff", precision = 4, ratio = false } = {}) {
     const Lf = this.luminance();
     const Lb = (bgColor instanceof CM ? bgColor : new CM(bgColor)).luminance();
     const contrast = ((Math.max(Lf, Lb) + 0.05) / (Math.min(Lf, Lb) + 0.05)).toFixed(precision);
     return ratio ? contrast + ":1" : +contrast;
   };
 
-  CM.prototype.readableOn = function ({ bgColor = "#fff", size = "body", ratio = "minimum" } = {}): boolean {
+  CM.prototype.readableOn = function ({ bgColor = "#fff", size = "body", ratio = "minimum" } = {}) {
     const contrast = this.contrast({ bgColor });
     if (size === "body" && ratio === "enhanced") return contrast >= 7.0;
     else if (size === "large" && ratio === "minimum") return contrast >= 3.0;
     else return contrast >= 4.5;
   };
 
-  CM.prototype.equalTo = function (cmpColor = "#fff"): boolean {
-    return JSON.stringify(this.array) === JSON.stringify((cmpColor instanceof CM ? cmpColor : new CM(cmpColor)).array);
+  CM.prototype.equalTo = function (cmpColor = "#fff") {
+    const currArr = Object.values(this.rgba());
+    const cmpArr = Object.values((cmpColor instanceof CM ? cmpColor : new CM(cmpColor)).rgba());
+    return currArr.toString() === cmpArr.toString();
   };
 
-  CM.prototype.isLight = function (): boolean {
+  CM.prototype.isLight = function () {
     return this.brightness() >= 0.5;
   };
 
-  CM.prototype.isDark = function (): boolean {
+  CM.prototype.isDark = function () {
     return !this.isLight();
   };
 
-  CM.prototype.isCool = function (): boolean {
+  CM.prototype.isCool = function () {
     const { h } = this.hsla();
     return 75 <= h && h < 255;
   };
 
-  CM.prototype.isWarm = function (): boolean {
+  CM.prototype.isWarm = function () {
     return !this.isCool();
   };
 
-  CM.prototype.isTinted = function (): boolean {
+  CM.prototype.isTinted = function () {
     return this.hsla().l > 50.0;
   };
 
-  CM.prototype.isShaded = function (): boolean {
+  CM.prototype.isShaded = function () {
     return this.hsla().l < 50.0;
   };
 
-  CM.prototype.isToned = function (): boolean {
+  CM.prototype.isToned = function () {
     return this.hsla().s < 100.0;
   };
 
-  CM.prototype.isPureHue = function ({ reason = true } = {}): boolean | { pure: boolean; reason: string } {
+  CM.prototype.isPureHue = function ({ reason = true } = {}) {
     if (this.isTinted()) {
       return reason ? { pure: false, reason: "tinted" } : false;
     } else if (this.isShaded()) {
@@ -253,7 +257,6 @@ const A11yPlugin: TPlugin = (CM): void => {
     for (let i = 0; i < WebSafeArr.length; i++) {
       [Rc, Gc, Bc] = getRGBArr(WebSafeArr[i], [Rc, Gc, Bc]);
 
-      // channel wise distance
       const currDist = channelWiseDifference([Rc, Gc, Bc], [r, g, b]);
       if (currDist < minDist) {
         minDist = currDist;

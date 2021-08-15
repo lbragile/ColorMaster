@@ -1,4 +1,4 @@
-import { Ihsla, Irgba } from "../types/colormaster";
+import { Ihsla, Irgba } from "../types";
 
 /**
  * @see {@link https://www.rapidtables.com/convert/color/hsl-to-rgb.html}

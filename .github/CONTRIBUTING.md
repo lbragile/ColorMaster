@@ -1,13 +1,5 @@
 # 🙌 ColorMaster Contribution Policy
 
-## 📃 Table of Contents
-
-1. [Contributing](#contributing)
-2. [Reporting Issues](#reporting-issues)
-3. [Pull Requests](#pull-requests)
-   - [First Time](#first-time)
-   - [Process](#process)
-
 ## 😍 Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via an issue, email (lbragile.masc@gmail.com),

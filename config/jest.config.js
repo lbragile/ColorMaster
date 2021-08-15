@@ -1,4 +1,4 @@
-const ignore_arr = ["(<rootDir>/)(?=(node_modules|dist|public))"];
+const ignore_arr = ["(<rootDir>/)(?=(node_modules|dist|public))", "<rootDir>/src/index.ts"];
 
 module.exports = {
   rootDir: "../",
@@ -19,10 +19,10 @@ module.exports = {
   verbose: true,
   coverageThreshold: {
     global: {
-      statements: 85,
-      branches: 85,
-      functions: 85,
-      lines: 85
+      statements: 95,
+      branches: 95,
+      functions: 95,
+      lines: 95
     }
   }
 };

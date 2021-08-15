@@ -1,4 +1,4 @@
-import CM, { ColorMaster } from "../../src/colormaster";
+import CM, { ColorMaster } from "../../src/index";
 import { extendPlugins } from "../../src";
 import HarmonyPlugin from "../../src/plugins/harmony";
 

@@ -94,20 +94,20 @@ describe("readableOn", () => {
   });
 
   test("3.0:1", () => {
-    expect(colorL100.readableOn({ bgColor: CM("#949494FF"), size: "large", ratio: "minimum" })).toBeTruthy();
-    expect(colorL100.readableOn({ bgColor: CM("#959595FF"), size: "large", ratio: "minimum" })).toBeFalsy();
+    expect(colorL100.readableOn({ bgColor: CM("#949494FF"), size: "large", ratio: "minimum" })).toBeTruthy(); // (3.03:1)
+    expect(colorL100.readableOn({ bgColor: CM("#959595FF"), size: "large", ratio: "minimum" })).toBeFalsy(); // (2.99:1)
   });
 
   test("4.5:1", () => {
-    expect(colorL100.readableOn({ bgColor: CM("#777F") })).toBeFalsy();
-    expect(colorL100.readableOn({ bgColor: CM("#767676FF") })).toBeTruthy();
-    expect(colorL100.readableOn({ bgColor: CM("#777F"), size: "large", ratio: "enhanced" })).toBeFalsy();
-    expect(colorL100.readableOn({ bgColor: CM("#767676FF"), size: "large", ratio: "enhanced" })).toBeTruthy();
+    expect(colorL100.readableOn({ bgColor: CM("#777F") })).toBeFalsy(); // (4.47:1)
+    expect(colorL100.readableOn({ bgColor: CM("#767676FF") })).toBeTruthy(); // (4.54:1)
+    expect(colorL100.readableOn({ bgColor: CM("#777F"), size: "large", ratio: "enhanced" })).toBeFalsy(); // (4.47:1)
+    expect(colorL100.readableOn({ bgColor: CM("#767676FF"), size: "large", ratio: "enhanced" })).toBeTruthy(); // (4.54:1)
   });
 
   test("7.0:1", () => {
-    expect(colorL100.readableOn({ bgColor: CM("#595959FF"), size: "body", ratio: "enhanced" })).toBeTruthy();
-    expect(colorL100.readableOn({ bgColor: CM("#5A5A5AFF"), size: "body", ratio: "enhanced" })).toBeFalsy();
+    expect(colorL100.readableOn({ bgColor: CM("#595959FF"), size: "body", ratio: "enhanced" })).toBeTruthy(); // (7.0:1)
+    expect(colorL100.readableOn({ bgColor: CM("#5A5A5AFF"), size: "body", ratio: "enhanced" })).toBeFalsy(); // (6.89:1)
   });
 });
 

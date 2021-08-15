@@ -72,10 +72,14 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#clampNum" class="tsd-kind-icon">clamp<wbr>Num</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#random" class="tsd-kind-icon">random</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#adjustHue" class="tsd-kind-icon">adjust<wbr>Hue</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#channelWiseDifference" class="tsd-kind-icon">channel<wbr>Wise<wbr>Difference</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#clamp" class="tsd-kind-icon">clamp</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#getRGBArr" class="tsd-kind-icon">getRGBArr</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#rng" class="tsd-kind-icon">rng</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#round" class="tsd-kind-icon">round</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#sRGB" class="tsd-kind-icon">sRGB</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_numeric.html#sRGBInv" class="tsd-kind-icon">sRGBInv</a></li>
 							</ul>
 						</section>
 					</div>
@@ -84,16 +88,86 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="clampNum" class="tsd-anchor"></a>
-					<h3>clamp<wbr>Num</h3>
+					<a name="adjustHue" class="tsd-anchor"></a>
+					<h3>adjust<wbr>Hue</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">clamp<wbr>Num<span class="tsd-signature-symbol">(</span>min<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">adjust<wbr>Hue<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/b1420b4/src/utils/numeric.ts#L11">utils/numeric.ts:11</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/numeric.ts#L33">utils/numeric.ts:33</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Given a hue (<code>value</code>) - ensure that it is in range [0, 359]</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The value that needs to be rounded</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>A positively bounded hue value</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="channelWiseDifference" class="tsd-anchor"></a>
+					<h3>channel<wbr>Wise<wbr>Difference</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">channel<wbr>Wise<wbr>Difference<span class="tsd-signature-symbol">(</span>rgb1<span class="tsd-signature-symbol">: </span><a href="types.html#TNumArr" class="tsd-signature-type" data-tsd-kind="Type alias">TNumArr</a>, rgb2<span class="tsd-signature-symbol">: </span><a href="types.html#TNumArr" class="tsd-signature-type" data-tsd-kind="Type alias">TNumArr</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/numeric.ts#L89">utils/numeric.ts:89</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Given two RGB arrays, this computes the sum of their channel wise difference</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>rgb1: <a href="types.html#TNumArr" class="tsd-signature-type" data-tsd-kind="Type alias">TNumArr</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>First RGB array</p>
+									</div>
+								</li>
+								<li>
+									<h5>rgb2: <a href="types.html#TNumArr" class="tsd-signature-type" data-tsd-kind="Type alias">TNumArr</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Second RGB array</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>The sum of absolute differences between the channels of the two input RGB arrays</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="clamp" class="tsd-anchor"></a>
+					<h3>clamp</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">clamp<span class="tsd-signature-symbol">(</span>min<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/numeric.ts#L11">utils/numeric.ts:11</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -128,16 +202,54 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="random" class="tsd-anchor"></a>
-					<h3>random</h3>
+					<a name="getRGBArr" class="tsd-anchor"></a>
+					<h3>getRGBArr</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">random<span class="tsd-signature-symbol">(</span>max<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">getRGBArr<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, alternative<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="types.html#TNumArr" class="tsd-signature-type" data-tsd-kind="Type alias">TNumArr</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/b1420b4/src/utils/numeric.ts#L45">utils/numeric.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/numeric.ts#L78">utils/numeric.ts:78</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Transforms an input RGBA string into an RGB ([r, g, b]) numeric array</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>str: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Input RGBA string from which the RGB values are extracted</p>
+									</div>
+								</li>
+								<li>
+									<h5>alternative: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If the string is not RGBA, this array is returned instead</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="types.html#TNumArr" class="tsd-signature-type" data-tsd-kind="Type alias">TNumArr</a></h4>
+							<p>An RGBA array based on the input string in the form [r, g, b]</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="rng" class="tsd-anchor"></a>
+					<h3>rng</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">rng<span class="tsd-signature-symbol">(</span>max<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/numeric.ts#L67">utils/numeric.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -163,13 +275,13 @@
 					<a name="round" class="tsd-anchor"></a>
 					<h3>round</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">round<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, precision<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">round<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, precision<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/b1420b4/src/utils/numeric.ts#L23">utils/numeric.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/numeric.ts#L23">utils/numeric.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -197,7 +309,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 							<p>The input value with &quot;precision&quot; amount of decimal places</p>
 						</li>
 					</ul>
@@ -212,7 +324,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/b1420b4/src/utils/numeric.ts#L34">utils/numeric.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/numeric.ts#L45">utils/numeric.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -239,6 +351,43 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="sRGBInv" class="tsd-anchor"></a>
+					<h3>sRGBInv</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">sRGBInv<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/numeric.ts#L57">utils/numeric.ts:57</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Inverse of sRGB - converts sRGB to RGB color space value</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://www.w3.org/TR/css-color-4/#color-conversion-code" class="external">https://www.w3.org/TR/css-color-4/#color-conversion-code</a></p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The sRGB channel value to convert</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>RGB equivalent of the standard RGB channel value provided</p>
+						</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -248,10 +397,25 @@
 						<a href="../index.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="colormaster.html">colormaster</a>
+						<a href="conversions_hex.html">conversions/hex</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="enums_bounds.html">enums/bounds</a>
+						<a href="conversions_hsl.html">conversions/hsl</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="conversions_hsv.html">conversions/hsv</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="conversions_lab.html">conversions/lab</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="conversions_lch.html">conversions/lch</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="conversions_rgb.html">conversions/rgb</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="conversions_xyz.html">conversions/xyz</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="enums_colors.html">enums/colors</a>
@@ -260,50 +424,68 @@
 						<a href="index.html">index</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="models_hex.html">models/hex</a>
+						<a href="parsers_hex.html">parsers/hex</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="models_hsl.html">models/hsl</a>
+						<a href="parsers_hsl.html">parsers/hsl</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="models_rgb.html">models/rgb</a>
+						<a href="parsers_rgb.html">parsers/rgb</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="plugins_accessibility.html">plugins/accessibility</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="plugins_harmony.html">plugins/harmony</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="plugins_mix.html">plugins/mix</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="plugins_name.html">plugins/name</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="types.html">types</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="types_colormaster.html">types/colormaster</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="types_common.html">types/common</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="types_hex.html">types/hex</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="types_hsl.html">types/hsl</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="types_rgb.html">types/rgb</a>
+						<a href="utils_matrix.html">utils/matrix</a>
 					</li>
 					<li class="current tsd-kind-module">
 						<a href="utils_numeric.html">utils/numeric</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="utils_string.html">utils/string</a>
+						<a href="utils_typeGuards.html">utils/type<wbr>Guards</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="utils_numeric.html#clampNum" class="tsd-kind-icon">clamp<wbr>Num</a>
+						<a href="utils_numeric.html#adjustHue" class="tsd-kind-icon">adjust<wbr>Hue</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="utils_numeric.html#random" class="tsd-kind-icon">random</a>
+						<a href="utils_numeric.html#channelWiseDifference" class="tsd-kind-icon">channel<wbr>Wise<wbr>Difference</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="utils_numeric.html#clamp" class="tsd-kind-icon">clamp</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="utils_numeric.html#getRGBArr" class="tsd-kind-icon">getRGBArr</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="utils_numeric.html#rng" class="tsd-kind-icon">rng</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="utils_numeric.html#round" class="tsd-kind-icon">round</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="utils_numeric.html#sRGB" class="tsd-kind-icon">sRGB</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="utils_numeric.html#sRGBInv" class="tsd-kind-icon">sRGBInv</a>
 					</li>
 				</ul>
 			</nav>
@@ -318,9 +500,6 @@
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

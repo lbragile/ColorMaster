@@ -40,6 +40,7 @@ Then simply start using **ColorMaster** in your project:
 <summary><b>RGBA</b> Color Space</summary>
 
 ```ts
+// note that the import name can be anything (default export), we use "CM" for brevity
 import CM from "colormaster";
 
 // object argument
@@ -119,8 +120,10 @@ you can simply use (chain) the built in `toLowerCase()`. More information is ava
 <details>
 <summary><code>ColorMaster(color)</code></summary>
 
+Parses a given input color so that **ColorMaster** can perform necessary operations to manipulate/transform that input
+
 ```ts
-import CM from "colormaster"; // note the import name can be anything, we use "CM" for brevity
+import CM from "colormaster";
 
 CM("rgba(255, 0, 0, 1)").stringRGB(); // "rgba(255, 0, 0, 1.0)"
 CM({ r: 255, g: 0, b: 0, a: 1 }).stringRGB(); // "rgba(255, 0, 0, 1.0)"
@@ -133,8 +136,11 @@ CM("#456789").stringHEX(); // "#456789FF"
 CM({ r: "45", g: "67", b: "89", a: "AB" }).stringHEX(); // "#456789AB"
 
 // requires name plugin
-import { extendPlugins } from "colormaster";
+import CM, { extendPlugins } from "colormaster";
+import NamePlugin from "colormaster/plugins/name";
+
 extendPlugins([NamePlugin]);
+
 CM("red").stringHEX(); // "#FF0000FF"
 ```
 
@@ -142,6 +148,7 @@ CM("red").stringHEX(); // "#FF0000FF"
 
 <details>
 <summary><code>random()</code></summary>
+
 Generates a random RGBA color.
 
 ```ts
@@ -162,6 +169,7 @@ random().stringHEX(); // "#FF0000FF"
 
 <details>
 <summary><code>string(opts?)</code></summary>
+
 Generates a human readable string from a given color instance
 
 ```ts
@@ -179,6 +187,7 @@ CM("rgba(255, 0, 0, 1)").stringHSLA({ alpha: false }); // "hsl(0, 100%, 50%)"
 
 <details>
 <summary><code>name()</code> (<b>name</b> plugin)</summary>
+
 Gets the color table <a href='https://www.rapidtables.com/web/color/RGB_Color.html'>CSS/HTML name</a> for a given color
 
 ```ts
@@ -198,6 +207,7 @@ CM("rgba(0, 0, 255, 1)").name(); // "blue"
 
 <details>
 <summary><code>format</code></summary>
+
 Retrieve the format of color instance (what is the color space)
 
 ```ts
@@ -209,6 +219,7 @@ CM("rgba(255, 0, 0, 1)").format; // "rgb"
 
 <details>
 <summary><code>red</code></summary>
+
 Get the "red" channel value for the color instance.
 
 ```ts
@@ -222,6 +233,7 @@ CM("#F00F").red; // "FF"
 
 <details>
 <summary><code>green</code></summary>
+
 Get the "green" channel value for the color instance.
 
 ```ts
@@ -235,6 +247,7 @@ CM("#0F0F").green; // "FF"
 
 <details>
 <summary><code>blue</code></summary>
+
 Get the "blue" channel value for the color instance.
 
 ```ts
@@ -248,6 +261,7 @@ CM("#00FF").blue; // "FF"
 
 <details>
 <summary><code>alpha</code></summary>
+
 Get the "alpha" channel value for the color instance.
 
 ```ts
@@ -261,6 +275,7 @@ CM("#FF0F").alpha; // "FF"
 
 <details>
 <summary><code>hue</code></summary>
+
 Get the "hue" channel value for the color instance.
 
 ```ts
@@ -274,6 +289,7 @@ CM("#00F").hue; // 240
 
 <details>
 <summary><code>saturation</code></summary>
+
 Get the "saturation" channel value for the color instance.
 
 ```ts
@@ -287,6 +303,7 @@ CM("#00F").saturation; // 100
 
 <details>
 <summary><code>lightness</code></summary>
+
 Get the "lightness" channel value for the color instance.
 
 ```ts
@@ -306,6 +323,7 @@ CM("#00F").lightness; // 50
 
 <details>
 <summary><code>rgba()</code></summary>
+
 Retrieve the object corresponding to the color instance
 
 ```ts
@@ -317,6 +335,7 @@ CM("rgba(255, 0, 0, 1)").rgba(); // "{ r: 255, g: 0, b: 0, a: 1 }"
 
 <details>
 <summary><code>hsla()</code></summary>
+
 Retrieve the object corresponding to the color instance
 
 ```ts
@@ -328,6 +347,7 @@ CM("rgba(255, 0, 0, 1)").hsla(); // "{ h: 0, s: 100, l: 50, a: 1 }"
 
 <details>
 <summary><code>hexa(opts?)</code></summary>
+
 Retrieve the object corresponding to the color instance
 
 ```ts
@@ -345,6 +365,9 @@ CM("rgba(255, 0, 0, 1)").hexa(); // "{ r: "FF", g: "00", b: "00", a: "FF" }"
 
 <details>
 <summary><code>hueTo(value | cssName)</code></summary>
+
+Changes the "hue" channel value TO a given input value (done in HSLA space and converted back to RGBA space)
+
 ```ts
 import CM from "colormaster";
 CM("rgba(255, 0, 0, 1)").hueTo(120).stringRGB(); // "rgba(0, 255, 0, 1.0)"
@@ -356,6 +379,9 @@ CM("#f00").hueTo("green").stringHEX(); // "#00FF00FF"
 
 <details>
 <summary><code>hueBy(delta)</code></summary>
+
+Changes the "hue" channel value BY a given delta (done in HSLA space and converted back to RGBA space)
+
 ```ts
 import CM from "colormaster";
 CM("rgba(255, 0, 0, 1)").hueBy(120).stringRGB(); // "rgba(0, 255, 0, 1.0)"
@@ -367,6 +393,9 @@ CM("#f00").hueBy(240).stringHEX(); // "#0000FFFF"
 
 <details>
 <summary><code>alphaTo(value)</code></summary>
+
+Changes the "alpha" channel value TO a given input value
+
 ```ts
 import CM from "colormaster";
 CM("rgba(255, 0, 0, 1)").alphaTo(0.5).stringRGB(); // "rgba(255, 0, 0, 0.5)"
@@ -378,6 +407,9 @@ CM("#f00").alphaTo("AA").stringHEX(); // "#FF0000AA"
 
 <details>
 <summary><code>alphaBy(delta)</code></summary>
+
+Changes the "alpha" channel value BY a given delta
+
 ```ts
 import CM from "colormaster";
 CM("rgba(255, 0, 0, 1)").alphaBy(-0.1).stringRGB(); // "rgba(255, 0, 0, 0.9)"
@@ -389,6 +421,7 @@ CM("#f009").alphaBy("23").stringHEX(); // "#FF0000BC"
 
 <details>
 <summary><code>saturateBy(delta)</code></summary>
+
 This adds pigmentation to a color, making it less gray.
 
 ```ts
@@ -400,6 +433,7 @@ CM("hsla(0, 60%, 50%, 1)").saturateBy(20).stringHSL(); // "hsla(0, 80%, 50%, 1.0
 
 <details>
 <summary><code>desaturateBy(delta)</code></summary>
+
 The opposite affect of <code>saturateBy(delta)</code>.
 This removes pigmentation from a color making it more gray.
 
@@ -412,6 +446,7 @@ CM("hsla(0, 60%, 50%, 1)").desaturateBy(20).stringHSL(); // "hsla(0, 40%, 50%, 1
 
 <details>
 <summary><code>lighterBy(delta)</code></summary>
+
 This adds white to a color.
 
 ```ts
@@ -423,6 +458,7 @@ CM("hsla(0, 60%, 50%, 1)").lighterBy(10).stringHSL(); // "hsla(0, 60%, 60%, 1.0)
 
 <details>
 <summary><code>darkerBy(delta)</code></summary>
+
 The opposite of <code>lighterBy(delta)</code>.
 This adds black to a color.
 
@@ -435,6 +471,7 @@ CM("hsla(0, 60%, 50%, 1)").darkerBy(10).stringHSL(); // "hsla(0, 60%, 40%, 1.0)"
 
 <details>
 <summary><code>grayscale()</code></summary>
+
 The same as setting the saturation to "0%" for a color. This makes the color appear grey as it completely removes all pigmentation.
 
 ```ts
@@ -446,6 +483,7 @@ CM("hsla(0, 60%, 50%, 1)").grayscale().stringHSL(); // "hsla(0, 0%, 50%, 1.0)"
 
 <details>
 <summary><code>rotate(value)</code></summary>
+
 This simply adjusts the angle of the color along the color wheel by incrementing the hue value.
 
 ```ts
@@ -457,6 +495,7 @@ CM("hsla(0, 60%, 50%, 1)").rotate(120).stringHSL(); // "hsla(120, 60%, 50%, 1.0)
 
 <details>
 <summary><code>invert(opts?)</code></summary>
+
 Gets the inverted color corresponding to the current color.
 This is different from a complementary color.
 
@@ -474,10 +513,14 @@ CM("hsla(120, 60%, 30%, 0.3)").invert({ alpha: false }).stringHSL(); // "hsla(24
 
 ### Accessibility (Plugin - aka A11y)
 
+To use the methods below, the plugin first needs to be [extended](#plugins).
+That being said, we will skip this step to avoid repetition.
+
 <!-- markdownlint-disable no-inline-html -->
 
 <details>
 <summary><code>brightness(opts?)</code></summary>
+
 Finds the normalized brightness of the color as defined by <a href="https://www.w3.org/TR/AERT/#color-contrast">
 WCAG</a>
 
@@ -499,6 +542,7 @@ CM("hsla(0, 0%, 100%, 1)").brightness({ percentage: true }); // 100
 
 <details>
 <summary><code>luminance(opts?)</code></summary>
+
 Finds the normalized luminance of the color as defined by <a href="https://www.w3.org/TR/WCAG20/#relativeluminancedef">
 WCAG 2.0</a>
 
@@ -520,6 +564,7 @@ CM("hsla(0, 0%, 100%, 1)").luminance({ percentage: true }); // 100
 
 <details>
 <summary><code>contrast(opts?)</code></summary>
+
 Indicates how well a given color can be read/seen when on a background given by <code>bgColor</code>.
 A ratio of "1:1" indicates very poor contrast, while "21:1" indicates very good contrast. The calculated value also
 depends on factors such as text size and contrast ratio type. The lowest acceptable contrast ratio is "3:1" according to
@@ -546,205 +591,217 @@ CM("hsla(0, 0%, 100%, 1)").contrast({ bgColor: "#000", ratio: true }); // "21.00
 
 <details>
 <summary><code>isLight()</code></summary>
+
 Based on the color brightness (true if <code>brightness >= 0.5</code>)
 
 ```ts
 import CM from "colormaster";
-CM(0, 0, 0).isLight(); // false
-CM(0, 0, 49.9).isLight(); // false
-CM(0, 0, 50.1).isLight(); // true
-CM(0, 0, 100).isLight(); // true
+CM("hsla(0, 0%, 0%)").isLight(); // false
+CM("hsla(0, 0%, 49.9%)").isLight(); // false
+CM("hsla(0, 0%, 50.1%)").isLight(); // true
+CM("hsla(0, 0%, 100%)").isLight(); // true
 ```
 
 </details>
 
 <details>
 <summary><code>isDark()</code></summary>
+
 Based on the color brightness (true if <code>brightness < 0.5</code>)
 
 ```ts
 import CM from "colormaster";
-CM(0, 0, 0).isDark(); // true
-CM(0, 0, 49.9).isDark(); // true
-CM(0, 0, 50.1).isDark(); // false
-CM(0, 0, 100).isDark(); // false
+CM("hsla(0, 0%, 0%)").isDark(); // true
+CM("hsla(0, 0%, 49.9%)").isDark(); // true
+CM("hsla(0, 0%, 50.1%)").isDark(); // false
+CM("hsla(0, 0%, 100%)").isDark(); // false
 ```
 
 </details>
 
 <details>
 <summary><code>readableOn(opts?)</code></summary>
+
 Based on the contrast value of a color on a given background color.
 The output is obtained by the conditions outlined in <a href='https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast'>WCAG</a>
 
 ```ts
 import CM from "colormaster";
-const blackColor = CM(0, 0, 0);
 
 // extremes (default color is white as bg, size = body, ratio = minimum)
-CM(0, 0, 100).readableOn(); // false
-blackColor.readableOn(); // true
-blackColor.readableOn(blackColor); // false
+CM("#fff").readableOn(); // false (1.0:1)
+CM("#fff").readableOn({ bgColor: CM("#000") }); // true (21.0:1)
+CM("#000").readableOn({ bgColor: CM("#000") }); // false (1.0:1)
+CM("#000").readableOn(); // true (21.0:1)
 
 // 3.0:1
-blackColor.readableOn([0, 0, 34.9], { size: "large", ratio: "minimum" }); // false
-blackColor.readableOn([0, 0, 35.3], { size: "large", ratio: "minimum" }); // true
+CM("#fff").readableOn({ bgColor: CM("#949494FF"), size: "large", ratio: "minimum" }); // true (3.03:1)
+CM("#fff").readableOn({ bgColor: CM("#959595FF"), size: "large", ratio: "minimum" }); // false (2.99:1)
 
 // 4.5:1
-blackColor.readableOn([0, 0, 45.5]); // false
-blackColor.readableOn([0, 0, 45.9]); // true
-blackColor.readableOn([0, 0, 45.5], { size: "large", ratio: "enhanced" }); // false
-blackColor.readableOn([0, 0, 45.9], { size: "large", ratio: "enhanced" }); // true
+CM("#fff").readableOn({ bgColor: CM("#777F") }); // false (4.47:1)
+CM("#fff").readableOn({ bgColor: CM("#767676FF") }); // true (4.54:1)
+CM("#fff").readableOn({ bgColor: CM("#777F"), size: "large", ratio: "enhanced" }); // false (4.47:1)
+CM("#fff").readableOn({ bgColor: CM("#767676FF"), size: "large", ratio: "enhanced" }); // true (4.54:1)
 
 // 7.0:1
-blackColor.readableOn([0, 0, 58.0], { size: "body", ratio: "enhanced" }); // false
-blackColor.readableOn([0, 0, 58.4], { size: "body", ratio: "enhanced" }); // true
+CM("#fff").readableOn({ bgColor: CM("#595959FF"), size: "body", ratio: "enhanced" }); // true (7.0:1)
+CM("#fff").readableOn({ bgColor: CM("#5A5A5AFF"), size: "body", ratio: "enhanced" }); // false (6.89:1)
 ```
 
 </details>
 
 <details>
 <summary><code>equalTo(compareColor?)</code></summary>
+
 Determines if the current color is identical (all channels are the same) to <code>compareColor</code>
 
 ```ts
 import CM from "colormaster";
-CM(0, 0, 99, 1).equalTo(CM(0, 0, 99, 1)); // true
-CM(0, 0, 99, 1).equalTo(CM(1, 0, 99, 1)); // false
-CM(0, 0, 99, 1).equalTo(CM(0, 1, 99, 1)); // false
-CM(0, 0, 99, 1).equalTo(CM(0, 0, 98, 1)); // false
-CM(0, 0, 99, 1).equalTo(CM(0, 0, 99, 0.9)); // false
+CM("#12345678").equalTo(CM("#12345678")); // true
+CM("#12345678").equalTo(CM("#00345678")); // false
+CM("#12345678").equalTo(CM("#123456FF")); // false
 ```
 
 </details>
 
 <details>
 <summary><code>isWarm()</code></summary>
+
 "Warm colors are the colors from red through to yellow. These colors are said to bring to mind warmth, like the sun."
 Based on the information presented on <a href="https://www.canva.com/colors/color-wheel/">Canva</a>
 
 ```ts
 import CM from "colormaster";
-CM(74.9, 100, 50, 1).isWarm(); // true
-CM(255, 100, 50, 1).isWarm(); // true
-CM(0, 100, 50, 1).isWarm(); // true
-CM(180, 100, 50, 1).isWarm(); // false
+CM("hsla(74.9, 100%, 50%, 1)").isWarm(); // true
+CM("hsla(255, 100%, 50%, 1)").isWarm(); // true
+CM("hsla(0, 100%, 50%, 1)").isWarm(); // true
+CM("hsla(180, 100%, 50%, 1)").isWarm(); // false
 ```
 
 </details>
 
 <details>
 <summary><code>isCool()</code></summary>
+
 "Cool colors are the colors from blue to green and purple. These colors are said to bring to mind coolness, like water."
 Based on the information presented on <a href="https://www.canva.com/colors/color-wheel/">Canva</a>
 
 ```ts
 import CM from "colormaster";
-CM(75, 100, 50, 1).isCool(); // true
-CM(254.9, 100, 50, 1).isCool(); // true
-CM(180, 100, 50, 1).isCool(); // true
-CM(0, 100, 50, 1).isCool(); // false
+CM("hsla(75, 100%, 50%, 1)").isCool(); // true
+CM("hsla(254.9, 100%, 50%, 1)").isCool(); // true
+CM("hsla(0, 100%, 50%, 1)").isCool(); // false
+CM("hsla(180, 100%, 50%, 1)").isCool(); // true
 ```
 
 </details>
 
 <details>
 <summary><code>isTinted()</code></summary>
+
 A color is tinted if its lightness value is strictly greater than 50%.
 
 ```ts
 import CM from "colormaster";
-CM(0, 100, 51, 1).isTinted(); // true
-CM(0, 100, 50, 1).isTinted(); // false
-CM(0, 100, 49, 1).isTinted(); // false
+CM("hsla(0, 100%, 51%, 1)").isTinted(); // true
+CM("hsla(0, 100%, 50%, 1)").isTinted(); // false
+CM("hsla(0, 100%, 49%, 1)").isTinted(); // false
 ```
 
 </details>
 
 <details>
 <summary><code>isShaded()</code></summary>
+
 A color is shaded if its lightness value is strictly less than 50%.
 
 ```ts
 import CM from "colormaster";
-CM(0, 100, 51, 1).isShaded(); // false
-CM(0, 100, 50, 1).isShaded(); // false
-CM(0, 100, 49, 1).isShaded(); // true
+CM("hsla(0, 100%, 51%, 1)").isShaded(); // false
+CM("hsla(0, 100%, 50%, 1)").isShaded(); // false
+CM("hsla(0, 100%, 49%, 1)").isShaded(); // true
 ```
 
 </details>
 
 <details>
 <summary><code>isToned()</code></summary>
+
 A color is toned if its saturation value is strictly less than 100%.
 
 ```ts
 import CM from "colormaster";
-CM(0, 100, 50, 1).isToned(); // false
-CM(0, 99, 50, 1).isToned(); // true
+CM("hsla(0, 100%, 51%, 1)").isToned(); // false
+CM("hsla(0, 99%, 51%, 1)").isToned(); // true
 ```
 
 </details>
 
 <details>
 <summary><code>isPureHue(opts)</code></summary>
+
 A color is pure if its saturation value is 100% and lightness value is 50%.
 
 ```ts
 import CM from "colormaster";
-CM(0, 100, 50, 1).isPureHue(); // { pure: true, reason: 'N/A' }
-CM(0, 100, 50, 1).isPureHue({ reason: false }); // true
-CM(0, 100, 51, 1).isPureHue(); // { pure: false, reason: 'tinted' }
-CM(0, 100, 51, 1).isPureHue({ reason: false }); // false
-CM(0, 100, 49, 1).isPureHue(); // { pure: false, reason: 'shaded' }
-CM(0, 100, 49, 1).isPureHue({ reason: false }); // false
-CM(0, 99, 50, 1).isPureHue(); // { pure: false, reason: 'toned' }
-CM(0, 99, 50, 1).isPureHue({ reason: false }); // false
+CM("hsla(0, 100%, 50%, 1)").isPureHue(); // { pure: true, reason: 'N/A' }
+CM("hsla(0, 100%, 50%, 1)").isPureHue({ reason: false }); // true
+CM("hsla(0, 100%, 51%, 1)").isPureHue(); // { pure: false, reason: 'tinted' }
+CM("hsla(0, 100%, 51%, 1)").isPureHue({ reason: false }); // false
+CM("hsla(0, 100%, 49%, 1)").isPureHue(); // { pure: false, reason: 'shaded' }
+CM("hsla(0, 100%, 49%, 1)").isPureHue({ reason: false }); // false
+CM("hsla(0, 99%, 50%, 1)").isPureHue(); // { pure: false, reason: 'toned' }
+CM("hsla(0, 99%, 50%, 1)").isPureHue({ reason: false }); // false
 ```
 
 </details>
 
 <details>
 <summary><code>closestWebSafe()</code></summary>
+
 Finds the closest color to the current color instance that is considered to be
- <a href='https://www.rapidtables.com/web/color/Web_Safe.html'>web safe</a>
+<a href='https://www.rapidtables.com/web/color/Web_Safe.html'>web safe</a>
 
 ```ts
 import CM from "colormaster";
-CM(3, 97, 47, 0.7).closestWebSafe().string(); // "hsla(0, 100%, 50%, 0.7)"
+CM("hsla(3, 97%, 47%, 0.7)").closestWebSafe().stringHSL(); // "hsla(0, 100%, 50%, 0.7)"
 ```
 
 </details>
 
 <details>
 <summary><code>closestCool()</code></summary>
+
 Finds the closest color to the current color instance that is a "Cool" color
 
 ```ts
 import CM from "colormaster";
-CM(300, 100, 50, 1).closestCool().string(); // "hsla(254, 100%, 50%, 1.0)"
+CM("hsla(300, 100%, 50%, 1)").closestCool().stringHSL(); // "hsla(254, 100%, 50%, 1.0)"
 ```
 
 </details>
 
 <details>
 <summary><code>closestWarm()</code></summary>
+
 Finds the closest color to the current color instance that is a "Warm" color
 
 ```ts
 import CM from "colormaster";
-CM(120, 100, 50, 1).closestWarm().string(); // "hsla(74, 100%, 50%, 1.0)"
+CM("hsla(120, 100%, 50%, 1)").closestWarm().stringHSL(); // "hsla(74, 100%, 50%, 1.0)"
 ```
 
 </details>
 
 <details>
 <summary><code>closestPureHue()</code></summary>
+
 Finds the closest color (hue) to the current color instance that has 100% saturation and 50% lightness.
 
 ```ts
 import CM from "colormaster";
-CM(120, 99, 51, 1).closestPureHue().string(); // "hsla(120, 100%, 50%, 1.0)"
+CM("hsla(120, 99%, 51%, 1)").closestPureHue().stringHSL(); // "hsla(120, 100%, 50%, 1.0)"
 ```
 
 </details>
@@ -757,60 +814,65 @@ CM(120, 99, 51, 1).closestPureHue().string(); // "hsla(120, 100%, 50%, 1.0)"
 
 <details>
 <summary><code>harmony(opts?)</code></summary>
+
 Generates a <a href='https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm'>color harmony</a> according to the selected <code>type</code>.
 Note that for the 'monochromatic' color harmony, an array of tints, shades, or tones is generated based on the provided <code>monochromaticOpts</code>
 
 ```ts
-import CM from "colormaster";
+import CM, { extendPlugins } from "colormaster";
+import HarmonyPlugin from "colormaster/plugins/harmony";
+
+extendPlugins([HarmonyPlugin]);
+
 const ogColor = "hsla(30, 50%, 50%, 1)";
 CM(ogColor)
-  .harmony("analogous")
-  .map((c) => c.string());
+  .harmony({ type: "analogous" })
+  .map((c) => c.stringHSL());
 // ["hsla(0, 50%, 50%, 1.0)", "hsla(30, 50%, 50%, 1.0)", "hsla(60, 50%, 50%, 1.0)"]
 
 CM(ogColor)
-  .harmony("complementary")
-  .map((c) => c.string());
+  .harmony({ type: "complementary" })
+  .map((c) => c.stringHSL());
 // ["hsla(30, 50%, 50%, 1.0)", "hsla(210, 50%, 50%, 1.0)"]
 
 CM(ogColor)
-  .harmony("split-complementary")
-  .map((c) => c.string());
+  .harmony({ type: "split-complementary" })
+  .map((c) => c.stringHSL());
 // ["hsla(30, 50%, 50%, 1.0)", "hsla(180, 50%, 50%, 1.0)", "hsla(240, 50%, 50%, 1.0)"]
 
 CM(ogColor)
-  .harmony("double-split-complementary")
-  .map((c) => c.string());
+  .harmony({ type: "double-split-complementary" })
+  .map((c) => c.stringHSL());
 // ["hsla(0, 50%, 50%, 1.0)", "hsla(30, 50%, 50%, 1.0)", "hsla(60, 50%, 50%, 1.0)", "hsla(180, 50%, 50%, 1.0)", "hsla(240, 50%, 50%, 1.0)"]
 
 CM(ogColor)
-  .harmony("triad")
-  .map((c) => c.string());
+  .harmony({ type: "triad" })
+  .map((c) => c.stringHSL());
 // ["hsla(30, 50%, 50%, 1.0)", "hsla(150, 50%, 50%, 1.0)", "hsla(270, 50%, 50%, 1.0)"]
 
 CM(ogColor)
-  .harmony("rectangle")
-  .map((c) => c.string());
+  .harmony({ type: "rectangle" })
+  .map((c) => c.stringHSL());
 // ["hsla(30, 50%, 50%, 1.0)", "hsla(90, 50%, 50%, 1.0)",  "hsla(210, 50%, 50%, 1.0)", "hsla(270, 50%, 50%, 1.0)"]
 
 CM(ogColor)
-  .harmony("square")
-  .map((c) => c.string());
+  .harmony({ type: "square" })
+  .map((c) => c.stringHSL());
 // ["hsla(30, 50%, 50%, 1.0)", "hsla(120, 50%, 50%, 1.0)", "hsla(210, 50%, 50%, 1.0)", "hsla(300, 50%, 50%, 1.0)"]
 
 CM(ogColor)
-  .harmony("monochromatic", { effect: "tints" })
-  .map((c) => c.string());
+  .harmony({ type: "monochromatic", effect: "tints" })
+  .map((c) => c.stringHSL());
 // ["hsla(30, 50%, 50%, 1.0)", "hsla(30, 50%, 60%, 1.0)", "hsla(30, 50%, 70%, 1.0)", "hsla(30, 50%, 80%, 1.0)", "hsla(30, 50%, 90%, 1.0)", "hsla(30, 50%, 100%, 1.0)"]
 
 CM(ogColor)
-  .harmony("monochromatic", { effect: "shades" })
-  .map((c) => c.string());
+  .harmony({ type: "monochromatic", effect: "shades" })
+  .map((c) => c.stringHSL());
 // ["hsla(30, 50%, 50%, 1.0)", "hsla(30, 50%, 40%, 1.0)", "hsla(30, 50%, 30%, 1.0)", "hsla(30, 50%, 20%, 1.0)", "hsla(30, 50%, 10%, 1.0)", "hsla(30, 50%, 0%, 1.0)"]
 
 CM(ogColor)
-  .harmony("monochromatic", { effect: "tones" })
-  .map((c) => c.string());
+  .harmony({ type: "monochromatic", effect: "tones" })
+  .map((c) => c.stringHSL());
 // ["hsla(30, 50%, 50%, 1.0)", "hsla(30, 40%, 50%, 1.0)", "hsla(30, 30%, 50%, 1.0)", "hsla(30, 20%, 50%, 1.0)", "hsla(30, 10%, 50%, 1.0)", "hsla(30, 0%, 50%, 1.0)"]
 ```
 
@@ -824,51 +886,100 @@ CM(ogColor)
 
 <details>
 <summary><code>mix(color, ratio?)</code></summary>
+
+Mixes a <code>ratio</code> of <code>color</code> WITH <code>1-ratio</code> of the current color instance
+
+Unlike other color libraries, **ColorMaster** uses the LCHA color space for mixing colors as this produces superior results.
+
 ```ts
-example
+import CM, { extendPlugins } from "colormaster";
+import MixPlugin from "colormaster/plugins/mix";
+
+extendPlugins([MixPlugin]);
+
+CM("#FFFF").mix("#000F").stringHEX(); // "#777777FF" → ratio = 0.5 (default)
+CM("#FFFA").mix("#000B").stringHEX(); // "#777777B3" → ratio = 0.5 (default)
+CM("#FFFA").mix(CM("#000B")).stringHEX(); // "#777777B3" → ratio = 0.5 (default)
+CM("#F00").mix("#ABC", -1).stringHEX(); // "#FF0000FF" → ratio < 0
+CM("#ABC").mix("#F00F", 1).stringHEX(); // "#FF0000FF" → ratio = 0
+CM("#F00").mix("#ABC", 0).stringHEX(); // "#FF0000FF" → ratio = 1
+CM("#ABC").mix("#F00F", 2).stringHEX(); // "#FF0000FF" → ratio > 1
 ```
+
 </details>
 
 <!-- markdownlint-enable no-inline-html -->
 
-## Plugins
+## 🤯 Plugins
 
 **ColorMaster** comes out of the box with an extendable plugin mechanism that adds extra functionality to the core library.
 
 <!-- markdownlint-disable no-inline-html -->
 
 <details>
-<summary><code>A11yPlugin</code> (<b>Accessibility</b>)</summary>
+<summary><code>NamePlugin</code> (<b>CSS Names</b> | 2.29KB)</summary>
+
+Want to use type-checked <a href='https://www.rapidtables.com/web/color/RGB_Color.html'>CSS names</a> rather than memorizing their corresponding channel values?
+Then this plugin is for you.
+It also lets you retrieve a CSS name from the current color instance.
 
 ```ts
-import CM from "colormaster";
+import CM, { extendPlugins } from "colormaster";
+import A11yPlugin from "colormaster/plugins/accessibility";
+
+extendPlugins([A11yPlugin]);
+
+...
 ```
 
 </details>
 
 <details>
-<summary><code>NamePlugin</code> (<b>CSS Names</b>)</summary>
+<summary><code>A11yPlugin</code> (<b>Accessibility</b> | 2.08KB)</summary>
+
+Useful functions for determining if a given color adheres to certain well know [accessibility rules/guidelines](https://www.w3.org/TR/WCAG20/)
 
 ```ts
-import CM from "colormaster";
+import CM, { extendPlugins } from "colormaster";
+import A11yPlugin from "colormaster/plugins/accessibility";
+
+extendPlugins([A11yPlugin]);
+
+...
 ```
 
 </details>
 
 <details>
-<summary><code>MixPlugin</code> (<b>Color Mixtures</b>)</summary>
+<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.46KB)</summary>
+
+Allows mixing of colors with a given ratio.
+
+Unlike other color libraries, **ColorMaster** uses the LCHA color space for mixing colors as this produces superior results.
 
 ```ts
-import CM from "colormaster";
+import CM, { extendPlugins } from "colormaster";
+import MixPlugin from "colormaster/plugins/mix";
+
+extendPlugins([MixPlugin]);
+
+...
 ```
 
 </details>
 
 <details>
-<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b>)</summary>
+<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.734KB)</summary>
+
+Lets you generate beautiful <a href='https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm'>color harmonies</a> based on the current color instance
 
 ```ts
-import CM from "colormaster";
+import CM, { extendPlugins } from "colormaster";
+import HarmonyPlugin from "colormaster/plugins/harmony";
+
+extendPlugins([HarmonyPlugin]);
+
+...
 ```
 
 </details>
@@ -876,7 +987,9 @@ import CM from "colormaster";
 
 <!-- markdownlint-enable no-inline-html -->
 
-**Note**: More plugins will be added to accommodate user demands & improve ColorMaster as a whole
+Multiple plugins can be added at the same time by simply providing them as an array to the `extendPlugins` helper.
+
+**Note:** more plugins will be added to accommodate user demands & improve ColorMaster as a whole
 
 ## 😍 Strongly Typed
 

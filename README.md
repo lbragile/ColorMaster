@@ -14,7 +14,7 @@
     <img alt="minified & gzipped size" src="https://img.shields.io/bundlephobia/minzip/colormaster?label=Min%20%26%20Gzip&logo=npm&style=flat-square" />
   </a>
    <a href="https://www.npmjs.com/package/colormaster">
-    <img alt="tree shaking" src="https://img.shields.io/static/v1?label=Tree%20Shaking&message=✔&color=%23007EC6&logo=npm&style=flat-square" />
+    <img alt="tree shaking" src="https://img.shields.io/static/v1?label=Tree%20Shaking&message=yes&color=%23007EC6&logo=npm&style=flat-square" />
   </a>
   <a href="https://github.com/lbragile/ColorMaster/actions">
     <img alt="build status" src="https://img.shields.io/github/workflow/status/lbragile/ColorMaster/Testing?color=%2300D800&label=Build&logo=github&style=flat-square" />
@@ -35,15 +35,15 @@
 
 ## 💎 Features
 
-&nbsp;&nbsp;📦 **Compact**: Just ~2.5 KB [minified & gzipped](https://bundlephobia.com/package/colormaster@latest)
-&nbsp;&nbsp;👌 **Straightforward**: Clear & intuitive function names with chainable API
-&nbsp;&nbsp;🔫 **Bulletproof**: Entirely TypeScript (strict mode) and very thoroughly tested
-&nbsp;&nbsp;✍ **Strongly Typed**: Includes [types](#-strongly-typed) out of the box
-&nbsp;&nbsp;🏗 **Extendable**: [Plugins](#-plugins) allow you to extend upon core functionality as needed
-&nbsp;&nbsp;🌳 **Tree Shakable**: Only adds functions that you use to reduce your project's size
-&nbsp;&nbsp;📑 **CSS Compliant**: Adheres to [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) specifications
-&nbsp;&nbsp;🚂 **Works Everywhere**: Browser (client) and NodeJS (server) support
-&nbsp;&nbsp;🐣 **Dependency Free**: Full control of features & enhancements
+- 📦 **Compact**: Just ~2.5 KB [minified & gzipped](https://bundlephobia.com/package/colormaster@latest)
+- 👌 **Straightforward**: Clear & intuitive function names with chainable API
+- 🔫 **Bulletproof**: Entirely TypeScript (strict mode) and very thoroughly tested
+- ✍ **Strongly Typed**: Includes [types](#-strongly-typed) out of the box
+- 🏗 **Extendable**: [Plugins](#-plugins) allow you to extend upon core functionality as needed
+- 🌳 **Tree Shakable**: Only adds functions that you use to reduce your project's size
+- 📑 **CSS Compliant**: Adheres to [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) specifications
+- 🚂 **Works Everywhere**: Browser (client) and NodeJS (server) support
+- 🐣 **Dependency Free**: Full control of features & enhancements
 
 ## ⭐ Getting Started
 

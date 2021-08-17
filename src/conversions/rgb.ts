@@ -1,4 +1,5 @@
-import { Irgba, Ixyza, Ihexa, THexStr, Ihsla, Ihsva, Ilaba, Ilcha } from "../types";
+import { D50Ref, epsilon, kappa } from "../enums/cie";
+import { Irgba, Ixyza, Ihexa, THexStr, Ihsla, Ihsva, Ilaba, Ilcha, Icmyka, Ihwba, Iryba, Iluva, Iuvwa } from "../types";
 import { multiplyMatrix } from "../utils/matrix";
 import { sRGB, adjustHue } from "../utils/numeric";
 
@@ -76,6 +77,15 @@ export function RGBtoHSV(obj: Irgba): Ihsva {
 }
 
 /**
+ * @see {@link https://en.wikipedia.org/wiki/HWB_color_model#:~:text=HWB%20is%20a%20cylindrical%2Dcoordinate,and%20slightly%20faster%20to%20compute}
+ */
+export function RGBtoHWB(obj: Irgba): Ihwba {
+  const { h, a } = RGBtoHSL(obj);
+  const { r, g, b } = obj;
+  return { h, w: Math.min(r, g, b) / 2.55, b: 100 * (1 - Math.max(r, g, b) / 255), a };
+}
+
+/**
  * @see {@link https://www.image-engineering.de/library/technotes/958-how-to-convert-between-srgb-and-ciexyz}
  * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
  */
@@ -99,11 +109,7 @@ export function RGBtoXYZ(obj: Irgba): Ixyza {
  * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
  */
 export function RGBtoLAB(obj: Irgba): Ilaba {
-  const epsilon = 6 ** 3 / 29 ** 3;
-  const kappa = 29 ** 3 / 3 ** 3;
-  const whiteD50Ref = [0.96422, 1.0, 0.82521];
-
-  const XYZ = Object.values(RGBtoXYZ(obj)).map((val, i) => val / whiteD50Ref[i]);
+  const XYZ = Object.values(RGBtoXYZ(obj)).map((val, i) => val / Object.values(D50Ref)[i]);
   const F = XYZ.map((val) => (val > epsilon ? Math.cbrt(val) : (kappa * val + 16) / 116));
 
   const L = 116 * F[1] - 16;
@@ -123,4 +129,100 @@ export function RGBtoLCH(obj: Irgba): Ilcha {
   const c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 
   return { l, c, h: adjustHue(hue), a: obj.a };
+}
+
+/**
+ * @see {@link http://www.easyrgb.com/en/math.php}
+ * @see {@link http://www.brucelindbloom.com/index.html?Eqn_Luv_to_XYZ.html}
+ */
+export function RGBtoLUV(obj: Irgba): Iluva {
+  const { x, y, z } = RGBtoXYZ(obj);
+
+  const yr = y / D50Ref.y;
+  const dp = x && y && z ? x + 15 * y + 3 * z : 19;
+  const up = (4 * x) / dp;
+  const vp = (9 * y) / dp;
+
+  const dr = D50Ref.x + 15 * D50Ref.y + 3 * D50Ref.z;
+  const ur = (4 * D50Ref.x) / dr;
+  const vr = (9 * D50Ref.y) / dr;
+
+  let l = yr > epsilon ? 116 * Math.cbrt(yr) - 16 : kappa * yr;
+  let u = 13 * l * (up - ur);
+  let v = 13 * l * (vp - vr);
+
+  // replace -0 with 0
+  if (l === Number(-0)) l = 0;
+  if (u === Number(-0)) u = 0;
+  if (v === Number(-0)) v = 0;
+
+  return { l, u, v, a: obj.a };
+}
+
+/**
+ * @see {@link http://cs.haifa.ac.il/hagit/courses/ist/Lectures/IST05_ColorLABx4.pdf}
+ */
+export function RGBtoUVW(obj: Irgba): Iuvwa {
+  const { x, y, z } = RGBtoXYZ(obj);
+
+  const M = [
+    [2 / 3, 0, 0],
+    [0, 1, 0],
+    [-0.5, 1.5, 0.5]
+  ];
+
+  const [u, v, w] = multiplyMatrix(M, [x, y, z]);
+  return { u, v, w, a: obj.a };
+}
+
+/**
+ * @see {@link http://nishitalab.org/user/UEI/publication/Sugita_IWAIT2015.pdf}
+ * @see {@link https://web.archive.org/web/20130525061042/www.insanit.net/tag/rgb-to-ryb/}
+ */
+export function RGBtoRYB(obj: Irgba): Iryba {
+  let { r, g, b } = obj;
+
+  const Iw = Math.min(r, g, b);
+  const mG = Math.max(r, g, b);
+
+  // Remove the whiteness from the color
+  [r, g, b] = [r, g, b].map((val) => val - Iw);
+
+  // Get the yellow out of the red+green
+  let y = Math.min(r, g);
+  r -= y;
+  g -= y;
+
+  // If this unfortunate conversion combines blue and green, then cut each in half to preserve the value's maximum range
+  if (b && g) {
+    b /= 2;
+    g /= 2;
+  }
+
+  // Redistribute the remaining green
+  y += g;
+  b += g;
+
+  // Normalize to values
+  const mY = Math.max(r, y, b);
+  if (mY) {
+    const n = mG / mY;
+    [r, y, b] = [r, y, b].map((val) => val * n);
+  }
+
+  // Add the white back in
+  [r, y, b] = [r, y, b].map((val) => val + Iw);
+
+  return { r, y, b, a: obj.a };
+}
+
+/**
+ * Naively Converting Between Uncalibrated CMYK and sRGB-Based Colors
+ * @see {@link https://www.w3.org/TR/css-color-4/#cmyk-rgb}
+ */
+export function RGBtoCMYK(obj: Irgba): Icmyka {
+  const { r, g, b, a } = obj;
+  const k = 1 - Math.max(r, g, b) / 255;
+  const [c, m, y] = k === 1 ? [0, 0, 0] : [r, g, b].map((val) => (100 * (1 - val / 255 - k)) / (1 - k));
+  return { c, m, y, k: k * 100, a };
 }

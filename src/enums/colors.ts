@@ -12,7 +12,7 @@ type THue =
   | "magenta"
   | "pink";
 
-type TCSSName =
+export type TCSSName =
   | "maroon"
   | "dark red"
   | "brown"
@@ -157,7 +157,8 @@ type TCSSName =
   | "gainsboro"
   | "gainsborough"
   | "white smoke"
-  | "white";
+  | "white"
+  | "transparent";
 
 // Obtained from https://www.canva.com/colors/color-wheel/
 // names are given to follow the predominant colors on the color wheel:
@@ -323,7 +324,8 @@ export const RGBExtended: Record<TCSSName, string> = {
   gainsboro                : "rgb(220,220,220)",
   gainsborough             : "rgb(220,220,220)",
   "white smoke"            : "rgb(245,245,245)",
-  white                    : "rgb(255,255,255)"
+  white                    : "rgb(255,255,255)",
+  "transparent"            : "rgba(0,0,0,0)"
 };
 
 // Obtained from https://www.rapidtables.com/web/color/Web_Safe.html

@@ -16,7 +16,7 @@
     "format:check": "prettier --config config/.prettierrc.json --check src/**/*.ts",
     "format": "prettier --config config/.prettierrc.json --write src",
     "tsc": "tsc --project config/tsconfig.development.json --watch",
-    "test": "jest --coverage --maxWorkers 50% --config ./config/jest.config.js",
+    "test": "jest --config ./config/jest.config.js",
     "start": "ts-node src/index.ts",
     "docs": "typedoc --options config/typedoc.json",
     "build:dev": "webpack --node-env development --config config/webpack.config.js",

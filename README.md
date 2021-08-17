@@ -935,7 +935,7 @@ CM("#ABC").mix("#F00F", 2).stringHEX(); // "#FF0000FF" → ratio > 1
 <!-- markdownlint-disable no-inline-html -->
 
 <details>
-<summary><code>NamePlugin</code> (<b>CSS Names</b> | 2.29KB)</summary>
+<summary><code>NamePlugin</code> (<b>CSS Names</b> | 2.31KB)</summary>
 
 Want to use type-checked <a href='https://www.rapidtables.com/web/color/RGB_Color.html'>CSS names</a> rather than memorizing their corresponding channel values?
 Then this plugin is for you.
@@ -969,7 +969,7 @@ extendPlugins([A11yPlugin]);
 </details>
 
 <details>
-<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.46KB)</summary>
+<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.48KB)</summary>
 
 Allows mixing of colors with a given ratio.
 
@@ -987,7 +987,7 @@ extendPlugins([MixPlugin]);
 </details>
 
 <details>
-<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.734KB)</summary>
+<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.737KB)</summary>
 
 Lets you generate beautiful <a href='https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm'>color harmonies</a> based on the current color instance
 

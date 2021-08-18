@@ -257,7 +257,21 @@ export type TInput =
 /**
  * Possible formats the the input can be (omits alpha)
  */
-export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "xyz" | "lab" | "lch";
+export type TFormat =
+  | "invalid"
+  | "name"
+  | "rgb"
+  | "hex"
+  | "hsl"
+  | "hsv"
+  | "hwb"
+  | "xyz"
+  | "lab"
+  | "lch"
+  | "ryb"
+  | "luv"
+  | "uvw"
+  | "cmyk";
 
 /**
  * Allows parsing of inputs to correctly determine their format & allocate the corresponding

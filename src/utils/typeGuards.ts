@@ -41,15 +41,11 @@ export function isHSLObject(type: TInput): type is Ihsl | Ihsla {
   return type.h !== undefined && type.l !== undefined;
 }
 
-// TODO
-/* istanbul ignore next */
 export function isHSVObject(type: TInput): type is Ihsv | Ihsva {
   type = type as Ihsv;
   return type.h !== undefined && type.v !== undefined;
 }
 
-// TODO
-/* istanbul ignore next */
 export function isHWBObject(type: TInput): type is Ihwb | Ihwba {
   type = type as Ihwb;
   return type.h !== undefined && type.w !== undefined;
@@ -62,8 +58,6 @@ export function isXYZObject(type: TInput): type is Ixyz | Ixyza {
   return type.x !== undefined;
 }
 
-// TODO
-/* istanbul ignore next */
 export function isLABObject(type: TInput): type is Ilab | Ilaba {
   type = type as Ilab;
   return type.l !== undefined && type.b !== undefined;

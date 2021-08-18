@@ -1102,10 +1102,10 @@ Here is a snapshot of completed and planned features:
 - [x] `RGB[A]` color space conversion & parsing
 - [x] `HEX[A]` color space conversion & parsing
 - [x] `HSL[A]` color space conversion & parsing
-- [ ] `HSV[A]` color space ~~conversion~~ & parsing
-- [ ] `HWB[A]` color space ~~conversion~~ & parsing
+- [x] `HSV[A]` color space conversion & parsing
+- [x] `HWB[A]` color space conversion & parsing
 - [ ] `XYZ[A]` color space ~~conversion~~ & parsing
-- [ ] `LAB[A]` color space ~~conversion~~ & parsing
+- [x] `LAB[A]` color space conversion & parsing
 - [ ] `LCH[A]`color space ~~conversion~~ & parsing
 - [ ] `LUV[A]`color space ~~conversion~~ & parsing
 - [ ] `UVW[A]`color space ~~conversion~~ & parsing

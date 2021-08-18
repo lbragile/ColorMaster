@@ -5,10 +5,21 @@
   "author": "Lior Bragilevsky <lbragile.masc@gmail.com> (https://github.com/lbragile)",
   "license": "MIT",
   "main": "./index.js",
+  "module": "./index.mjs",
   "types": "./index.d.ts",
+  "typesVersions": {
+    "*": {
+      "index.d.ts": [
+        "index.d.ts"
+      ],
+      "types/index.d.ts": [
+        "types/index.d.ts"
+      ]
+    }
+  },
   "files": [
-    "**/*.{js,ts, map}",
-    "plugins/*.{js,ts,map}"
+    "**/*.{js,mjs,ts}",
+    "plugins/*.{js,mjs,ts}"
   ],
   "sideEffects": false,
   "scripts": {
@@ -68,6 +79,38 @@
     "mix",
     "harmonies"
   ],
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "default": "./index.mjs"
+    },
+    "./plugins/name": {
+      "import": "./plugins/name.mjs",
+      "require": "./plugins/name.js",
+      "default": "./plugins/name.mjs"
+    },
+    "./plugins/accessibility": {
+      "import": "./plugins/accessibility.mjs",
+      "require": "./plugins/accessibility.js",
+      "default": "./plugins/accessibility.mjs"
+    },
+    "./plugins/mix": {
+      "import": "./plugins/mix.mjs",
+      "require": "./plugins/mix.js",
+      "default": "./plugins/mix.mjs"
+    },
+    "./plugins/harmony": {
+      "import": "./plugins/harmony.mjs",
+      "require": "./plugins/harmony.js",
+      "default": "./plugins/harmony.mjs"
+    },
+    "./plugins/hwb": {
+      "import": "./plugins/hwb.mjs",
+      "require": "./plugins/hwb.js",
+      "default": "./plugins/hwb.mjs"
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",

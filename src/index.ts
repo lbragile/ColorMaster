@@ -100,7 +100,7 @@ export class ColorMaster implements IColorMaster {
 
   stringHSL({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
     const [h, s, l, a] = Object.values(this.hsla()).map((val, i) => round(val, precision[i] ?? 1));
-    return alpha ? `hsla(${adjustHue(h)}, ${s}%, ${l}%, ${a})` : `hsl(${adjustHue(h)}, ${s}%, ${l}%)`;
+    return alpha ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
   }
 
   hueTo(value: number | keyof typeof HueColors): ColorMaster {

@@ -47,40 +47,51 @@ const patterns = [
   }))
 ];
 
-const plugins = [
-  new CopyPlugin({ patterns }),
-  new BundleAnalyzerPlugin({
-    defaultSizes: "gzip",
-    openAnalyzer: process.env.NODE_ENV === "production",
-    analyzerMode: "static"
-  })
-];
-
 /* WEBPACK CONFIG */
-module.exports = {
-  entry,
-  mode: process.env.NODE_ENV,
-  devtool: process.env.NODE_ENV === "production" && "source-map",
-  module: { rules },
-  plugins,
-  optimization: {
-    minimize: process.env.NODE_ENV === "production",
-    usedExports: true
-  },
-  stats: {
-    usedExports: true,
-    providedExports: true,
-    env: true
-  },
-  resolve: {
-    extensions: [".ts"]
-  },
-  output: {
-    filename: "[name].js",
-    path: DIST_PATH,
-    library: "colormaster",
-    libraryTarget: "umd",
-    globalObject: "this",
-    clean: true
-  }
-};
+function generateOutput(type, clean) {
+  const isProd = process.env.NODE_ENV === "production";
+  const isModule = type === "module";
+
+  return {
+    entry,
+    mode: process.env.NODE_ENV,
+    module: { rules },
+    plugins: [
+      new CopyPlugin({ patterns }),
+      ...(!isModule
+        ? [
+            new BundleAnalyzerPlugin({
+              defaultSizes: "gzip",
+              openAnalyzer: false,
+              analyzerMode: "static"
+            })
+          ]
+        : [])
+    ],
+    optimization: {
+      minimize: isProd,
+      usedExports: true
+    },
+    stats: {
+      usedExports: true,
+      providedExports: true,
+      env: true
+    },
+    resolve: {
+      extensions: [".ts"]
+    },
+    experiments: {
+      outputModule: isModule
+    },
+    output: {
+      filename: `[name].${isModule ? "m" : ""}js`,
+      path: DIST_PATH,
+      library: { type },
+      module: isModule,
+      clean
+    }
+  };
+}
+
+/* BUNDLE AS COMMONJS & ES MODULE */
+module.exports = [generateOutput("commonjs2", true), generateOutput("module", false)];

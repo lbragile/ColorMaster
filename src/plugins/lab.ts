@@ -32,7 +32,7 @@ const LABPlugin: TPlugin = (CM): void => {
 
   CM.prototype.stringLAB = function ({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
     const [l, a, b, A] = Object.values(this.laba() as Ilaba).map((val, i) => round(val, precision[i] ?? 1));
-    return alpha ? `laba(${l}, ${a}%, ${b}%, ${A})` : `lab(${l}, ${a}%, ${b}%)`;
+    return alpha ? `laba(${l}%, ${a}, ${b}, ${A})` : `lab(${l}%, ${a}, ${b})`;
   };
 
   CM.Parsers.push(labaParser);

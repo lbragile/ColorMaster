@@ -21,5 +21,5 @@ export function LUVtoRGB(obj: Iluva): Irgba {
   const X = a === -1 / 3 ? d - b : (d - b) / (a - c);
   const Z = a * X + b;
 
-  return XYZtoRGB({ x: X, y: Y, z: Z, a: obj.a });
+  return XYZtoRGB({ x: X * 100, y: Y * 100, z: Z * 100, a: obj.a });
 }

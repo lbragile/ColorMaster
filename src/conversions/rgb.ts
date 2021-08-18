@@ -98,7 +98,7 @@ export function RGBtoXYZ(obj: Irgba): Ixyza {
 
   const [x, y, z] = multiplyMatrix(
     M,
-    Object.values(obj).map((val) => sRGB(val))
+    Object.values(obj).map((val) => 100 * sRGB(val))
   );
 
   // ensure it is adapted to D50
@@ -109,7 +109,7 @@ export function RGBtoXYZ(obj: Irgba): Ixyza {
  * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
  */
 export function RGBtoLAB(obj: Irgba): Ilaba {
-  const XYZ = Object.values(RGBtoXYZ(obj)).map((val, i) => val / Object.values(D50Ref)[i]);
+  const XYZ = Object.values(RGBtoXYZ(obj)).map((val, i) => val / (100 * Object.values(D50Ref)[i]));
   const F = XYZ.map((val) => (val > epsilon ? Math.cbrt(val) : (kappa * val + 16) / 116));
 
   const L = 116 * F[1] - 16;
@@ -136,7 +136,7 @@ export function RGBtoLCH(obj: Irgba): Ilcha {
  * @see {@link http://www.brucelindbloom.com/index.html?Eqn_Luv_to_XYZ.html}
  */
 export function RGBtoLUV(obj: Irgba): Iluva {
-  const { x, y, z } = RGBtoXYZ(obj);
+  const [x, y, z] = Object.values(RGBtoXYZ(obj)).map((val) => val / 100);
 
   const yr = y / D50Ref.y;
   const dp = x && y && z ? x + 15 * y + 3 * z : 19;

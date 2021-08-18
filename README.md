@@ -935,7 +935,7 @@ CM("#ABC").mix("#F00F", 2).stringHEX(); // "#FF0000FF" → ratio > 1
 <!-- markdownlint-disable no-inline-html -->
 
 <details>
-<summary><code>NamePlugin</code> (<b>CSS Names</b> | 2.31KB)</summary>
+<summary><code>NamePlugin</code> (<b>CSS Names</b> | 2.21KB)</summary>
 
 Want to use type-checked <a href='https://www.rapidtables.com/web/color/RGB_Color.html'>CSS names</a> rather than memorizing their corresponding channel values?
 Then this plugin is for you.
@@ -953,7 +953,7 @@ extendPlugins([A11yPlugin]);
 </details>
 
 <details>
-<summary><code>A11yPlugin</code> (<b>Accessibility</b> | 2.08KB)</summary>
+<summary><code>A11yPlugin</code> (<b>Accessibility</b> | 1.97KB)</summary>
 
 Useful functions for determining if a given color adheres to certain well know [accessibility rules/guidelines](https://www.w3.org/TR/WCAG20/)
 
@@ -969,7 +969,7 @@ extendPlugins([A11yPlugin]);
 </details>
 
 <details>
-<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.48KB)</summary>
+<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.37KB)</summary>
 
 Allows mixing of colors with a given ratio.
 
@@ -987,7 +987,7 @@ extendPlugins([MixPlugin]);
 </details>
 
 <details>
-<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.737KB)</summary>
+<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.633KB)</summary>
 
 Lets you generate beautiful <a href='https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm'>color harmonies</a> based on the current color instance
 
@@ -1104,11 +1104,11 @@ Here is a snapshot of completed and planned features:
 - [x] `HSL[A]` color space conversion & parsing
 - [x] `HSV[A]` color space conversion & parsing
 - [x] `HWB[A]` color space conversion & parsing
-- [ ] `XYZ[A]` color space ~~conversion~~ & parsing
+- [x] `XYZ[A]` color space conversion & parsing
 - [x] `LAB[A]` color space conversion & parsing
-- [ ] `LCH[A]`color space ~~conversion~~ & parsing
-- [ ] `LUV[A]`color space ~~conversion~~ & parsing
-- [ ] `UVW[A]`color space ~~conversion~~ & parsing
+- [x] `LCH[A]`color space conversion & parsing
+- [x] `LUV[A]`color space conversion & parsing
+- [x] `UVW[A]`color space conversion & parsing
 - [ ] `RYB[A]` color space ~~conversion~~ & parsing
 - [ ] `CMYK[A]` color space ~~conversion~~ & parsing
 

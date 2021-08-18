@@ -9,10 +9,10 @@ import { LABtoRGB } from "../conversions/lab";
  * @note a, b values are signed (allow both positive and negative values) and theoretically
  *       unbounded (but in practice do not exceed ±160). Thus, cannot use percentage
  */
-const LABA_RE = /laba?\s*\(\s*(\d*\.?\d+%?),?\s*([+-]?\d*\.?\d+),?\s*([+-]?\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+)?\s*\)/gi;
+const LABA_RE = /laba?\s*\(\s*(\d*\.?\d+%?),?\s*([+-]?\d*\.?\d+),?\s*([+-]?\d*\.?\d+),?\s*\/?\s*?(\d*\.?\d+)?\s*\)/gi;
 
 function createReturnArr({ l, a, b, alpha }: Ilaba): [Irgba, TFormat] {
-  return [LABtoRGB({ l: clamp(0, l, 400), a, b, alpha: alpha ? clamp(0, alpha, 1) : 1 }), "lab"];
+  return [LABtoRGB({ l: clamp(0, l, 100), a, b, alpha: alpha ? clamp(0, alpha, 1) : 1 }), "lab"];
 }
 
 export function labaParser(color: TInput): [Irgba, TFormat] {
@@ -26,7 +26,7 @@ export function labaParser(color: TInput): [Irgba, TFormat] {
       const [l, a, b, alpha] = matches
         .filter((val) => val !== undefined)
         .slice(1)
-        .map((elem, i) => (elem.includes("%") ? +elem.slice(0, -1) * (i === 0 ? 3.59 : i < 3 ? 1 : 0.01) : +elem));
+        .map((elem, i) => (elem.includes("%") ? +elem.slice(0, -1) * (i < 3 ? 1 : 0.01) : +elem));
       return createReturnArr({ l, a, b, alpha });
     }
   }

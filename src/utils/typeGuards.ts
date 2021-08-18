@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import {
   TInput,
   Ihex,
@@ -51,8 +53,6 @@ export function isHWBObject(type: TInput): type is Ihwb | Ihwba {
   return type.h !== undefined && type.w !== undefined;
 }
 
-// TODO
-/* istanbul ignore next */
 export function isXYZObject(type: TInput): type is Ixyz | Ixyza {
   type = type as Ixyz;
   return type.x !== undefined;
@@ -63,36 +63,28 @@ export function isLABObject(type: TInput): type is Ilab | Ilaba {
   return type.l !== undefined && type.b !== undefined;
 }
 
-// TODO
-/* istanbul ignore next */
 export function isLCHObject(type: TInput): type is Ilch | Ilcha {
   type = type as Ilch;
   return type.c !== undefined && type.h !== undefined;
 }
 
-// TODO
-/* istanbul ignore next */
 export function isLUVObject(type: TInput): type is Iluv | Iluva {
   type = type as Iluv;
   return type.l !== undefined && type.u !== undefined;
 }
 
-// TODO
-/* istanbul ignore next */
 export function isUVWObject(type: TInput): type is Iuvw | Iuvwa {
   type = type as Iuvw;
   return type.v !== undefined && type.w !== undefined;
 }
 
 // TODO
-/* istanbul ignore next */
 export function isRYBObject(type: TInput): type is Iryb | Iryba {
   type = type as Iryb;
   return type.r !== undefined && type.y !== undefined;
 }
 
 // TODO
-/* istanbul ignore next */
 export function isCMYKObject(type: TInput): type is Icmyk | Icmyka {
   type = type as Icmyk;
   return type.c !== undefined && type.m !== undefined;

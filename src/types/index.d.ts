@@ -243,13 +243,15 @@ export type TInput =
   | Ilaba
   | Ilch
   | Ilcha
+  | Ixyz
+  | Ixyza
   | Icmyk
   | Icmyka;
 
 /**
  * Possible formats the the input can be (omits alpha)
  */
-export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "hsv" | "hwb" | "lab" | "lch" | "cmyk";
+export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "hsv" | "hwb" | "lab" | "lch" | "xyz" | "cmyk";
 
 /**
  * Allows parsing of inputs to correctly determine their format & allocate the corresponding

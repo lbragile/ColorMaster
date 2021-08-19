@@ -1,4 +1,5 @@
 import { RGBtoXYZ } from "../conversions/rgb";
+import { xyzaParser } from "../parsers/xyz";
 import { TPlugin, Ixyza, TNumArr, IStringOpts } from "../types";
 import { round } from "../utils/numeric";
 
@@ -33,6 +34,8 @@ const XYZPlugin: TPlugin = (CM): void => {
     const [x, y, z, a] = Object.values(this.xyza() as Ixyza).map((val, i) => round(val, precision[i]));
     return alpha ? `xyza(${x}, ${y}, ${z}, ${a})` : `xyz(${x}, ${y}, ${z})`;
   };
+
+  CM.Parsers.push(xyzaParser);
 };
 
 export default XYZPlugin;

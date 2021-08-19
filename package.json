@@ -125,21 +125,6 @@
       "require": "./plugins/lch.js",
       "default": "./plugins/lch.mjs"
     },
-    "./plugins/luv": {
-      "import": "./plugins/luv.mjs",
-      "require": "./plugins/luv.js",
-      "default": "./plugins/luv.mjs"
-    },
-    "./plugins/uvw": {
-      "import": "./plugins/uvw.mjs",
-      "require": "./plugins/uvw.js",
-      "default": "./plugins/uvw.mjs"
-    },
-    "./plugins/ryb": {
-      "import": "./plugins/ryb.mjs",
-      "require": "./plugins/ryb.js",
-      "default": "./plugins/ryb.mjs"
-    },
     "./plugins/xyz": {
       "import": "./plugins/xyz.mjs",
       "require": "./plugins/xyz.js",

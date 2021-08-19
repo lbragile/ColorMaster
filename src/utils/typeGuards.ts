@@ -15,45 +15,52 @@ import {
   Ihwb,
   Ihwba,
   Icmyk,
-  Icmyka
+  Icmyka,
+  Ixyz,
+  Ixyza
 } from "../types";
 
 export function isRGBObject(type: TInput): type is Irgb | Irgba {
-  type = type as Irgb;
-  return type.r !== undefined && typeof type.r === "number";
+  const { r } = type as Irgb;
+  return r !== undefined && typeof r === "number";
 }
 
 export function isHEXObject(type: TInput): type is Ihex | Ihexa {
-  type = type as Ihex;
-  return type.r !== undefined && typeof type.r === "string";
+  const { r } = type as Ihex;
+  return r !== undefined && typeof r === "string";
 }
 
 export function isHSLObject(type: TInput): type is Ihsl | Ihsla {
-  type = type as Ihsl;
-  return type.h !== undefined && type.s !== undefined && type.l !== undefined;
+  const { h, s, l } = type as Ihsl;
+  return h !== undefined && s !== undefined && l !== undefined;
 }
 
 export function isHSVObject(type: TInput): type is Ihsv | Ihsva {
-  type = type as Ihsv;
-  return type.h !== undefined && type.s !== undefined && type.v !== undefined;
+  const { h, s, v } = type as Ihsv;
+  return h !== undefined && s !== undefined && v !== undefined;
 }
 
 export function isHWBObject(type: TInput): type is Ihwb | Ihwba {
-  type = type as Ihwb;
-  return type.h !== undefined && type.w !== undefined && type.b !== undefined;
+  const { h, w, b } = type as Ihwb;
+  return h !== undefined && w !== undefined && b !== undefined;
 }
 
 export function isLABObject(type: TInput): type is Ilab | Ilaba {
-  type = type as Ilab;
-  return type.l !== undefined && type.a !== undefined && type.b !== undefined;
+  const { l, a, b } = type as Ilab;
+  return l !== undefined && a !== undefined && b !== undefined;
 }
 
 export function isLCHObject(type: TInput): type is Ilch | Ilcha {
-  type = type as Ilch;
-  return type.l !== undefined && type.c !== undefined && type.h !== undefined;
+  const { l, c, h } = type as Ilch;
+  return l !== undefined && c !== undefined && h !== undefined;
+}
+
+export function isXYZObject(type: TInput): type is Ixyz | Ixyza {
+  const { x, y, z } = type as Ixyz;
+  return x !== undefined && y !== undefined && z !== undefined;
 }
 
 export function isCMYKObject(type: TInput): type is Icmyk | Icmyka {
-  type = type as Icmyk;
-  return type.c !== undefined && type.m !== undefined && type.y !== undefined && type.k !== undefined;
+  const { c, m, y, k } = type as Icmyk;
+  return c !== undefined && m !== undefined && y !== undefined && k !== undefined;
 }

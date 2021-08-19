@@ -1019,13 +1019,14 @@ import LCHPlugin from "colormaster/plugins/lch";
 
 extendPlugins([LCHPlugin]);
 
-...
+CM({ l: 100, c: 50, h: 120, a: 0.5 }).stringRGB(); // "rgba(236, 255, 169, 0.5)"
+CM("lcha(100 50 120 / 0.5)").stringRGB(); // "rgba(236, 255, 169, 0.5)"
 ```
 
 </details>
 
 <details>
-<summary><code>LABPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LAB[A] Color Space</a></b> | 1.60KB)</summary>
+<summary><code>LABPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LAB[A] Color Space</a></b> | 1.61KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1033,55 +1034,14 @@ import LABPlugin from "colormaster/plugins/lab";
 
 extendPlugins([LABPlugin]);
 
-...
+CM({ l: 100, a: -100, b: 100, alpha: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("laba(100 -100 100 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
 ```
 
 </details>
 
 <details>
-<summary><code>HWBPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#the-hwb-notation'>HWB[A] Color Space</a></b> | 1.12KB)</summary>
-
-```ts
-import CM, { extendPlugins } from "colormaster";
-import HWBPlugin from "colormaster/plugins/hwb";
-
-extendPlugins([HWBPlugin]);
-
-...
-```
-
-</details>
-
-<details>
-<summary><code>HSVPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/HSL_and_HSV'>HSV[A] Color Space</a></b> | 1.04KB)</summary>
-
-```ts
-import CM, { extendPlugins } from "colormaster";
-import HSVPlugin from "colormaster/plugins/hsv";
-
-extendPlugins([HSVPlugin]);
-
-...
-```
-
-</details>
-
-<details>
-<summary><code>CMYKPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#device-cmyk'>CMYK[A] Color Space</a></b> | 0.884KB)</summary>
-
-```ts
-import CM, { extendPlugins } from "colormaster";
-import CMYKPlugin from "colormaster/plugins/cmyk";
-
-extendPlugins([CMYKPlugin]);
-
-...
-```
-
-</details>
-
-<details>
-<summary><code>XYZPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/CIE_1931_color_space'>XYZ[A] Color Space</a></b> | 0.802KB)</summary>
+<summary><code>XYZPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/CIE_1931_color_space'>XYZ[A] Color Space</a></b> | 1.44KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1089,7 +1049,53 @@ import XYZPlugin from "colormaster/plugins/xyz";
 
 extendPlugins([XYZPlugin]);
 
-...
+CM({ x: 40, y: 100, z: 5, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("xyza(40% 100% 5 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>HWBPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#the-hwb-notation'>HWB[A] Color Space</a></b> | 1.13KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import HWBPlugin from "colormaster/plugins/hwb";
+
+extendPlugins([HWBPlugin]);
+
+CM({ h: 120, w: 0, b: 50, a: 0.5 }).stringRGB(); // "rgba(0, 128, 0, 0.5)"
+CM("hwba(120 0% 50% / 0.5)").stringRGB(); // "rgba(0, 128, 0, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>HSVPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/HSL_and_HSV'>HSV[A] Color Space</a></b> | 1.05KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import HSVPlugin from "colormaster/plugins/hsv";
+
+extendPlugins([HSVPlugin]);
+
+CM({ h: 120, s: 50, v: 50, a: 0.5 }).stringRGB(); // "rgba(64, 128, 64, 0.5)"
+CM("hsva(120 50% 50% / 0.5)").stringRGB(); // "rgba(64, 128, 64, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>CMYKPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#device-cmyk'>CMYK[A] Color Space</a></b> | 0.890KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import CMYKPlugin from "colormaster/plugins/cmyk";
+
+extendPlugins([CMYKPlugin]);
+
+CM({ c: 100, m: 5, y: 75, k: 10, a: 0.5 }).stringRGB(); // "rgba(0, 218, 57, 0.5)"
+CM("cmyka(100 5% 75 10% / 0.5)").stringRGB(); // "rgba(0, 218, 57, 0.5)"
 ```
 
 </details>
@@ -1184,10 +1190,9 @@ Visit our [automated Kanban](https://github.com/lbragile/ColorMaster/projects) f
 Here is a snapshot of completed and planned features:
 
 - [x] CSS/HTML name handling
-- [x] Color wheel manipulation (rotation, saturation, lightness, grayscale)
+- [x] Color wheel manipulation (rotation, saturation, lightness, grayscale, etc.)
 - [x] Proper handling of improper input values
 - [x] `brightness`, `luminance`, `contrast` accessibility functions - along with other helpful wrappers
-- [x] Setting/adjusting channel values in all color spaces
 - [x] Plugin Mechanism to extend functionality of core library
 - [x] Color harmony generation
 - [x] Color mixing (done in `LCHA` color space)

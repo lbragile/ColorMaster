@@ -2,6 +2,31 @@
 
 All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster) module will be documented in this file.
 
+## v1.1.0 - August 18, 2021
+
+### Added
+
+- Simplified logic of CM constructor
+- `LAB[A]` `HSV[A]`, `HWB[A]`, `XYZ[A]`, `LCH[A]`, `CMYK[A]` parsers - along with respective plugins - and fully tested them
+- Community documents such as [CONTRIBUTING.md](https://github.com/lbragile/ColorMaster/blob/master/.github/CONTRIBUTING.md)
+- Issue & PR templates
+
+### Fixed
+
+- README to include more plugin information
+- `typeGuard` logic to be more specific in scope
+- Logic in parsers for object clamping
+
+### Changed
+
+- Webpack to not give sourcemaps
+- Produce ES and CommonJS modules during bundling
+- Test CI [GitHub Action](https://github.com/lbragile/ColorMaster/actions/workflows/test.yml) to use a matrix build - test common NodeJS version in parallel
+- Exports field in `package.json` to show in [bundlephobia](https://bundlephobia.com/package/colormaster@latest)
+- Adjusted Jest config to reduce CLI command
+
+---
+
 ## v1.0.0 - August 15, 2021
 
 ### Added
@@ -43,6 +68,8 @@ All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster
 ### Removed
 
 - Redundant typing on class method opts objects
+
+---
 
 ## v0.1.0 - August 1, 2021
 
@@ -128,7 +155,7 @@ All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster
 
 ---
 
-## v0.0.2 → v0.0.6 - July 24, 2021
+## v0.0.2 to v0.0.6 - July 24, 2021
 
 ### Added
 

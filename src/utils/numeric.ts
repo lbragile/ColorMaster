@@ -9,7 +9,7 @@ import { TNumArr } from "../types";
  * @returns A number in the range `[min, max]` such that `min <= val <= max`
  */
 export function clamp(min: number, val: number, max: number): number {
-  return val < min ? min : val > max ? max : val;
+  return Math.max(min, Math.min(val, max));
 }
 
 /**
@@ -69,14 +69,14 @@ export function rng(max: number): number {
 }
 
 /**
- * Transforms an input RGBA string into an RGB ([r, g, b]) numeric array
+ * Transforms an input RGBA string into an RGBA ([r, g, b, a]) numeric array
  * @param str Input RGBA string from which the RGB values are extracted
  * @param alternative If the string is not RGBA, this array is returned instead
  *
- * @returns An RGBA array based on the input string in the form [r, g, b]
+ * @returns An RGBA array based on the input string in the form [r, g, b, a]
  */
-export function getRGBArr(str: string, alternative = [0, 0, 0]): TNumArr {
-  return (str.match(/\d{1,3}/g)?.map((val) => +val) ?? alternative) as TNumArr;
+export function getRGBArr(str: string, alternative = [0, 0, 0, 1]): Required<TNumArr> {
+  return (str.match(/\d{1,3}/g)?.map((val) => +val) ?? alternative) as Required<TNumArr>;
 }
 
 /**

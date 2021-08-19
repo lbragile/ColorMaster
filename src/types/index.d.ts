@@ -1,5 +1,5 @@
 import { ColorMaster } from "..";
-import { RGBExtended } from "../enums/colors";
+import { TCSSName } from "../enums/colors";
 
 type THexDigit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 type THexLower = "a" | "b" | "c" | "d" | "e" | "f";
@@ -29,6 +29,12 @@ export interface Irgb {
   b: number;
 }
 
+export interface Ihex {
+  r: THexStr;
+  g: THexStr;
+  b: THexStr;
+}
+
 export interface Ihsl {
   h: number;
   s: number;
@@ -41,10 +47,10 @@ export interface Ihsv {
   v: number;
 }
 
-export interface Ihex {
-  r: THexStr;
-  g: THexStr;
-  b: THexStr;
+export interface Ihwb {
+  h: number;
+  w: number;
+  b: number;
 }
 
 export interface Ixyz {
@@ -65,8 +71,37 @@ export interface Ilch {
   h: number;
 }
 
+export interface Iluv {
+  l: number;
+  u: number;
+  v: number;
+}
+
+export interface Iuvw {
+  u: number;
+  v: number;
+  w: number;
+}
+
+export interface Iryb {
+  r: number;
+  y: number;
+  b: number;
+}
+
+export interface Icmyk {
+  c: number; // cyan
+  m: number; // magenta
+  y: number; // yellow
+  k: number; // key (black)
+}
+
 export interface Irgba extends Irgb {
   a: number;
+}
+
+export interface Ihexa extends Ihex {
+  a: string;
 }
 
 export interface Ihsla extends Ihsl {
@@ -77,8 +112,8 @@ export interface Ihsva extends Ihsv {
   a: number;
 }
 
-export interface Ihexa extends Ihex {
-  a: string;
+export interface Ihwba extends Ihwb {
+  a: number;
 }
 
 export interface Ixyza extends Ixyz {
@@ -90,6 +125,21 @@ export interface Ilaba extends Ilab {
 }
 
 export interface Ilcha extends Ilch {
+  a: number;
+}
+
+export interface Iluva extends Iluv {
+  a: number;
+}
+
+export interface Iuvwa extends Iuvw {
+  a: number;
+}
+
+export interface Iryba extends Iryb {
+  a: number;
+}
+export interface Icmyka extends Icmyk {
   a: number;
 }
 
@@ -176,7 +226,9 @@ export type TChannelHSL = "hue" | "saturation" | "lightness" | "alpha";
  * Simplified type that combines all possible color space inputs
  */
 export type TInput =
-  | string
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  | (string & {}) // https://stackoverflow.com/a/61048124/4298115 ← allows intellisense for TCSSName & regular strings
+  | TCSSName
   | Irgb
   | Irgba
   | Ihex
@@ -185,23 +237,27 @@ export type TInput =
   | Ihsla
   | Ihsv
   | Ihsva
-  | Ixyz
-  | Ixyza
+  | Ihwb
+  | Ihwba
   | Ilab
   | Ilaba
   | Ilch
-  | Ilcha;
+  | Ilcha
+  | Ixyz
+  | Ixyza
+  | Icmyk
+  | Icmyka;
 
 /**
  * Possible formats the the input can be (omits alpha)
  */
-export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "xyz" | "lab" | "lch";
+export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "hsv" | "hwb" | "lab" | "lch" | "xyz" | "cmyk";
 
 /**
  * Allows parsing of inputs to correctly determine their format & allocate the corresponding
  * channels with proper values (depending on color space)
  */
-export type TParser = (color: TInput | keyof typeof RGBExtended) => [Irgba, TFormat];
+export type TParser = (color: TInput) => [Irgba, TFormat];
 
 /**
  * Plugins allow the user to extend ColorMaster's core functionality

@@ -17,6 +17,8 @@ module.exports = {
   setupFilesAfterEnv: [], // test specific setup
   restoreMocks: true, // restore mock state before each state
   verbose: true,
+  collectCoverage: true,
+  maxWorkers: "50%", // this can actually be faster than using 100% due to the time cost of allocating CPUs
   coverageThreshold: {
     global: {
       statements: 95,

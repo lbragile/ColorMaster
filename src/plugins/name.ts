@@ -52,8 +52,8 @@ const NamePlugin: TPlugin = (CM): void => {
    */
   function nameParser(color: keyof typeof RGBExtended): [Irgba, TFormat] {
     if (Object.keys(RGBExtended).includes(color)) {
-      const [r, g, b] = getRGBArr(RGBExtended[color]);
-      return [{ r, g, b, a: 1 }, "name"];
+      const [r, g, b, a] = getRGBArr(RGBExtended[color]);
+      return [{ r, g, b, a: a ?? 1 }, "name"];
     } else {
       return [{ r: 0, g: 0, b: 0, a: 1 }, "invalid"];
     }

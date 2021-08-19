@@ -22,7 +22,7 @@ function D50_to_D65(obj: Ixyza): Ixyza {
 
 export function XYZtoRGB(obj: Ixyza): Irgba {
   // ensure it is adapted to D65
-  const { x, y, z } = D50_to_D65(obj);
+  const [x, y, z] = Object.values(D50_to_D65(obj)).map((val) => val / 100);
 
   const M = [
     [3.2409699419045226, -1.537383177570094, -0.4986107602930034],

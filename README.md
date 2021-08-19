@@ -10,6 +10,12 @@
   <a href="https://www.npmjs.com/package/colormaster">
     <img alt="package version" src="https://img.shields.io/npm/v/colormaster?label=NPM&logo=npm&style=flat-square" />
   </a>
+  <a href="https://www.npmjs.com/package/colormaster">
+    <img alt="minified & gzipped size" src="https://img.shields.io/bundlephobia/minzip/colormaster?label=Min%20%26%20Gzip&logo=npm&style=flat-square" />
+  </a>
+   <a href="https://www.npmjs.com/package/colormaster">
+    <img alt="tree shaking" src="https://img.shields.io/static/v1?label=Tree%20Shaking&message=yes&color=%23007EC6&logo=npm&style=flat-square" />
+  </a>
   <a href="https://github.com/lbragile/ColorMaster/actions">
     <img alt="build status" src="https://img.shields.io/github/workflow/status/lbragile/ColorMaster/Testing?color=%2300D800&label=Build&logo=github&style=flat-square" />
   </a>
@@ -26,6 +32,18 @@
 </div>
 <!-- markdownlint-enable first-line-heading -->
 <!-- markdownlint-enable no-inline-html -->
+
+## 💎 Features
+
+- 📦 **Compact**: Just ~2.5 KB [minified & gzipped](https://bundlephobia.com/package/colormaster@latest)
+- 👌 **Straightforward**: Clear & intuitive function names with chainable API
+- 🔫 **Bulletproof**: Entirely TypeScript (strict mode) and very thoroughly tested
+- ✍ **Strongly Typed**: Includes [types](#-strongly-typed) out of the box
+- 🏗 **Extendable**: [Plugins](#-general-plugins) allow you to extend upon core functionality as needed
+- 🌳 **Tree Shakable**: Only adds functions that you use to reduce your project's size
+- 📑 **CSS Compliant**: Adheres to [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) specifications
+- 🚂 **Works Everywhere**: Browser (client) and NodeJS (server) support
+- 🐣 **Dependency Free**: Full control of features & enhancements
 
 ## ⭐ Getting Started
 
@@ -513,7 +531,7 @@ CM("hsla(120, 60%, 30%, 0.3)").invert({ alpha: false }).stringHSL(); // "hsla(24
 
 ### Accessibility (Plugin - aka A11y)
 
-To use the methods below, the plugin first needs to be [extended](#plugins).
+To use the methods below, the plugin first needs to be [extended](#-general-plugins).
 That being said, we will skip this step to avoid repetition.
 
 <!-- markdownlint-disable no-inline-html -->
@@ -910,14 +928,14 @@ CM("#ABC").mix("#F00F", 2).stringHEX(); // "#FF0000FF" → ratio > 1
 
 <!-- markdownlint-enable no-inline-html -->
 
-## 🤯 Plugins
+## 🤯 General Plugins
 
 **ColorMaster** comes out of the box with an extendable plugin mechanism that adds extra functionality to the core library.
 
 <!-- markdownlint-disable no-inline-html -->
 
 <details>
-<summary><code>NamePlugin</code> (<b>CSS Names</b> | 2.29KB)</summary>
+<summary><code>NamePlugin</code> (<b>CSS Names</b> | 2.21KB)</summary>
 
 Want to use type-checked <a href='https://www.rapidtables.com/web/color/RGB_Color.html'>CSS names</a> rather than memorizing their corresponding channel values?
 Then this plugin is for you.
@@ -935,7 +953,7 @@ extendPlugins([A11yPlugin]);
 </details>
 
 <details>
-<summary><code>A11yPlugin</code> (<b>Accessibility</b> | 2.08KB)</summary>
+<summary><code>A11yPlugin</code> (<b>Accessibility</b> | 1.97KB)</summary>
 
 Useful functions for determining if a given color adheres to certain well know [accessibility rules/guidelines](https://www.w3.org/TR/WCAG20/)
 
@@ -951,7 +969,7 @@ extendPlugins([A11yPlugin]);
 </details>
 
 <details>
-<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.46KB)</summary>
+<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.37KB)</summary>
 
 Allows mixing of colors with a given ratio.
 
@@ -969,7 +987,7 @@ extendPlugins([MixPlugin]);
 </details>
 
 <details>
-<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.734KB)</summary>
+<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.633KB)</summary>
 
 Lets you generate beautiful <a href='https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm'>color harmonies</a> based on the current color instance
 
@@ -980,6 +998,104 @@ import HarmonyPlugin from "colormaster/plugins/harmony";
 extendPlugins([HarmonyPlugin]);
 
 ...
+```
+
+</details>
+
+<!-- markdownlint-enable no-inline-html -->
+
+## 🎨 Color Space Plugins
+
+**ColorMaster** also provides color space related plugins.
+
+<!-- markdownlint-disable no-inline-html -->
+
+<details>
+<summary><code>LCHPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LCH[A] Color Space</a></b> | 1.72KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import LCHPlugin from "colormaster/plugins/lch";
+
+extendPlugins([LCHPlugin]);
+
+CM({ l: 100, c: 50, h: 120, a: 0.5 }).stringRGB(); // "rgba(236, 255, 169, 0.5)"
+CM("lcha(100 50 120 / 0.5)").stringRGB(); // "rgba(236, 255, 169, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>LABPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LAB[A] Color Space</a></b> | 1.61KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import LABPlugin from "colormaster/plugins/lab";
+
+extendPlugins([LABPlugin]);
+
+CM({ l: 100, a: -100, b: 100, alpha: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("laba(100 -100 100 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>XYZPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/CIE_1931_color_space'>XYZ[A] Color Space</a></b> | 1.44KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import XYZPlugin from "colormaster/plugins/xyz";
+
+extendPlugins([XYZPlugin]);
+
+CM({ x: 40, y: 100, z: 5, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("xyza(40% 100% 5 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>HWBPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#the-hwb-notation'>HWB[A] Color Space</a></b> | 1.13KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import HWBPlugin from "colormaster/plugins/hwb";
+
+extendPlugins([HWBPlugin]);
+
+CM({ h: 120, w: 0, b: 50, a: 0.5 }).stringRGB(); // "rgba(0, 128, 0, 0.5)"
+CM("hwba(120 0% 50% / 0.5)").stringRGB(); // "rgba(0, 128, 0, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>HSVPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/HSL_and_HSV'>HSV[A] Color Space</a></b> | 1.05KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import HSVPlugin from "colormaster/plugins/hsv";
+
+extendPlugins([HSVPlugin]);
+
+CM({ h: 120, s: 50, v: 50, a: 0.5 }).stringRGB(); // "rgba(64, 128, 64, 0.5)"
+CM("hsva(120 50% 50% / 0.5)").stringRGB(); // "rgba(64, 128, 64, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>CMYKPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#device-cmyk'>CMYK[A] Color Space</a></b> | 0.890KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import CMYKPlugin from "colormaster/plugins/cmyk";
+
+extendPlugins([CMYKPlugin]);
+
+CM({ c: 100, m: 5, y: 75, k: 10, a: 0.5 }).stringRGB(); // "rgba(0, 218, 57, 0.5)"
+CM("cmyka(100 5% 75 10% / 0.5)").stringRGB(); // "rgba(0, 218, 57, 0.5)"
 ```
 
 </details>
@@ -999,10 +1115,15 @@ The type definitions are included with the module, so you get intellisense right
 
 Additionally, **ColorMaster** exports all of its types and interfaces so that you can use them in your code.
 
-Next we present how to type your code for RGBA, HEXA, and HSLA color space objects, but you can follow the same principles for all supported color spaces.
+Next we present how to type your code for `RGBA`, `HEXA`, and `HSLA` color space objects, but you can follow the same principles for all supported color spaces.
+
+<!-- markdownlint-disable no-inline-html -->
+
+<details open>
+<summary><b>RGBA</b> Types</summary>
 
 ```ts
-import { Irgb, Irgba, Ihex, Ihexa, Ihsl, Ihsla } from "colormaster/types";
+import { Irgb, Irgba } from "colormaster/types";
 
 let rgb: Irgb;
 rgb = { r: 128, g: 128, b: 128 }; // OK
@@ -1013,8 +1134,15 @@ let rgba: Irgba;
 rgba = { r: 128, g: 128, b: 128, a: 0.5 }; // OK
 rgba = { r: 128, g: 128, b: 128 }; // ERROR
 rgba = { r: 128, g: 128, b: 128, alpha: 0.5 }; // ERROR
+```
 
-/* -------------------------------------------- */
+</details>
+
+<details>
+<summary><b>HEXA</b> Types</summary>
+
+```ts
+import { Ihex, Ihexa } from "colormaster/types";
 
 let hex: Ihex;
 hex = { r: "AA", g: "BB", b: "CC" }; // OK
@@ -1025,8 +1153,15 @@ let hexa: Ihexa;
 hexa = { r: "AA", g: "BB", b: "CC", a: "DD" }; // OK
 hexa = { r: "AA", g: "BB", b: "CC" }; // ERROR
 hexa = { r: "AA", g: "BB", b: "CC", alpha: "DD" }; // ERROR
+```
 
-/* -------------------------------------------- */
+</details>
+
+<details>
+<summary><b>HSLA</b> Types</summary>
+
+```ts
+import { Ihsl, Ihsla } from "colormaster/types";
 
 let hsl: Ihsl;
 hsl = { h: 240, s: 50, l: 75 }; // OK
@@ -1039,6 +1174,10 @@ hsla = { h: 240, s: 50, l: 75 }; // ERROR
 hsla = { h: 240, s: 50, l: 75, alpha: 0.5 }; // ERROR
 ```
 
+</details>
+
+<!-- markdownlint-enable no-inline-html -->
+
 ## 📕 Documentation [![Documentation](https://img.shields.io/badge/Documentation-available-brightgreen?color=00D800&style=flat-square&logo=github)](https://lbragile.github.io/ColorMaster/)
 
 - API documentation can be found on [our documentation site](https://lbragile.github.io/ColorMaster/).
@@ -1048,26 +1187,27 @@ hsla = { h: 240, s: 50, l: 75, alpha: 0.5 }; // ERROR
 
 Visit our [automated Kanban](https://github.com/lbragile/ColorMaster/projects) for a detailed overview of the features/tasks that need to be added to ColorMaster in the near future.
 
-Here is a snapshot of what completed and planned features:
+Here is a snapshot of completed and planned features:
 
 - [x] CSS/HTML name handling
-- [x] Color wheel manipulation (rotation, saturation, lightness, grayscale)
+- [x] Color wheel manipulation (rotation, saturation, lightness, grayscale, etc.)
 - [x] Proper handling of improper input values
 - [x] `brightness`, `luminance`, `contrast` accessibility functions - along with other helpful wrappers
-- [x] Setting/adjusting channel values in all color spaces
 - [x] Plugin Mechanism to extend functionality of core library
 - [x] Color harmony generation
-- [x] Color mixing (done in LCHA color space)
-- [x] `RGBA` color space conversion & parsing
-- [x] `HEXA` color space conversion & parsing
-- [x] `HSLA` color space conversion & parsing
-- [ ] `XYZ` color space ~~conversion~~ & parsing
-- [ ] `LAB` color space ~~conversion~~ & parsing
-- [ ] `LCH`color space ~~conversion~~ & parsing
-- [ ] `HSV` color space ~~conversion~~ & parsing
-- [ ] `HWB` color space conversion & parsing
-- [ ] `RYB` color space conversion & parsing
-- [ ] `CMYK` color space conversion & parsing
+- [x] Color mixing (done in `LCHA` color space)
+- [x] `RGB[A]` color space conversion & parsing
+- [x] `HEX[A]` color space conversion & parsing
+- [x] `HSL[A]` color space conversion & parsing
+- [x] `HSV[A]` color space conversion & parsing
+- [x] `HWB[A]` color space conversion & parsing
+- [x] `XYZ[A]` color space conversion & parsing
+- [x] `LAB[A]` color space conversion & parsing
+- [x] `LCH[A]` color space conversion & parsing
+- [x] `CMYK[A]` color space conversion & parsing
+- [ ] `LUV[A]` color space conversion & parsing
+- [ ] `UVW[A]` color space conversion & parsing
+- [ ] `RYB[A]` color space conversion & parsing
 
 ## License [![GitHub License](https://img.shields.io/github/license/lbragile/colormaster?color=00D800&label=License&logo=github&style=flat-square)](https://github.com/lbragile/ColorMaster/blob/master/LICENSE)
 

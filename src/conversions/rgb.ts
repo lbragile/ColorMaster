@@ -1,4 +1,5 @@
-import { Irgba, Ixyza, Ihexa, THexStr, Ihsla, Ihsva, Ilaba, Ilcha } from "../types";
+import { D50Ref, epsilon, kappa } from "../enums/cie";
+import { Irgba, Ixyza, Ihexa, THexStr, Ihsla, Ihsva, Ilaba, Ilcha, Icmyka, Ihwba } from "../types";
 import { multiplyMatrix } from "../utils/matrix";
 import { sRGB, adjustHue } from "../utils/numeric";
 
@@ -76,6 +77,15 @@ export function RGBtoHSV(obj: Irgba): Ihsva {
 }
 
 /**
+ * @see {@link https://en.wikipedia.org/wiki/HWB_color_model#:~:text=HWB%20is%20a%20cylindrical%2Dcoordinate,and%20slightly%20faster%20to%20compute}
+ */
+export function RGBtoHWB(obj: Irgba): Ihwba {
+  const { h, a } = RGBtoHSL(obj);
+  const { r, g, b } = obj;
+  return { h, w: Math.min(r, g, b) / 2.55, b: 100 * (1 - Math.max(r, g, b) / 255), a };
+}
+
+/**
  * @see {@link https://www.image-engineering.de/library/technotes/958-how-to-convert-between-srgb-and-ciexyz}
  * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
  */
@@ -88,7 +98,7 @@ export function RGBtoXYZ(obj: Irgba): Ixyza {
 
   const [x, y, z] = multiplyMatrix(
     M,
-    Object.values(obj).map((val) => sRGB(val))
+    Object.values(obj).map((val) => 100 * sRGB(val))
   );
 
   // ensure it is adapted to D50
@@ -99,11 +109,7 @@ export function RGBtoXYZ(obj: Irgba): Ixyza {
  * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
  */
 export function RGBtoLAB(obj: Irgba): Ilaba {
-  const epsilon = 6 ** 3 / 29 ** 3;
-  const kappa = 29 ** 3 / 3 ** 3;
-  const whiteD50Ref = [0.96422, 1.0, 0.82521];
-
-  const XYZ = Object.values(RGBtoXYZ(obj)).map((val, i) => val / whiteD50Ref[i]);
+  const XYZ = Object.values(RGBtoXYZ(obj)).map((val, i) => val / (100 * Object.values(D50Ref)[i]));
   const F = XYZ.map((val) => (val > epsilon ? Math.cbrt(val) : (kappa * val + 16) / 116));
 
   const L = 116 * F[1] - 16;
@@ -123,4 +129,15 @@ export function RGBtoLCH(obj: Irgba): Ilcha {
   const c = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
 
   return { l, c, h: adjustHue(hue), a: obj.a };
+}
+
+/**
+ * Naively Converting Between Uncalibrated CMYK and sRGB-Based Colors
+ * @see {@link https://www.w3.org/TR/css-color-4/#cmyk-rgb}
+ */
+export function RGBtoCMYK(obj: Irgba): Icmyka {
+  const { r, g, b, a } = obj;
+  const k = 1 - Math.max(r, g, b) / 255;
+  const [c, m, y] = k === 1 ? [0, 0, 0] : [r, g, b].map((val) => (100 * (1 - val / 255 - k)) / (1 - k));
+  return { c, m, y, k: k * 100, a };
 }

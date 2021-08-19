@@ -1,5 +1,4 @@
-import CM, { ColorMaster } from "../../src/index";
-import { extendPlugins } from "../../src";
+import CM, { ColorMaster, extendPlugins } from "../../src/index";
 import NamePlugin from "../../src/plugins/name";
 
 extendPlugins([NamePlugin]);
@@ -38,5 +37,7 @@ describe("Name parser", () => {
   test("white", () => expect(CM("white").stringHEX()).toBe("#FFFFFFFF"));
   test("gray", () => expect(CM("gray").stringHEX()).toBe("#808080FF"));
   test("black", () => expect(CM("black").stringHEX()).toBe("#000000FF"));
+  test("violet", () => expect(CM("violet").stringHEX()).toBe("#EE82EEFF"));
+  test("transparent", () => expect(CM("transparent").stringHEX()).toBe("#00000000"));
   test("invalid", () => expect(CM("magic").stringHEX()).toBe("#000000FF"));
 });

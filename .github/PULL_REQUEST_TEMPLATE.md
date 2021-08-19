@@ -1,8 +1,7 @@
 ---
-name: 🔽 Pull Request
+name: Pull Request Template
 about: Use this template when making a pull request for a bug or feature
 title: "title of related issue"
-reviewers: lbragile
 ---
 
 ## Added
@@ -32,6 +31,10 @@ reviewers: lbragile
 - feature 2
 - feature 3
   ...
+
+## Notes
+
+Any other information that you feel needs to be mentioned to aid the reviewers...
 
 ---
 

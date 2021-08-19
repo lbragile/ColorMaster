@@ -1,5 +1,5 @@
 import { ColorMaster } from "..";
-import { RGBExtended, TCSSName } from "../enums/colors";
+import { TCSSName } from "../enums/colors";
 
 type THexDigit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
 type THexLower = "a" | "b" | "c" | "d" | "e" | "f";
@@ -239,45 +239,23 @@ export type TInput =
   | Ihsva
   | Ihwb
   | Ihwba
-  | Ixyz
-  | Ixyza
   | Ilab
   | Ilaba
   | Ilch
   | Ilcha
-  | Iluv
-  | Iluva
-  | Iuvw
-  | Iuvwa
-  | Iryb
-  | Iryba
   | Icmyk
   | Icmyka;
 
 /**
  * Possible formats the the input can be (omits alpha)
  */
-export type TFormat =
-  | "invalid"
-  | "name"
-  | "rgb"
-  | "hex"
-  | "hsl"
-  | "hsv"
-  | "hwb"
-  | "xyz"
-  | "lab"
-  | "lch"
-  | "ryb"
-  | "luv"
-  | "uvw"
-  | "cmyk";
+export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "hsv" | "hwb" | "lab" | "lch" | "cmyk";
 
 /**
  * Allows parsing of inputs to correctly determine their format & allocate the corresponding
  * channels with proper values (depending on color space)
  */
-export type TParser = (color: TInput | keyof typeof RGBExtended) => [Irgba, TFormat];
+export type TParser = (color: TInput) => [Irgba, TFormat];
 
 /**
  * Plugins allow the user to extend ColorMaster's core functionality

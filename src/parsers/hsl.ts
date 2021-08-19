@@ -3,6 +3,10 @@ import { TInput, Irgba, TFormat, Ihsla } from "../types";
 import { adjustHue, clamp } from "../utils/numeric";
 import { isHSLObject } from "../utils/typeGuards";
 
+/**
+ * hsl[a]( <number | percentage | angle> <number | percentage> <number | percentage> [ / <alpha-value> ]? )
+ * @see {@link https://www.w3.org/TR/css-color-4/#the-hsl-notation}
+ */
 const HSLA_RE = /hsla?\s*\(\s*([+-]?\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ h, s, l, a }: Ihsla): [Irgba, TFormat] {

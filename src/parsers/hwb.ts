@@ -4,7 +4,7 @@ import { isHWBObject } from "../utils/typeGuards";
 import { HWBtoRGB } from "../conversions/hwb";
 
 /**
- * hwb( <hue> <percentage> <percentage> [ / <alpha-value> ]? )
+ * hwb( <number | percentage | angle> <number | percentage> <number | percentage> [ / <alpha-value> ]? )
  * @see {@link https://www.w3.org/TR/css-color-4/#the-hwb-notation}
  */
 const HWBA_RE = /hwba?\s*\(\s*([+-]?\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;

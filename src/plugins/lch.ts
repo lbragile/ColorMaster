@@ -17,7 +17,7 @@ declare module ".." {
      * @param opts -
      *  - alpha → whether or not to include the alpha channel in the output
      *  - precision → how many decimal places to include for each value
-     * @example CM({ r: 200, g: 150, b: 100, a: 0.7 }).stringHWB() → "lcha(66%, 36, 69, 0.7)"
+     * @example CM({ r: 200, g: 150, b: 100, a: 0.7 }).stringLCH() → "lcha(66%, 36, 69, 0.7)"
      * @default { alpha: true, precision: [0, 0, 0, 1] }
      * @returns ```lch[a](L, C, H[, A])```
      */
@@ -30,8 +30,8 @@ const LCHPlugin: TPlugin = (CM): void => {
     return RGBtoLCH(this.rgba());
   };
 
-  CM.prototype.stringLCH = function ({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
-    const [l, c, h, a] = Object.values(this.lcha() as Ilcha).map((val, i) => round(val, precision[i] ?? 1));
+  CM.prototype.stringLCH = function ({ alpha = true, precision = [0, 0, 0, 1] as Required<TNumArr> } = {}): string {
+    const [l, c, h, a] = Object.values(this.lcha() as Ilcha).map((val, i) => round(val, precision[i]));
     return alpha ? `lcha(${l}%, ${c}, ${h}, ${a})` : `lch(${l}%, ${c}, ${h})`;
   };
 

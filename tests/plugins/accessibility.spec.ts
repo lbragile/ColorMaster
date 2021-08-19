@@ -1,5 +1,4 @@
-import CM from "../../src/index";
-import { extendPlugins } from "../../src";
+import CM, { extendPlugins } from "../../src/index";
 import A11yPlugin from "../../src/plugins/accessibility";
 
 extendPlugins([A11yPlugin]);

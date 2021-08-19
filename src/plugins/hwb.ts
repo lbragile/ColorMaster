@@ -30,8 +30,8 @@ const HWBPlugin: TPlugin = (CM): void => {
     return RGBtoHWB(this.rgba());
   };
 
-  CM.prototype.stringHWB = function ({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
-    const [h, w, b, a] = Object.values(this.hwba() as Ihwba).map((val, i) => round(val, precision[i] ?? 1));
+  CM.prototype.stringHWB = function ({ alpha = true, precision = [0, 0, 0, 1] as Required<TNumArr> } = {}): string {
+    const [h, w, b, a] = Object.values(this.hwba() as Ihwba).map((val, i) => round(val, precision[i]));
     return alpha ? `hwba(${adjustHue(h)}, ${w}%, ${b}%, ${a})` : `hwb(${adjustHue(h)}, ${w}%, ${b}%)`;
   };
 

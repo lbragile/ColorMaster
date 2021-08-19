@@ -1,5 +1,4 @@
-import CM from "../../src/index";
-import { extendPlugins } from "../../src";
+import CM, { extendPlugins } from "../../src/index";
 import MixPlugin from "../../src/plugins/mix";
 
 extendPlugins([MixPlugin]);

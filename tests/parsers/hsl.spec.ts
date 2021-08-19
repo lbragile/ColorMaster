@@ -18,3 +18,6 @@ test("low alpha", () => expect(CM("HsLa( 50.0 20 30 / -0.1 )").stringHSL()).toBe
 test("object with alpha", () =>
   expect(CM({ h: 50, s: 100, l: 50, a: 0.8 }).stringHSL()).toBe("hsla(50, 100%, 50%, 0.8)"));
 test("object without alpha", () => expect(CM({ h: 50, s: 100, l: 50 }).stringHSL()).toBe("hsla(50, 100%, 50%, 1)"));
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+test("invalid", () => expect(CM(1).stringRGB()).toBe("rgba(0, 0, 0, 1)"));

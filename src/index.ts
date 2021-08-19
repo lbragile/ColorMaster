@@ -1,4 +1,4 @@
-import { Irgba, TFormat, TParser, TInput, Ihsla, Ihexa, TNumArr, TPlugin } from "./types";
+import { Irgba, TFormat, TParser, TInput, Ihsla, Ihexa, TPlugin, TNumArr } from "./types";
 import { IColorMaster } from "./types/colormaster";
 import { HueColors } from "./enums/colors";
 import { adjustHue, clamp, rng, round } from "./utils/numeric";
@@ -27,14 +27,7 @@ export class ColorMaster implements IColorMaster {
   constructor(color: TInput) {
     const result = ColorMaster.Parsers.map((parser) => parser(color)).find((parsedArr) => parsedArr[1] !== "invalid");
     if (result) {
-      const { r, g, b, a } = result[0];
-      this.#format = result[1];
-      this.#color = {
-        r: clamp(0, r, 255),
-        g: clamp(0, g, 255),
-        b: clamp(0, b, 255),
-        a: a !== undefined ? clamp(0, a, 1) : 1
-      };
+      [this.#color, this.#format] = result;
     } else {
       this.#format = "invalid";
     }
@@ -88,8 +81,8 @@ export class ColorMaster implements IColorMaster {
     return RGBtoHEX(this.#color, round);
   }
 
-  stringRGB({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
-    const [r, g, b, a] = Object.values(this.#color).map((val, i) => round(val, precision[i] ?? 1));
+  stringRGB({ alpha = true, precision = [0, 0, 0, 1] as Required<TNumArr> } = {}): string {
+    const [r, g, b, a] = Object.values(this.#color).map((val, i) => round(val, precision[i]));
     return alpha ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
   }
 
@@ -98,8 +91,8 @@ export class ColorMaster implements IColorMaster {
     return `#${r}${g}${b}${alpha ? a : ""}`;
   }
 
-  stringHSL({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
-    const [h, s, l, a] = Object.values(this.hsla()).map((val, i) => round(val, precision[i] ?? 1));
+  stringHSL({ alpha = true, precision = [0, 0, 0, 1] as Required<TNumArr> } = {}): string {
+    const [h, s, l, a] = Object.values(this.hsla()).map((val, i) => round(val, precision[i]));
     return alpha ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
   }
 

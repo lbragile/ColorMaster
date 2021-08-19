@@ -2,6 +2,10 @@ import { TInput, Irgba, TFormat } from "../types";
 import { clamp } from "../utils/numeric";
 import { isRGBObject } from "../utils/typeGuards";
 
+/**
+ * rgb[a]( <number | percentage>{3} [ / <alpha-value> ]? )
+ * @see {@link https://www.w3.org/TR/css-color-4/#rgb-functions}
+ */
 const RGBA_RE = /rgba?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ r, g, b, a }: Irgba): [Irgba, TFormat] {

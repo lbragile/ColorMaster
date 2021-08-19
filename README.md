@@ -39,7 +39,7 @@
 - 👌 **Straightforward**: Clear & intuitive function names with chainable API
 - 🔫 **Bulletproof**: Entirely TypeScript (strict mode) and very thoroughly tested
 - ✍ **Strongly Typed**: Includes [types](#-strongly-typed) out of the box
-- 🏗 **Extendable**: [Plugins](#-plugins) allow you to extend upon core functionality as needed
+- 🏗 **Extendable**: [Plugins](#-general-plugins) allow you to extend upon core functionality as needed
 - 🌳 **Tree Shakable**: Only adds functions that you use to reduce your project's size
 - 📑 **CSS Compliant**: Adheres to [CSS color](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value) specifications
 - 🚂 **Works Everywhere**: Browser (client) and NodeJS (server) support
@@ -531,7 +531,7 @@ CM("hsla(120, 60%, 30%, 0.3)").invert({ alpha: false }).stringHSL(); // "hsla(24
 
 ### Accessibility (Plugin - aka A11y)
 
-To use the methods below, the plugin first needs to be [extended](#-plugins).
+To use the methods below, the plugin first needs to be [extended](#-general-plugins).
 That being said, we will skip this step to avoid repetition.
 
 <!-- markdownlint-disable no-inline-html -->
@@ -928,7 +928,7 @@ CM("#ABC").mix("#F00F", 2).stringHEX(); // "#FF0000FF" → ratio > 1
 
 <!-- markdownlint-enable no-inline-html -->
 
-## 🤯 Plugins
+## 🤯 General Plugins
 
 **ColorMaster** comes out of the box with an extendable plugin mechanism that adds extra functionality to the core library.
 
@@ -996,6 +996,98 @@ import CM, { extendPlugins } from "colormaster";
 import HarmonyPlugin from "colormaster/plugins/harmony";
 
 extendPlugins([HarmonyPlugin]);
+
+...
+```
+
+</details>
+
+<!-- markdownlint-enable no-inline-html -->
+
+## 🎨 Color Space Plugins
+
+**ColorMaster** also provides color space related plugins.
+
+<!-- markdownlint-disable no-inline-html -->
+
+<details>
+<summary><code>LCHPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LCH[A] Color Space</a></b> | 1.72KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import LCHPlugin from "colormaster/plugins/lch";
+
+extendPlugins([LCHPlugin]);
+
+...
+```
+
+</details>
+
+<details>
+<summary><code>LABPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LAB[A] Color Space</a></b> | 1.60KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import LABPlugin from "colormaster/plugins/lab";
+
+extendPlugins([LABPlugin]);
+
+...
+```
+
+</details>
+
+<details>
+<summary><code>HWBPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#the-hwb-notation'>HWB[A] Color Space</a></b> | 1.12KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import HWBPlugin from "colormaster/plugins/hwb";
+
+extendPlugins([HWBPlugin]);
+
+...
+```
+
+</details>
+
+<details>
+<summary><code>HSVPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/HSL_and_HSV'>HSV[A] Color Space</a></b> | 1.04KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import HSVPlugin from "colormaster/plugins/hsv";
+
+extendPlugins([HSVPlugin]);
+
+...
+```
+
+</details>
+
+<details>
+<summary><code>CMYKPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#device-cmyk'>CMYK[A] Color Space</a></b> | 0.884KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import CMYKPlugin from "colormaster/plugins/cmyk";
+
+extendPlugins([CMYKPlugin]);
+
+...
+```
+
+</details>
+
+<details>
+<summary><code>XYZPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/CIE_1931_color_space'>XYZ[A] Color Space</a></b> | 0.802KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import XYZPlugin from "colormaster/plugins/xyz";
+
+extendPlugins([XYZPlugin]);
 
 ...
 ```
@@ -1098,7 +1190,7 @@ Here is a snapshot of completed and planned features:
 - [x] Setting/adjusting channel values in all color spaces
 - [x] Plugin Mechanism to extend functionality of core library
 - [x] Color harmony generation
-- [x] Color mixing (done in LCHA color space)
+- [x] Color mixing (done in `LCHA` color space)
 - [x] `RGB[A]` color space conversion & parsing
 - [x] `HEX[A]` color space conversion & parsing
 - [x] `HSL[A]` color space conversion & parsing
@@ -1106,11 +1198,11 @@ Here is a snapshot of completed and planned features:
 - [x] `HWB[A]` color space conversion & parsing
 - [x] `XYZ[A]` color space conversion & parsing
 - [x] `LAB[A]` color space conversion & parsing
-- [x] `LCH[A]`color space conversion & parsing
-- [x] `LUV[A]`color space conversion & parsing
-- [x] `UVW[A]`color space conversion & parsing
-- [ ] `RYB[A]` color space ~~conversion~~ & parsing
-- [ ] `CMYK[A]` color space ~~conversion~~ & parsing
+- [x] `LCH[A]` color space conversion & parsing
+- [x] `CMYK[A]` color space conversion & parsing
+- [ ] `LUV[A]` color space conversion & parsing
+- [ ] `UVW[A]` color space conversion & parsing
+- [ ] `RYB[A]` color space conversion & parsing
 
 ## License [![GitHub License](https://img.shields.io/github/license/lbragile/colormaster?color=00D800&label=License&logo=github&style=flat-square)](https://github.com/lbragile/ColorMaster/blob/master/LICENSE)
 

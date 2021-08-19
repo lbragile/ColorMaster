@@ -3,7 +3,7 @@ import { TNumArr } from "../src/types/index";
 
 let cm: ColorMaster;
 const TEST_COLOR = "rgba(200, 150, 100, 0.7)";
-const precision: TNumArr = [0, 1, 1, 1];
+const precision: Required<TNumArr> = [0, 1, 1, 1];
 
 beforeEach(() => (cm = CM(TEST_COLOR)));
 

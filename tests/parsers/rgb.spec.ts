@@ -17,3 +17,6 @@ test("low alpha", () => expect(CM("rgba( 50.0 20 30 / -0.1 )").stringRGB()).toBe
 test("object with alpha", () =>
   expect(CM({ r: 200, g: 150, b: 100, a: 0.8 }).stringRGB()).toBe("rgba(200, 150, 100, 0.8)"));
 test("object without alpha", () => expect(CM({ r: 200, g: 150, b: 100 }).stringRGB()).toBe("rgba(200, 150, 100, 1)"));
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+test("invalid", () => expect(CM(1).stringRGB()).toBe("rgba(0, 0, 0, 1)"));

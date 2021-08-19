@@ -30,8 +30,8 @@ const HSVPlugin: TPlugin = (CM): void => {
     return RGBtoHSV(this.rgba());
   };
 
-  CM.prototype.stringHSV = function ({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
-    const [h, s, v, a] = Object.values(this.hsva() as Ihsva).map((val, i) => round(val, precision[i] ?? 1));
+  CM.prototype.stringHSV = function ({ alpha = true, precision = [0, 0, 0, 1] as Required<TNumArr> } = {}): string {
+    const [h, s, v, a] = Object.values(this.hsva() as Ihsva).map((val, i) => round(val, precision[i]));
     return alpha ? `hsva(${adjustHue(h)}, ${s}%, ${v}%, ${a})` : `hsv(${adjustHue(h)}, ${s}%, ${v}%)`;
   };
 

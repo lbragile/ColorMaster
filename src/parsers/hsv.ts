@@ -4,7 +4,7 @@ import { isHSVObject } from "../utils/typeGuards";
 import { HSVtoRGB } from "../conversions/hsv";
 
 /**
- * hsv[a]( <hue> <percentage> <percentage> [ / <alpha-value> ]? )
+ * hsv[a]( <number | percentage | angle> <number | percentage> <number | percentage> [ / <alpha-value> ]? )
  */
 const HSVA_RE = /hsva?\s*\(\s*([+-]?\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 

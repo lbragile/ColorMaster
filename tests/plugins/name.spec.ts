@@ -1,5 +1,4 @@
-import CM, { ColorMaster } from "../../src/index";
-import { extendPlugins } from "../../src";
+import CM, { ColorMaster, extendPlugins } from "../../src/index";
 import NamePlugin from "../../src/plugins/name";
 
 extendPlugins([NamePlugin]);

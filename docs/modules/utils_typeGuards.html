@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>utils/typeGuards | ColorMaster - v0.1.0</title>
-	<meta name="description" content="Documentation for ColorMaster - v0.1.0">
+	<title>utils/typeGuards | ColorMaster - v1.1.1</title>
+	<meta name="description" content="Documentation for ColorMaster - v1.1.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ColorMaster - v0.1.0</a>
+					<a href="../index.html" class="title">ColorMaster - v1.1.1</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../index.html">ColorMaster - v0.1.0</a>
+					<a href="../index.html">ColorMaster - v1.1.1</a>
 				</li>
 				<li>
 					<a href="utils_typeGuards.html">utils/typeGuards</a>
@@ -72,9 +72,11 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_typeGuards.html#isCMYKObject" class="tsd-kind-icon">isCMYKObject</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_typeGuards.html#isHEXObject" class="tsd-kind-icon">isHEXObject</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_typeGuards.html#isHSLObject" class="tsd-kind-icon">isHSLObject</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_typeGuards.html#isHSVObject" class="tsd-kind-icon">isHSVObject</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_typeGuards.html#isHWBObject" class="tsd-kind-icon">isHWBObject</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_typeGuards.html#isLABObject" class="tsd-kind-icon">isLABObject</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_typeGuards.html#isLCHObject" class="tsd-kind-icon">isLCHObject</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_typeGuards.html#isRGBObject" class="tsd-kind-icon">isRGBObject</a></li>
@@ -87,6 +89,29 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="isCMYKObject" class="tsd-anchor"></a>
+					<h3>isCMYKObject</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">isCMYKObject<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><a href="types.html#TInput" class="tsd-signature-type" data-tsd-kind="Type alias">TInput</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">type</span><span class="tsd-signature-symbol"> is </span><a href="../interfaces/types.Icmyka.html" class="tsd-signature-type" data-tsd-kind="Interface">Icmyka</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types.Icmyk.html" class="tsd-signature-type" data-tsd-kind="Interface">Icmyk</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L63">utils/typeGuards.ts:63</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>type: <a href="types.html#TInput" class="tsd-signature-type" data-tsd-kind="Type alias">TInput</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">type</span><span class="tsd-signature-symbol"> is </span><a href="../interfaces/types.Icmyka.html" class="tsd-signature-type" data-tsd-kind="Interface">Icmyka</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types.Icmyk.html" class="tsd-signature-type" data-tsd-kind="Interface">Icmyk</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="isHEXObject" class="tsd-anchor"></a>
 					<h3>isHEXObject</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
@@ -96,7 +121,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/typeGuards.ts#L24">utils/typeGuards.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L28">utils/typeGuards.ts:28</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -119,7 +144,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/typeGuards.ts#L29">utils/typeGuards.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L33">utils/typeGuards.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -142,7 +167,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/typeGuards.ts#L36">utils/typeGuards.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L38">utils/typeGuards.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -156,6 +181,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="isHWBObject" class="tsd-anchor"></a>
+					<h3>isHWBObject</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">isHWBObject<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><a href="types.html#TInput" class="tsd-signature-type" data-tsd-kind="Type alias">TInput</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">type</span><span class="tsd-signature-symbol"> is </span><a href="../interfaces/types.Ihwba.html" class="tsd-signature-type" data-tsd-kind="Interface">Ihwba</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types.Ihwb.html" class="tsd-signature-type" data-tsd-kind="Interface">Ihwb</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L43">utils/typeGuards.ts:43</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>type: <a href="types.html#TInput" class="tsd-signature-type" data-tsd-kind="Type alias">TInput</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">type</span><span class="tsd-signature-symbol"> is </span><a href="../interfaces/types.Ihwba.html" class="tsd-signature-type" data-tsd-kind="Interface">Ihwba</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types.Ihwb.html" class="tsd-signature-type" data-tsd-kind="Interface">Ihwb</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="isLABObject" class="tsd-anchor"></a>
 					<h3>isLABObject</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
@@ -165,7 +213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/typeGuards.ts#L50">utils/typeGuards.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L48">utils/typeGuards.ts:48</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -188,7 +236,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/typeGuards.ts#L57">utils/typeGuards.ts:57</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L53">utils/typeGuards.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -211,7 +259,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/typeGuards.ts#L19">utils/typeGuards.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L23">utils/typeGuards.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -234,7 +282,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/utils/typeGuards.ts#L43">utils/typeGuards.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/utils/typeGuards.ts#L58">utils/typeGuards.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -255,66 +303,6 @@
 					<li class=" ">
 						<a href="../index.html">Modules</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_hex.html">conversions/hex</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_hsl.html">conversions/hsl</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_hsv.html">conversions/hsv</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_lab.html">conversions/lab</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_lch.html">conversions/lch</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_rgb.html">conversions/rgb</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_xyz.html">conversions/xyz</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="enums_colors.html">enums/colors</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="parsers_hex.html">parsers/hex</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="parsers_hsl.html">parsers/hsl</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="parsers_rgb.html">parsers/rgb</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_accessibility.html">plugins/accessibility</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_harmony.html">plugins/harmony</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_mix.html">plugins/mix</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_name.html">plugins/name</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="types.html">types</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="types_colormaster.html">types/colormaster</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="utils_matrix.html">utils/matrix</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="utils_numeric.html">utils/numeric</a>
-					</li>
 					<li class="current tsd-kind-module">
 						<a href="utils_typeGuards.html">utils/type<wbr>Guards</a>
 					</li>
@@ -323,6 +311,9 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="utils_typeGuards.html#isCMYKObject" class="tsd-kind-icon">isCMYKObject</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="utils_typeGuards.html#isHEXObject" class="tsd-kind-icon">isHEXObject</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
@@ -330,6 +321,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="utils_typeGuards.html#isHSVObject" class="tsd-kind-icon">isHSVObject</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="utils_typeGuards.html#isHWBObject" class="tsd-kind-icon">isHWBObject</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="utils_typeGuards.html#isLABObject" class="tsd-kind-icon">isLABObject</a>

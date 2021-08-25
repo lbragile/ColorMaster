@@ -2,6 +2,24 @@
 
 All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster) module will be documented in this file.
 
+## v1.1.1 - August 24, 2021
+
+### Added
+
+- Links to JSDoc of parsers
+
+### Fixed
+
+- `stringCMYK()` & `stringXYZ()` and respective parsing
+- Alpha channel value parsing
+
+### Changed
+
+- ColorMaster logo
+- README color space plugins section and `stringRGB()`, `stringHSL()`, `stringHEX()`
+
+---
+
 ## v1.1.0 - August 18, 2021
 
 ### Added

@@ -1,11 +1,11 @@
 import { TInput, Irgba, TFormat, Ilaba } from "../types";
-import { clamp } from "../utils/numeric";
+import { adjustAlpha, clamp } from "../utils/numeric";
 import { isLABObject } from "../utils/typeGuards";
 import { LABtoRGB } from "../conversions/lab";
 
 /**
  * lab[a]( <number | percentage> <number> <number> [ / <alpha-value> ]? )
- * @see {@link https://www.w3.org/TR/css-color-4/#specifying-lab-lch}
+ * @see https://www.w3.org/TR/css-color-4/#specifying-lab-lch
  * @note a, b values are signed (allow both positive and negative values) and theoretically
  *       unbounded (but in practice do not exceed ±160). Thus, cannot use percentage
  */
@@ -17,7 +17,7 @@ function createReturnArr({ l, a, b, alpha }: Ilaba): [Irgba, TFormat] {
       l: clamp(0, l, 100),
       a: clamp(-160, a, 160),
       b: clamp(-160, b, 160),
-      alpha: alpha ? clamp(0, alpha, 1) : 1
+      alpha: adjustAlpha(alpha)
     }),
     "lab"
   ];

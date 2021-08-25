@@ -14,6 +14,8 @@ describe("String Formation", () => {
   test("hsl", () => expect(cm.stringHSL({ precision, alpha: false })).toBe("hsl(30, 47.6%, 58.8%)"));
   test("hexa", () => expect(cm.stringHEX()).toBe("#C89664B3"));
   test("hex", () => expect(cm.stringHEX({ alpha: false })).toBe("#C89664"));
+  test("negative precision", () =>
+    expect(cm.stringHSL({ precision: [-1, -2, -3, -4], alpha: false })).toBe("hsl(30, 48%, 59%)"));
 });
 
 describe("Converters", () => {

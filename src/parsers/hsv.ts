@@ -1,15 +1,16 @@
 import { TInput, Irgba, TFormat, Ihsva } from "../types";
-import { adjustHue, clamp } from "../utils/numeric";
+import { adjustAlpha, adjustHue, clamp } from "../utils/numeric";
 import { isHSVObject } from "../utils/typeGuards";
 import { HSVtoRGB } from "../conversions/hsv";
 
 /**
  * hsv[a]( <number | percentage | angle> <number | percentage> <number | percentage> [ / <alpha-value> ]? )
+ * @see https://en.wikipedia.org/wiki/HSL_and_HSV
  */
 const HSVA_RE = /hsva?\s*\(\s*([+-]?\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ h, s, v, a }: Ihsva): [Irgba, TFormat] {
-  return [HSVtoRGB({ h: adjustHue(h), s: clamp(0, s, 100), v: clamp(0, v, 100), a: a ? clamp(0, a, 1) : 1 }), "hsv"];
+  return [HSVtoRGB({ h: adjustHue(h), s: clamp(0, s, 100), v: clamp(0, v, 100), a: adjustAlpha(a) }), "hsv"];
 }
 
 export function hsvaParser(color: TInput): [Irgba, TFormat] {

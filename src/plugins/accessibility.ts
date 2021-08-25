@@ -40,7 +40,7 @@ declare module ".." {
      * - ratio → Whether or not to append `:1` to the output (express as a ratio)
      *
      * @note This ratio will range from `1:1 → white fg : white bg` to `21:1 → black fg : white bg`
-     * @see {@link RGBColors.readableOn readableOn} for readable contrast ratios
+     * @see {@link ColorMaster.readableOn readableOn} for readable contrast ratios
      * @default { bgColor = "#fff", precision = 4, ratio = false }
      * @returns The contrast between current color instance and `bgColor` as a number (value → `ratio = false`) or string ("value:1" → `ratio = true`)
      */

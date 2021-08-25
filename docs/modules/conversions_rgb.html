@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>conversions/rgb | ColorMaster - v0.1.0</title>
-	<meta name="description" content="Documentation for ColorMaster - v0.1.0">
+	<title>conversions/rgb | ColorMaster - v1.1.1</title>
+	<meta name="description" content="Documentation for ColorMaster - v1.1.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">ColorMaster - v0.1.0</a>
+					<a href="../index.html" class="title">ColorMaster - v1.1.1</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,7 +52,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../index.html">ColorMaster - v0.1.0</a>
+					<a href="../index.html">ColorMaster - v1.1.1</a>
 				</li>
 				<li>
 					<a href="conversions_rgb.html">conversions/rgb</a>
@@ -72,9 +72,11 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="conversions_rgb.html#RGBtoCMYK" class="tsd-kind-icon">RGBtoCMYK</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="conversions_rgb.html#RGBtoHEX" class="tsd-kind-icon">RGBtoHEX</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="conversions_rgb.html#RGBtoHSL" class="tsd-kind-icon">RGBtoHSL</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="conversions_rgb.html#RGBtoHSV" class="tsd-kind-icon">RGBtoHSV</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="conversions_rgb.html#RGBtoHWB" class="tsd-kind-icon">RGBtoHWB</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="conversions_rgb.html#RGBtoLAB" class="tsd-kind-icon">RGBtoLAB</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="conversions_rgb.html#RGBtoLCH" class="tsd-kind-icon">RGBtoLCH</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="conversions_rgb.html#RGBtoXYZ" class="tsd-kind-icon">RGBtoXYZ</a></li>
@@ -86,6 +88,39 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="RGBtoCMYK" class="tsd-anchor"></a>
+					<h3>RGBtoCMYK</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">RGBtoCMYK<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="../interfaces/types.Irgba.html" class="tsd-signature-type" data-tsd-kind="Interface">Irgba</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/types.Icmyka.html" class="tsd-signature-type" data-tsd-kind="Interface">Icmyka</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/conversions/rgb.ts#L138">conversions/rgb.ts:138</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Naively Converting Between Uncalibrated CMYK and sRGB-Based Colors</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://www.w3.org/TR/css-color-4/#cmyk-rgb" class="external">https://www.w3.org/TR/css-color-4/#cmyk-rgb</a></p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>obj: <a href="../interfaces/types.Irgba.html" class="tsd-signature-type" data-tsd-kind="Interface">Irgba</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/types.Icmyka.html" class="tsd-signature-type" data-tsd-kind="Interface">Icmyka</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="RGBtoHEX" class="tsd-anchor"></a>
 					<h3>RGBtoHEX</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
@@ -95,7 +130,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/conversions/rgb.ts#L46">conversions/rgb.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/conversions/rgb.ts#L47">conversions/rgb.ts:47</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -121,7 +156,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/conversions/rgb.ts#L60">conversions/rgb.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/conversions/rgb.ts#L61">conversions/rgb.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -151,7 +186,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/conversions/rgb.ts#L71">conversions/rgb.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/conversions/rgb.ts#L72">conversions/rgb.ts:72</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -172,6 +207,36 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="RGBtoHWB" class="tsd-anchor"></a>
+					<h3>RGBtoHWB</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">RGBtoHWB<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><a href="../interfaces/types.Irgba.html" class="tsd-signature-type" data-tsd-kind="Interface">Irgba</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/types.Ihwba.html" class="tsd-signature-type" data-tsd-kind="Interface">Ihwba</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/conversions/rgb.ts#L82">conversions/rgb.ts:82</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>see</dt>
+									<dd><p><a href="https://en.wikipedia.org/wiki/HWB_color_model#:~:text=HWB%20is%20a%20cylindrical%2Dcoordinate,and%20slightly%20faster%20to%20compute" class="external">https://en.wikipedia.org/wiki/HWB_color_model#:~:text=HWB%20is%20a%20cylindrical%2Dcoordinate,and%20slightly%20faster%20to%20compute</a></p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>obj: <a href="../interfaces/types.Irgba.html" class="tsd-signature-type" data-tsd-kind="Interface">Irgba</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/types.Ihwba.html" class="tsd-signature-type" data-tsd-kind="Interface">Ihwba</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="RGBtoLAB" class="tsd-anchor"></a>
 					<h3>RGBtoLAB</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
@@ -181,7 +246,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/conversions/rgb.ts#L101">conversions/rgb.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/conversions/rgb.ts#L111">conversions/rgb.ts:111</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -211,7 +276,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/conversions/rgb.ts#L119">conversions/rgb.ts:119</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/conversions/rgb.ts#L125">conversions/rgb.ts:125</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -241,7 +306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/de5acd2/src/conversions/rgb.ts#L82">conversions/rgb.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/lbragile/ColorMaster/blob/c062c51/src/conversions/rgb.ts#L92">conversions/rgb.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -272,73 +337,16 @@
 					<li class=" ">
 						<a href="../index.html">Modules</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_hex.html">conversions/hex</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_hsl.html">conversions/hsl</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_hsv.html">conversions/hsv</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_lab.html">conversions/lab</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_lch.html">conversions/lch</a>
-					</li>
 					<li class="current tsd-kind-module">
 						<a href="conversions_rgb.html">conversions/rgb</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="conversions_xyz.html">conversions/xyz</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="enums_colors.html">enums/colors</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="parsers_hex.html">parsers/hex</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="parsers_hsl.html">parsers/hsl</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="parsers_rgb.html">parsers/rgb</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_accessibility.html">plugins/accessibility</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_harmony.html">plugins/harmony</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_mix.html">plugins/mix</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="plugins_name.html">plugins/name</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="types.html">types</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="types_colormaster.html">types/colormaster</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="utils_matrix.html">utils/matrix</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="utils_numeric.html">utils/numeric</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="utils_typeGuards.html">utils/type<wbr>Guards</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="conversions_rgb.html#RGBtoCMYK" class="tsd-kind-icon">RGBtoCMYK</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="conversions_rgb.html#RGBtoHEX" class="tsd-kind-icon">RGBtoHEX</a>
 					</li>
@@ -347,6 +355,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="conversions_rgb.html#RGBtoHSV" class="tsd-kind-icon">RGBtoHSV</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="conversions_rgb.html#RGBtoHWB" class="tsd-kind-icon">RGBtoHWB</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="conversions_rgb.html#RGBtoLAB" class="tsd-kind-icon">RGBtoLAB</a>

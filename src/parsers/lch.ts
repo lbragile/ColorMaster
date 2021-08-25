@@ -1,12 +1,11 @@
 import { TInput, Irgba, TFormat, Ilcha } from "../types";
-import { clamp } from "../utils/numeric";
+import { adjustAlpha, adjustHue, clamp } from "../utils/numeric";
 import { isLCHObject } from "../utils/typeGuards";
 import { LCHtoRGB } from "../conversions/lch";
-import { adjustHue } from "../utils/numeric";
 
 /**
  * lcha[a]( <number | percentage> <number | percentage> <number | percentage | angle> [ / <alpha-value> ]? )
- * @see {@link https://www.w3.org/TR/css-color-4/#specifying-lab-lch}
+ * @see https://www.w3.org/TR/css-color-4/#specifying-lab-lch
  * @note Lightness is interpreted identically to the LAB lightness (maximum 100)
  *       Chroma minimum useful value is 0, while its maximum is theoretically unbounded (but in practice does not exceed 230)
  */
@@ -18,7 +17,7 @@ function createReturnArr({ l, c, h, a }: Ilcha): [Irgba, TFormat] {
       l: clamp(0, l, 100),
       c: clamp(0, c, 230),
       h: adjustHue(h),
-      a: a ? clamp(0, a, 1) : 1
+      a: adjustAlpha(a)
     }),
     "lch"
   ];

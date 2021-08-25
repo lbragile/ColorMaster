@@ -1,6 +1,6 @@
 import { Ixyza, Irgba } from "../types";
 import { multiplyMatrix } from "../utils/matrix";
-import { sRGBInv } from "../utils/numeric";
+import { clamp, sRGBInv } from "../utils/numeric";
 
 /**
  * Bradford chromatic adaptation from D50 to D65
@@ -30,7 +30,7 @@ export function XYZtoRGB(obj: Ixyza): Irgba {
     [0.05563007969699366, -0.20397695888897652, 1.0569715142428786]
   ];
 
-  const [r, g, b] = multiplyMatrix(M, [x, y, z]).map((val) => sRGBInv(val));
+  const [r, g, b] = multiplyMatrix(M, [x, y, z]).map((val) => clamp(0, sRGBInv(val), 255));
 
   return { r, g, b, a: obj.a };
 }

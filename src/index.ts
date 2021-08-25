@@ -96,60 +96,60 @@ export class ColorMaster implements IColorMaster {
     return alpha ? `hsla(${h}, ${s}%, ${l}%, ${a})` : `hsl(${h}, ${s}%, ${l}%)`;
   }
 
-  hueTo(value: number | keyof typeof HueColors): ColorMaster {
+  hueTo(value: number | keyof typeof HueColors): this {
     const { h, s, l, a } = this.hsla();
     const newHue = typeof value === "number" ? adjustHue(value) : Number(HueColors[value].match(/\d{1,3}/) ?? h);
     this.#color = HSLtoRGB({ h: newHue, s, l, a });
     return this;
   }
 
-  hueBy(delta: number): ColorMaster {
+  hueBy(delta: number): this {
     const { h, s, l, a } = this.hsla();
     this.#color = HSLtoRGB({ h: adjustHue(h + delta), s, l, a });
     return this;
   }
 
-  saturateBy(delta: number): ColorMaster {
+  saturateBy(delta: number): this {
     const { h, s, l, a } = this.hsla();
     this.#color = HSLtoRGB({ h, s: clamp(0, s + delta, 100), l, a });
     return this;
   }
 
-  desaturateBy(delta: number): ColorMaster {
+  desaturateBy(delta: number): this {
     return this.saturateBy(-1 * delta);
   }
 
-  lighterBy(delta: number): ColorMaster {
+  lighterBy(delta: number): this {
     const { h, s, l, a } = this.hsla();
     this.#color = HSLtoRGB({ h, s, l: clamp(0, l + delta, 100), a });
     return this;
   }
 
-  darkerBy(delta: number): ColorMaster {
+  darkerBy(delta: number): this {
     return this.lighterBy(-1 * delta);
   }
 
-  alphaTo(value: number): ColorMaster {
+  alphaTo(value: number): this {
     this.#color = { ...this.#color, a: clamp(0, value, 1) };
     return this;
   }
 
-  alphaBy(delta: number): ColorMaster {
+  alphaBy(delta: number): this {
     this.#color = { ...this.#color, a: clamp(0, this.#color.a + delta, 1) };
     return this;
   }
 
-  invert({ alpha = false } = {}): ColorMaster {
+  invert({ alpha = false } = {}): this {
     const { r, g, b, a } = this.#color;
     this.#color = { r: 255 - r, g: 255 - g, b: 255 - b, a: alpha ? 1 - a : a };
     return this;
   }
 
-  grayscale(): ColorMaster {
+  grayscale(): this {
     return this.desaturateBy(100);
   }
 
-  rotate(value: number): ColorMaster {
+  rotate(value: number): this {
     return this.hueBy(value);
   }
 }

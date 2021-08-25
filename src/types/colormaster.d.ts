@@ -1,5 +1,4 @@
 import { IStringOpts, Ihsla, Ihexa, Irgba } from ".";
-import { ColorMaster } from "..";
 import { HueColors } from "../enums/colors";
 
 /**
@@ -108,7 +107,7 @@ export interface IColorMaster {
    * @param value Must be in range [0, 360) or a CSS/HTML color name
    * @returns The instance that was acted upon → for function chaining
    */
-  hueTo(value: number | keyof typeof HueColors): ColorMaster;
+  hueTo(value: number | keyof typeof HueColors): this;
 
   /**
    * Changes the "hue" channel value BY a given delta (done in HSLA space and converted back to RGBA space)
@@ -116,14 +115,14 @@ export interface IColorMaster {
    * @note `delta` can be negative
    * @returns The instance that was acted upon → for function chaining
    */
-  hueBy(delta: number): ColorMaster;
+  hueBy(delta: number): this;
 
   /**
    * Changes the "alpha" channel value TO a given input value
    * @param value Must be in range [0, 1] as this is the alpha channel
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaTo(value: number): ColorMaster;
+  alphaTo(value: number): this;
 
   /**
    * Changes the "alpha" channel value BY a given delta
@@ -131,7 +130,7 @@ export interface IColorMaster {
    * @note `delta` can be negative
    * @returns The instance that was acted upon → for function chaining
    */
-  alphaBy(delta: number): ColorMaster;
+  alphaBy(delta: number): this;
 
   /**
    * Given an input color, get its inverse value by subtracting current value from the upper bound for each channel
@@ -140,7 +139,7 @@ export interface IColorMaster {
    * @default { alpha = false }
    * @returns The corresponding inverse color
    */
-  invert({ alpha }?: { alpha: boolean }): ColorMaster;
+  invert({ alpha }?: { alpha: boolean }): this;
 
   /**
    * Saturates (intensity) the color in HSLA space
@@ -149,7 +148,7 @@ export interface IColorMaster {
    * @note `delta` can be negative, but we recommend using {@link ColorMaster.desaturateBy desaturateBy} for clarity
    * @returns The instance that was acted upon → for function chaining
    */
-  saturateBy(delta: number): ColorMaster;
+  saturateBy(delta: number): this;
 
   /**
    * De-saturates (intensity) the color in HSLA space
@@ -158,7 +157,7 @@ export interface IColorMaster {
    * @note `delta` can be negative, but we recommend using {@link ColorMaster.saturateBy saturateBy} for clarity
    * @returns The instance that was acted upon → for function chaining
    */
-  desaturateBy(delta: number): ColorMaster;
+  desaturateBy(delta: number): this;
 
   /**
    * Adds lightness (tone) of the color in HSLA space
@@ -167,7 +166,7 @@ export interface IColorMaster {
    * @note `delta` can be negative, but we recommend using {@link ColorMaster.darkerBy darkerBy} for clarity
    * @returns The instance that was acted upon → for function chaining
    */
-  lighterBy(delta: number): ColorMaster;
+  lighterBy(delta: number): this;
 
   /**
    * Removes lightness (tone) of the color in HSLA space
@@ -176,7 +175,7 @@ export interface IColorMaster {
    * @note `delta` can be negative, but we recommend using {@link ColorMaster.lighterBy lighterBy} for clarity
    * @returns The instance that was acted upon → for function chaining
    */
-  darkerBy(delta: number): ColorMaster;
+  darkerBy(delta: number): this;
 
   /**
    * Sets the saturation of the color to 0% in HSLA space
@@ -184,12 +183,12 @@ export interface IColorMaster {
    * @note The lightness of the color remains unchanged by this operation
    * @returns The instance that was acted upon → for function chaining
    */
-  grayscale(): ColorMaster;
+  grayscale(): this;
 
   /**
    * Rotation changes the hue of a color by `value` degrees in HSLA space
    * @note Keep in mind that the hue channel has a 360 degree rotational symmetry
    * @returns The instance that was acted upon → for function chaining
    */
-  rotate(value: number): ColorMaster;
+  rotate(value: number): this;
 }

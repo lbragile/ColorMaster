@@ -1,14 +1,14 @@
 import { TInput, Irgba, TFormat, Icmyka } from "../types";
-import { clamp } from "../utils/numeric";
+import { adjustAlpha, clamp } from "../utils/numeric";
 import { isCMYKObject } from "../utils/typeGuards";
 import { CMYKtoRGB } from "../conversions/cmyk";
 
 /**
  * device-cmyk( <number | percentage>{4} [ / <alpha-value> ]? )
- * @see {@link https://www.w3.org/TR/css-color-4/#device-cmyk}
+ * @see https://www.w3.org/TR/css-color-4/#device-cmyk
  */
 const CMYKA_RE =
-  /cmyka?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
+  /device-cmyka?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ c, m, y, k, a }: Icmyka): [Irgba, TFormat] {
   return [
@@ -17,7 +17,7 @@ function createReturnArr({ c, m, y, k, a }: Icmyka): [Irgba, TFormat] {
       m: clamp(0, m, 100),
       y: clamp(0, y, 100),
       k: clamp(0, k, 100),
-      a: a ? clamp(0, a, 1) : 1
+      a: adjustAlpha(a)
     }),
     "cmyk"
   ];

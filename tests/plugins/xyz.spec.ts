@@ -9,8 +9,8 @@ const TEST_COLOR = "rgba(200, 150, 100, 0.7)";
 beforeEach(() => (cm = CM(TEST_COLOR)));
 
 describe("stringXYZ", () => {
-  test("xyza", () => expect(cm.stringXYZ()).toBe("xyza(39, 35, 13, 0.7)"));
-  test("xyz", () => expect(cm.stringXYZ({ alpha: false })).toBe("xyz(39, 35, 13)"));
+  test("xyza", () => expect(cm.stringXYZ()).toBe("color(xyza 39, 35, 13, 0.7)"));
+  test("xyz", () => expect(cm.stringXYZ({ alpha: false })).toBe("color(xyz 39, 35, 13)"));
 });
 
 test("xyza", () =>

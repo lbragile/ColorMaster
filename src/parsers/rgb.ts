@@ -1,15 +1,15 @@
 import { TInput, Irgba, TFormat } from "../types";
-import { clamp } from "../utils/numeric";
+import { adjustAlpha, clamp } from "../utils/numeric";
 import { isRGBObject } from "../utils/typeGuards";
 
 /**
  * rgb[a]( <number | percentage>{3} [ / <alpha-value> ]? )
- * @see {@link https://www.w3.org/TR/css-color-4/#rgb-functions}
+ * @see https://www.w3.org/TR/css-color-4/#rgb-functions
  */
 const RGBA_RE = /rgba?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ r, g, b, a }: Irgba): [Irgba, TFormat] {
-  return [{ r: clamp(0, r, 255), g: clamp(0, g, 255), b: clamp(0, b, 255), a: a ? clamp(0, a, 1) : 1 }, "rgb"];
+  return [{ r: clamp(0, r, 255), g: clamp(0, g, 255), b: clamp(0, b, 255), a: adjustAlpha(a) }, "rgb"];
 }
 
 export function rgbaParser(color: TInput): [Irgba, TFormat] {

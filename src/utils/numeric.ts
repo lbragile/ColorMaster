@@ -21,7 +21,7 @@ export function clamp(min: number, val: number, max: number): number {
  * @returns The input value with "precision" amount of decimal places
  */
 export function round(value: number, precision: number): number {
-  return precision >= 0 ? +value.toFixed(precision) : value;
+  return +value.toFixed(precision >= 0 ? precision : 0);
 }
 
 /**
@@ -33,6 +33,18 @@ export function round(value: number, precision: number): number {
 export function adjustHue(value: number): number {
   const modHue = value % 360;
   return modHue < 0 ? modHue + 360 : modHue;
+}
+
+/**
+ * Helper function to correctly determine or clamp the alpha channel value
+ * @param alpha A numeric value corresponding to the alpha channel
+ *
+ * @note This utility function is provided to provide identical logic for alpha channel value determination.
+ *       Unlike other channels, the alpha channel is optional, thus it needs to be handled differently.
+ * @returns A valid alpha channel value in range [0, 1]
+ */
+export function adjustAlpha(alpha: number): number {
+  return alpha !== undefined ? clamp(0, alpha, 1) : 1;
 }
 
 /**

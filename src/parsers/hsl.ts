@@ -1,16 +1,16 @@
 import { HSLtoRGB } from "../conversions/hsl";
 import { TInput, Irgba, TFormat, Ihsla } from "../types";
-import { adjustHue, clamp } from "../utils/numeric";
+import { adjustAlpha, adjustHue, clamp } from "../utils/numeric";
 import { isHSLObject } from "../utils/typeGuards";
 
 /**
  * hsl[a]( <number | percentage | angle> <number | percentage> <number | percentage> [ / <alpha-value> ]? )
- * @see {@link https://www.w3.org/TR/css-color-4/#the-hsl-notation}
+ * @see https://www.w3.org/TR/css-color-4/#the-hsl-notation
  */
 const HSLA_RE = /hsla?\s*\(\s*([+-]?\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ h, s, l, a }: Ihsla): [Irgba, TFormat] {
-  return [HSLtoRGB({ h: adjustHue(h), s: clamp(0, s, 100), l: clamp(0, l, 100), a: a ? clamp(0, a, 1) : 1 }), "hsl"];
+  return [HSLtoRGB({ h: adjustHue(h), s: clamp(0, s, 100), l: clamp(0, l, 100), a: adjustAlpha(a) }), "hsl"];
 }
 
 export function hslaParser(color: TInput): [Irgba, TFormat] {

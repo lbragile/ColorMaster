@@ -186,19 +186,44 @@ random().stringHEX(); // "#FF0000FF"
 <!-- markdownlint-disable no-inline-html -->
 
 <details>
-<summary><code>string(opts?)</code></summary>
+<summary><code>stringRGB(opts?)</code></summary>
 
-Generates a human readable string from a given color instance
+Generates a human readable RGBA color space string from a given color instance
 
 ```ts
 import CM from "colormaster";
-CM("rgba(255, 0, 0, 1)").stringRGB(); // "rgba(255, 0, 0, 1.0)"
+CM("rgba(255, 0, 0, 1)").stringRGB(); // "rgba(255, 0, 0, 1)"
 CM("rgba(255, 0, 0, 1)").stringRGB({ alpha: false }); // "rgba(255, 0, 0)"
 CM("rgba(200.1234, 100.1234, 50.1234, 0.61234)").stringRGB({ precision: [1, 2, 3, 4] }); // "rgba(200.1, 100.12, 50.123, 0.6123)"
+```
 
-// depending on the color space that you want to produce the string output for, you can use the corresponding method
+</details>
+
+<details>
+<summary><code>stringHEX(opts?)</code></summary>
+
+Generates a human readable HEXA color space string from a given color instance
+
+Note: this method always returns an 8-digit hex string (you do not need to/cannot specify precision)
+
+```ts
+import CM from "colormaster";
+CM("rgba(255, 0, 0, 1)").stringHEX(); // "#FF0000FF"
 CM("rgba(255, 0, 0, 1)").stringHEX({ alpha: false }); // "#FF0000"
-CM("rgba(255, 0, 0, 1)").stringHSLA({ alpha: false }); // "hsl(0, 100%, 50%)"
+```
+
+</details>
+
+<details>
+<summary><code>stringHSL(opts?)</code></summary>
+
+Generates a human readable HSLA color space string from a given color instance
+
+```ts
+import CM from "colormaster";
+CM("rgba(255, 0, 0, 1)").stringHSL(); // "hsl(0, 100%, 50%, 1)"
+CM("rgba(255, 0, 0, 1)").stringHSL({ alpha: false }); // "hsl(0, 100%, 50%)"
+CM("hsla(200.1234, 75.1234, 50.1234, 0.61234)").stringHSL({ precision: [1, 2, 3, 4] }); // "hsla(200.1, 100.12%, 50.123%, 0.6123)"
 ```
 
 </details>
@@ -216,8 +241,10 @@ CM("rgba(0, 0, 255, 1)").name(); // "blue"
 ```
 
 </details>
-
+<br/>
 <!-- markdownlint-enable no-inline-html -->
+
+**Note:** More color space string formation methods (`string<COLOR-SPACE>`) are available with each [Color Space Plugin](#-color-space-plugins).
 
 ### Channel/Instance Level Information
 
@@ -374,8 +401,10 @@ CM("rgba(255, 0, 0, 1)").hexa(); // "{ r: "FF", g: "00", b: "00", a: "FF" }"
 ```
 
 </details>
-
+<br/>
 <!-- markdownlint-enable no-inline-html -->
+
+**Note:** More color space object formation methods (`<color-space>a`) are available with each [Color Space Plugin](#-color-space-plugins).
 
 ### Manipulation
 
@@ -969,7 +998,7 @@ extendPlugins([A11yPlugin]);
 </details>
 
 <details>
-<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.37KB)</summary>
+<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.38KB)</summary>
 
 Allows mixing of colors with a given ratio.
 
@@ -987,7 +1016,7 @@ extendPlugins([MixPlugin]);
 </details>
 
 <details>
-<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.633KB)</summary>
+<summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.639KB)</summary>
 
 Lets you generate beautiful <a href='https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm'>color harmonies</a> based on the current color instance
 
@@ -1011,7 +1040,7 @@ extendPlugins([HarmonyPlugin]);
 <!-- markdownlint-disable no-inline-html -->
 
 <details>
-<summary><code>LCHPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LCH[A] Color Space</a></b> | 1.72KB)</summary>
+<summary><code>LCHPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LCH[A] Color Space</a></b> | 1.74KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1019,14 +1048,17 @@ import LCHPlugin from "colormaster/plugins/lch";
 
 extendPlugins([LCHPlugin]);
 
-CM({ l: 100, c: 50, h: 120, a: 0.5 }).stringRGB(); // "rgba(236, 255, 169, 0.5)"
-CM("lcha(100 50 120 / 0.5)").stringRGB(); // "rgba(236, 255, 169, 0.5)"
+CM({ l: 88, c: 120, h: 136, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").lcha(); // { l: 88, c: 120, h: 136, a: 0.5 }
+
+CM("lcha(88 120 136 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").stringLCH(); // "lcha(88%, 120, 136, 0.5)"
 ```
 
 </details>
 
 <details>
-<summary><code>LABPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LAB[A] Color Space</a></b> | 1.61KB)</summary>
+<summary><code>LABPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LAB[A] Color Space</a></b> | 1.63KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1035,7 +1067,10 @@ import LABPlugin from "colormaster/plugins/lab";
 extendPlugins([LABPlugin]);
 
 CM({ l: 100, a: -100, b: 100, alpha: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").laba(); // { l: 100, a: -100, b: 100, alpha: 0.5 }
+
 CM("laba(100 -100 100 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").stringLAB(); // "laba(100%, -100, 100, 0.5)"
 ```
 
 </details>
@@ -1049,14 +1084,17 @@ import XYZPlugin from "colormaster/plugins/xyz";
 
 extendPlugins([XYZPlugin]);
 
-CM({ x: 40, y: 100, z: 5, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
-CM("xyza(40% 100% 5 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM({ x: 35, y: 70, z: 10, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").xyza(); // { x: 35, y: 70, z: 10, a: 0.5 }
+
+CM("color(xyza 35 70 10 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").stringXYZ(); // "color(xyza 35, 70, 10, 0.5)"
 ```
 
 </details>
 
 <details>
-<summary><code>HWBPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#the-hwb-notation'>HWB[A] Color Space</a></b> | 1.13KB)</summary>
+<summary><code>HWBPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#the-hwb-notation'>HWB[A] Color Space</a></b> | 1.14KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1064,14 +1102,17 @@ import HWBPlugin from "colormaster/plugins/hwb";
 
 extendPlugins([HWBPlugin]);
 
-CM({ h: 120, w: 0, b: 50, a: 0.5 }).stringRGB(); // "rgba(0, 128, 0, 0.5)"
-CM("hwba(120 0% 50% / 0.5)").stringRGB(); // "rgba(0, 128, 0, 0.5)"
+CM({ h: 120, w: 0, b: 0, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").hwba(); // { h: 120, w: 0, b: 0, a: 0.5 }
+
+CM("hwba(120 0% 0% / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").stringHWB(); // "hwba(120, 0%, 0%, 0.5)"
 ```
 
 </details>
 
 <details>
-<summary><code>HSVPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/HSL_and_HSV'>HSV[A] Color Space</a></b> | 1.05KB)</summary>
+<summary><code>HSVPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/HSL_and_HSV'>HSV[A] Color Space</a></b> | 1.06KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1079,14 +1120,17 @@ import HSVPlugin from "colormaster/plugins/hsv";
 
 extendPlugins([HSVPlugin]);
 
-CM({ h: 120, s: 50, v: 50, a: 0.5 }).stringRGB(); // "rgba(64, 128, 64, 0.5)"
-CM("hsva(120 50% 50% / 0.5)").stringRGB(); // "rgba(64, 128, 64, 0.5)"
+CM({ h: 120, s: 100, v: 100, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").hsva(); // { h: 120, s: 100, v: 100, a: 0.5 }
+
+CM("hsva(120 100% 100% / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").stringHSV(); // "hsva(120, 100%, 100%, 0.5)"
 ```
 
 </details>
 
 <details>
-<summary><code>CMYKPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#device-cmyk'>CMYK[A] Color Space</a></b> | 0.890KB)</summary>
+<summary><code>CMYKPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#device-cmyk'>CMYK[A] Color Space</a></b> | 0.903KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1094,8 +1138,11 @@ import CMYKPlugin from "colormaster/plugins/cmyk";
 
 extendPlugins([CMYKPlugin]);
 
-CM({ c: 100, m: 5, y: 75, k: 10, a: 0.5 }).stringRGB(); // "rgba(0, 218, 57, 0.5)"
-CM("cmyka(100 5% 75 10% / 0.5)").stringRGB(); // "rgba(0, 218, 57, 0.5)"
+CM({ c: 100, m: 0, y: 100, k: 0, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").cmyka(); // { c: 100, m: 0, y: 100, k: 0, a: 0.5 }
+
+CM("device-cmyk(100 0% 100% 0 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").cmyka(); // "device-cmyk(100, 0, 100, 0, 0.5)"
 ```
 
 </details>

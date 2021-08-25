@@ -2,6 +2,10 @@ import { HEXtoRGB } from "../conversions/hex";
 import { TInput, Irgba, TFormat, Ihexa, THexStr } from "../types";
 import { isHEXObject } from "../utils/typeGuards";
 
+/**
+ * #RGB[A] or #RRGGBB[AA]
+ * @see https://en.wikipedia.org/wiki/Web_colors
+ */
 const HEXA_RE = /^#?([\da-f])([\da-f])([\da-f])([\da-f])?$|^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})?([\da-f]{2})?$/gi;
 
 export function hexaParser(color: TInput): [Irgba, TFormat] {

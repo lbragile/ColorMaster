@@ -10,7 +10,8 @@ import { isXYZObject } from "../utils/typeGuards";
  * @see https://en.wikipedia.org/wiki/CIE_1931_color_space
  * @see https://www.w3.org/TR/css-color-4/#predefined
  */
-const XYZA_RE = /color\s*\(\s*xyza?\s*(\d*\.?\d+),?\s*(\d*\.?\d+),?\s*(\d*\.?\d+),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
+const XYZA_RE =
+  /color\s*\(\s*xyza?\s*(\d*\.?\d+)\s*,?\s*(\d*\.?\d+)\s*,?\s*(\d*\.?\d+)\s*,?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ x, y, z, a }: Ixyza): [Irgba, TFormat] {
   return [

@@ -109,6 +109,12 @@ export class ColorMaster implements IColorMaster {
     return this;
   }
 
+  saturationTo(value: number): this {
+    const { h, l, a } = this.hsla();
+    this.#color = HSLtoRGB({ h, s: clamp(0, value, 100), l, a });
+    return this;
+  }
+
   saturateBy(delta: number): this {
     const { h, s, l, a } = this.hsla();
     this.#color = HSLtoRGB({ h, s: clamp(0, s + delta, 100), l, a });
@@ -117,6 +123,12 @@ export class ColorMaster implements IColorMaster {
 
   desaturateBy(delta: number): this {
     return this.saturateBy(-1 * delta);
+  }
+
+  lightnessTo(value: number): this {
+    const { h, s, a } = this.hsla();
+    this.#color = HSLtoRGB({ h, s, l: clamp(0, value, 100), a });
+    return this;
   }
 
   lighterBy(delta: number): this {

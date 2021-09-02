@@ -7,7 +7,8 @@ import { HWBtoRGB } from "../conversions/hwb";
  * hwb( <number | percentage | angle> <number | percentage> <number | percentage> [ / <alpha-value> ]? )
  * @see https://www.w3.org/TR/css-color-4/#the-hwb-notation
  */
-const HWBA_RE = /hwba?\s*\(\s*([+-]?\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
+const HWBA_RE =
+  /hwba?\s*\(\s*([+-]?\d*\.?\d+%?)\s*,?\s*(\d*\.?\d+%?)\s*,?\s*(\d*\.?\d+%?)\s*,?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ h, w, b, a }: Ihwba): [Irgba, TFormat] {
   return [HWBtoRGB({ h: adjustHue(h), w: clamp(0, w, 100), b: clamp(0, b, 100), a: adjustAlpha(a) }), "hwb"];

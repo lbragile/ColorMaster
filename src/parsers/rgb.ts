@@ -6,7 +6,8 @@ import { isRGBObject } from "../utils/typeGuards";
  * rgb[a]( <number | percentage>{3} [ / <alpha-value> ]? )
  * @see https://www.w3.org/TR/css-color-4/#rgb-functions
  */
-const RGBA_RE = /rgba?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
+const RGBA_RE =
+  /rgba?\s*\(\s*(\d*\.?\d+%?)\s*,?\s*(\d*\.?\d+%?)\s*,?\s*(\d*\.?\d+%?)\s*,?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ r, g, b, a }: Irgba): [Irgba, TFormat] {
   return [{ r: clamp(0, r, 255), g: clamp(0, g, 255), b: clamp(0, b, 255), a: adjustAlpha(a) }, "rgb"];

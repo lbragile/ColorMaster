@@ -59,6 +59,14 @@ describe("Invert", () => {
   test("no alpha", () => expect(cm.invert().stringRGB()).toBe("rgba(55, 105, 155, 0.7)"));
 });
 
+describe("saturationTo", () => {
+  test("< 0", () => expect(cm.saturationTo(-20).stringHSL({ precision })).toBe("hsla(0, 0%, 58.8%, 0.7)"));
+  test("= 0", () => expect(cm.saturationTo(0).stringHSL({ precision })).toBe("hsla(0, 0%, 58.8%, 0.7)"));
+  test("> 0", () => expect(cm.saturationTo(20).stringHSL({ precision })).toBe("hsla(30, 20%, 58.8%, 0.7)"));
+  test("= 100", () => expect(cm.saturationTo(100).stringHSL({ precision })).toBe("hsla(30, 100%, 58.8%, 0.7)"));
+  test("> 100", () => expect(cm.saturationTo(120).stringHSL({ precision })).toBe("hsla(30, 100%, 58.8%, 0.7)"));
+});
+
 describe("saturateBy", () => {
   test("< 0", () => expect(cm.saturateBy(-20).stringHSL({ precision })).toBe("hsla(30, 27.6%, 58.8%, 0.7)"));
   test("= 0", () => expect(cm.saturateBy(0).stringHSL({ precision })).toBe("hsla(30, 47.6%, 58.8%, 0.7)"));
@@ -71,6 +79,14 @@ describe("desaturateBy", () => {
   test("= 0", () => expect(cm.desaturateBy(0).stringHSL({ precision })).toBe("hsla(30, 47.6%, 58.8%, 0.7)"));
   test("> 0", () => expect(cm.desaturateBy(20).stringHSL({ precision })).toBe("hsla(30, 27.6%, 58.8%, 0.7)"));
   test(">= 100", () => expect(cm.desaturateBy(100).stringHSL({ precision })).toBe("hsla(0, 0%, 58.8%, 0.7)"));
+});
+
+describe("lightnessTo", () => {
+  test("< 0", () => expect(cm.lightnessTo(-20).stringHSL({ precision })).toBe("hsla(0, 0%, 0%, 0.7)"));
+  test("= 0", () => expect(cm.lightnessTo(0).stringHSL({ precision })).toBe("hsla(0, 0%, 0%, 0.7)"));
+  test("> 0", () => expect(cm.lightnessTo(20).stringHSL({ precision })).toBe("hsla(30, 47.6%, 20%, 0.7)"));
+  test("= 100", () => expect(cm.lightnessTo(100).stringHSL({ precision })).toBe("hsla(0, 0%, 100%, 0.7)"));
+  test("> 100", () => expect(cm.lightnessTo(100).stringHSL({ precision })).toBe("hsla(0, 0%, 100%, 0.7)"));
 });
 
 describe("lighterBy", () => {

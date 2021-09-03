@@ -1,7 +1,7 @@
 import { Ihsla, Irgba } from "../types";
 
 /**
- * @see {@link https://www.rapidtables.com/convert/color/hsl-to-rgb.html}
+ * @see https://www.rapidtables.com/convert/color/hsl-to-rgb.html
  */
 export function HSLtoRGB(obj: Ihsla): Irgba {
   const { h, s, l, a } = obj;

@@ -1,4 +1,5 @@
 import { RGBtoRYB } from "../conversions/rgb";
+import { rybaParser } from "../parsers/ryb";
 import { TPlugin, Iryba, TNumArr, IStringOpts } from "../types";
 import { round } from "../utils/numeric";
 
@@ -31,9 +32,11 @@ const RYBPlugin: TPlugin = (CM): void => {
   };
 
   CM.prototype.stringRYB = function ({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
-    const [u, v, w, a] = Object.values(this.ryba() as Iryba).map((val, i) => round(val, precision[i] ?? 1));
-    return alpha ? `color(ryba ${u}, ${v}, ${w}, ${a})` : `color(ryb ${u}, ${v}, ${w})`;
+    const [r, y, b, a] = Object.values(this.ryba() as Iryba).map((val, i) => round(val, precision[i]));
+    return alpha ? `color(ryba ${r}, ${y}, ${b}, ${a})` : `color(ryb ${r}, ${y}, ${b})`;
   };
+
+  CM.Parsers.push(rybaParser);
 };
 
 export default RYBPlugin;

@@ -47,7 +47,7 @@ const NamePlugin: TPlugin = (CM): void => {
    * Generates an RGBA color from an input CSS/HTML name
    * @param color CSS/HTML color name to find
    *
-   * @see {@link https://www.rapidtables.com/web/color/RGB_Color.html} for list of names
+   * @see https://www.rapidtables.com/web/color/RGB_Color.html for list of names
    * @returns The RGBA color instance corresponding to the `name`
    */
   function nameParser(color: keyof typeof RGBExtended): [Irgba, TFormat] {

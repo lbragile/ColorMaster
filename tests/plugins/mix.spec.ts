@@ -269,15 +269,15 @@ describe("ryb", () => {
   test("blue & red → magenta", () =>
     expect(CM("#00F").mix({ colorspace: "ryb", color: "#F00" }).stringHEX()).toBe("#800080FF")); // #FF00FFFF (perfect)
   test("green & magenta → blue", () =>
-    expect(CM("#008000FF").mix({ colorspace: "ryb", color: "#F0F" }).stringHEX()).toBe("#9F40FFFF")); // #0000FFFF (perfect)
+    expect(CM("#008000FF").mix({ colorspace: "ryb", color: "#F0F" }).stringHEX()).toBe("#8040C0FF")); // #0000FFFF (perfect)
   test("magenta & orange → red", () =>
-    expect(CM("#F0F").mix({ colorspace: "ryb", color: "#FFA500" }).stringHEX()).toBe("#FF8080FF")); // #FF0000FF (perfect)
+    expect(CM("#F0F").mix({ colorspace: "ryb", color: "#FFA500" }).stringHEX()).toBe("#C58080FF")); // #FF0000FF (perfect)
   test("orange & green → yellow", () =>
-    expect(CM("#FFA500").mix({ colorspace: "ryb", color: "#008000FF" }).stringHEX()).toBe("#FFF840FF")); // #FFFF00FF (perfect)
+    expect(CM("#FFA500").mix({ colorspace: "ryb", color: "#008000FF" }).stringHEX()).toBe("#C0BA40FF")); // #FFFF00FF (perfect)
   test("ratio < 0", () =>
-    expect(CM("#ABC").mix({ colorspace: "ryb", color: "#F00F", ratio: -1 }).stringHEX()).toBe("#AAFFFFFF")); // #AABBCCFF (perfect)
+    expect(CM("#ABC").mix({ colorspace: "ryb", color: "#F00F", ratio: -1 }).stringHEX()).toBe("#AABBCCFF"));
   test("ratio = 0", () =>
-    expect(CM("#ABC").mix({ colorspace: "ryb", color: "#F00F", ratio: 0 }).stringHEX()).toBe("#AAFFFFFF")); // #AABBCCFF (perfect)
+    expect(CM("#ABC").mix({ colorspace: "ryb", color: "#F00F", ratio: 0 }).stringHEX()).toBe("#AABBCCFF"));
   test("ratio = 1", () =>
     expect(CM("#ABC").mix({ colorspace: "ryb", color: "#F00F", ratio: 1 }).stringHEX()).toBe("#FF0000FF"));
   test("ratio > 1", () =>

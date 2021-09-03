@@ -51,7 +51,7 @@ export function adjustAlpha(alpha: number): number {
  * Converts a RGB color space channel value into its corresponding standard RGB (sRGB) color space value
  * @param value The RGB channel value to convert
  *
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_Colors_and_Luminance}
+ * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_Colors_and_Luminance
  * @returns standard RGB equivalent of the RGB channel value provided
  */
 export function sRGB(value: number): number {
@@ -63,7 +63,7 @@ export function sRGB(value: number): number {
  * Inverse of sRGB - converts sRGB to RGB color space value
  * @param value The sRGB channel value to convert
  *
- * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
+ * @see https://www.w3.org/TR/css-color-4/#color-conversion-code
  * @returns RGB equivalent of the standard RGB channel value provided
  */
 export function sRGBInv(value: number): number {

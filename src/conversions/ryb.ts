@@ -8,10 +8,11 @@ export function RYBtoRGB(obj: Iryba): Irgba {
   let { r, y, b } = obj;
 
   const Iw = Math.min(r, y, b);
-  const mY = Math.max(r, y, b);
 
   // Remove the whiteness from the color
   [r, y, b] = [r, y, b].map((val) => val - Iw);
+
+  const mY = Math.max(r, y, b);
 
   // Get the green out of the yellow+blue
   let g = Math.min(y, b);

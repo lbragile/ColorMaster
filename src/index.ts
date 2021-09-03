@@ -177,7 +177,7 @@ export function random(): ColorMaster {
 /**
  * ColorMaster comes with core functionality by default. This helper function allows users to extend that functionality.
  * @param plugins These extend ColorMaster's functionality
- * @see {@link https://github.com/lbragile/ColorMaster#-plugins} for a list of supported plugins
+ * @see https://github.com/lbragile/ColorMaster#-plugins for a list of supported plugins
  */
 export function extendPlugins(plugins: TPlugin[]): void {
   // filter unique plugins

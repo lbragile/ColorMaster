@@ -1,7 +1,7 @@
 import { Ihsva, Irgba } from "../types";
 
 /**
- * @see {@link https://www.rapidtables.com/convert/color/hsv-to-rgb.html}
+ * @see https://www.rapidtables.com/convert/color/hsv-to-rgb.html
  */
 export function HSVtoRGB(obj: Ihsva): Irgba {
   const { h, s, v, a } = obj;

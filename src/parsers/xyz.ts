@@ -5,7 +5,7 @@ import { adjustAlpha, clamp } from "../utils/numeric";
 import { isXYZObject } from "../utils/typeGuards";
 
 /**
- * color(xyz[a] <number | percentage>{3} [ / <alpha-value> ]? )
+ * color(xyz[a] <number>{3} [ / <alpha-value> ]? )
  * @note Percentages are not allowed (for non alpha channels)
  * @see https://en.wikipedia.org/wiki/CIE_1931_color_space
  * @see https://www.w3.org/TR/css-color-4/#predefined

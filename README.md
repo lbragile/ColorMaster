@@ -1251,10 +1251,10 @@ Here is a snapshot of completed and planned features:
 - [x] `XYZ[A]` color space conversion & parsing
 - [x] `LAB[A]` color space conversion & parsing
 - [x] `LCH[A]` color space conversion & parsing
+- [x] `LUV[A]` color space conversion & parsing
+- [x] `UVW[A]` color space conversion & parsing
+- [x] `RYB[A]` color space conversion & parsing
 - [x] `CMYK[A]` color space conversion & parsing
-- [ ] `LUV[A]` color space conversion & parsing
-- [ ] `UVW[A]` color space conversion & parsing
-- [ ] `RYB[A]` color space conversion & parsing
 
 ## License [![GitHub License](https://img.shields.io/github/license/lbragile/colormaster?color=00D800&label=License&logo=github&style=flat-square)](https://github.com/lbragile/ColorMaster/blob/master/LICENSE)
 

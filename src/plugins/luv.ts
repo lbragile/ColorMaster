@@ -31,7 +31,7 @@ const LUVPlugin: TPlugin = (CM): void => {
     return RGBtoLUV(this.rgba());
   };
 
-  CM.prototype.stringLUV = function ({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
+  CM.prototype.stringLUV = function ({ alpha = true, precision = [0, 0, 0, 1] as Required<TNumArr> } = {}): string {
     const [l, u, v, a] = Object.values(this.luva() as Iluva).map((val, i) => round(val, precision[i]));
     return alpha ? `color(luva ${l}%, ${u}%, ${v}%, ${a})` : `color(luv ${l}%, ${u}%, ${v}%)`;
   };

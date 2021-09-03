@@ -31,7 +31,7 @@ const RYBPlugin: TPlugin = (CM): void => {
     return RGBtoRYB(this.rgba());
   };
 
-  CM.prototype.stringRYB = function ({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
+  CM.prototype.stringRYB = function ({ alpha = true, precision = [0, 0, 0, 1] as Required<TNumArr> } = {}): string {
     const [r, y, b, a] = Object.values(this.ryba() as Iryba).map((val, i) => round(val, precision[i]));
     return alpha ? `color(ryba ${r}, ${y}, ${b}, ${a})` : `color(ryb ${r}, ${y}, ${b})`;
   };

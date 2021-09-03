@@ -30,7 +30,7 @@ const UVWPlugin: TPlugin = (CM): void => {
     return RGBtoUVW(this.rgba());
   };
 
-  CM.prototype.stringUVW = function ({ alpha = true, precision = [0, 0, 0, 1] as TNumArr } = {}): string {
+  CM.prototype.stringUVW = function ({ alpha = true, precision = [0, 0, 0, 1] as Required<TNumArr> } = {}): string {
     const [u, v, w, a] = Object.values(this.uvwa() as Iuvwa).map((val, i) => round(val, precision[i]));
     return alpha ? `color(uvwa ${u}, ${v}, ${w}, ${a})` : `color(uvw ${u}, ${v}, ${w})`;
   };

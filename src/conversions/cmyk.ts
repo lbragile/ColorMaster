@@ -1,8 +1,8 @@
 import { Icmyka, Irgba } from "../types";
 
 /**
- * Naively Converting Between Uncalibrated CMYK and sRGB-Based Colors
- * @see {@link https://www.rapidtables.com/convert/color/cmyk-to-rgb.html}
+ * Converting Between Uncalibrated CMYK and sRGB-Based Colors
+ * @see https://www.rapidtables.com/convert/color/cmyk-to-rgb.html
  */
 export function CMYKtoRGB(obj: Icmyka): Irgba {
   const { c, m, y, k, a } = obj;

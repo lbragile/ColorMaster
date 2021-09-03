@@ -45,6 +45,8 @@
 - 🚂 **Works Everywhere**: Browser (client) and NodeJS (server) support
 - 🐣 **Dependency Free**: Full control of features & enhancements
 
+&nbsp;
+
 ## ⭐ Getting Started
 
 ```markdown
@@ -126,8 +128,13 @@ CM("#456789AB").alphaTo("CC").stringHEX(); // "#456789CC"
 you can simply use (chain) the built in `toLowerCase()`. More information is available [here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase)
 
 </details>
+<br/>
 
 <!-- markdownlint-enable no-inline-html -->
+
+**Note:** Many more color spaces are provided via [plugins](#-color-space-plugins) to make **ColorMaster** compact.
+
+&nbsp;
 
 ## 🔥 API
 
@@ -180,6 +187,8 @@ random().stringHEX(); // "#FF0000FF"
 </details>
 
 <!-- markdownlint-enable no-inline-html -->
+
+&nbsp;
 
 ### Formatting
 
@@ -245,6 +254,8 @@ CM("rgba(0, 0, 255, 1)").name(); // "blue"
 <!-- markdownlint-enable no-inline-html -->
 
 **Note:** More color space string formation methods (`string<COLOR-SPACE>`) are available with each [Color Space Plugin](#-color-space-plugins).
+
+&nbsp;
 
 ### Channel/Instance Level Information
 
@@ -362,6 +373,8 @@ CM("#00F").lightness; // 50
 
 <!-- markdownlint-enable no-inline-html -->
 
+&nbsp;
+
 ### Objects From Color Instance
 
 <!-- markdownlint-disable no-inline-html -->
@@ -405,6 +418,8 @@ CM("rgba(255, 0, 0, 1)").hexa(); // "{ r: "FF", g: "00", b: "00", a: "FF" }"
 <!-- markdownlint-enable no-inline-html -->
 
 **Note:** More color space object formation methods (`<color-space>a`) are available with each [Color Space Plugin](#-color-space-plugins).
+
+&nbsp;
 
 ### Manipulation
 
@@ -467,6 +482,18 @@ CM("#f009").alphaBy("23").stringHEX(); // "#FF0000BC"
 </details>
 
 <details>
+<summary><code>saturationTo(value)</code></summary>
+
+Sets the saturation channel of a color to <code>value</code>
+
+```ts
+import CM from "colormaster";
+CM("hsla(0, 60%, 50%, 1)").saturationTo(75).stringHSL(); // "hsla(0, 75%, 50%, 1.0)"
+```
+
+</details>
+
+<details>
 <summary><code>saturateBy(delta)</code></summary>
 
 This adds pigmentation to a color, making it less gray.
@@ -487,6 +514,18 @@ This removes pigmentation from a color making it more gray.
 ```ts
 import CM from "colormaster";
 CM("hsla(0, 60%, 50%, 1)").desaturateBy(20).stringHSL(); // "hsla(0, 40%, 50%, 1.0)"
+```
+
+</details>
+
+<details>
+<summary><code>lightnessTo(value)</code></summary>
+
+Sets the lightness channel of a color to <code>value</code>
+
+```ts
+import CM from "colormaster";
+CM("hsla(0, 60%, 50%, 1)").lightnessTo(75).stringHSL(); // "hsla(0, 60%, 75%, 1.0)"
 ```
 
 </details>
@@ -557,6 +596,8 @@ CM("hsla(120, 60%, 30%, 0.3)").invert({ alpha: false }).stringHSL(); // "hsla(24
 </details>
 
 <!-- markdownlint-enable no-inline-html -->
+
+&nbsp;
 
 ### Accessibility (Plugin - aka A11y)
 
@@ -855,6 +896,8 @@ CM("hsla(120, 99%, 51%, 1)").closestPureHue().stringHSL(); // "hsla(120, 100%, 5
 
 <!-- markdownlint-enable no-inline-html -->
 
+&nbsp;
+
 ### Color Harmonies (Plugin)
 
 <!-- markdownlint-disable no-inline-html -->
@@ -927,14 +970,53 @@ CM(ogColor)
 
 <!-- markdownlint-enable no-inline-html -->
 
+&nbsp;
+
 ### Color Mixing (Plugin)
 
 <!-- markdownlint-disable no-inline-html -->
 
 <details>
-<summary><code>mix(color, ratio?)</code></summary>
+<summary><code>mix(opts?)</code></summary>
 
-Mixes a <code>ratio</code> of <code>color</code> WITH <code>1-ratio</code> of the current color instance
+Mixes a <code>ratio</code> of <code>color</code> WITH <code>1-ratio</code> of the current color instance in a given <code>colorspace</code>
+
+Unlike other color libraries, **ColorMaster** uses the LUVA color space for mixing colors as this produces superior results.
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import MixPlugin from "colormaster/plugins/mix";
+
+extendPlugins([MixPlugin]);
+
+// ratio = 0.5, colorspace = 'luv' (default)
+CM("#FFFF").mix({ color: "#000F" }).stringHEX(); // "#777777FF"
+CM("#FFFA").mix({ color: "#000B" }).stringHEX(); // "#777777B3"
+
+CM("#FF0").mix({ color: "#00F", colorspace: "ryb" }).stringHEX(); // "#008000FF"
+
+CM("#ABC").mix({ color: "#F00F", ratio: -1 }).stringHEX(); // "#AABBCCFF" → ratio < 0
+CM("#ABC").mix({ color: "#F00F", ratio: 0 }).stringHEX(); // "#AABBCCFF" → ratio = 0
+CM("#ABC").mix({ color: "#F00F", ratio: 1 }).stringHEX(); // "#FF0000FF" → ratio = 1
+CM("#ABC").mix({ color: "#F00F", ratio: 2 }).stringHEX(); // "#FF0000FF" → ratio > 1
+```
+
+</details>
+
+<!-- markdownlint-enable no-inline-html -->
+
+&nbsp;
+
+## 🤯 General Plugins
+
+**ColorMaster** comes out of the box with an extendable plugin mechanism that adds extra functionality to the core library.
+
+<!-- markdownlint-disable no-inline-html -->
+
+<details>
+<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 2.78KB)</summary>
+
+Allows mixing of colors with a given ratio.
 
 Unlike other color libraries, **ColorMaster** uses the LCHA color space for mixing colors as this produces superior results.
 
@@ -944,24 +1026,10 @@ import MixPlugin from "colormaster/plugins/mix";
 
 extendPlugins([MixPlugin]);
 
-CM("#FFFF").mix("#000F").stringHEX(); // "#777777FF" → ratio = 0.5 (default)
-CM("#FFFA").mix("#000B").stringHEX(); // "#777777B3" → ratio = 0.5 (default)
-CM("#FFFA").mix(CM("#000B")).stringHEX(); // "#777777B3" → ratio = 0.5 (default)
-CM("#F00").mix("#ABC", -1).stringHEX(); // "#FF0000FF" → ratio < 0
-CM("#ABC").mix("#F00F", 1).stringHEX(); // "#FF0000FF" → ratio = 0
-CM("#F00").mix("#ABC", 0).stringHEX(); // "#FF0000FF" → ratio = 1
-CM("#ABC").mix("#F00F", 2).stringHEX(); // "#FF0000FF" → ratio > 1
+...
 ```
 
 </details>
-
-<!-- markdownlint-enable no-inline-html -->
-
-## 🤯 General Plugins
-
-**ColorMaster** comes out of the box with an extendable plugin mechanism that adds extra functionality to the core library.
-
-<!-- markdownlint-disable no-inline-html -->
 
 <details>
 <summary><code>NamePlugin</code> (<b>CSS Names</b> | 2.21KB)</summary>
@@ -998,24 +1066,6 @@ extendPlugins([A11yPlugin]);
 </details>
 
 <details>
-<summary><code>MixPlugin</code> (<b>Color Mixtures</b> | 1.38KB)</summary>
-
-Allows mixing of colors with a given ratio.
-
-Unlike other color libraries, **ColorMaster** uses the LCHA color space for mixing colors as this produces superior results.
-
-```ts
-import CM, { extendPlugins } from "colormaster";
-import MixPlugin from "colormaster/plugins/mix";
-
-extendPlugins([MixPlugin]);
-
-...
-```
-
-</details>
-
-<details>
 <summary><code>HarmonyPlugin</code> (<b>Color Harmonies</b> | 0.639KB)</summary>
 
 Lets you generate beautiful <a href='https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm'>color harmonies</a> based on the current color instance
@@ -1032,6 +1082,8 @@ extendPlugins([HarmonyPlugin]);
 </details>
 
 <!-- markdownlint-enable no-inline-html -->
+
+&nbsp;
 
 ## 🎨 Color Space Plugins
 
@@ -1058,6 +1110,24 @@ CM("rgba(0, 255, 0, 0.5)").stringLCH(); // "lcha(88%, 120, 136, 0.5)"
 </details>
 
 <details>
+<summary><code>LUVPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/CIELUV'>LUV[A] Color Space</a></b> | 1.73KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import LUVPlugin from "colormaster/plugins/luv";
+
+extendPlugins([LUVPlugin]);
+
+CM({ l: 88, u: -85, v: 87, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").luva(); // { l: 88, u: -85, v: 87, a: 0.5 }
+
+CM("color(luva 88%, -85%, 87% / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").stringLUV(); // "color(luva 88%, -85%, 87%, 0.5)"
+```
+
+</details>
+
+<details>
 <summary><code>LABPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#lab-colors'>LAB[A] Color Space</a></b> | 1.63KB)</summary>
 
 ```ts
@@ -1071,6 +1141,24 @@ CM("rgba(0, 255, 0, 0.5)").laba(); // { l: 100, a: -100, b: 100, alpha: 0.5 }
 
 CM("laba(100 -100 100 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
 CM("rgba(0, 255, 0, 0.5)").stringLAB(); // "laba(100%, -100, 100, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>UVWPlugin</code> (<b><a href='https://en.wikipedia.org/wiki/CIE_1964_color_space'>UVW[A] Color Space</a></b> | 1.54KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import UVWPlugin from "colormaster/plugins/uvw";
+
+extendPlugins([UVWPlugin]);
+
+CM({ u: 26, v: 72, w: 93, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").uvwa(); // { u: 26, v: 72, w: 93, a: 0.5 }
+
+CM("color(uvwa 26, 72, 93 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").stringUVW(); // "color(uvwa 26, 72, 93, 0.5)"
 ```
 
 </details>
@@ -1094,7 +1182,7 @@ CM("rgba(0, 255, 0, 0.5)").stringXYZ(); // "color(xyza 35, 70, 10, 0.5)"
 </details>
 
 <details>
-<summary><code>HWBPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#the-hwb-notation'>HWB[A] Color Space</a></b> | 1.14KB)</summary>
+<summary><code>HWBPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#the-hwb-notation'>HWB[A] Color Space</a></b> | 1.15KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1130,7 +1218,25 @@ CM("rgba(0, 255, 0, 0.5)").stringHSV(); // "hsva(120, 100%, 100%, 0.5)"
 </details>
 
 <details>
-<summary><code>CMYKPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#device-cmyk'>CMYK[A] Color Space</a></b> | 0.903KB)</summary>
+<summary><code>RYBPlugin</code> (<b><a href='http://nishitalab.org/user/UEI/publication/Sugita_IWAIT2015.pdf'>RYB[A] Color Space</a></b> | 0.921KB)</summary>
+
+```ts
+import CM, { extendPlugins } from "colormaster";
+import RYBPlugin from "colormaster/plugins/ryb";
+
+extendPlugins([RYBPlugin]);
+
+CM({ r: 0, y: 255, b: 255, a: 0.5 }).stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").ryba(); // { r: 0, y: 255, b: 255, a: 0.5 }
+
+CM("color(ryba 0, 255, 255 / 0.5)").stringRGB(); // "rgba(0, 255, 0, 0.5)"
+CM("rgba(0, 255, 0, 0.5)").stringRYB(); // "color(ryba 0, 255, 255, 0.5)"
+```
+
+</details>
+
+<details>
+<summary><code>CMYKPlugin</code> (<b><a href='https://www.w3.org/TR/css-color-4/#device-cmyk'>CMYK[A] Color Space</a></b> | 0.906KB)</summary>
 
 ```ts
 import CM, { extendPlugins } from "colormaster";
@@ -1153,6 +1259,8 @@ CM("rgba(0, 255, 0, 0.5)").cmyka(); // "device-cmyk(100, 0, 100, 0, 0.5)"
 Multiple plugins can be added at the same time by simply providing them as an array to the `extendPlugins` helper.
 
 **Note:** more plugins will be added to accommodate user demands & improve ColorMaster as a whole
+
+&nbsp;
 
 ## 😍 Strongly Typed
 
@@ -1225,10 +1333,14 @@ hsla = { h: 240, s: 50, l: 75, alpha: 0.5 }; // ERROR
 
 <!-- markdownlint-enable no-inline-html -->
 
+&nbsp;
+
 ## 📕 Documentation [![Documentation](https://img.shields.io/badge/Documentation-available-brightgreen?color=00D800&style=flat-square&logo=github)](https://lbragile.github.io/ColorMaster/)
 
 - API documentation can be found on [our documentation site](https://lbragile.github.io/ColorMaster/).
 - A more in depth guide can be seen in [our Wikis](https://github.com/lbragile/ColorMaster/wiki).
+
+&nbsp;
 
 ## 📈 Roadmap & Tasks
 
@@ -1251,10 +1363,13 @@ Here is a snapshot of completed and planned features:
 - [x] `XYZ[A]` color space conversion & parsing
 - [x] `LAB[A]` color space conversion & parsing
 - [x] `LCH[A]` color space conversion & parsing
+- [x] `LUV[A]` color space conversion & parsing
+- [x] `UVW[A]` color space conversion & parsing
+- [x] `RYB[A]` color space conversion & parsing
 - [x] `CMYK[A]` color space conversion & parsing
-- [ ] `LUV[A]` color space conversion & parsing
-- [ ] `UVW[A]` color space conversion & parsing
-- [ ] `RYB[A]` color space conversion & parsing
+
+**Note:** suggestions and/or requests (in addition to the above) are always welcome!
+&nbsp;
 
 ## License [![GitHub License](https://img.shields.io/github/license/lbragile/colormaster?color=00D800&label=License&logo=github&style=flat-square)](https://github.com/lbragile/ColorMaster/blob/master/LICENSE)
 

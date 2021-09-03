@@ -17,17 +17,23 @@ import {
   Icmyk,
   Icmyka,
   Ixyz,
-  Ixyza
+  Ixyza,
+  Iluv,
+  Iluva,
+  Iryb,
+  Iryba,
+  Iuvw,
+  Iuvwa
 } from "../types";
 
 export function isRGBObject(type: TInput): type is Irgb | Irgba {
-  const { r } = type as Irgb;
-  return r !== undefined && typeof r === "number";
+  const { r, g, b } = type as Irgb;
+  return r !== undefined && g !== undefined && b !== undefined && typeof r === "number";
 }
 
 export function isHEXObject(type: TInput): type is Ihex | Ihexa {
-  const { r } = type as Ihex;
-  return r !== undefined && typeof r === "string";
+  const { r, g, b } = type as Ihex;
+  return r !== undefined && g !== undefined && b !== undefined && typeof r === "string";
 }
 
 export function isHSLObject(type: TInput): type is Ihsl | Ihsla {
@@ -58,6 +64,21 @@ export function isLCHObject(type: TInput): type is Ilch | Ilcha {
 export function isXYZObject(type: TInput): type is Ixyz | Ixyza {
   const { x, y, z } = type as Ixyz;
   return x !== undefined && y !== undefined && z !== undefined;
+}
+
+export function isLUVObject(type: TInput): type is Iluv | Iluva {
+  const { l, u, v } = type as Iluv;
+  return l !== undefined && u !== undefined && v != undefined;
+}
+
+export function isUVWObject(type: TInput): type is Iuvw | Iuvwa {
+  const { u, v, w } = type as Iuvw;
+  return u !== undefined && v !== undefined && w !== undefined;
+}
+
+export function isRYBObject(type: TInput): type is Iryb | Iryba {
+  const { r, y, b } = type as Iryb;
+  return r !== undefined && y !== undefined && b !== undefined;
 }
 
 export function isCMYKObject(type: TInput): type is Icmyk | Icmyka {

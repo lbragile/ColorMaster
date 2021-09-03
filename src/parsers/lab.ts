@@ -9,7 +9,8 @@ import { LABtoRGB } from "../conversions/lab";
  * @note a, b values are signed (allow both positive and negative values) and theoretically
  *       unbounded (but in practice do not exceed ±160). Thus, cannot use percentage
  */
-const LABA_RE = /laba?\s*\(\s*(\d*\.?\d+%?),?\s*([+-]?\d*\.?\d+),?\s*([+-]?\d*\.?\d+),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
+const LABA_RE =
+  /laba?\s*\(\s*(\d*\.?\d+%?)\s*,?\s*([+-]?\d*\.?\d+)\s*,?\s*([+-]?\d*\.?\d+)\s*,?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ l, a, b, alpha }: Ilaba): [Irgba, TFormat] {
   return [

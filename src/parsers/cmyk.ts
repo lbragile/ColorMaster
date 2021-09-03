@@ -8,7 +8,7 @@ import { CMYKtoRGB } from "../conversions/cmyk";
  * @see https://www.w3.org/TR/css-color-4/#device-cmyk
  */
 const CMYKA_RE =
-  /device-cmyka?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
+  /device-cmyka?\s*\(\s*(\d*\.?\d+%?)\s*,?\s*(\d*\.?\d+%?)\s*,?\s*(\d*\.?\d+%?)\s*,?\s*(\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ c, m, y, k, a }: Icmyka): [Irgba, TFormat] {
   return [

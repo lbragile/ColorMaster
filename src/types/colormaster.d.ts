@@ -142,6 +142,13 @@ export interface IColorMaster {
   invert({ alpha }?: { alpha: boolean }): this;
 
   /**
+   * Sets the saturation (intensity) of color in HSLA space to a specific `value`
+   * @param value New saturation value, must be in [0, 100]
+   * @returns The instance that was acted upon → for function chaining
+   */
+  saturationTo(value: number): this;
+
+  /**
    * Saturates (intensity) the color in HSLA space
    * @param delta When added to current saturation value, range must remain in [0, 100]
    *
@@ -158,6 +165,13 @@ export interface IColorMaster {
    * @returns The instance that was acted upon → for function chaining
    */
   desaturateBy(delta: number): this;
+
+  /**
+   * Sets the lightness (tone) of a color in HSLA space to a specific `value`
+   * @param value The new lightness value, must be in [0, 100]
+   * @returns The instance that was acted upon → for function chaining
+   */
+  lightnessTo(value: number): this;
 
   /**
    * Adds lightness (tone) of the color in HSLA space

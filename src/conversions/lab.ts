@@ -3,7 +3,7 @@ import { Ilaba, Irgba } from "../types";
 import { XYZtoRGB } from "./xyz";
 
 /**
- * @see {@link https://en.wikipedia.org/wiki/CIELAB_color_space}
+ * @see https://en.wikipedia.org/wiki/CIELAB_color_space
  */
 export function LABtoRGB(obj: Ilaba): Irgba {
   const { l, a, b } = obj;

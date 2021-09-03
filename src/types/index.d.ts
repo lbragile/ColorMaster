@@ -7,7 +7,7 @@ type THexUpper = "A" | "B" | "C" | "D" | "E" | "F";
 
 /**
  * Possible single or double digit HEX combination
- * @see {@link https://gist.github.com/lbragile/3176be88d6c374e4b69ab86659c03e7c}
+ * @see https://gist.github.com/lbragile/3176be88d6c374e4b69ab86659c03e7c
  */
 export type THexStr =
   | `${THexDigit}${THexDigit}`
@@ -185,6 +185,15 @@ export interface IReadable extends Pick<IA11yOpts, "bgColor"> {
 }
 
 /**
+ * Options for mixing colors
+ */
+export interface IMix {
+  color?: TInput | ColorMaster;
+  ratio?: number;
+  colorspace?: Exclude<TFormat, "invalid" | "name">;
+}
+
+/**
  * When using the monochromatic harmony, the user has more choices to pick from
  */
 export interface IColorHarmony {
@@ -200,7 +209,7 @@ export type TMonoEffect = "tones" | "tints" | "shades";
 
 /**
  * The different well know color harmonies
- * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm}
+ * @see https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm
  */
 export type THarmony =
   | "analogous"
@@ -239,19 +248,39 @@ export type TInput =
   | Ihsva
   | Ihwb
   | Ihwba
+  | Ixyz
+  | Ixyza
   | Ilab
   | Ilaba
   | Ilch
   | Ilcha
-  | Ixyz
-  | Ixyza
+  | Iluv
+  | Iluva
+  | Iuvw
+  | Iuvwa
+  | Iryb
+  | Iryba
   | Icmyk
   | Icmyka;
 
 /**
  * Possible formats the the input can be (omits alpha)
  */
-export type TFormat = "invalid" | "name" | "rgb" | "hex" | "hsl" | "hsv" | "hwb" | "lab" | "lch" | "xyz" | "cmyk";
+export type TFormat =
+  | "invalid"
+  | "name"
+  | "rgb"
+  | "hex"
+  | "hsl"
+  | "hsv"
+  | "hwb"
+  | "xyz"
+  | "lab"
+  | "lch"
+  | "ryb"
+  | "luv"
+  | "uvw"
+  | "cmyk";
 
 /**
  * Allows parsing of inputs to correctly determine their format & allocate the corresponding

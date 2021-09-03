@@ -2,6 +2,24 @@
 
 All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster) module will be documented in this file.
 
+## v1.2.0 - September 02, 2021
+
+### Added
+
+- `LUV`, `UVW`, `RYB` parsers & plugins with associated testing
+- Added typeGuards for new color spaces & adjusted RGB/HEX type guards
+
+### Fixed
+
+- `RYBtoRGB` & `RGBtoRYB` conversions
+- Parsing RegExp in all color spaces to be more robust with spaces before/after commas
+
+### Changed
+
+- Allow mixing in different color spaces
+
+---
+
 ## v1.1.1 - August 24, 2021
 
 ### Added

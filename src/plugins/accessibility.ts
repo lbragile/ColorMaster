@@ -12,7 +12,7 @@ declare module ".." {
      * - precision → How many decimal places to use in the output
      * - percentage → Whether or not to multiply the output by 100
      *
-     * @see {@link https://www.w3.org/TR/AERT/#color-contrast}
+     * @see https://www.w3.org/TR/AERT/#color-contrast
      * @default { precision = 4, percentage = false }
      * @returns A value in the range [0, 1] = [dim (black), bright (white)] (or [0, 100] if `percentage = true`)
      */
@@ -25,7 +25,7 @@ declare module ".." {
      * - precision → How many decimal places to use in the output
      * - percentage → Whether or not to multiply the output by 100
      *
-     * @see {@link https://www.w3.org/TR/WCAG20/#relativeluminancedef}
+     * @see https://www.w3.org/TR/WCAG20/#relativeluminancedef
      * @default { precision = 4, percentage = false }
      * @returns A value in the range [0, 1] = [darkest black, lightest white] (or [0, 100] if `percentage = true`)
      */
@@ -59,7 +59,7 @@ declare module ".." {
      * - size → Either "body" or "large" text size (large is 120-150% larger than body text)
      * - ratio → Either "minimum" ("AA" rating) or "enhanced" ("AAA" rating)
      *
-     * @see {@link https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast}
+     * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast
      * @default { bgColor = "#fff", size = "body", ratio = "minimum" }
      * @returns Whether or not the color is readable on `bgColor`
      */
@@ -90,7 +90,8 @@ declare module ".." {
      *
      * These typically contain more blue and green pigmentation (higher hue)
      *
-     * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm} or {@link https://www.canva.com/colors/color-wheel/}
+     * @see https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm
+     * @see https://www.canva.com/colors/color-wheel/
      */
     isCool(): boolean;
 
@@ -99,7 +100,8 @@ declare module ".." {
      *
      * These typically contain more red and yellow pigmentation (lower hue)
      *
-     * @see {@link https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm} or {@link https://www.canva.com/colors/color-wheel/}
+     * @see https://www.tigercolor.com/color-lab/color-theory/color-theory-intro.htm
+     * @see https://www.canva.com/colors/color-wheel/
      */
     isWarm(): boolean;
 
@@ -148,7 +150,7 @@ declare module ".." {
     /**
      * Finds the closest Web Safe color to the current color
      *
-     * @see {@link https://www.rapidtables.com/web/color/Web_Safe.html}
+     * @see https://www.rapidtables.com/web/color/Web_Safe.html
      * @returns The instance that was acted upon → for function chaining
      */
     closestWebSafe(): ColorMaster;

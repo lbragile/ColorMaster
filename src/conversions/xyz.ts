@@ -4,7 +4,7 @@ import { clamp, sRGBInv } from "../utils/numeric";
 
 /**
  * Bradford chromatic adaptation from D50 to D65
- * @see {@link https://www.w3.org/TR/css-color-4/#color-conversion-code}
+ * @see https://www.w3.org/TR/css-color-4/#color-conversion-code
  *
  * @note For best results, RGBA color space is adapted to be D65 reference white
  */

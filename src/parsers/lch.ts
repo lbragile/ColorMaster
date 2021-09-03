@@ -9,7 +9,8 @@ import { LCHtoRGB } from "../conversions/lch";
  * @note Lightness is interpreted identically to the LAB lightness (maximum 100)
  *       Chroma minimum useful value is 0, while its maximum is theoretically unbounded (but in practice does not exceed 230)
  */
-const LCHA_RE = /lcha?\s*\(\s*(\d*\.?\d+%?),?\s*(\d*\.?\d+%?),?\s*([+-]?\d*\.?\d+%?),?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
+const LCHA_RE =
+  /lcha?\s*\(\s*(\d*\.?\d+%?)\s*,?\s*(\d*\.?\d+%?)\s*,?\s*([+-]?\d*\.?\d+%?)\s*,?\s*\/?\s*?(\d*\.?\d+%?)?\s*\)/gi;
 
 function createReturnArr({ l, c, h, a }: Ilcha): [Irgba, TFormat] {
   return [

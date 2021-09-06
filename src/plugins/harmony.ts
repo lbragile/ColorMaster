@@ -1,4 +1,4 @@
-import { IColorHarmony, TPlugin } from "../types";
+import { IHarmony, TPlugin } from "../types";
 import { adjustHue, clamp } from "../utils/numeric";
 
 declare module ".." {
@@ -6,19 +6,15 @@ declare module ".." {
     /**
      * Generates an RGBA color instance array based on the corresponding harmony
      *
-     * @opts Only apply to 'monochromatic' harmony
-     * - type → The color harmony to apply
-     * - effect → 'tints' (add white/add lightness), 'shades' (add black/remove lightness), 'tones' (add grey/remove saturation)
-     * - amount → the number of elements to return
-     *
      * @see https://www.tigercolor.com/color-lab/color-theory/color-harmonies.htm
-     * @note For 'monochromatic', the amount must be in range [2, 10]
+     * @note For "monochromatic", the amount must be in range [2, 10]
+     * @default opts = { type: "analogous", effect: "tones", amount: 5 }
      * @returns - All harmony types return an array with the original color as the first element.
      *          - The only exception to this are 'analogous' and 'double-split-complementary',
      *            which return the original color as the second element.
      *          - For 'monochromatic' the original color is always first and the array size is `amount + 1` evenly spaced colors.
      */
-    harmony(opts?: IColorHarmony): ColorMaster[];
+    harmony(opts?: IHarmony): ColorMaster[];
   }
 }
 

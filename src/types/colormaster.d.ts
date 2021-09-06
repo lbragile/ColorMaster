@@ -1,4 +1,4 @@
-import { IStringOpts, Ihsla, Ihexa, Irgba } from ".";
+import { IStringOpts, Ihsla, Ihexa, Irgba, IInvertOpts, IHexaObjOpts } from ".";
 import { HueColors } from "../enums/colors";
 
 /**
@@ -53,52 +53,49 @@ export interface IColorMaster {
 
   /**
    * Gives the string representation of an input RGBA color object
-   * @param opts -
-   *  - alpha → whether or not to include the alpha channel in the output
-   *  - precision → how many decimal places to include for each value
+   *
    * @example CM({ r: 200, g: 150, b: 100, a: 0.7 }).stringRGB() → "rgba(200, 150, 100, 0.7)"
-   * @default { alpha: true, precision: [0, 0, 0, 1] }
+   * @default opts = { alpha: true, precision: [0, 0, 0, 1] }
    * @returns ```rgb[a](R, G, B[, A])```
    */
-  stringRGB({ alpha, precision }?: IStringOpts): string;
+  stringRGB(opts?: IStringOpts): string;
 
   /**
    * Gives the string representation of an input HEXA color object
-   * @param opts -
-   *  - alpha → whether or not to include the alpha channel in the output
+   *
    * @example CM({ r: 200, g: 150, b: 100, a: 0.7 }).stringHEX() → "#C89664B3"
-   * @default { alpha: true }
+   * @note Precision is not relevant for HEXA colorspace since the output will always be an 8-digit hex string
+   * @default opts = { alpha: true }
    * @returns ```#RRGGBB[AA]```
    */
-  stringHEX({ alpha }?: IStringOpts): string;
+  stringHEX(opts?: Omit<IStringOpts, "precision">): string;
 
   /**
    * Gives the string representation of an input HSLA color object
-   * @param opts -
-   *  - alpha → whether or not to include the alpha channel in the output
-   *  - precision → how many decimal places to include for each value
+   *
    * @example CM({ r: 200, g: 150, b: 100, a: 0.7 }).stringHSL() → "hsla(30, 48%, 59%, 0.7)"
-   * @default { alpha: true, precision: [0, 0, 0, 1] }
+   * @default opts = { alpha: true, precision: [0, 0, 0, 1] }
    * @returns ```hsl[a](H, S, L[, A])```
    */
-  stringHSL({ alpha, precision }?: IStringOpts): string;
+  stringHSL(opts?: IStringOpts): string;
 
   /**
    * Converts a RGBA color instance to RGBA color object
+   * @returns A HSLA object containing the respective channel values
    */
   rgba(): Irgba;
 
   /**
    * Converts a RGBA color instance to HEXA color object
-   *
-   * @default { round: false }
+   * @default opts = { round: false }
+   * @returns A HSLA object containing the respective channel values
    */
-  hexa({ round }?: { round: boolean }): Ihexa;
+  hexa(opts?: IHexaObjOpts): Ihexa;
 
   /**
    * Converts a RGBA color instance to HSLA color object
-   *
    * @link https://www.rapidtables.com/convert/color/rgb-to-hsl.html
+   * @returns A HSLA object containing the respective channel values
    */
   hsla(): Ihsla;
 
@@ -134,12 +131,11 @@ export interface IColorMaster {
 
   /**
    * Given an input color, get its inverse value by subtracting current value from the upper bound for each channel
-   * @param opts Whether or not to also invert the alpha channel
    *
-   * @default { alpha = false }
+   * @default opts = { alpha: false }
    * @returns The corresponding inverse color
    */
-  invert({ alpha }?: { alpha: boolean }): this;
+  invert(opts?: IInvertOpts): this;
 
   /**
    * Sets the saturation (intensity) of color in HSLA space to a specific `value`

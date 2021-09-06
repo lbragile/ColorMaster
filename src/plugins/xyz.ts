@@ -7,22 +7,19 @@ declare module ".." {
   interface ColorMaster {
     /**
      * Converts a RGBA color instance to XYZA color object
-     *
      * @link https://www.w3.org/TR/css-color-4/#color-conversion-code
      */
     xyza(): Ixyza;
 
     /**
      * Gives the string representation of an input XYZA color object
-     * @param opts -
-     *  - alpha → whether or not to include the alpha channel in the output
-     *  - precision → how many decimal places to include for each value
+     *
      * @example CM({ r: 200, g: 150, b: 100, a: 0.7 }).stringXYZ() → "color(xyza 37, 35, 17, 0.7)"
-     * @default { alpha: true, precision: [0, 0, 0, 1] }
+     * @default opts = { alpha: true, precision: [0, 0, 0, 1] }
      * @see https://www.w3.org/TR/css-color-4/#predefined
      * @returns ```color(xyz[a] X, Y, Z[, A])```
      */
-    stringXYZ({ alpha, precision }?: IStringOpts): string;
+    stringXYZ(opts?: IStringOpts): string;
   }
 }
 

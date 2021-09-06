@@ -1,6 +1,6 @@
 import { HSLtoRGB } from "../conversions/hsl";
 import { WebSafe as WebSafeArr } from "../enums/colors";
-import { IA11yOpts, IReadable, TInput, TPlugin, Irgba } from "../types";
+import { IA11yOpts, IReadable, TInput, TPlugin, Irgba, IPureHue, IPureHueOutput } from "../types";
 import { channelWiseDifference, getRGBArr, sRGB } from "../utils/numeric";
 
 declare module ".." {
@@ -8,59 +8,41 @@ declare module ".." {
     /**
      * Finds the normalized brightness of the color
      *
-     * @param opts -
-     * - precision → How many decimal places to use in the output
-     * - percentage → Whether or not to multiply the output by 100
-     *
      * @see https://www.w3.org/TR/AERT/#color-contrast
-     * @default { precision = 4, percentage = false }
+     * @default opts = { precision: 4, percentage: false }
      * @returns A value in the range [0, 1] = [dim (black), bright (white)] (or [0, 100] if `percentage = true`)
      */
-    brightness(opts?: IA11yOpts): number;
+    brightness(opts?: Omit<IA11yOpts, "ratio" | "bgColor">): number;
 
     /**
      * Finds normalized relative luminance of the color
      *
-     * @param opts -
-     * - precision → How many decimal places to use in the output
-     * - percentage → Whether or not to multiply the output by 100
-     *
      * @see https://www.w3.org/TR/WCAG20/#relativeluminancedef
-     * @default { precision = 4, percentage = false }
+     * @default opts = { precision: 4, percentage: false }
      * @returns A value in the range [0, 1] = [darkest black, lightest white] (or [0, 100] if `percentage = true`)
      */
-    luminance(opts?: IA11yOpts): number;
+    luminance(opts?: Omit<IA11yOpts, "ratio" | "bgColor">): number;
 
     /**
      * Given a background color as input, determines the contrast ratio if the current color is used as the foreground color
      *
-     * @param opts -
-     * - bgColor → The background color to contrast against
-     * - precision → How many decimal places to use in the output
-     * - ratio → Whether or not to append `:1` to the output (express as a ratio)
-     *
      * @note This ratio will range from `1:1 → white fg : white bg` to `21:1 → black fg : white bg`
      * @see {@link ColorMaster.readableOn readableOn} for readable contrast ratios
-     * @default { bgColor = "#fff", precision = 4, ratio = false }
+     * @default opts = { bgColor: "#fff", precision: 4, ratio: false }
      * @returns The contrast between current color instance and `bgColor` as a number (value → `ratio = false`) or string ("value:1" → `ratio = true`)
      */
-    contrast(opts?: IA11yOpts): string | number;
+    contrast(opts?: Omit<IA11yOpts, "percentage">): string | number;
 
     /**
      * Given a background color as input, determines if the current color is readable if it is used as the foreground color
      *
-     * |           | Minimum | Enhanced |
-     * | :-------- | :------ | :------- |
-     * | **Body**  |  4.5:1  |  7.0:1   |
-     * | **Large** |  3.0:1  |  4.5:1   |
-     *
-     * @param opts -
-     * - bgColor → The background color that the current color will be read on
-     * - size → Either "body" or "large" text size (large is 120-150% larger than body text)
-     * - ratio → Either "minimum" ("AA" rating) or "enhanced" ("AAA" rating)
+     * |           | Minimum  | Enhanced  |
+     * | :-------- | :------: | :-------: |
+     * | **Body**  |  4.5:1   |  7.0:1    |
+     * | **Large** |  3.0:1   |  4.5:1    |
      *
      * @see https://developer.mozilla.org/en-US/docs/Web/Accessibility/Understanding_WCAG/Perceivable/Color_contrast
-     * @default { bgColor = "#fff", size = "body", ratio = "minimum" }
+     * @default opts = { bgColor: "#fff", size: "body", ratio: "minimum" }
      * @returns Whether or not the color is readable on `bgColor`
      */
     readableOn(opts?: IReadable): boolean;
@@ -69,7 +51,7 @@ declare module ".." {
      * Given an input color to compare with, determine if that color is identical to the current color instance
      * @param cmpColor The color to compare against for equality
      *
-     * @default "#fff"
+     * @default cmpColor = "#fff"
      * @note Alpha values are included in the equality checks
      * @returns True if the two color instances are identical (same RGBA channel values). False otherwise.
      */
@@ -122,13 +104,12 @@ declare module ".." {
 
     /**
      * Helper for determining if a given color instance is pure (not tinted, shaded, or toned)
-     * @param opts - reason → Whether or not to include a reason for the output
      *
      * @note `reason` only provides extra information when the color instance is not pure hue
-     * @default { reason = true }
-     * @returns boolean (if reason is truthy), an object containing the reason for purity determination (if reason is falsy)
+     * @default opts = { reason: true }
+     * @returns boolean (if reason is truthy) OR an object containing the reason for purity determination (if reason is falsy)
      */
-    isPureHue(opts?: { reason?: boolean }): boolean | { pure: boolean; reason: string };
+    isPureHue(opts?: IPureHue): boolean | IPureHueOutput;
 
     /**
      * Finds the closest cool color instance to the current color (in HSLA space)
@@ -177,10 +158,10 @@ const A11yPlugin: TPlugin = (CM): void => {
     return ratio ? contrast + ":1" : +contrast;
   };
 
-  CM.prototype.readableOn = function ({ bgColor = "#fff", size = "body", ratio = "minimum" } = {}) {
+  CM.prototype.readableOn = function ({ bgColor = "#fff", size = "body", level = "minimum" } = {}) {
     const contrast = this.contrast({ bgColor });
-    if (size === "body" && ratio === "enhanced") return contrast >= 7.0;
-    else if (size === "large" && ratio === "minimum") return contrast >= 3.0;
+    if (size === "body" && level === "enhanced") return contrast >= 7.0;
+    else if (size === "large" && level === "minimum") return contrast >= 3.0;
     else return contrast >= 4.5;
   };
 

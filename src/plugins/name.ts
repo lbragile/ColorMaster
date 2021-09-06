@@ -1,19 +1,18 @@
 import { RGBExtended } from "../enums/colors";
-import { TPlugin, Irgba, TFormat, TParser } from "../types";
+import { TPlugin, Irgba, TFormat, TParser, INameOpts } from "../types";
 import { channelWiseDifference, getRGBArr } from "../utils/numeric";
 
 declare module ".." {
   interface ColorMaster {
     /**
      * Gets the color table HTML/CSS name for a given color
-     * @param opts - exact → If true - attempts to find an exact match (undefined if not found), else finds the nearest color name
      *
      * @note Colors with an alpha value of '0' return 'transparent'. Also, colors with alpha < 1, return `CSS_NAME (with opacity)`
      * @example CM("rgb(128, 0, 0)").name() → "maroon"
-     * @default { exact = true }
+     * @default opts = { exact: true }
      * @returns The color's HTML/CSS name
      */
-    name(opts?: { exact?: boolean }): string;
+    name(opts?: INameOpts): string;
   }
 }
 

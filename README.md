@@ -1369,6 +1369,7 @@ Here is a snapshot of completed and planned features:
 - [x] `CMYK[A]` color space conversion & parsing
 
 **Note:** suggestions and/or requests (in addition to the above) are always welcome!
+
 &nbsp;
 
 ## License [![GitHub License](https://img.shields.io/github/license/lbragile/colormaster?color=00D800&label=License&logo=github&style=flat-square)](https://github.com/lbragile/ColorMaster/blob/master/LICENSE)

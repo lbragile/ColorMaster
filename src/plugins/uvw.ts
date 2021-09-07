@@ -14,14 +14,12 @@ declare module ".." {
 
     /**
      * Gives the string representation of an input UVWA color object
-     * @param opts -
-     *  - alpha → whether or not to include the alpha channel in the output
-     *  - precision → how many decimal places to include for each value
+     *
      * @example CM({ r: 200, g: 150, b: 100, a: 0.7 }).stringUVW() → "color(uvwa 26, 35, 40, 0.7)"
-     * @default { alpha: true, precision: [0, 0, 0, 1] }
+     * @default opts = { alpha: true, precision: [0, 0, 0, 1] }
      * @returns ```color(uvw[a] U, V, W[, A])```
      */
-    stringUVW({ alpha, precision }?: IStringOpts): string;
+    stringUVW(opts?: IStringOpts): string;
   }
 }
 

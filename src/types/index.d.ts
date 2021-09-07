@@ -162,17 +162,63 @@ export type TOperator = "add" | "sub";
  * Formatting options for output string
  */
 export interface IStringOpts {
+  /** Whether or not to include the alpha channel in the output */
   alpha?: boolean;
+
+  /** How many decimal places to include for each value */
   precision?: Required<TNumArr>;
+}
+
+/**
+ * Formatting options for output string of CMYKA colorspace
+ */
+export interface ICMYKStringOpts extends Omit<IStringOpts, "precision"> {
+  /** How many decimal places to include for each value */
+  precision?: [number, number, number, number, number];
+}
+
+/**
+ * Options for color inversion
+ */
+export interface IInvertOpts {
+  /** Whether or not to also invert the alpha channel */
+  alpha: boolean;
+}
+
+/**
+ * Options for HEXA object generation
+ */
+export interface IHexaObjOpts {
+  /**
+   * Whether or not to round each channel components
+   * We recommend rounding only when displaying the object values to the user.
+   * Otherwise do not round to improve precision.
+   */
+  round: boolean;
+}
+
+/**
+ * Options for color naming functionality
+ */
+export interface INameOpts {
+  /** Whether or not to find an exact match (undefined if not found) - otherwise the nearest color name */
+  exact?: boolean;
 }
 
 /**
  * Formatting options for accessibility function outputs
  */
 export interface IA11yOpts {
+  /** How many decimal places to use in the output */
   precision?: number;
+
+  /** Whether or not to multiply the output by 100 */
   percentage?: boolean;
+
+  /** Whether or not to append `:1` to the output (express as a ratio) */
   ratio?: boolean;
+
+  /** The background color to contrast against */
   bgColor?: TInput | ColorMaster;
 }
 
@@ -180,26 +226,60 @@ export interface IA11yOpts {
  * Options for determining if a color is readable
  */
 export interface IReadable extends Pick<IA11yOpts, "bgColor"> {
+  /**
+   * Text size
+   * - body → Regular typically 12pt/16px and not bold
+   * - large → Large is typically 14pt/18.66px or larger and bold OR 18pt/24px or larger and not bold
+   */
   size?: "body" | "large";
-  ratio?: "minimum" | "enhanced";
+
+  /**
+   * WCAG 2.0 level
+   * - minimum → AA rating
+   * - enhanced → AAA rating
+   */
+  level?: "minimum" | "enhanced";
+}
+
+/**
+ * Options that can be provided for pure hue determination
+ */
+export interface IPureHue {
+  /** Whether or not to include a reason for the output */
+  reason?: boolean;
 }
 
 /**
  * Options for mixing colors
  */
 export interface IMix {
+  /** The color to mix with the current color instance */
   color?: TInput | ColorMaster;
+
+  /** The proportions to use when mixing */
   ratio?: number;
+
+  /** Which colorspace to mix in */
   colorspace?: Exclude<TFormat, "invalid" | "name">;
 }
 
 /**
  * When using the monochromatic harmony, the user has more choices to pick from
  */
-export interface IColorHarmony {
-  effect?: TMonoEffect;
-  amount?: number;
+export interface IHarmony {
+  /** The color harmony to compute */
   type?: THarmony;
+
+  /**
+   * Only applied when `type === "monochromatic"`
+   * - `tints` → add white/add lightness
+   * - `shades` → add black/remove lightness
+   * - `tones` → add grey/remove saturation
+   */
+  effect?: TMonoEffect;
+
+  /** For `type === "monochromatic"` → the number of elements (color harmonies) to compute */
+  amount?: number;
 }
 
 /**

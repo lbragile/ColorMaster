@@ -136,6 +136,14 @@ you can simply use (chain) the built in `toLowerCase()`. More information is ava
 
 &nbsp;
 
+## 🎯 Playground
+
+**ColorMaster** also has a [playground](https://colormaster.vercel.app) where key functionality is illustrated.
+Those that are interested can play around with the elegant user interface for daily color related needs,
+grab the corresponding ColorMaster snippet from each page's `code` button, or even use our [REST API](https://github.com/lbragile/ColorMasterDemo/blob/develop/rest.http) for quick results to common requests.
+
+&nbsp;
+
 ## 🔥 API
 
 ### Object Instantiation (Color Generation)
@@ -716,25 +724,25 @@ The output is obtained by the conditions outlined in <a href='https://developer.
 ```ts
 import CM from "colormaster";
 
-// extremes (default color is white as bg, size = body, ratio = minimum)
+// extremes (default color is white as bg, size = body, level = minimum)
 CM("#fff").readableOn(); // false (1.0:1)
 CM("#fff").readableOn({ bgColor: CM("#000") }); // true (21.0:1)
 CM("#000").readableOn({ bgColor: CM("#000") }); // false (1.0:1)
 CM("#000").readableOn(); // true (21.0:1)
 
 // 3.0:1
-CM("#fff").readableOn({ bgColor: CM("#949494FF"), size: "large", ratio: "minimum" }); // true (3.03:1)
-CM("#fff").readableOn({ bgColor: CM("#959595FF"), size: "large", ratio: "minimum" }); // false (2.99:1)
+CM("#fff").readableOn({ bgColor: CM("#949494FF"), size: "large", level: "minimum" }); // true (3.03:1)
+CM("#fff").readableOn({ bgColor: CM("#959595FF"), size: "large", level: "minimum" }); // false (2.99:1)
 
 // 4.5:1
 CM("#fff").readableOn({ bgColor: CM("#777F") }); // false (4.47:1)
 CM("#fff").readableOn({ bgColor: CM("#767676FF") }); // true (4.54:1)
-CM("#fff").readableOn({ bgColor: CM("#777F"), size: "large", ratio: "enhanced" }); // false (4.47:1)
-CM("#fff").readableOn({ bgColor: CM("#767676FF"), size: "large", ratio: "enhanced" }); // true (4.54:1)
+CM("#fff").readableOn({ bgColor: CM("#777F"), size: "large", level: "enhanced" }); // false (4.47:1)
+CM("#fff").readableOn({ bgColor: CM("#767676FF"), size: "large", level: "enhanced" }); // true (4.54:1)
 
 // 7.0:1
-CM("#fff").readableOn({ bgColor: CM("#595959FF"), size: "body", ratio: "enhanced" }); // true (7.0:1)
-CM("#fff").readableOn({ bgColor: CM("#5A5A5AFF"), size: "body", ratio: "enhanced" }); // false (6.89:1)
+CM("#fff").readableOn({ bgColor: CM("#595959FF"), size: "body", level: "enhanced" }); // true (7.0:1)
+CM("#fff").readableOn({ bgColor: CM("#5A5A5AFF"), size: "body", level: "enhanced" }); // false (6.89:1)
 ```
 
 </details>
@@ -1369,6 +1377,7 @@ Here is a snapshot of completed and planned features:
 - [x] `CMYK[A]` color space conversion & parsing
 
 **Note:** suggestions and/or requests (in addition to the above) are always welcome!
+
 &nbsp;
 
 ## License [![GitHub License](https://img.shields.io/github/license/lbragile/colormaster?color=00D800&label=License&logo=github&style=flat-square)](https://github.com/lbragile/ColorMaster/blob/master/LICENSE)

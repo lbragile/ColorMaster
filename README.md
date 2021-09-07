@@ -136,6 +136,14 @@ you can simply use (chain) the built in `toLowerCase()`. More information is ava
 
 &nbsp;
 
+## 🎯 Playground
+
+**ColorMaster** also has a [playground](https://colormaster.vercel.app) where key functionality is illustrated.
+Those that are interested can play around with the elegant user interface for daily color related needs,
+grab the corresponding ColorMaster snippet from each page's `code` button, or even use our [REST API](https://github.com/lbragile/ColorMasterDemo/blob/develop/rest.http) for quick results to common requests.
+
+&nbsp;
+
 ## 🔥 API
 
 ### Object Instantiation (Color Generation)

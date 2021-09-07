@@ -1,6 +1,6 @@
 import { HSLtoRGB } from "../conversions/hsl";
 import { WebSafe as WebSafeArr } from "../enums/colors";
-import { IA11yOpts, IReadable, TInput, TPlugin, Irgba, IPureHue, IPureHueOutput } from "../types";
+import { IA11yOpts, IReadable, TInput, TPlugin, Irgba, IPureHue } from "../types";
 import { channelWiseDifference, getRGBArr, sRGB } from "../utils/numeric";
 
 declare module ".." {
@@ -109,7 +109,7 @@ declare module ".." {
      * @default opts = { reason: true }
      * @returns boolean (if reason is truthy) OR an object containing the reason for purity determination (if reason is falsy)
      */
-    isPureHue(opts?: IPureHue): boolean | IPureHueOutput;
+    isPureHue(opts?: IPureHue): boolean | { pure: boolean; reason: "tinted" | "shaded" | "toned" | "N/A" };
 
     /**
      * Finds the closest cool color instance to the current color (in HSLA space)

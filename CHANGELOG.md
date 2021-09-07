@@ -2,6 +2,14 @@
 
 All notable changes to the [ColorMaster](https://github.com/lbragile/ColorMaster) module will be documented in this file.
 
+## v1.2.1 - September 06, 2021
+
+### Fixed
+
+- JSDoc of interfaces/class methods for better intellisense experience
+
+---
+
 ## v1.2.0 - September 02, 2021
 
 ### Added

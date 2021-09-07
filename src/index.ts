@@ -9,15 +9,15 @@ import { hslaParser } from "./parsers/hsl";
 import { rgbaParser } from "./parsers/rgb";
 
 /**
- * Generates color space instances that ColorMaster interpret.
+ * @classdesc Generates color space instances that ColorMaster can interpret.
  * This allows the user to manipulate colors via helpful functions/wrappers.
  *
  * @note If a color's values are not valid, ColorMaster uses "black" or a mixture
- *       with provided values that are valid (in the corresponding colorspace) by default.
- *       Additionally, ColorMaster works in RGBA space internally by default and only converts to other color
- *       spaces as necessary. For example, printing a string requires conversion to the correct color space.
- *       On that end, it is also easier to work with HSLA space when performing rotation and other hue related adjustments.
- *       This approach ensures the highest possible accuracy when converting to other color spaces.
+ * with provided values that are valid (in the corresponding colorspace) by default.
+ * Additionally, ColorMaster works in RGBA space internally by default and only converts to other color
+ * spaces as necessary. For example, printing a string requires conversion to the correct color space.
+ * On that end, it is also easier to work with HSLA space when performing rotation and other hue related adjustments.
+ * This approach ensures the highest possible accuracy when converting to other color spaces.
  */
 export class ColorMaster implements IColorMaster {
   #color: Irgba = { r: 0, g: 0, b: 0, a: 1 };

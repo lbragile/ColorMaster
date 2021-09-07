@@ -244,20 +244,9 @@ export interface IReadable extends Pick<IA11yOpts, "bgColor"> {
 /**
  * Options that can be provided for pure hue determination
  */
-interface IPureHue {
+export interface IPureHue {
   /** Whether or not to include a reason for the output */
   reason?: boolean;
-}
-
-/**
- * Pure hue determination provides both an output and reason if {@link IPureHue IPureHue.reason} is truthy
- */
-interface IPureHueOutput {
-  /** Whether or not the color is pure hue */
-  pure: boolean;
-
-  /** Why the color was given the purity status `pure` */
-  reason: "tinted" | "shaded" | "toned" | "N/A";
 }
 
 /**
